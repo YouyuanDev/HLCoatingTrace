@@ -137,6 +137,7 @@
             overflow: auto
         }
     </style>
+
 </head>
 
 <body>
@@ -144,17 +145,17 @@
         <header>
             <ul>
                 <li class="border-b active">
-                  <div class="main-container">
-                      <div class="scan-container"></div>
-                      <div class="search-container">
-                        <div class="search-input"><input type="number" id="search-input" placeholder="请输入搜索管号......" />
-                          <div class="search-span">
-                              <div></div>
-                          </div>
-                            <div class="clearfix"></div>
+                    <div class="main-container">
+                        <div class="scan-container"></div>
+                        <div class="search-container">
+                            <div class="search-input"><input type="number" id="search-input" placeholder="请输入搜索管号......" />
+                                <div class="search-span">
+                                    <div></div>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
                         </div>
-                      </div>
-                 </div>
+                    </div>
                 </li>
                 <li class="border-b">内防腐12</li>
                 <li class="border-b">待处理</li>
@@ -174,7 +175,7 @@
                 <li tapmode="hover" onclick="randomSwitchBtn( this );" class="flex-con">个人信息</li>
             </ul>
         </div>
-        </div>
+    </div>
 </body>
 
 </html>
@@ -205,6 +206,13 @@
                 }
             });
         });
+        $('.search-span').click(function() {
+          var pipeno = $api.byId('search-input');
+          //alert("pipeno:"+pipeno.value);
+          doSearchPipeInfo(pipeno.value);
+        });
+
+
     }
 
     function funIniGroup() {
@@ -232,7 +240,40 @@
         }, function(ret, err) {
 
         });
+
     }
+
+
+
+    function doSearchPipeInfo(pipeno){
+      //搜索管子
+      //alert("search");
+      api.ajax({
+          url: 'http://192.168.3.14:8080/pipeinfo/getPipeInfoByNo.action',
+          method: 'post',
+          cache: false,
+          timeout: 30,
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          data: {
+              body: {
+                  pipe_no: pipeno
+              }
+          }
+      }, function(ret, err) {
+          if (ret) {
+              api.alert({
+                  msg: JSON.stringify(ret)
+              });
+          } else {
+              api.alert({
+                  msg: JSON.stringify(err)
+              });
+          }
+      });
+    }
+
 
     // 随意切换按钮
     function randomSwitchBtn(tag) {
@@ -256,6 +297,10 @@
             index: index
         });
     }
+
+
+
+
     //主页面图片轮播
     // function broadcastPictures() {
     //     UIScrollPicture.open({
