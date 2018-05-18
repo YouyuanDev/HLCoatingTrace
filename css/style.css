@@ -1,7 +1,7 @@
 html,body {  font-size:14px; height:100%;background:#1e2027;}
 .hover{ opacity: .8; }
 /*bottom的菜单样式*/
-.flex-wrap{ display: -webkit-box;	display: -webkit-flex;	display: flex; background:#1e2027;}
+.flex-wrap{ display: -webkit-box;	display: -webkit-flex;	display: flex; background:#FFFFFF;}
 .flex-con{     -webkit-box-flex: 1;     -webkit-flex: 1;    flex: 1;}
 .flex-vertical{ -webkit-box-orient: vertical;-webkit-flex-flow: column;flex-flow: column;}
 
