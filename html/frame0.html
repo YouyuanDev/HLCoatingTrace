@@ -12,6 +12,68 @@
     </style>
 </head>
 <body>
-    <div class="div-data">外防腐</div>
+    <div class="div-data" id="div-data" style="margin-top:250px;">外防腐</div>
 </body>
 </html>
+<script type="text/javascript" src="script/api.js"></script>
+<script type="text/javascript" src="../script/jquery-3.3.1.min.js"></script>
+<script type="text/javascript">
+    //定义图片轮播变量
+    var UIScrollPicture ;
+    apiready = function() {
+        UIScrollPicture= api.require('UIScrollPicture');
+        broadcastPictures();
+    }
+   
+    //主页面图片轮播
+    function broadcastPictures(){
+       UIScrollPicture.open({
+           rect: {
+                 x: 0,
+                 y: 0,
+                 w: api.winWidth,
+                 h:200
+           },
+           data: {
+                 paths: [
+                    'http://pic1.win4000.com/wallpaper/6/592e7d70c5176.jpg',
+                    'http://img.ivsky.com/img/bizhi/pre/201511/02/pengyuyan-002.jpg',
+                    'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1526644263070&di=75139e5366a9da47098d4122238462ed&imgtype=0&src=http%3A%2F%2Ftc.sinaimg.cn%2Fmaxwidth.2048%2Ftc.service.weibo.com%2Fsi1_go2yd_com%2F070948e13ac7ed6c2c2999dd21d33708.jpg',
+                    'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1526644310072&di=c6ddebc2fa7088c05b69082914af8df6&imgtype=jpg&src=http%3A%2F%2Fimg3.imgtn.bdimg.com%2Fit%2Fu%3D637400183%2C664788956%26fm%3D214%26gp%3D0.jpg'
+                 ]
+           },
+           styles: {
+               caption: {
+                   height: 35,
+                   color: '#E0FFFF',
+                   size: 13,
+                   bgColor: '#696969',
+                   position: 'bottom'
+                },
+                indicator: {
+                    dot:{
+                        w:8,
+                        h:8,
+                        r:4,
+                        margin:5
+                     },
+                     align: 'center',
+                     color: '#FFFFFF',
+                     activeColor: '#09aa30'
+                    }
+                 },
+                 placeholderImg: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1526644306045&di=cd4975bb022b1606fa5c2bd1ed0eeb22&imgtype=0&src=http%3A%2F%2Fa.hiphotos.baidu.com%2Fzhidao%2Fpic%2Fitem%2F0d338744ebf81a4c71c1fc36d02a6059242da659.jpg',
+                 contentMode: 'scaleToFill',
+                 interval: 3,
+                 fixedOn: api.frameName,
+                 loop: true,
+                 fixed: false
+             }, function(ret, err) {
+               if (ret) {
+                 if(ret.eventType=='click'){
+                   alert(ret.index);
+                 }
+               }
+             });
+    }
+</script>

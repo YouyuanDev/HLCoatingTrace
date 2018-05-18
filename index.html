@@ -12,27 +12,28 @@
 
         /*head的样式*/
         header {
-            background-color: #1e2027;
+            background-color: #FFFFFF;
+            border-bottom:1px solid #FAFAFA;
         }
 
         header ul li {
-            height: 40px;
+            height:40px;
             line-height: 40px;
             text-align: center;
             display: none;
             color: #ABB2BF;
             position: relative;
             font-size: 18px;
+            padding:2px 0px;
         }
-
-        header ul li.active {
-            display: block;
-        }
-
-        #footer {
-            background-color: #f2f2f2;
-            border-top:1px solid #cdcdcd;
-        }
+        header ul li.active {display: block;}
+        .main-container{padding:5px;height:30px;margin:-12px 10px 0px 10px;background-color:#e6e6e6;}
+        .scan-container{height:30px;width:30px;background:url(./image/qrcode.png);background-size:30px 30px;background-repeat:no-repeat;float:left;}
+        .search-container{height:30px;float:right;}
+        .search-input{width:100%;height:100%;line-height:30px;}
+        .search-input input{height:30px;border:none;outline:none;}
+        .search-span{width:30px;height:30px;float:right;background:url(./image/search.png);background-size:30px 30px;background-repeat:no-repeat;}
+        #footer {background-color: #f2f2f2; border-top:1px solid #FAFAFA;}
 
         #footer ul li {
             padding-top: 36px;
@@ -95,11 +96,20 @@
     <div id="wrap" class="flex-wrap flex-vertical">
         <header>
             <ul>
-                <li class="border-b active">外防腐12</li>
+                <li class="border-b active">
+                  <div class="main-container">
+                       <div class="scan-container"></div>
+                       <div class="search-container">
+                           <div class="search-input"><input type="number" id="search-input" placeholder="请输入搜索管号......"/><div class="search-span"><div></div>
+                       </div>
+                       <div class="clearfix"></div>
+                  </div>
+
+                </li>
                 <li class="border-b">内防腐12</li>
                 <li class="border-b">待处理</li>
                 <li class="border-b">统计</li>
-                <li class="border-b">实验</li>
+                <li class="border-b">个人信息</li>
             </ul>
         </header>
         <div id="main" class="flex-con">
@@ -119,7 +129,11 @@
 
 </html>
 <script type="text/javascript" src="script/api.js"></script>
+<script type="text/javascript" src="script/jquery-3.3.1.min.js"></script>
 <script type="text/javascript">
+
+   //定义二维码全局变量
+   var FNScanner;
     apiready = function() {
         $api.fixStatusBar($api.dom('header'));
         api.setStatusBarStyle({
@@ -127,6 +141,21 @@
             color: '#6ab494'
         });
         funIniGroup();
+        FNScanner=api.require('FNScanner');
+        //二维码点击事件
+        $('.scan-container').click(function(){
+           FNScanner.open({
+              autorotation: true
+           }, function(ret, err) {
+              if (ret) {
+                   //扫出来结果
+                   if(ret.eventType=='success'){
+                     alert(ret.content);
+                      FNScanner.closeView();
+                   }
+              }
+          });
+        });
     }
 
     function funIniGroup() {
@@ -177,5 +206,53 @@
             name: 'group',
             index: index
         });
+    }
+    //主页面图片轮播
+    function broadcastPictures(){
+       UIScrollPicture.open({
+           rect: {
+                 x: 0,
+                 y: 0,
+                 w: api.winWidth,
+                 h:150
+           },
+           data: {
+                 paths: [
+                    './image/item1.jpeg',
+                    './image/item2.jpeg',
+                    './image/item3.jpeg',
+                     './image/item4.jpeg'
+                 ],
+                captions: ['apicloud', 'apicloud', 'apicloud', 'apicloud']
+           },
+           styles: {
+               caption: {
+                   height: 35,
+                   color: '#E0FFFF',
+                   size: 13,
+                   bgColor: '#696969',
+                   position: 'bottom'
+                },
+                indicator: {
+                    dot:{
+                        w:20,
+                        h:10,
+                        r:5,
+                        margin:20
+                     },
+                     align: 'center',
+                     color: '#FFFFFF',
+                     activeColor: '#DA70D6'
+                    }
+                 },
+                 placeholderImg: 'widget://res/slide1.jpg',
+                 contentMode: 'scaleToFill',
+                 interval: 3,
+                 fixedOn: api.frameName,
+                 loop: true,
+                fixed: false
+             }, function(ret, err) {
+
+             });
     }
 </script>
