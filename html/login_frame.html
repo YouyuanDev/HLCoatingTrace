@@ -119,12 +119,14 @@
 
     function fnLogin() {
         operator_no_txt = operator_no.value,
-        password_txt = password.value;
-        if(operator_no_txt.length<=0){
-           alert("请输入工号!"); return false;
+            password_txt = password.value;
+        if (operator_no_txt.length <= 0) {
+            alert("请输入工号!");
+            return false;
         }
-        if(password_txt.length<=0){
-          alert("请输入密码!");return false;
+        if (password_txt.length <= 0) {
+            alert("请输入密码!");
+            return false;
         }
         api.showProgress({
             title: '登录中',
@@ -133,25 +135,25 @@
         api.ajax({
             url: 'http://192.168.0.200:8080/Login/commitLogin.action',
             method: 'post',
-            timeout: 5,
+            timeout: 30,
             dataType: 'json',
-            returnAll: false,
-            headers: {
-                'Content-Type': 'application/json'
-            },
             data: {
-                body: {
+                values: {
                     employee_no: operator_no_txt,
                     ppassword: password_txt
                 }
             }
         }, function(ret, err) {
-            alert(ret.success);
-            if (ret) {
-                $api.setStorage('operatorno', operator_no_txt);
-                api.closeWin();
-            }
             api.hideProgress();
+            if (ret.success) {
+                $api.setStorage('operatorno', operator_no_txt);
+                api.openWin({
+                    name: 'index',
+                    url: '../index.html'
+                });
+            } else {
+                alert("用户名或密码错误!");
+            }
         });
 
     };

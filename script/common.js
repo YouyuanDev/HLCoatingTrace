@@ -8,10 +8,10 @@ function fnReadyHeader() {
     }
 };
 function fnReadyFrame() {
-    var frameName = api.frameName + '_frame';
+    var frameName = api.winName + '_frame';
     api.openFrame({
         name: frameName,
-        url: '../html/' + frameName + '.html',
+        url: '../html/'+ frameName + '.html',
         bounces: true,
         rect: {
             x: 0,
@@ -23,22 +23,11 @@ function fnReadyFrame() {
     });
 };
 function JudgeLogin(){
+   //$api.rmStorage('operatorno');
    var userInfo=$api.getStorage('operatorno');
-   if(userInfo){
-
+   if(userInfo!=null&&userInfo!=undefined){
+     return true;
    }else{
-       //如果没有登录进入登录页面
-       api.openFrame({
-           name: 'login',
-           url: './html/login.html',
-           bounces: false,
-           rect: {
-               x: 0,
-               y: headerHeight,
-               w: 'auto',
-               h: api.winHeight - headerHeight
-           },
-           vScrollBarEnabled:false
-       });
+      return false;
    }
 }
