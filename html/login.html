@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>登录</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/style.css"/>
+    <style>
+        html,
+        body {
+            height: 100%;
+            background-color: #f4f5f6;
+        }
+        .title {
+            height: 43px;
+            line-height: 43px;
+            width: 100%;
+            text-align: center;
+            font-size: 16px;
+            color: #222;
+            background-color: #fefefe;
+            border-bottom: 1px solid #d8d8d8;
+            box-sizing: border-box;
+            position: relative;
+        }
+
+        .title .arrow {
+            width: 43px;
+            height: 43px;
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            background-image: url(../image/back.png);
+            background-repeat: no-repeat;
+            background-size:20px 20px;
+            background-position: center center;
+        }
+    </style>
+</head>
+<body>
+  <div class="title" id="header">
+      <div class="arrow event-back"></div>
+      登录
+  </div>
+</body>
+</html>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/common.js"></script>
+<script type="text/javascript">
+apiready = function() {
+   fnReadyHeader();
+   fnReadyFrame();
+};
+
+</script>
