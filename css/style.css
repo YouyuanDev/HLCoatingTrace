@@ -14,5 +14,5 @@ html,body {  font-size:14px; height:100%;background:#FFFFFF;}
 #wrap{ height: 100%; }
 
 /*数据显示样式*/
-.div-data{text-align: center;padding: 120px 0;color:#98c379;}
+.div-data{text-align: center;padding:0px 0;color:#98c379;}
 .clearfix{clear: both;}
