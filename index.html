@@ -282,9 +282,16 @@
    }, function(ret, err) {
        //alert(ret);
        if (ret) {
-           api.alert({
-               msg: JSON.stringify(ret)
-           });
+            if(ret.success==false){
+              api.alert({
+                  msg: JSON.stringify(ret.message)
+              });
+            }
+            else{
+              api.alert({
+                  msg: JSON.stringify(ret)
+              });
+            }
        } else {
            api.alert({
                msg: JSON.stringify(err)
