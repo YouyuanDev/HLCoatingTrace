@@ -14,52 +14,26 @@
             padding: 120px 0;
         }
         /* 条目总体样式 */
-        .item {display: table; height: 70px; width: 100%;}
+        .item {display: table; height: 70px; width: 100%;padding:5px 0px;}
         .item .itemlogo , .item .itemshelf {display: table-cell; vertical-align: middle;}
-
+        .style1{border-top:1px solid #cdcdcd;}
         .item .itemlogo {width: 70px;}
         .item .itemlogo img  {margin-left: 10px;width: 40px;}
-        .item .itemshelf .shelfinfo01 {font-size: 20px;color: #AFAFAF;}
-
         /* 条目特例 */
         .shelf2 .userlogo img {width: 50px;}
-        .favorable .itemshelf .shelfinfo01 {font-size: 16px;color: #F97B02;}
-        .favorable .itemshelf .shelfinfo02 {font-size: 12px;color: #666;margin-top: 5px;}
-        .nearby .itemshelf .shelfinfo01 {font-size: 16px;color: #4CAD35;}
-        .nearby .itemshelf .shelfinfo02 {font-size: 12px;color: #666;margin-top: 5px;}
+        .status-span{background-color: #0099CC;color:#000000;border-radius:3px;opacity:0.5;padding:2px;}
+        .pipeno-span{color:#000000;font-size:20px;}
+        .contractno-span,.od-span,.wt-span{margin:0px 2px;}
+        .od-span{padding:2px;border-radius:3px;color:#AFAFAF;}
+        .wt-span{padding:2px;border-radius:3px;color:#AFAFAF;}
+        .itemshelf .shelfinfo01 {font-size: 16px;color: #4CAD35;text-align: left;}
+        .itemshelf .shelfinfo02 {font-size: 12px;color:#AFAFAF;margin-top: 5px;text-align: left;}
 
-        /* 第三部分 */
-        .section3 .item {background-color: #fff;position: relative;border-bottom: 1px solid #d3d3d3;}
-        .section3 .item .itemlogo {position: absolute; top: 10px;}
-        .section3 .itemshelf {margin-left: 70px;display: block;/* 不再显示为table-cell */}
-        .section3 .item .userlogo img {width: 40px;padding: 2px; border: 1px solid #e7e7e7;border-radius: 2px;}
-        .section3 .itemshelf .shelfinfo01 {color: #000;font-size: 16px;line-height: 18px;margin-top: 10px;}
-        .section3 .itemshelf .ordering{color: #fff;font-size: 12px;background-color: #5bb06c;padding: 2px 4px;display: inline-block;}
-        .section3 .itemshelf .shelfinfo03 {color: #999;font-size: 12px;margin-right: 10px;border-bottom: 1px dotted #666;padding: 10px 0;}
-        .section3 .style2 .itemshelf .shelfinfo03 {color: #999;font-size: 12px;margin-right: 10px;border-bottom: 0;padding: 10px 0;}
-        .section3 .itemshelf .staring {color: #999;font-size: 12px;/*background-color: #fff;*/line-height: 14px;margin-top: 5px;}
-        .section3 .itemshelf .staring img {height: 12px;}
-
-        .section3 .itemshelf .shelfinfo04 {color: #999;font-size: 12px;padding: 10px 0;}
-        .section3 .itemshelf .shelfinfo05 {color: #999;font-size: 12px;padding: 10px 0 0 0;}
-
-
-        /* 标题栏小图标 */
-        .section3 .itemshelf .shelfinfo01 .pei {color: #fff;font-size: 12px;background-color: #82782f;margin-left: 5px;padding: 1px;border-radius: 3px;}
-        .section3 .itemshelf .shelfinfo01 .ticket {color: #fff;font-size: 12px;background-color: #3585b7;margin-left: 5px;padding: 2px;border-radius: 3px;}
-        .section3 .itemshelf .shelfinfo01 .fu {color: #fff;font-size: 12px;background-color: #e5322d;margin-left: 5px;padding: 2px;border-radius: 3px;}
-        .section3 .itemshelf .shelfinfo01 .compensate {color: #fff;font-size: 12px;background-color: #2768ba;margin-left: 5px;padding: 2px;border-radius: 3px;}
-        .section3 .itemshelf .shelfinfo01 .new {color: #fff;font-size: 12px;background-color: #e5322d;margin-left: 5px;padding: 2px;border-radius: 3px;}
-        .section3 .itemshelf .shelfinfo04 .jian {color: #fff;font-size: 12px;background-color: #cd22e2;padding: 1px;border-radius: 3px;margin-right: 5px;}
-        .section3 .itemshelf .shelfinfo05 .quatity {color: #fff;font-size: 12px;background-color: #dc0414;padding: 1px;border-radius: 3px;margin-right: 5px;}
-
-        /* 悬浮样式 */
-        .itemhover {background-color: #eee !important;}
     </style>
 </head>
 
 <body>
-    <div class="div-data" id="div-data" style="margin-top:250px;">
+    <div class="div-data" id="div-data" style="margin-top:200px;">
 
     </div>
 </body>
@@ -211,18 +185,24 @@
     }
 
     function funcShowList(pipedata) {
-        for (var i = 0; i < 20; i++) {
-           $('#div-data').append(pipeInfoTemplate(1,2,3));
+        $('#div-data').empty();
+        for (var i = 0; i < pipedata.length; i++) {
+           $('#div-data').append(pipeInfoTemplate(pipedata[i]));
         }
+        api.hideProgress();
     }
-    function pipeInfoTemplate(imgPath,pipeNo,pipeStatus){
-          var template='<div class="item style1" tapmode="itemhover" onclick="">'+
-                '<div class="itemlogo userlogo"><img src="../image/operator.png" alt=""></div>'+
+    function pipeInfoTemplate(pipe){
+          var template='<div class="item style1"  onclick="pipeInfo('+pipe.pipe_no+');">'+
+                '<div class="itemlogo userlogo"><img src="../image/pipe2.png" alt=""></div>'+
                 '<div class="itemshelf">'+
-                    '<div class="shelfinfo01">钢管编号<span class="pei">32323232323</span></div>'+
-                    '<div class="shelfinfo03">状态<span>打砂完成</span></div>'+
+                    '<div class="shelfinfo01"><span class="pei pipeno-span">'+pipe.pipe_no+'</span></div>'+
+                    '<div class="shelfinfo02"><span class="contractno-span">'+pipe.contract_no+'</span><span class="od-span">'+pipe.od+'</span><span class="wt-span">'+pipe.wt+'</span></div>'+
                 '</div>'+
+                '<div class="itemshelf"><span class="status-span">'+pipe.status+'</span></div>'+
             '</div>';
             return template;
+    }
+    function pipeInfo(pipeno){
+        alert(pipeno);
     }
 </script>

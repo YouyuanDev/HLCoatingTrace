@@ -319,8 +319,12 @@
         //搜索管子
         //alert("search");
         //pipeno='1545470';
+        api.showProgress({
+            title: '登录中',
+            modal: true
+        });
         api.ajax({
-            url: 'http://192.168.0.14:8080/pipeinfo/getPipeNumber.action',
+            url: 'http://192.168.0.200:8080/pipeinfo/getPipeNumber.action',
             method: 'post',
             timeout: 30,
             dataType: 'json',
@@ -357,6 +361,7 @@
                     msg: JSON.stringify(err)
                 });
             }
+          
         });
     }
 </script>
