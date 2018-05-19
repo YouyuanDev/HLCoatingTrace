@@ -26,9 +26,11 @@
 <script type="text/javascript">
     //定义图片轮播变量
     var UIScrollPicture;
+    var UIListView;
     apiready = function() {
         UIScrollPicture = api.require('UIScrollPicture');
-        broadcastPictures();
+        UIListView = api.require('UIListView');
+        //broadcastPictures();
         //showSearchResultList();
     }
 
@@ -155,6 +157,154 @@
                 avatarH: 90,
                 avatarW: 90
             }
+        }, function(ret, err) {
+            if (ret) {
+                alert(JSON.stringify(ret));
+            } else {
+                alert(JSON.stringify(err));
+            }
+        });
+    }
+
+    function funcShowList(pipedata) {
+       //var frameHeight=api.frameHeight-250;
+        alert(api.frameName);
+        UIListView.open({
+            rect: {
+                x: 0,
+                y: 0,
+                w: api.winWidth,
+                h: api.frameHeight
+            },
+            data: [{
+                uid: '1001',
+                imgPath: 'widget://image/operator.png',
+                title: '标题',
+                subTitle: '子标题，说明文字',
+                remark: '备注',
+                icon: ''
+            }, {
+                uid: '1001',
+                imgPath: 'widget://image/operator.png',
+                title: '标题',
+                subTitle: '子标题，说明文字',
+                remark: '备注',
+                icon: ''
+            }, {
+                uid: '1001',
+                imgPath: 'widget://image/operator.png',
+                title: '标题',
+                subTitle: '子标题，说明文字',
+                remark: '备注',
+                icon: ''
+            }, {
+                uid: '1001',
+                imgPath: 'widget://image/operator.png',
+                title: '标题',
+                subTitle: '子标题，说明文字',
+                remark: '备注',
+                icon: ''
+            }, {
+                uid: '1001',
+                imgPath: 'widget://image/operator.png',
+                title: '标题',
+                subTitle: '子标题，说明文字',
+                remark: '备注',
+                icon: ''
+            }, {
+                uid: '1001',
+                imgPath: 'widget://image/operator.png',
+                title: '标题',
+                subTitle: '子标题，说明文字',
+                remark: '备注',
+                icon: ''
+            }, {
+                uid: '1001',
+                imgPath: 'widget://image/operator.png',
+                title: '标题',
+                subTitle: '子标题，说明文字',
+                remark: '备注',
+                icon: ''
+            }, {
+                uid: '1001',
+                imgPath: 'widget://image/operator.png',
+                title: '标题',
+                subTitle: '子标题，说明文字',
+                remark: '备注',
+                icon: ''
+            }, {
+                uid: '1001',
+                imgPath: 'widget://image/operator.png',
+                title: '标题',
+                subTitle: '子标题，说明文字',
+                remark: '备注',
+                icon: ''
+            }, {
+                uid: '1001',
+                imgPath: 'widget://image/operator.png',
+                title: '标题',
+                subTitle: '子标题，说明文字',
+                remark: '备注',
+                icon: ''
+            }, {
+                uid: '1001',
+                imgPath: 'widget://image/operator.png',
+                title: '标题',
+                subTitle: '子标题，说明文字',
+                remark: '备注',
+                icon: ''
+            }, {
+                uid: '1001',
+                imgPath: 'widget://image/operator.png',
+                title: '标题',
+                subTitle: '子标题，说明文字',
+                remark: '备注',
+                icon: ''
+            }, {
+                uid: '1001',
+                imgPath: 'widget://image/operator.png',
+                title: '标题',
+                subTitle: '子标题，说明文字',
+                remark: '备注',
+                icon: ''
+            }, {
+                uid: '1001',
+                imgPath: 'widget://image/operator.png',
+                title: '标题',
+                subTitle: '子标题，说明文字',
+                remark: '备注',
+                icon: ''
+            }, {
+                uid: '1001',
+                imgPath: 'widget://image/operator.png',
+                title: '标题',
+                subTitle: '子标题，说明文字',
+                remark: '备注',
+                icon: ''
+            }, {
+                uid: '1001',
+                imgPath: 'widget://image/operator.png',
+                title: '标题',
+                subTitle: '子标题，说明文字',
+                remark: '备注',
+                icon: ''
+            }, {
+                uid: '1001',
+                imgPath: 'widget://image/operator.png',
+                title: '标题',
+                subTitle: '子标题，说明文字',
+                remark: '备注',
+                icon: ''
+            }, {
+                uid: '1001',
+                imgPath: 'widget://image/operator.png',
+                title: '标题',
+                subTitle: '子标题，说明文字',
+                remark: '备注111111',
+                icon: ''
+            }],
+            fixedOn: api.frameName,
+            fixed: false
         }, function(ret, err) {
             if (ret) {
                 alert(JSON.stringify(ret));

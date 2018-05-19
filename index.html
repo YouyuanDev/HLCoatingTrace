@@ -9,31 +9,77 @@
     <link rel="stylesheet" type="text/css" href="./css/api.css" />
     <link rel="stylesheet" type="text/css" href="./css/style.css" />
     <style>
-
         /*head的样式*/
+
         header {
             background-color: #FFFFFF;
-            border-bottom:1px solid #FAFAFA;
+            border-bottom: 1px solid #FAFAFA;
         }
 
         header ul li {
-            height:40px;
+            height: 40px;
             line-height: 40px;
             text-align: center;
             display: none;
             color: #ABB2BF;
             position: relative;
             font-size: 18px;
-            padding:2px 0px;
+            padding: 2px 0px;
         }
-        header ul li.active {display: block;}
-        .main-container{padding:5px;height:30px;margin:0px  10px;background-color:#e6e6e6;}
-        .scan-container{height:30px;width:20%;background:url(./image/qrcode.png);background-size:30px 30px;background-repeat:no-repeat;float:left;}
-        .search-container{height:30px;float:right;width:70%;}
-        .search-input{width:100%;height:100%;line-height:30px;}
-        .search-input input{height:30px;width:70%;padding-right:35px;border:none;outline:none;}
-        .search-span{width:30px;height:30px;float:right;background:url(./image/search.png);background-size:30px 30px;background-repeat:no-repeat;}
-        #footer {background-color: #f2f2f2; border-top:1px solid #FAFAFA;}
+
+        header ul li.active {
+            display: block;
+        }
+
+        .main-container {
+            padding: 5px;
+            height: 30px;
+            margin: 0px 10px;
+            background-color: #e6e6e6;
+        }
+
+        .scan-container {
+            height: 30px;
+            width: 20%;
+            background: url(./image/qrcode.png);
+            background-size: 30px 30px;
+            background-repeat: no-repeat;
+            float: left;
+        }
+
+        .search-container {
+            height: 30px;
+            float: right;
+            width: 70%;
+        }
+
+        .search-input {
+            width: 100%;
+            height: 100%;
+            line-height: 30px;
+        }
+
+        .search-input input {
+            height: 30px;
+            width: 70%;
+            padding-right: 35px;
+            border: none;
+            outline: none;
+        }
+
+        .search-span {
+            width: 30px;
+            height: 30px;
+            float: right;
+            background: url(./image/search.png);
+            background-size: 30px 30px;
+            background-repeat: no-repeat;
+        }
+
+        #footer {
+            background-color: #f2f2f2;
+            border-top: 1px solid #FAFAFA;
+        }
 
         #footer ul li {
             padding-top: 36px;
@@ -63,6 +109,7 @@
         #footer ul li:nth-child(4) {
             background-image: url(./image/statistic.png);
         }
+
         #footer ul li:nth-child(5) {
             background-image: url(./image/operator.png);
         }
@@ -82,6 +129,7 @@
         #footer ul li:nth-child(4).active {
             background-image: url(./image/statistic_active.png);
         }
+
         #footer ul li:nth-child(5).active {
             background-image: url(./image/operator_active.png);
         }
@@ -97,13 +145,15 @@
         <header>
             <ul>
                 <li class="border-b active">
-                  <div class="main-container">
-                       <div class="scan-container"></div>
-                       <div class="search-container">
-                           <div class="search-input"><input type="number" id="search-input" placeholder="请输入搜索管号......"/><div class="search-span"><div></div>
-                       </div>
-                       <div class="clearfix"></div>
-                  </div>
+                    <div class="main-container">
+                        <div class="scan-container"></div>
+                        <div class="search-container">
+                            <div class="search-input"><input type="number" id="search-input" placeholder="请输入搜索管号......" />
+                                <div class="search-span">
+                                    <div></div>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
 
                 </li>
                 <li class="border-b">内防腐12</li>
@@ -124,7 +174,7 @@
                 <li tapmode="hover" onclick="randomSwitchBtn( this );" class="flex-con">个人信息</li>
             </ul>
         </div>
-    </div>
+        </div>
 </body>
 
 </html>
@@ -132,9 +182,8 @@
 <script type="text/javascript" src="script/jquery-3.3.1.min.js"></script>
 <script type="text/javascript" src="script/common.js"></script>
 <script type="text/javascript">
-
-   //定义二维码全局变量
-   var FNScanner;
+    //定义二维码全局变量
+    var FNScanner;
     apiready = function() {
         $api.fixStatusBar($api.dom('header'));
         api.setStatusBarStyle({
@@ -143,28 +192,28 @@
         });
         funIniGroup();
         //判断是否登录
-        JudgeLogin();
+        //JudgeLogin();
 
-        FNScanner=api.require('FNScanner');
+        FNScanner = api.require('FNScanner');
         //二维码点击事件
-        $('.scan-container').click(function(){
-           FNScanner.open({
-              autorotation: true
-           }, function(ret, err) {
-              if (ret) {
-                   //扫出来结果
-                   if(ret.eventType=='success'){
-                      alert(ret.content);
-                      doSearchPipeInfo(ret.content);
-                      FNScanner.closeView();
-                   }
-              }
-          });
+        $('.scan-container').click(function() {
+            FNScanner.open({
+                autorotation: true
+            }, function(ret, err) {
+                if (ret) {
+                    //扫出来结果
+                    if (ret.eventType == 'success') {
+                        alert(ret.content);
+                        doSearchPipeInfo(ret.content);
+                        FNScanner.closeView();
+                    }
+                }
+            });
         });
         $('.search-span').click(function() {
-          var pipeno = $api.byId('search-input');
-          //alert("pipeno:"+pipeno.value);
-          doSearchPipeInfo(pipeno.value);
+            var pipeno = $api.byId('search-input');
+            //alert("pipeno:"+pipeno.value);
+            doSearchPipeInfo(pipeno.value);
         });
     }
 
@@ -218,85 +267,96 @@
         });
     }
     //主页面图片轮播
-    function broadcastPictures(){
-       UIScrollPicture.open({
-           rect: {
-                 x: 0,
-                 y: 0,
-                 w: api.winWidth,
-                 h:150
-           },
-           data: {
-                 paths: [
+    function broadcastPictures() {
+        UIScrollPicture.open({
+            rect: {
+                x: 0,
+                y: 0,
+                w: api.winWidth,
+                h: 150
+            },
+            data: {
+                paths: [
                     './image/item1.jpeg',
                     './image/item2.jpeg',
                     './image/item3.jpeg',
-                     './image/item4.jpeg'
-                 ],
+                    './image/item4.jpeg'
+                ],
                 captions: ['apicloud', 'apicloud', 'apicloud', 'apicloud']
-           },
-           styles: {
-               caption: {
-                   height: 35,
-                   color: '#E0FFFF',
-                   size: 13,
-                   bgColor: '#696969',
-                   position: 'bottom'
+            },
+            styles: {
+                caption: {
+                    height: 35,
+                    color: '#E0FFFF',
+                    size: 13,
+                    bgColor: '#696969',
+                    position: 'bottom'
                 },
                 indicator: {
-                    dot:{
-                        w:20,
-                        h:10,
-                        r:5,
-                        margin:20
-                     },
-                     align: 'center',
-                     color: '#FFFFFF',
-                     activeColor: '#DA70D6'
-                    }
-                 },
-                 placeholderImg: 'widget://res/slide1.jpg',
-                 contentMode: 'scaleToFill',
-                 interval: 3,
-                 fixedOn: api.frameName,
-                 loop: true,
-                fixed: false
-             }, function(ret, err) {
+                    dot: {
+                        w: 20,
+                        h: 10,
+                        r: 5,
+                        margin: 20
+                    },
+                    align: 'center',
+                    color: '#FFFFFF',
+                    activeColor: '#DA70D6'
+                }
+            },
+            placeholderImg: 'widget://res/slide1.jpg',
+            contentMode: 'scaleToFill',
+            interval: 3,
+            fixedOn: api.frameName,
+            loop: true,
+            fixed: false
+        }, function(ret, err) {
 
-             });
+        });
     }
-    function doSearchPipeInfo(pipeno){
-   //搜索管子
-   //alert("search");
-   //pipeno='1545470';
-   api.ajax({
-       url: 'http://192.168.0.14:8080/pipeinfo/getPipeNumber.action',
-       method: 'post',
-       timeout: 30,
-       dataType:'json',
-       data: {
-              values:{
-               pipe_no: pipeno
-               }
-       }
-   }, function(ret, err) {
-       //alert(ret);
-       if (ret) {
-            if(ret.success==false){
-              api.alert({
-                  msg: JSON.stringify(ret.message)
-              });
+
+    function doSearchPipeInfo(pipeno) {
+        //搜索管子
+        //alert("search");
+        //pipeno='1545470';
+        api.ajax({
+            url: 'http://192.168.0.14:8080/pipeinfo/getPipeNumber.action',
+            method: 'post',
+            timeout: 30,
+            dataType: 'json',
+            data: {
+                values: {
+                    pipe_no: pipeno
+                }
             }
-            else{
-              api.alert({
-                  msg: JSON.stringify(ret)
-              });
+        }, function(ret, err) {
+            //alert(ret);
+            if (ret) {
+                if (ret.success == false) {
+                    api.alert({
+                        msg: JSON.stringify(ret.message)
+                    });
+                } else {
+                    // api.alert({
+                    //     msg: JSON.stringify(ret)
+                    // });
+                    var jsfun = 'funcShowList('+JSON.stringify(ret)+');';
+                    api.execScript({
+                        frameName: 'frame0',
+                        script: jsfun
+                    });
+                    // var jsfun = 'funcShowList('+ret+');';
+                    // api.execScript({
+                    //     name: 'index',
+                    //     frameName: 'frame0',
+                    //     script: jsfun
+                    // });
+                }
+            } else {
+                api.alert({
+                    msg: JSON.stringify(err)
+                });
             }
-       } else {
-           api.alert({
-               msg: JSON.stringify(err)
-           });
-       }
-   });
- }
+        });
+    }
 </script>
