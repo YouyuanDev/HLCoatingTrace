@@ -23,10 +23,7 @@ function fnReadyFrame() {
     });
 };
 function JudgeLogin(){
-   var userInfo= api.getPrefs({
-       sync: true,
-       key: 'userInfo'
-   });
+   var userInfo=$api.getStorage('operatorno');
    if(userInfo){
 
    }else{
