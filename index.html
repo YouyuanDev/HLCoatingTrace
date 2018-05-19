@@ -268,21 +268,19 @@
     function doSearchPipeInfo(pipeno){
    //搜索管子
    //alert("search");
+   //pipeno='1545470';
    api.ajax({
-       url: 'http://192.168.0.200:8080/pipeinfo/getPipeInfoByNo.action',
+       url: 'http://192.168.0.14:8080/pipeinfo/getPipeNumber.action',
        method: 'post',
-       cache: false,
        timeout: 30,
-       headers: {
-           'Content-Type': 'application/json'
-       },
+       dataType:'json',
        data: {
-           body: {
+              values:{
                pipe_no: pipeno
-           }
+               }
        }
    }, function(ret, err) {
-       alert(ret);
+       //alert(ret);
        if (ret) {
            api.alert({
                msg: JSON.stringify(ret)

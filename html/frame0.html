@@ -29,7 +29,7 @@
     apiready = function() {
         UIScrollPicture = api.require('UIScrollPicture');
         broadcastPictures();
-        showSearchResultList();
+        //showSearchResultList();
     }
 
     //主页面图片轮播
@@ -84,7 +84,8 @@
         });
     }
 
-    fucntion showSearchResultList() {
+    function showSearchResultList() {
+
         var goodsList = api.require('goodsList');
 
         var datas = []; // 数据源.
@@ -140,7 +141,7 @@
 
         goodsList.open({
             x: 0, // 横坐标, 默认 0.
-            y: 64, // 纵坐标, 默认 0.
+            y: 364, // 纵坐标, 默认 0.
             w: 320, // 宽度, 默认设备屏幕宽度.
             h: 320, // 高度, 默认 视图高度 + 100.
             itemSlipDistance: 60,

@@ -140,10 +140,10 @@
                 'Content-Type': 'application/json'
             },
             data: {
-                body: JSON.stringify({
+                body: {
                     employee_no: operator_no_txt,
                     ppassword: password_txt
-                })
+                }
             }
         }, function(ret, err) {
             alert(ret.success);
