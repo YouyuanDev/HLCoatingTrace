@@ -81,31 +81,31 @@
             <li>
                 <div class="list-item">
                     <label>密码</label>
-                    <div class="lsit-item-con">*******</div>
+                    <div class="lsit-item-con" id="userpwd">*******</div>
                 </div>
             </li>
             <li>
                 <div class="list-item">
                     <label>身份证号</label>
-                    <div class="lsit-item-con">327979797927392739</div>
+                    <div class="lsit-item-con" id="userIdNo">327979797927392739</div>
                 </div>
             </li>
             <li>
                 <div class="list-item">
                     <label>手机号</label>
-                    <div class="lsit-item-con">18703616253</div>
+                    <div class="lsit-item-con" id="userphone">18703616253</div>
                 </div>
             </li>
             <li>
                 <div class="list-item">
                     <label>性别</label>
-                    <div class="lsit-item-con">男</div>
+                    <div class="lsit-item-con" id="usergender">男</div>
                 </div>
             </li>
             <li>
                 <div class="list-item">
                     <label>年龄</label>
-                    <div class="lsit-item-con">34</div>
+                    <div class="lsit-item-con" id="userage">34</div>
                 </div>
             </li>
             <li>
@@ -123,67 +123,75 @@
 <script type="text/javascript" src="../script/common.js"></script>
 <script type="text/javascript">
     apiready = function() {
-        if(JudgeLogin()){
+        if (JudgeLogin()) {
             //获取账户信息
             $('.loginout-btn').text('退出登录');
-        }else{
-           $('.loginout-btn').text('登录');
+        } else {
+            $('.loginout-btn').text('登录');
         }
-        editUserInfo();
+        modifyUserInfo();
         loginOut();
     };
     //修改用户信息事件
-    function editUserInfo() {
+    function modifyUserInfo() {
         $('#userInfo-ul li').click(function() {
             var index = $(this).index();
+            var labelName = $(this).find('label').text();
             switch (index) {
                 case 0: //工号
                     break;
                 case 1: //姓名
-                    editUserName($('#username').text());
+                    editUserInfo(index, $('#username').text(), labelName);
                     break;
                 case 2: //密码
-
+                    editUserInfo(index, $('#userpwd').text(), labelName);
                     break;
                 case 3: //身份证号
-
+                    editUserInfo(index, $('#userIdNo').text(), labelName);
                     break;
                 case 4: //手机号
-
+                    editUserInfo(index, $('#userphone').text(), labelName);
                     break;
                 case 5: //性别
-
+                    editUserInfo(index, $('#usergender').text(), labelName);
                     break;
                 case 6: //年龄
-
+                    editUserInfo(index, $('#userage').text(), labelName);
                     break;
-
             }
         });
     }
 
-    function editUserName(username) {
-        alert(username);
+    function editUserInfo(index, userData, labelName) {
+        api.openWin({
+            name: 'userinfo',
+            url: './userinfo.html',
+            pageParam: {
+                index: index,
+                username: userData,
+                labelName: labelName
+            }
+        });
     }
 
     function loginOut() {
         $('.loginout-btn').click(function() {
-            var logintxt=$(this).text();
-            if(logintxt=="登录"){
-              api.openWin({
-                  name: 'login',
-                  url: './login.html'
-              });
-            } else{
-               //退出登录
-               var operator_no = $api.getStorage('operatorno');
-               if (operator_no != null && operator_no != undefined) {
-                   $api.rmStorage('operatorno');
-               }
-               api.openWin({
-                   name: 'login',
-                   url: '../index.html'
-               });
+            var logintxt = $(this).text();
+            if (logintxt == "登录") {
+                api.openWin({
+                    name: 'login',
+                    url: './login.html'
+                });
+            } else {
+                //退出登录
+                var operator_no = $api.getStorage('operatorno');
+                if (operator_no != null && operator_no != undefined) {
+                    $api.rmStorage('operatorno');
+                }
+                api.openWin({
+                    name: 'login',
+                    url: '../index.html'
+                });
             }
         });
     }

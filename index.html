@@ -320,11 +320,11 @@
         //alert("search");
         //pipeno='1545470';
         api.showProgress({
-            title: '登录中',
+            title: '加载中...',
             modal: true
         });
         api.ajax({
-            url: 'http://192.168.0.200:8080/pipeinfo/getPipeNumber.action',
+            url: 'http://192.168.0.14:8080/pipeinfo/searchPipe.action',
             method: 'post',
             timeout: 30,
             dataType: 'json',
@@ -341,9 +341,6 @@
                         msg: JSON.stringify(ret.message)
                     });
                 } else {
-                    // api.alert({
-                    //     msg: JSON.stringify(ret)
-                    // });
                     var jsfun = 'funcShowList('+JSON.stringify(ret)+');';
                     api.execScript({
                         frameName: 'frame0',
@@ -361,7 +358,7 @@
                     msg: JSON.stringify(err)
                 });
             }
-          
+
         });
     }
 </script>

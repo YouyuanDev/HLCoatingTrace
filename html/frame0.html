@@ -186,6 +186,7 @@
 
     function funcShowList(pipedata) {
         $('#div-data').empty();
+
         for (var i = 0; i < pipedata.length; i++) {
            $('#div-data').append(pipeInfoTemplate(pipedata[i]));
         }
@@ -198,7 +199,7 @@
                     '<div class="shelfinfo01"><span class="pei pipeno-span">'+pipe.pipe_no+'</span></div>'+
                     '<div class="shelfinfo02"><span class="contractno-span">'+pipe.contract_no+'</span><span class="od-span">'+pipe.od+'</span><span class="wt-span">'+pipe.wt+'</span></div>'+
                 '</div>'+
-                '<div class="itemshelf"><span class="status-span">'+pipe.status+'</span></div>'+
+                '<div class="itemshelf"><span class="status-span">'+pipe.status_name+'</span></div>'+
             '</div>';
             return template;
     }
