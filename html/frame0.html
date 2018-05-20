@@ -21,11 +21,11 @@
         .item .itemlogo img  {margin-left: 10px;width: 40px;}
         /* 条目特例 */
         .shelf2 .userlogo img {width: 50px;}
-        .status-span{background-color: #0099CC;color:#000000;border-radius:3px;opacity:0.5;padding:2px;}
-        .pipeno-span{color:#000000;font-size:20px;}
-        .contractno-span,.od-span,.wt-span{margin:0px 2px;}
-        .od-span{padding:2px;border-radius:3px;color:#AFAFAF;}
-        .wt-span{padding:2px;border-radius:3px;color:#AFAFAF;}
+        .status-span{background-color: #ffffff;color:#000000;font-size: 14px;border-radius:3px;opacity:0.5;padding:2px;}
+        .pipeno-span{color:#000000;font-size:20px;font-family:"Sans-serif";}
+        .contractno-span,.od-span,.wt-span{margin:0px 2px;font-family:"Sans-serif";}
+        .od-span{padding:2px;border-radius:3px;color:#AFAFAF;font-family:"Sans-serif";}
+        .wt-span{padding:2px;border-radius:3px;color:#AFAFAF;font-family:"Sans-serif";}
         .itemshelf .shelfinfo01 {font-size: 16px;color: #4CAD35;text-align: left;}
         .itemshelf .shelfinfo02 {font-size: 12px;color:#AFAFAF;margin-top: 5px;text-align: left;}
 
@@ -33,7 +33,7 @@
 </head>
 
 <body>
-    <div class="div-data" id="div-data" style="margin-top:200px;">
+    <div class="div-data" id="div-data" style="margin-top:240px;font-size: 16px;color:#000000;font-family:"Sans-serif";">
 
     </div>
 </body>
@@ -59,15 +59,18 @@
                 x: 0,
                 y: 0,
                 w: api.winWidth,
-                h: 200
+                h: 240
             },
             data: {
                 paths: [
-                    'http://pic1.win4000.com/wallpaper/6/592e7d70c5176.jpg',
-                    'http://img.ivsky.com/img/bizhi/pre/201511/02/pengyuyan-002.jpg',
-                    'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1526644263070&di=75139e5366a9da47098d4122238462ed&imgtype=0&src=http%3A%2F%2Ftc.sinaimg.cn%2Fmaxwidth.2048%2Ftc.service.weibo.com%2Fsi1_go2yd_com%2F070948e13ac7ed6c2c2999dd21d33708.jpg',
-                    'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1526644310072&di=c6ddebc2fa7088c05b69082914af8df6&imgtype=jpg&src=http%3A%2F%2Fimg3.imgtn.bdimg.com%2Fit%2Fu%3D637400183%2C664788956%26fm%3D214%26gp%3D0.jpg'
-                ]
+                    'http://192.168.0.103:8080/upload/pictures/IMG_001.JPG',
+                    'http://192.168.0.103:8080/upload/pictures/IMG_002.JPG',
+                    'http://192.168.0.103:8080/upload/pictures/IMG_003.JPG',
+                    'http://192.168.0.103:8080/upload/pictures/IMG_004.JPG',
+                    'http://192.168.0.103:8080/upload/pictures/IMG_006.JPG',
+                    'http://192.168.0.103:8080/upload/pictures/IMG_007.JPG',
+                    'http://192.168.0.103:8080/upload/pictures/IMG_008.JPG'
+                    ]
             },
             styles: {
                 caption: {
@@ -89,7 +92,7 @@
                     activeColor: '#09aa30'
                 }
             },
-            placeholderImg: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1526644306045&di=cd4975bb022b1606fa5c2bd1ed0eeb22&imgtype=0&src=http%3A%2F%2Fa.hiphotos.baidu.com%2Fzhidao%2Fpic%2Fitem%2F0d338744ebf81a4c71c1fc36d02a6059242da659.jpg',
+            placeholderImg: 'http://192.168.0.103:8080/upload/pictures/IMG_001.JPG',
             contentMode: 'scaleToFill',
             interval: 3,
             fixedOn: api.frameName,
@@ -104,93 +107,18 @@
         });
     }
 
-    function showSearchResultList() {
-
-        var goodsList = api.require('goodsList');
-
-        var datas = []; // 数据源.
-
-        var imgs = ['widget://image/goodsList/avatar.png',
-            'widget://image/goodsList/avatar.png',
-            'widget://image/goodsList/avatar.png',
-            'widget://image/goodsList/avatar.png',
-            'http://abfc6f80482f86f9ccf4.b0.upaiyun.com/apicloud/948bec8a4df2adb27581319d8a8c014e.png',
-            'http://abfc6f80482f86f9ccf4.b0.upaiyun.com/apicloud/3cd8bd01f9f474664ff0b2f41611797e.png',
-            'http://abfc6f80482f86f9ccf4.b0.upaiyun.com/apicloud/5b67af4da9ce31f101c3326fbef10e5e.png',
-            'http://abfc6f80482f86f9ccf4.b0.upaiyun.com/apicloud/3531bbb5db7f920a4f17887449aa5d7d.png',
-            'http://abfc6f80482f86f9ccf4.b0.upaiyun.com/apicloud/cbf1074f44df8e0f40ca277e31f559ce.png',
-            'http://abfc6f80482f86f9ccf4.b0.upaiyun.com/apicloud/87a9ad42f49140f1168b0caebf0cb6c3.png',
-            'http://abfc6f80482f86f9ccf4.b0.upaiyun.com/apicloud/da1cdf8ecba5775f8b54f12cd2a00735.png',
-            'http://abfc6f80482f86f9ccf4.b0.upaiyun.com/apicloud/a4db2d1809fa57cc91d0173e1c33caf9.png',
-            'http://abfc6f80482f86f9ccf4.b0.upaiyun.com/apicloud/3e0afb28a7cb0437ea860087cef39fd3.png',
-            'http://abfc6f80482f86f9ccf4.b0.upaiyun.com/apicloud/893e222cdd8158391f7a01aee3723784.png',
-            'http://abfc6f80482f86f9ccf4.b0.upaiyun.com/apicloud/59ea90c458f3708279de79b0c7a60693.png',
-            'http://abfc6f80482f86f9ccf4.b0.upaiyun.com/apicloud/69bff6064593e92c8e4102f174d0bdbf.png',
-            'http://abfc6f80482f86f9ccf4.b0.upaiyun.com/apicloud/ca2aa9b8246bc0bfd97ba284dc087e62.png',
-            'http://file.apicloud.com/mcm/A6965066817858/d7d1d308fe165b984c09728e7118e9f1.jpg',
-            'http://file.apicloud.com/mcm/A6965066817858/83dede361c4597ccfe2d815a76a7b1c2.png',
-            'http://file.apicloud.com/mcm/A6965066817858/f23301da3bd6c2c214a464b27c9897c2.jpg'
-        ];
-
-        for (var i = 0; i < 20; i++) { // 使用1000条数据,进行极限测试.
-            var data = {
-                uId: 1000 + i,
-                img: imgs[i], // 头像图片路径,支持本地和网络路径
-                title: '刘德华' + i, // 标题.
-                subTitle: '100' + i, // 子标题.
-                mark: '10' + i,
-                tag: '支付' + i,
-                rightBtn: [{
-                        bg: '#556B2F', //按钮背景色，支持 rgb，rgba，#，默认#ee8262.
-                        title: '结束', //按钮名字，字符串类型，默认‘按钮’
-                        titleSize: 13, //按钮标题大小，默认12
-                        titleColor: '#000000', // 按钮标题颜色，支持 rgb，rgba，#，默认#ffffff
-                        selectedColor: '#FFFFFF', //按钮选中时候的颜色值,支持 rgb，rgba，#
-                        icon: 'widget://image/goodsList/delete.png'
-                    }, {
-                        bg: '#4EEE94', //按钮背景色，支持 rgb，rgba，#，默认#ee8262.
-                        title: '取消置顶', //按钮名字，字符串类型，默认‘按钮’
-                        titleSize: 13, //按钮标题大小，默认12
-                        titleColor: '#000000', // 按钮标题颜色，支持 rgb，rgba，#，默认#ffffff
-                        selectedColor: 'ffffff', //按钮选中时候的颜色值,支持 rgb，rgba，#
-                        icon: 'widget://image/goodsList/delete.png'
-                    }] // 左滑单元格露出的按钮组.
-            };
-            datas.push(data);
-        }
-
-        goodsList.open({
-            x: 0, // 横坐标, 默认 0.
-            y: 364, // 纵坐标, 默认 0.
-            w: 320, // 宽度, 默认设备屏幕宽度.
-            h: 320, // 高度, 默认 视图高度 + 100.
-            itemSlipDistance: 60,
-            datas: datas,
-            itemStyle: {
-                tagSize: 10,
-                tagColor: 'rgba(255,0,0,0.5)',
-                rightBgColor: 'rgba(0,0,0,0.5)',
-                tagHeight: 30,
-                height: 200,
-                avatarH: 90,
-                avatarW: 90
-            }
-        }, function(ret, err) {
-            if (ret) {
-                alert(JSON.stringify(ret));
-            } else {
-                alert(JSON.stringify(err));
-            }
-        });
-    }
 
     function funcShowList(pipedata) {
         $('#div-data').empty();
 
+        if(pipedata.length==0){
+          $('#div-data').append('没有找到记录');
+        }
+
         for (var i = 0; i < pipedata.length; i++) {
            $('#div-data').append(pipeInfoTemplate(pipedata[i]));
         }
-        api.hideProgress();
+        //api.hideProgress();
     }
     function pipeInfoTemplate(pipe){
           var template='<div class="item style1"  onclick="pipeInfo('+pipe.pipe_no+');">'+

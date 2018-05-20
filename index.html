@@ -35,12 +35,12 @@
             padding: 5px;
             height: 30px;
             margin: 0px 10px;
-            background-color: #e6e6e6;
+            background-color: #ffffff;//#e6e6e6;
         }
 
         .scan-container {
             height: 30px;
-            width: 20%;
+            width: 10%;
             background: url(./image/qrcode.png);
             background-size: 30px 30px;
             background-repeat: no-repeat;
@@ -50,21 +50,27 @@
         .search-container {
             height: 30px;
             float: right;
-            width: 70%;
+            width: 90%;
         }
 
         .search-input {
             width: 100%;
             height: 100%;
             line-height: 30px;
+            float: left;
+            background-color: #ffffff;
         }
 
         .search-input input {
-            height: 30px;
+            height: 32px;
             width: 70%;
+            padding-top: 2px;
             padding-right: 35px;
+            padding-left: 10px;
             border: none;
             outline: none;
+            background-color: #e6e6e6;
+            font-family:"Sans-serif";
         }
 
         .search-span {
@@ -74,6 +80,7 @@
             background: url(./image/search.png);
             background-size: 30px 30px;
             background-repeat: no-repeat;
+            background-color: #ffffff;
         }
 
         #footer {
@@ -148,7 +155,7 @@
                     <div class="main-container">
                         <div class="scan-container"></div>
                         <div class="search-container">
-                            <div class="search-input"><input type="number" id="search-input" placeholder="请输入搜索管号......" />
+                            <div class="search-input"><input type="number" id="search-input" placeholder="请扫描二维码或输入管号..." />
                                 <div class="search-span">
                                     <div></div>
                                 </div>
@@ -203,7 +210,9 @@
                 if (ret) {
                     //扫出来结果
                     if (ret.eventType == 'success') {
-                        alert(ret.content);
+                        //alert(ret.content);
+                        //设置搜索框为读到的二维码数据
+                        $api.byId('search-input').value=ret.content;
                         doSearchPipeInfo(ret.content);
                         FNScanner.closeView();
                     }
@@ -321,10 +330,10 @@
         //pipeno='1545470';
         api.showProgress({
             title: '加载中...',
-            modal: true
+            modal: false
         });
         api.ajax({
-            url: 'http://192.168.0.14:8080/pipeinfo/searchPipe.action',
+            url: 'http://192.168.0.103:8080/pipeinfo/searchPipe.action',
             method: 'post',
             timeout: 30,
             dataType: 'json',
@@ -335,6 +344,7 @@
             }
         }, function(ret, err) {
             //alert(ret);
+            api.hideProgress();
             if (ret) {
                 if (ret.success == false) {
                     api.alert({
