@@ -14,26 +14,93 @@
             padding: 120px 0;
         }
         /* 条目总体样式 */
-        .item {display: table; height: 70px; width: 100%;padding:5px 0px;}
-        .item .itemlogo , .item .itemshelf {display: table-cell; vertical-align: middle;}
-        .style1{border-top:1px solid #cdcdcd;}
-        .item .itemlogo {width: 70px;}
-        .item .itemlogo img  {margin-left: 10px;width: 40px;}
-        /* 条目特例 */
-        .shelf2 .userlogo img {width: 50px;}
-        .status-span{background-color: #ffffff;color:#000000;font-size: 14px;border-radius:3px;opacity:0.5;padding:2px;float:right;margin-right: 20px;}
-        .pipeno-span{color:#000000;font-size:20px;font-family:"Sans-serif";}
-        .contractno-span,.od-span,.wt-span{margin:0px 2px;font-family:"Sans-serif";}
-        .od-span{padding:2px;border-radius:3px;color:#AFAFAF;font-family:"Sans-serif";}
-        .wt-span{padding:2px;border-radius:3px;color:#AFAFAF;font-family:"Sans-serif";}
-        .itemshelf .shelfinfo01 {font-size: 16px;color: #4CAD35;text-align: left;}
-        .itemshelf .shelfinfo02 {font-size: 12px;color:#AFAFAF;margin-top: 5px;text-align: left;}
 
+        .item {
+            display: table;
+            height: 70px;
+            width: 100%;
+            padding: 5px 0px;
+        }
+
+        .item .itemlogo,
+        .item .itemshelf {
+            display: table-cell;
+            vertical-align: middle;
+        }
+
+        .style1 {
+            border-top: 1px solid #cdcdcd;
+        }
+
+        .item .itemlogo {
+            width: 70px;
+        }
+
+        .item .itemlogo img {
+            margin-left: 10px;
+            width: 40px;
+        }
+        /* 条目特例 */
+
+        .shelf2 .userlogo img {
+            width: 50px;
+        }
+
+        .status-span {
+            background-color: #ffffff;
+            color: #000000;
+            font-size: 14px;
+            border-radius: 3px;
+            opacity: 0.5;
+            padding: 2px;
+            float: right;
+            margin-right: 20px;
+        }
+
+        .pipeno-span {
+            color: #000000;
+            font-size: 20px;
+            font-family: "Sans-serif";
+        }
+
+        .contractno-span,
+        .od-span,
+        .wt-span {
+            margin: 0px 2px;
+            font-family: "Sans-serif";
+        }
+
+        .od-span {
+            padding: 2px;
+            border-radius: 3px;
+            color: #AFAFAF;
+            font-family: "Sans-serif";
+        }
+
+        .wt-span {
+            padding: 2px;
+            border-radius: 3px;
+            color: #AFAFAF;
+            font-family: "Sans-serif";
+        }
+
+        .itemshelf .shelfinfo01 {
+            font-size: 16px;
+            color: #4CAD35;
+            text-align: left;
+        }
+
+        .itemshelf .shelfinfo02 {
+            font-size: 12px;
+            color: #AFAFAF;
+            margin-top: 5px;
+            text-align: left;
+        }
     </style>
 </head>
 
 <body>
-    <div class="div-data" id="div-data" style="margin-top:240px;font-size: 16px;color:#000000;font-family:"Sans-serif";">
+    <div class="div-data" id="div-data" style="margin-top:240px;font-size: 16px;color:#000000;font-family:" Sans-serif ";">
 
     </div>
 </body>
@@ -49,11 +116,61 @@
         UIScrollPicture = api.require('UIScrollPicture');
         //UIListView = api.require('UIListView');
         broadcastPictures();
-        //showSearchResultList();
     }
 
     //主页面图片轮播
     function broadcastPictures() {
+        api.showProgress({
+            title: '加载中...',
+            modal: false
+        });
+        api.ajax({
+            url: 'http://192.168.0.103:8080/UploadFile/getTopTenPictures.action',
+            method: 'post',
+            timeout: 30,
+            dataType: 'json',
+            data: {
+                values: {
+
+                }
+            }
+        }, function(ret, err) {
+            //alert(ret);
+            api.hideProgress();
+            if (ret) {
+                if (ret.success == false) {
+                    api.alert({
+                        msg: JSON.stringify(ret.message)
+                    });
+                } else {
+                    // var picturefiles = JSON.stringify(ret);
+
+                    showPictures(ret);
+                }
+            } else {
+              //alert("err");
+                api.alert({
+                    msg: JSON.stringify(err)
+                });
+            }
+
+        });
+
+    }
+
+
+    function showPictures(picturefiles) {
+        var datalist = [];
+        //alert("picturefiles.length="+picturefiles.length);
+
+        for (var i = 0; i < picturefiles.length; i++) {
+            var pic = picturefiles[i];
+            datalist.push('http://192.168.0.103:8080/upload/pictures/' + pic.pictureName);
+        }
+       //alert("datalist.length="+datalist.length);
+
+
+
         UIScrollPicture.open({
             rect: {
                 x: 0,
@@ -62,15 +179,17 @@
                 h: 240
             },
             data: {
-                paths: [
-                    'http://192.168.0.103:8080/upload/pictures/IMG_001.JPG',
-                    'http://192.168.0.103:8080/upload/pictures/IMG_002.JPG',
-                    'http://192.168.0.103:8080/upload/pictures/IMG_003.JPG',
-                    'http://192.168.0.103:8080/upload/pictures/IMG_004.JPG',
-                    'http://192.168.0.103:8080/upload/pictures/IMG_006.JPG',
-                    'http://192.168.0.103:8080/upload/pictures/IMG_007.JPG',
-                    'http://192.168.0.103:8080/upload/pictures/IMG_008.JPG'
-                    ]
+                paths:datalist,
+                  // [
+                  //       'http://192.168.0.103:8080/upload/pictures/IMG_001.JPG',
+                  //       'http://192.168.0.103:8080/upload/pictures/IMG_002.JPG',
+                  //       'http://192.168.0.103:8080/upload/pictures/IMG_003.JPG',
+                  //       'http://192.168.0.103:8080/upload/pictures/IMG_004.JPG',
+                  //       'http://192.168.0.103:8080/upload/pictures/IMG_006.JPG',
+                  //       'http://192.168.0.103:8080/upload/pictures/IMG_007.JPG',
+                  //       'http://192.168.0.103:8080/upload/pictures/IMG_008.JPG'
+                  //       ]
+                  caption:['1','2','3','4','5','6','7','8','9','10']
             },
             styles: {
                 caption: {
@@ -111,27 +230,29 @@
     function funcShowList(pipedata) {
         $('#div-data').empty();
 
-        if(pipedata.length==0){
-          $('#div-data').append('没有找到记录');
+        if (pipedata.length == 0) {
+            $('#div-data').append('没有找到记录');
         }
 
         for (var i = 0; i < pipedata.length; i++) {
-           $('#div-data').append(pipeInfoTemplate(pipedata[i]));
+            $('#div-data').append(pipeInfoTemplate(pipedata[i]));
         }
         //api.hideProgress();
     }
-    function pipeInfoTemplate(pipe){
-          var template='<div class="item style1"  onclick="pipeInfo('+pipe.pipe_no+');">'+
-                '<div class="itemlogo userlogo"><img src="../image/pipe2.png" alt=""></div>'+
-                '<div class="itemshelf">'+
-                    '<div class="shelfinfo01"><span class="pei pipeno-span">'+pipe.pipe_no+'</span></div>'+
-                    '<div class="shelfinfo02"><span class="contractno-span">'+pipe.contract_no+'</span><span class="od-span">'+pipe.od+'</span><span class="wt-span">'+pipe.wt+'</span></div>'+
-                '</div>'+
-                '<div class="itemshelf"><span class="status-span">'+pipe.status_name+'</span></div>'+
+
+    function pipeInfoTemplate(pipe) {
+        var template = '<div class="item style1"  onclick="pipeInfo(' + pipe.pipe_no + ');">' +
+            '<div class="itemlogo userlogo"><img src="../image/pipe2.png" alt=""></div>' +
+            '<div class="itemshelf">' +
+            '<div class="shelfinfo01"><span class="pei pipeno-span">' + pipe.pipe_no + '</span></div>' +
+            '<div class="shelfinfo02"><span class="contractno-span">' + pipe.contract_no + '</span><span class="od-span">' + pipe.od + '</span><span class="wt-span">' + pipe.wt + '</span></div>' +
+            '</div>' +
+            '<div class="itemshelf"><span class="status-span">' + pipe.status_name + '</span></div>' +
             '</div>';
-            return template;
+        return template;
     }
-    function pipeInfo(pipeno){
+
+    function pipeInfo(pipeno) {
         alert(pipeno);
     }
 </script>
