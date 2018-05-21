@@ -125,7 +125,7 @@
             modal: false
         });
         api.ajax({
-            url: 'http://192.168.0.103:8080/UploadFile/getTopTenPictures.action',
+            url: 'http://192.168.0.200:8080/UploadFile/getTopTenPictures.action',
             method: 'post',
             timeout: 30,
             dataType: 'json',
@@ -165,7 +165,7 @@
 
         for (var i = 0; i < picturefiles.length; i++) {
             var pic = picturefiles[i];
-            datalist.push('http://192.168.0.103:8080/upload/pictures/' + pic.pictureName);
+            datalist.push('http://192.168.0.200:8080/upload/pictures/' + pic.pictureName);
         }
        //alert("datalist.length="+datalist.length);
 
@@ -211,7 +211,7 @@
                     activeColor: '#09aa30'
                 }
             },
-            placeholderImg: 'http://192.168.0.103:8080/upload/pictures/IMG_001.JPG',
+            placeholderImg: 'http://192.168.0.200:8080/upload/pictures/IMG_001.JPG',
             contentMode: 'scaleToFill',
             interval: 3,
             fixedOn: api.frameName,

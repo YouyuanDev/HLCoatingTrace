@@ -35,7 +35,7 @@
             padding: 5px;
             height: 30px;
             margin: 0px 10px;
-            background-color: #ffffff;//#e6e6e6;
+            background-color: #ffffff; //#e6e6e6;
         }
 
         .scan-container {
@@ -70,7 +70,7 @@
             border: none;
             outline: none;
             background-color: #e6e6e6;
-            font-family:"Sans-serif";
+            font-family: "Sans-serif";
         }
 
         .search-span {
@@ -212,7 +212,7 @@
                     if (ret.eventType == 'success') {
                         //alert(ret.content);
                         //设置搜索框为读到的二维码数据
-                        $api.byId('search-input').value=ret.content;
+                        $api.byId('search-input').value = ret.content;
                         doSearchPipeInfo(ret.content);
                         FNScanner.closeView();
                     }
@@ -275,7 +275,6 @@
             index: index
         });
     }
-  
 
     function doSearchPipeInfo(pipeno) {
         //搜索管子
@@ -286,7 +285,7 @@
             modal: false
         });
         api.ajax({
-            url: 'http://192.168.0.103:8080/pipeinfo/searchPipe.action',
+            url: 'http://192.168.0.200:8080/pipeinfo/searchPipe.action',
             method: 'post',
             timeout: 30,
             dataType: 'json',
@@ -304,7 +303,7 @@
                         msg: JSON.stringify(ret.message)
                     });
                 } else {
-                    var jsfun = 'funcShowList('+JSON.stringify(ret)+');';
+                    var jsfun = 'funcShowList(' + JSON.stringify(ret) + ');';
                     api.execScript({
                         frameName: 'frame0',
                         script: jsfun

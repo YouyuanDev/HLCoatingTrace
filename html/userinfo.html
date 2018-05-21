@@ -9,43 +9,112 @@
     <link rel="stylesheet" type="text/css" href="../css/api.css" />
     <link rel="stylesheet" type="text/css" href="../css/style.css" />
     <style>
-    html,
-    body {
-        height: 100%;
-        background-color: #f4f5f6;
-    }
-    .title {
-        height: 43px;
-        line-height: 43px;
-        width: 100%;
-        text-align: center;
-        font-size: 16px;
-        color: #222;
-        background-color: #fefefe;
-        border-bottom: 1px solid #d8d8d8;
-        box-sizing: border-box;
-        position: relative;
-    }
+        html,
+        body {
+            height: 100%;
+            background-color: #f4f5f6;
+        }
 
-    .title .arrow {
-        width: 43px;
-        height: 43px;
-        position: absolute;
-        left: 0;
-        bottom: 0;
-        background-image: url(../image/back.png);
-        background-repeat: no-repeat;
-        background-size:20px 20px;
-        background-position: center center;
-    }
+        .title {
+            height: 43px;
+            line-height: 43px;
+            width: 100%;
+            text-align: center;
+            font-size: 16px;
+            color: #222;
+            background-color: #fefefe;
+            border-bottom: 1px solid #d8d8d8;
+            box-sizing: border-box;
+            position: relative;
+        }
+
+        .title .arrow {
+            width: 43px;
+            height: 43px;
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            background-image: url(../image/back.png);
+            background-repeat: no-repeat;
+            background-size: 20px 20px;
+            background-position: center center;
+        }
+
+        .save-contianer {
+            position: absolute;
+            width: 100px;
+            height: 43px;
+            bottom: 0;
+            right: 0;
+        }
+
+        .userinfo-container {
+            padding: 5px 10px;
+        }
+
+        .userinfo-item {
+            width: 100%;
+            height: auto;
+            display: none;
+            margin-bottom: 10px;
+        }
+       .userinfo-item1{
+           text-align: center;
+           font-size:20px;
+       }
+        .userinfo-item .item-input {
+            width: 100%;
+            height: 40px;
+            outline: none;
+            border-bottom: 1px solid #09aa30;
+            font-size:19px;
+            text-align:center;
+        }
+         .userinfo-item1 input{
+           width:20px;
+           height:20px;
+           margin:10px;
+         }
+        .save-contianer button {
+            outline: none;
+            background-color: #09aa30;
+            color: #FFFFFF;
+            padding: 8px 15px;
+            border-radius: 3px;
+        }
     </style>
 </head>
 
 <body>
-  <div class="title" id="header">
-      <div class="arrow event-back"></div>
-      <span id="userinfo-tag">登录<span>
-  </div>
+    <div class="title" id="header">
+        <div class="arrow event-back"></div>
+        <span id="userinfo-tag"></span>
+        <div class="save-contianer"><button id="save-btn">保存</button></div>
+    </div>
+    <div class="userinfo-container">
+        <div class="userinfo-item user-name">
+            <input type="text" class="item-input" id="user-name" />
+        </div>
+        <div class="userinfo-item user-pwd">
+            <input type="password" class="item-input" id="user-pwd" />
+        </div>
+        <div class="userinfo-item user-idno">
+            <input type="text" class="item-input" id="user-idno" />
+        </div>
+        <div class="userinfo-item user-phoneno">
+            <input type="text" class="item-input" id="user-phoneno" />
+        </div>
+        <div class="userinfo-item userinfo-item1 user-gender">
+            <input class="item-input1" type="radio" name="radio" id="user-gender1" value="1" />男
+            <input class="item-input1" type="radio" name="radio" id="user-gender2" value="2" />女
+        </div>
+        <div class="userinfo-item user-age">
+            <input type="text" class="item-input" id="user-age"/>
+        </div>
+        <div class="userinfo-item1">
+
+        </div>
+    </div>
 </body>
 
 </html>
@@ -53,12 +122,66 @@
 <script type="text/javascript" src="../script/jquery-3.3.1.min.js"></script>
 <script type="text/javascript" src="../script/common.js"></script>
 <script type="text/javascript">
+    var UIActionSelector;
     apiready = function() {
         getParamName();
-    };
-    function getParamName(){
-       var data=api.pageParam;
-       $('#userinfo-tag').text(data.index+":"+data.labelName);
+        $('.event-back').click(function() {
+            backUserInfo();
+        });
+        $('.save-btn').click(function() {
 
+        });
+        $('#user-age').focus(function(){
+              alert(1);
+        });
+        UIActionSelector= api.require('UIActionSelector');
+    };
+
+    function getParamName() {
+        var data = api.pageParam;
+        var index = data.index;
+        var labelName = data.labelName;
+        var userData = data.userData;
+        if (index != '' && index != undefined && labelName != '' && labelName != undefined && userData != '' && userData != undefined) {
+            $('#userinfo-tag').text(data.labelName);
+            switch (index) {
+                case 1: //姓名
+                    $('.user-name').css('display', 'block');
+                    $('#user-name').val(userData);
+                    break;
+                case 2: //密码
+                    $('.user-pwd').css('display', 'block');
+                    $('#user-pwd').val(userData);
+                    break;
+                case 3: //身份证号
+                    $('.user-idno').css('display', 'block');
+                    $('#user-idno').val(userData);
+                    break;
+                case 4: //手机号
+                    $('.user-phoneno').css('display', 'block');
+                    $('#user-phoneno').val(userData);
+                    break;
+                case 5: //性别
+                    $('.user-gender').css('display', 'block');
+                    if(userData=='男'){
+                       $('#user-gender1').attr('checked','true');
+                    }
+                    else {
+                       $('#user-gender2').attr('checked','true');
+                    }
+                    $('#user-gender').val(userData);
+                    break;
+                case 6: //年龄
+                    $('.user-age').css('display', 'block');
+                    break;
+            }
+        } else {
+            //传值时出错,返回到个人信息页面
+
+        }
+    }
+
+    function backUserInfo() {
+        api.closeWin();
     }
 </script>
