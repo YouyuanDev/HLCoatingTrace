@@ -56,25 +56,38 @@
             width: 100%;
             height: auto;
             display: none;
-            margin-bottom: 10px;
+            margin-bottom:20px;
         }
-       .userinfo-item1{
-           text-align: center;
-           font-size:20px;
-       }
+
+        .userinfo-item1 {
+            text-align: center;
+            font-size: 20px;
+        }
+
         .userinfo-item .item-input {
             width: 100%;
             height: 40px;
             outline: none;
             border-bottom: 1px solid #09aa30;
-            font-size:19px;
+            font-size: 19px;
             text-align:center;
         }
-         .userinfo-item1 input{
-           width:20px;
-           height:20px;
-           margin:10px;
-         }
+        .userinfo-item label{
+           width:100%;
+           height:40px;
+           line-height:40px;
+           border-radius:3px;
+           outline: none;
+           font-size: 19px;
+           text-align: center;
+           background-color:#999;
+        }
+        .userinfo-item1 input {
+            width: 20px;
+            height: 20px;
+            margin: 10px;
+        }
+
         .save-contianer button {
             outline: none;
             background-color: #09aa30;
@@ -82,6 +95,7 @@
             padding: 8px 15px;
             border-radius: 3px;
         }
+        .user-age span{padding:5px 10px;opacity:0.5;}
     </style>
 </head>
 
@@ -109,7 +123,9 @@
             <input class="item-input1" type="radio" name="radio" id="user-gender2" value="2" />女
         </div>
         <div class="userinfo-item user-age">
-            <input type="text" class="item-input" id="user-age"/>
+            <label id="user-age">21</label>
+            <span>点击修改年龄.</span>
+            <!-- <input type="text" class="item-input" id="user-age" /> -->
         </div>
         <div class="userinfo-item1">
 
@@ -124,17 +140,95 @@
 <script type="text/javascript">
     var UIActionSelector;
     apiready = function() {
+        UIActionSelector = api.require('UIActionSelector');
         getParamName();
+        //返回事件
         $('.event-back').click(function() {
             backUserInfo();
         });
+        //保存事件
         $('.save-btn').click(function() {
 
         });
-        $('#user-age').focus(function(){
-              alert(1);
+        //年龄修改
+        $('#user-age').click(function() {
+            var jsonArr=[];
+            var beginTimeYear=new Date('1940-01-01').getFullYear();
+            var endTimeYear=new Date().getFullYear();
+            var nowAgeOfYear=endTimeYear-$(this).text();
+            var indexArr=[];
+            var item;
+            var index=0;
+            var flag=true;
+            for(var i=beginTimeYear;i<endTimeYear;i++){
+                     item={"name":i};
+                     jsonArr.push(item);
+                     if(i!=nowAgeOfYear&&flag){
+                        index++;
+                     }else{
+                        flag=false;
+                     }
+           }
+            indexArr[0]=index;
+            UIActionSelector.open({
+                datas: jsonArr,
+                layout: {
+                    row: 5,
+                    col: 1,
+                    height: 30,
+                    size: 12,
+                    sizeActive: 14,
+                    rowSpacing: 5,
+                    colSpacing: 10,
+                    maskBg: 'rgba(0,0,0,0.2)',
+                    bg: '#fff',
+                    color: '#888',
+                    colorActive: '#f00',
+                    colorSelected: '#f00'
+                },
+                animation: true,
+                cancel: {
+                    text: '取消',
+                    size: 12,
+                    w: 90,
+                    h: 35,
+                    bg: '#fff',
+                    bgActive: '#ccc',
+                    color: '#888',
+                    colorActive: '#fff'
+                },
+                ok: {
+                    text: '确定',
+                    size: 12,
+                    w: 90,
+                    h: 35,
+                    bg: '#fff',
+                    bgActive: '#ccc',
+                    color: '#888',
+                    colorActive: '#fff'
+                },
+                title: {
+                    text: '请选择',
+                    size: 12,
+                    h: 44,
+                    bg: '#eee',
+                    color: '#888'
+                },
+                actives:indexArr,
+                fixedOn: api.frameName
+            }, function(ret, err) {
+                if (ret) {
+                    if(ret.eventType=='ok'){
+                         var year=ret.level1;
+                         $('#user-age').text(endTimeYear-year);
+                    }
+                } else {
+                  alert('系统繁忙');
+                }
+                UIActionSelector.hide();
+            });
         });
-        UIActionSelector= api.require('UIActionSelector');
+
     };
 
     function getParamName() {
@@ -163,16 +257,16 @@
                     break;
                 case 5: //性别
                     $('.user-gender').css('display', 'block');
-                    if(userData=='男'){
-                       $('#user-gender1').attr('checked','true');
-                    }
-                    else {
-                       $('#user-gender2').attr('checked','true');
+                    if (userData == '男') {
+                        $('#user-gender1').attr('checked', 'true');
+                    } else {
+                        $('#user-gender2').attr('checked', 'true');
                     }
                     $('#user-gender').val(userData);
                     break;
                 case 6: //年龄
                     $('.user-age').css('display', 'block');
+                    $('#user-age').text(userData);
                     break;
             }
         } else {

@@ -116,6 +116,9 @@
         UIScrollPicture = api.require('UIScrollPicture');
         //UIListView = api.require('UIListView');
         broadcastPictures();
+        //下拉刷新，下拉加载
+        dropdownLoading();
+        isRollingToEnd();
     }
 
     //主页面图片轮播
@@ -211,7 +214,7 @@
                     activeColor: '#09aa30'
                 }
             },
-            placeholderImg: 'http://192.168.0.200:8080/upload/pictures/IMG_001.JPG',
+            placeholderImg: 'widget://image/defaultbg.jpg',
             contentMode: 'scaleToFill',
             interval: 3,
             fixedOn: api.frameName,
@@ -229,11 +232,9 @@
 
     function funcShowList(pipedata) {
         $('#div-data').empty();
-
         if (pipedata.length == 0) {
             $('#div-data').append('没有找到记录');
         }
-
         for (var i = 0; i < pipedata.length; i++) {
             $('#div-data').append(pipeInfoTemplate(pipedata[i]));
         }
@@ -254,5 +255,31 @@
 
     function pipeInfo(pipeno) {
         alert(pipeno);
+    }
+    function dropdownLoading() {
+        api.setRefreshHeaderInfo({
+            loadingImg: 'widget://image/loading_more.png',
+            bgColor: '#ccc',
+            textColor: '#fff',
+            textDown: '下拉刷新...',
+            textUp: '松开刷新...'
+        }, function(ret, err) {
+            //在这里从服务器加载数据，加载完成后调用api.refreshHeaderLoadDone()方法恢复组件到默认状态
+            setTimeout(function () {
+                //执行刷新
+                alert('执行下拉');
+                api.refreshHeaderLoadDone();
+            },2000);
+        });
+    }
+    function isRollingToEnd() {
+        api.addEventListener({
+            name: 'scrolltobottom',
+            extra: {
+                threshold:0 //设置距离底部多少距离时触发，默认值为0，数字类型
+            }
+        }, function(ret, err) {
+            alert('已滚动到底部');//开始分页加载数据
+        });
     }
 </script>

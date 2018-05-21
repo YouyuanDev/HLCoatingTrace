@@ -219,11 +219,13 @@
                 }
             });
         });
+        //搜索点击事件
         $('.search-span').click(function() {
             var pipeno = $api.byId('search-input');
             //alert("pipeno:"+pipeno.value);
             doSearchPipeInfo(pipeno.value);
         });
+
     }
 
     function funIniGroup() {
@@ -295,7 +297,6 @@
                 }
             }
         }, function(ret, err) {
-            //alert(ret);
             api.hideProgress();
             if (ret) {
                 if (ret.success == false) {
@@ -323,4 +324,6 @@
 
         });
     }
+
+    
 </script>
