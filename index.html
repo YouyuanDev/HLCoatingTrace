@@ -213,7 +213,13 @@
                         //alert(ret.content);
                         //设置搜索框为读到的二维码数据
                         $api.byId('search-input').value = ret.content;
-                        doSearchPipeInfo(ret.content);
+                        var jsfun = 'doSearchPipeInfo(' + ret.content + ',1,false);';
+                        api.execScript({
+                            frameName: 'frame0',
+                            script: jsfun
+                        });
+
+                      //  doSearchPipeInfo(ret.content);
                         FNScanner.closeView();
                     }
                 }
@@ -223,7 +229,12 @@
         $('.search-span').click(function() {
             var pipeno = $api.byId('search-input');
             //alert("pipeno:"+pipeno.value);
-            doSearchPipeInfo(pipeno.value);
+            //doSearchPipeInfo(pipeno.value);
+            var jsfun = 'doSearchPipeInfo(' + pipeno.value + ',1,false);';
+            api.execScript({
+                frameName: 'frame0',
+                script: jsfun
+            });
         });
 
     }
@@ -278,52 +289,7 @@
         });
     }
 
-    function doSearchPipeInfo(pipeno) {
-        //搜索管子
 
-        //pipeno='1545470';
-        api.showProgress({
-            title: '加载中...',
-            modal: false
-        });
-        api.ajax({
-            url: 'http://192.168.0.200:8080/pipeinfo/searchPipe.action',
-            method: 'post',
-            timeout: 30,
-            dataType: 'json',
-            data: {
-                values: {
-                    pipe_no: pipeno
-                }
-            }
-        }, function(ret, err) {
-            api.hideProgress();
-            if (ret) {
-                if (ret.success == false) {
-                    api.alert({
-                        msg: JSON.stringify(ret.message)
-                    });
-                } else {
-                    var jsfun = 'funcShowList(' + JSON.stringify(ret) + ');';
-                    api.execScript({
-                        frameName: 'frame0',
-                        script: jsfun
-                    });
-                    // var jsfun = 'funcShowList('+ret+');';
-                    // api.execScript({
-                    //     name: 'index',
-                    //     frameName: 'frame0',
-                    //     script: jsfun
-                    // });
-                }
-            } else {
-                api.alert({
-                    msg: JSON.stringify(err)
-                });
-            }
 
-        });
-    }
 
-    
 </script>

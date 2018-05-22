@@ -111,6 +111,9 @@
 <script type="text/javascript">
     //定义图片轮播变量
     var UIScrollPicture;
+    //定义查询分页 开始page
+    var start=1;
+    var keyword_pipeno;
     //var UIListView;
     apiready = function() {
         UIScrollPicture = api.require('UIScrollPicture');
@@ -128,7 +131,7 @@
             modal: false
         });
         api.ajax({
-            url: 'http://192.168.0.200:8080/UploadFile/getTopTenPictures.action',
+            url: 'http://192.168.0.15:8080/UploadFile/getTopTenPictures.action',
             method: 'post',
             timeout: 30,
             dataType: 'json',
@@ -168,7 +171,7 @@
 
         for (var i = 0; i < picturefiles.length; i++) {
             var pic = picturefiles[i];
-            datalist.push('http://192.168.0.200:8080/upload/pictures/' + pic.pictureName);
+            datalist.push('http://192.168.0.15:8080/upload/pictures/' + pic.pictureName);
         }
        //alert("datalist.length="+datalist.length);
 
@@ -230,8 +233,11 @@
     }
 
 
-    function funcShowList(pipedata) {
+    function funcShowList(pipedata,append) {
+      if(!append){
+
         $('#div-data').empty();
+      }
         if (pipedata.length == 0) {
             $('#div-data').append('没有找到记录');
         }
@@ -252,6 +258,54 @@
             '</div>';
         return template;
     }
+
+    function doSearchPipeInfo(pipeno,parm_start,append) {
+        //搜索管子
+        start=parm_start;
+        keyword_pipeno=pipeno;
+        //pipeno='1545470';
+        api.showProgress({
+            title: '加载中...',
+            modal: false
+        });
+        api.ajax({
+            url: 'http://192.168.0.15:8080/pipeinfo/searchPipe.action',
+            method: 'post',
+            timeout: 30,
+            dataType: 'json',
+            data: {
+                values: {
+                    pipe_no: pipeno,
+                    page:start,
+                    rows:20
+                }
+            }
+        }, function(ret, err) {
+            api.hideProgress();
+            if (ret) {
+                if (ret.success == false) {
+                    api.alert({
+                        msg: JSON.stringify(ret.message)
+                    });
+                } else {
+                  //alert(JSON.stringify(ret.rows));
+                  funcShowList(ret.rows,append);
+
+                    // var jsfun = 'funcShowList(' + JSON.stringify(ret) + ');';
+                    // api.execScript({
+                    //     frameName: 'frame0',
+                    //     script: jsfun
+                    // });
+                }
+            } else {
+                api.alert({
+                    msg: JSON.stringify(err)
+                });
+            }
+
+        });
+    }
+
 
     function pipeInfo(pipeno) {
         alert(pipeno);
@@ -280,6 +334,10 @@
             }
         }, function(ret, err) {
             alert('已滚动到底部');//开始分页加载数据
+            start=start+1;
+            doSearchPipeInfo(keyword_pipeno,start,true);
+
+
         });
     }
 </script>
