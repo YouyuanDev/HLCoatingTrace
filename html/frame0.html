@@ -109,6 +109,9 @@
 <script type="text/javascript" src="script/api.js"></script>
 <script type="text/javascript" src="../script/jquery-3.3.1.min.js"></script>
 <script type="text/javascript">
+
+    var serverIP='192.168.0.103';
+
     //定义图片轮播变量
     var UIScrollPicture;
     //定义查询分页 开始page
@@ -119,7 +122,7 @@
         UIScrollPicture = api.require('UIScrollPicture');
         //UIListView = api.require('UIListView');
         broadcastPictures();
-        //下拉刷新，下拉加载
+        //下拉刷新,下拉加载
         dropdownLoading();
         isRollingToEnd();
     }
@@ -130,8 +133,9 @@
             title: '加载中...',
             modal: false
         });
+        var s='http://'+serverIP+':8080/UploadFile/getTopTenPictures.action';
         api.ajax({
-            url: 'http://192.168.0.15:8080/UploadFile/getTopTenPictures.action',
+            url: s,
             method: 'post',
             timeout: 30,
             dataType: 'json',
@@ -171,7 +175,7 @@
 
         for (var i = 0; i < picturefiles.length; i++) {
             var pic = picturefiles[i];
-            datalist.push('http://192.168.0.15:8080/upload/pictures/' + pic.pictureName);
+            datalist.push('http://'+serverIP+':8080/upload/pictures/' + pic.pictureName);
         }
        //alert("datalist.length="+datalist.length);
 
@@ -268,8 +272,9 @@
             title: '加载中...',
             modal: false
         });
+        var s='http://'+serverIP+':8080/pipeinfo/searchPipe.action';
         api.ajax({
-            url: 'http://192.168.0.15:8080/pipeinfo/searchPipe.action',
+            url: s,
             method: 'post',
             timeout: 30,
             dataType: 'json',
@@ -290,7 +295,7 @@
                 } else {
                   //alert(JSON.stringify(ret.rows));
                   funcShowList(ret.rows,append);
-
+                  api.refreshHeaderLoadDone();
                     // var jsfun = 'funcShowList(' + JSON.stringify(ret) + ');';
                     // api.execScript({
                     //     frameName: 'frame0',
@@ -318,10 +323,13 @@
             textDown: '下拉刷新...',
             textUp: '松开刷新...'
         }, function(ret, err) {
-            //在这里从服务器加载数据，加载完成后调用api.refreshHeaderLoadDone()方法恢复组件到默认状态
+            //在这里从服务器加载数据,加载完成后调用api.refreshHeaderLoadDone()方法恢复组件到默认状态
+            //alert('执行下拉');
+            broadcastPictures();
+            doSearchPipeInfo(keyword_pipeno,1,false);
+
             setTimeout(function () {
                 //执行刷新
-                alert('执行下拉');
                 api.refreshHeaderLoadDone();
             },2000);
         });
@@ -330,10 +338,10 @@
         api.addEventListener({
             name: 'scrolltobottom',
             extra: {
-                threshold:0 //设置距离底部多少距离时触发，默认值为0，数字类型
+                threshold:0 //设置距离底部多少距离时触发,默认值为0,数字类型
             }
         }, function(ret, err) {
-            alert('已滚动到底部');//开始分页加载数据
+            //alert('已滚动到底部');//开始分页加载数据
             start=start+1;
             doSearchPipeInfo(keyword_pipeno,start,true);
 
