@@ -108,9 +108,10 @@
 </html>
 <script type="text/javascript" src="script/api.js"></script>
 <script type="text/javascript" src="../script/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/common.js"></script>
 <script type="text/javascript">
 
-    var serverIP='192.168.0.103';
+    //var serverIP='192.168.0.11';
 
     //定义图片轮播变量
     var UIScrollPicture;
@@ -125,6 +126,11 @@
         //下拉刷新,下拉加载
         dropdownLoading();
         isRollingToEnd();
+        api.addEventListener({
+           name: 'myEvent'
+         }, function(ret, err) {
+              doSearchPipeInfo(ret.value.pipeno,ret.value.pageStart,ret.value.flag);
+          });
     }
 
     //主页面图片轮播
@@ -133,7 +139,7 @@
             title: '加载中...',
             modal: false
         });
-        var s='http://'+serverIP+':8080/UploadFile/getTopTenPictures.action';
+        var s='http://'+serverIP+'/UploadFile/getTopTenPictures.action';
         api.ajax({
             url: s,
             method: 'post',
@@ -154,7 +160,6 @@
                     });
                 } else {
                     // var picturefiles = JSON.stringify(ret);
-
                     showPictures(ret);
                 }
             } else {
@@ -175,7 +180,7 @@
 
         for (var i = 0; i < picturefiles.length; i++) {
             var pic = picturefiles[i];
-            datalist.push('http://'+serverIP+':8080/upload/pictures/' + pic.pictureName);
+            datalist.push('http://'+serverIP+'/upload/pictures/' + pic.pictureName);
         }
        //alert("datalist.length="+datalist.length);
 
@@ -191,13 +196,13 @@
             data: {
                 paths:datalist,
                   // [
-                  //       'http://192.168.0.103:8080/upload/pictures/IMG_001.JPG',
-                  //       'http://192.168.0.103:8080/upload/pictures/IMG_002.JPG',
-                  //       'http://192.168.0.103:8080/upload/pictures/IMG_003.JPG',
-                  //       'http://192.168.0.103:8080/upload/pictures/IMG_004.JPG',
-                  //       'http://192.168.0.103:8080/upload/pictures/IMG_006.JPG',
-                  //       'http://192.168.0.103:8080/upload/pictures/IMG_007.JPG',
-                  //       'http://192.168.0.103:8080/upload/pictures/IMG_008.JPG'
+                  //       'http://192.168.0.103/upload/pictures/IMG_001.JPG',
+                  //       'http://192.168.0.103/upload/pictures/IMG_002.JPG',
+                  //       'http://192.168.0.103/upload/pictures/IMG_003.JPG',
+                  //       'http://192.168.0.103/upload/pictures/IMG_004.JPG',
+                  //       'http://192.168.0.103/upload/pictures/IMG_006.JPG',
+                  //       'http://192.168.0.103/upload/pictures/IMG_007.JPG',
+                  //       'http://192.168.0.103/upload/pictures/IMG_008.JPG'
                   //       ]
                   caption:['1','2','3','4','5','6','7','8','9','10']
             },
@@ -243,7 +248,9 @@
         $('#div-data').empty();
       }
         if (pipedata.length == 0) {
-            $('#div-data').append('没有找到记录');
+            var obj=$('#nodata');
+            if(obj.length<=0)
+              $('#div-data').append('<div id="nodata">没有找到记录</div>');
         }
         for (var i = 0; i < pipedata.length; i++) {
             $('#div-data').append(pipeInfoTemplate(pipedata[i]));
@@ -272,7 +279,7 @@
             title: '加载中...',
             modal: false
         });
-        var s='http://'+serverIP+':8080/pipeinfo/searchPipe.action';
+        var s='http://'+serverIP+'/pipeinfo/searchPipe.action';
         api.ajax({
             url: s,
             method: 'post',
@@ -280,7 +287,7 @@
             dataType: 'json',
             data: {
                 values: {
-                    pipe_no: pipeno,
+                    pipe_no:keyword_pipeno,
                     page:start,
                     rows:20
                 }

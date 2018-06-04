@@ -69,43 +69,43 @@
             <li>
                 <div class="list-item">
                     <label>工号</label>
-                    <div class="lsit-item-con">3232323</div>
+                    <div class="lsit-item-con" id="userno"></div>
                 </div>
             </li>
             <li>
                 <div class="list-item">
                     <label>姓名</label>
-                    <div class="lsit-item-con" id="username">马可波罗</div>
+                    <div class="lsit-item-con" id="username"></div>
                 </div>
             </li>
             <li>
                 <div class="list-item">
                     <label>密码</label>
-                    <div class="lsit-item-con" id="userpwd">*******</div>
+                    <div class="lsit-item-con" id="userpwd"></div>
                 </div>
             </li>
             <li>
                 <div class="list-item">
                     <label>身份证号</label>
-                    <div class="lsit-item-con" id="userIdNo">327979797927392739</div>
+                    <div class="lsit-item-con" id="userIdNo"></div>
                 </div>
             </li>
             <li>
                 <div class="list-item">
                     <label>手机号</label>
-                    <div class="lsit-item-con" id="userphone">18703616253</div>
+                    <div class="lsit-item-con" id="userphone"></div>
                 </div>
             </li>
             <li>
                 <div class="list-item">
                     <label>性别</label>
-                    <div class="lsit-item-con" id="usergender">男</div>
+                    <div class="lsit-item-con" id="usergender"></div>
                 </div>
             </li>
             <li>
                 <div class="list-item">
                     <label>年龄</label>
-                    <div class="lsit-item-con" id="userage">34</div>
+                    <div class="lsit-item-con" id="userage"></div>
                 </div>
             </li>
             <li>
@@ -122,15 +122,52 @@
 <script type="text/javascript" src="../script/jquery-3.3.1.min.js"></script>
 <script type="text/javascript" src="../script/common.js"></script>
 <script type="text/javascript">
+    //var serverIP='192.168.0.11';
     apiready = function() {
         if (JudgeLogin()) {
             //获取账户信息
+            var operator_no = $api.getStorage('operatorno');
+            var s='http://'+serverIP+'/person/getPersonByEmployeeNo.action';
+            api.ajax({
+                url: s,
+                method: 'post',
+                timeout: 30,
+                dataType: 'json',
+                data: {
+                    values: {
+                      employeeno:operator_no,
+                    }
+                }
+            }, function(ret, err) {
+                if (ret) {
+                            $('#userno').text(ret.employee_no);
+                            $('#username').text(ret.pname);$('#userpwd').text(ret.ppassword);
+                            $('#userIdNo').text(ret.pidcard_no);$('#userphone').text(ret.pmobile);
+                            $('#userage').text(ret.page);
+                            if(ret.psex=="M")
+                              $('#usergender').text("男");
+                            else if(ret.psex=="F")
+                              $('#usergender').text("女");
+                } else {
+                    api.alert("获取账户信息时出错!");
+                }
+            });
             $('.loginout-btn').text('退出登录');
         } else {
+             api.openWin({
+              name: 'login',
+              url: './login.html'
+            });
             $('.loginout-btn').text('登录');
+
         }
         modifyUserInfo();
         loginOut();
+        api.addEventListener({
+           name: 'SaveUserInfoEvent'
+         }, function(ret, err) {
+              saveUserInfo(ret.value.index,ret.value.value);
+          });
     };
     //修改用户信息事件
     function modifyUserInfo() {
@@ -185,14 +222,103 @@
             } else {
                 //退出登录
                 var operator_no = $api.getStorage('operatorno');
-                if (operator_no != null && operator_no != undefined) {
+                if (operator_no != undefined) {
                     $api.rmStorage('operatorno');
                 }
                 api.openWin({
                     name: 'login',
-                    url: '../index.html'
+                    url: './login.html'
                 });
             }
         });
+    }
+    function saveUserInfo(index,value){
+      if(index!=undefined&&index.toString().length>0){
+          switch (index) {
+            case 0: //工号
+                break;
+            case 1: //姓名
+                 $('#username').text(value);
+                break;
+            case 2: //密码
+                $('#userpwd').text(value);
+                break;
+            case 3: //身份证号
+                $('#userIdNo').text(value);
+                break;
+            case 4: //手机号
+                $('#userphone').text(value);
+                break;
+            case 5: //性别
+                $('#usergender').text(value);
+                break;
+            case 6: //年龄
+                $('#userage').text(value);
+                break;
+          }
+      }else{
+        api.alert('修改失败!');
+        return;
+      }
+      var operator_no=$('#userno').text();
+      var pname=$('#username').text();
+      var ppassword=$('#userpwd').text();
+      var pidcard_no=$('#userIdNo').text();
+      var pmobile=$('#userphone').text();
+      var page=$('#usergender').text();
+      var psex=$('#userage').text();
+      var s='http://'+serverIP+'/person/savePerson.action';
+      //alert(operator_no);
+      var obj={id:0,
+      employee_no:operator_no,
+      pname:pname,
+      ppassword:ppassword,
+      pidcard_no:pidcard_no,
+      pmobile:pmobile,
+      page:page,
+      psex:psex,
+      pstatus:"",
+      pdepartment:"",
+      pregister_time:"",
+      role_no_list:""};
+      var jsonStr=JSON.stringify(obj);
+      alert(jsonStr);
+      api.ajax({
+          url: s,
+          method: 'post',
+          timeout: 30,
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          dataType: 'json',
+          data:{
+            body:{
+              id:0,
+              employee_no:operator_no,
+              pname:pname,
+              ppassword:ppassword,
+              pidcard_no:pidcard_no,
+              pmobile:pmobile,
+              page:page,
+              psex:psex,
+              pstatus:"",
+              pdepartment:"",
+              pregister_time:"",
+              role_no_list:""
+            }
+          }
+      }, function(ret, err) {
+          if (ret) {
+                  api.alert({
+                      msg: JSON.stringify(ret.message)
+                  });
+          } else {
+            //alert("err");
+              api.alert({
+                  msg: JSON.stringify(err)
+              });
+          }
+
+      });
     }
 </script>

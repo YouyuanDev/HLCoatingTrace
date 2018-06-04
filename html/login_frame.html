@@ -110,6 +110,7 @@
     var operator_no, password, operator_no_txt, password_txt;
     apiready = function() {
         fnInit();
+        //fnLogin();
     };
 
     function fnInit() {
@@ -132,8 +133,9 @@
             title: '登录中',
             modal: true
         });
+        var url="http://"+serverIP+"/Login/commitLogin.action";
         api.ajax({
-            url: 'http://192.168.0.200:8080/Login/commitLogin.action',
+            url:url,
             method: 'post',
             timeout: 30,
             dataType: 'json',

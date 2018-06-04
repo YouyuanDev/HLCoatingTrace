@@ -103,7 +103,7 @@
     <div class="title" id="header">
         <div class="arrow event-back"></div>
         <span id="userinfo-tag"></span>
-        <div class="save-contianer"><button id="save-btn">保存</button></div>
+        <div class="save-contianer"><button userinfo-id="" id="save-btn">保存</button></div>
     </div>
     <div class="userinfo-container">
         <div class="userinfo-item user-name">
@@ -139,6 +139,7 @@
 <script type="text/javascript" src="../script/common.js"></script>
 <script type="text/javascript">
     var UIActionSelector;
+
     apiready = function() {
         UIActionSelector = api.require('UIActionSelector');
         getParamName();
@@ -147,8 +148,42 @@
             backUserInfo();
         });
         //保存事件
-        $('.save-btn').click(function() {
-
+        $('#save-btn').click(function() {
+          var index=$('#save-btn').attr('userinfo-id');
+          var val;
+          switch (index) {
+            case 1:
+              val=$('#user-name').val();
+              break;
+            case 2:
+              val=$('#user-pwd').val();
+              break;
+            case 3:
+              val=$('#user-idno').val();
+              break;
+            case 4:
+              val=$('#user-phoneno').val();
+              break;
+          case 5:
+              val=$('#user-gender').val();
+              break;
+          case 6:
+              val=$('#user-age').val();
+              break;
+            default:
+             break;
+          }
+          if(index!=undefined&&index.toString().length>0){
+            api.sendEvent({
+                name: 'SaveUserInfoEvent',
+                extra: {
+                    index:index,
+                    value:val
+                }
+            });
+          }else{
+            api.alert('修改失败!');
+          }
         });
         //年龄修改
         $('#user-age').click(function() {
@@ -236,8 +271,9 @@
         var index = data.index;
         var labelName = data.labelName;
         var userData = data.userData;
-        if (index != '' && index != undefined && labelName != '' && labelName != undefined && userData != '' && userData != undefined) {
+        if (index != '' && index != undefined && labelName != '' && labelName != undefined&& userData != undefined) {
             $('#userinfo-tag').text(data.labelName);
+            $('#save-btn').attr('userinfo-id',index);
             switch (index) {
                 case 1: //姓名
                     $('.user-name').css('display', 'block');
@@ -278,4 +314,5 @@
     function backUserInfo() {
         api.closeWin();
     }
+
 </script>

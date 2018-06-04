@@ -1,5 +1,5 @@
 var header, headerHeight = 0;
-
+var serverIP='192.168.0.11:8080';
 function fnReadyHeader() {
     header = $api.byId('header');
     if (header) {
@@ -25,7 +25,7 @@ function fnReadyFrame() {
 function JudgeLogin(){
    //$api.rmStorage('operatorno');
    var userInfo=$api.getStorage('operatorno');
-   if(userInfo!=null&&userInfo!=undefined){
+   if(userInfo!=undefined){
      return true;
    }else{
       return false;

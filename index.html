@@ -228,13 +228,23 @@
         //搜索点击事件
         $('.search-span').click(function() {
             var pipeno = $api.byId('search-input');
-            //alert("pipeno:"+pipeno.value);
-            //doSearchPipeInfo(pipeno.value);
-            var jsfun = 'doSearchPipeInfo(' + pipeno.value + ',1,false);';
-            api.execScript({
-                frameName: 'frame0',
-                script: jsfun
+            api.sendEvent({
+                name: 'myEvent',
+                extra: {
+                    pipeno:pipeno.value,
+                    pageStart: 1,
+                    flag:false
+                }
             });
+            //doSearchPipeInfo(pipeno.value);
+            //pipe_no=pipeno.toString();
+            // alert(toString.call(pipeno.value));
+            // //return;
+            // var jsfun = 'doSearchPipeInfo('+pipeno.value+',1,false);';
+            // api.execScript({
+            //     frameName: 'frame0',
+            //     script: jsfun
+            // });
         });
 
     }
