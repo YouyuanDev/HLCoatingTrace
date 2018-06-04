@@ -149,36 +149,34 @@
         });
         //保存事件
         $('#save-btn').click(function() {
-          var index=$('#save-btn').attr('userinfo-id');
-          var val;
+          var index=parseInt($('#save-btn').attr('userinfo-id'));
+          var result;
           switch (index) {
             case 1:
-              val=$('#user-name').val();
+              result=$api.byId('user-name').value;
               break;
             case 2:
-              val=$('#user-pwd').val();
+              result=$api.byId('user-pwd').value;
               break;
             case 3:
-              val=$('#user-idno').val();
+              result=$api.byId('user-idno').value;
               break;
             case 4:
-              val=$('#user-phoneno').val();
+              result=$api.byId('user-phoneno').value;
               break;
           case 5:
-              val=$('#user-gender').val();
+              result=$api.byId('user-gender').value;
               break;
           case 6:
-              val=$('#user-age').val();
+              result=$api.byId('user-age').value;
               break;
-            default:
-             break;
           }
-          if(index!=undefined&&index.toString().length>0){
+          if(index!=undefined){
             api.sendEvent({
                 name: 'SaveUserInfoEvent',
                 extra: {
                     index:index,
-                    value:val
+                    result:result
                 }
             });
           }else{

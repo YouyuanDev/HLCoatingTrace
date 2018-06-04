@@ -166,8 +166,8 @@
         api.addEventListener({
            name: 'SaveUserInfoEvent'
          }, function(ret, err) {
-              saveUserInfo(ret.value.index,ret.value.value);
-          });
+              saveUserInfo(ret.value.index,ret.value.result);
+        });
     };
     //修改用户信息事件
     function modifyUserInfo() {
@@ -233,7 +233,8 @@
         });
     }
     function saveUserInfo(index,value){
-      if(index!=undefined&&index.toString().length>0){
+      alert("saveuesrinfo");
+      if(index!=undefined){
           switch (index) {
             case 0: //工号
                 break;
@@ -268,43 +269,19 @@
       var page=$('#usergender').text();
       var psex=$('#userage').text();
       var s='http://'+serverIP+'/person/savePerson.action';
-      //alert(operator_no);
-      var obj={id:0,
-      employee_no:operator_no,
-      pname:pname,
-      ppassword:ppassword,
-      pidcard_no:pidcard_no,
-      pmobile:pmobile,
-      page:page,
-      psex:psex,
-      pstatus:"",
-      pdepartment:"",
-      pregister_time:"",
-      role_no_list:""};
-      var jsonStr=JSON.stringify(obj);
-      alert(jsonStr);
       api.ajax({
           url: s,
           method: 'post',
           timeout: 30,
-          headers: {
-            'Content-Type': 'application/json'
-          },
           dataType: 'json',
           data:{
-            body:{
-              id:0,
+            values:{
+              id:1,
               employee_no:operator_no,
               pname:pname,
               ppassword:ppassword,
               pidcard_no:pidcard_no,
-              pmobile:pmobile,
-              page:page,
-              psex:psex,
-              pstatus:"",
-              pdepartment:"",
-              pregister_time:"",
-              role_no_list:""
+              pmobile:pmobile
             }
           }
       }, function(ret, err) {
