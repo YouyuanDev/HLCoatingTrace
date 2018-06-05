@@ -219,15 +219,77 @@
           api.closeWin();
         });
         var data = api.pageParam;
-        pipeinfo = data.pipeinfo;
-        urloptions =data.urloptions;
+        var pipeno = data.pipeno;
+        //urloptions =data.urloptions;
+
+        SearchpipeInfo(pipeno);
+        dropdownLoading();
 
 
-        //显示钢管基础信息
-        showPipeBasicInfo(pipeinfo);
-        //显示下一工序选项
-        showNextProcessOptions();
      }
+     // 查询钢管详细信息
+     function SearchpipeInfo(pipeno) {
+         //alert(pipeno);
+         var s = 'http://' + serverIP + '/APPRequestTransfer/getCoatingInfoByPipeNo.action';
+         api.ajax({
+             url: s,
+             method: 'post',
+             timeout: 30,
+             dataType: 'json',
+             data: {
+                 values: {
+                     pipe_no: pipeno
+                 }
+             }
+         }, function(ret, err) { //alert(ret);
+             api.hideProgress();
+             if (ret) {
+                 if (ret.success == false) {
+                     api.alert({
+                         msg: JSON.stringify(ret.message)
+                     });
+                 } else {
+                       pipeinfo=ret.pipeinfo;
+                       urloptions=ret.urloptions;
+                       //显示钢管基础信息
+                       showPipeBasicInfo(pipeinfo);
+
+                       //显示下一工序选项
+                       showNextProcessOptions();
+                       //alert("jieshu shua xin");
+                 }
+             } else {
+                 //alert("err");
+                 api.alert({
+                     msg: JSON.stringify(err)
+                 });
+             }
+         });
+     }
+
+     //下拉刷新更新钢管基础信息
+     function dropdownLoading() {
+         api.setRefreshHeaderInfo({
+             loadingImg: 'widget://image/loading_more.png',
+             bgColor: '#ccc',
+             textColor: '#fff',
+             textDown: '下拉刷新...',
+             textUp: '松开刷新...'
+         }, function(ret, err) {
+             //在这里从服务器加载数据,加载完成后调用api.refreshHeaderLoadDone()方法恢复组件到默认状态
+             //alert('执行下拉');
+              //重新刷新
+              //alert("kaishi shuaxin");
+             SearchpipeInfo(pipeinfo.pipe_no);
+
+             setTimeout(function() {
+                 //执行刷新
+                 api.refreshHeaderLoadDone();
+             }, 50);
+         });
+     }
+
+
 
     //显示钢管基础信息
      function showPipeBasicInfo(pipeinfo){
@@ -244,6 +306,8 @@
           $('.id_coating_date').text(formatterdate(pipeinfo.id_coating_date));
      }
 
+
+
      //
      function showNextProcessOptions(){
        //alert(urloptions.length);
@@ -254,14 +318,7 @@
        }else{
          $('#footer').append('<div id="nodata">无跳转</div>');
        }
-      //  return;
-      //  if (urloptions.length == 0) {
-      //      $('#div-data').append('<div id="nodata">无跳转</div>');
-      //  }
-      //  for (var i = 0; i < urloptions.length; i++) {
-      //      var $obj=$api.byId('div-data');
-      //      $obj.append(nextProcessTemplate(pipeinfo,urloptions[i],i));
-      //  }
+
      }
 
      //下一工序按钮的模版

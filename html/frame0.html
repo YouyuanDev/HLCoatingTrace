@@ -258,7 +258,7 @@
     }
     //钢管信息的模版
     function pipeInfoTemplate(pipe) {
-        var template = '<div class="item style1"  onclick="pipeInfo(' + pipe.pipe_no + ');">' +
+        var template = '<div class="item style1"  onclick="goPipeInfoRoot(' + pipe.pipe_no + ');">' +
             '<div class="itemlogo userlogo"><img src="../image/pipe2.png" alt=""></div>' +
             '<div class="itemshelf">' +
             '<div class="shelfinfo01"><span class="pei pipeno-span">' + pipe.pipe_no + '</span></div>' +
@@ -317,43 +317,11 @@
         });
     }
 
-    // 显示钢管详细信息
-    function pipeInfo(pipeno) {
-        //alert(pipeno);
-        var s = 'http://' + serverIP + '/APPRequestTransfer/getCoatingInfoByPipeNo.action';
-        api.ajax({
-            url: s,
-            method: 'post',
-            timeout: 30,
-            dataType: 'json',
-            data: {
-                values: {
-                    pipe_no: pipeno
-                }
-            }
-        }, function(ret, err) { //alert(ret);
-            api.hideProgress();
-            if (ret) {
-                if (ret.success == false) {
-                    api.alert({
-                        msg: JSON.stringify(ret.message)
-                    });
-                } else {
-                      goPipeInfoRoot(ret.pipeinfo,ret.urloptions);
 
-                }
-            } else {
-                //alert("err");
-                api.alert({
-                    msg: JSON.stringify(err)
-                });
-            }
-        });
-    }
 
 
     //打开钢管的涂层生产信息页面pipeinforoot
-    function goPipeInfoRoot(pipeinfo, urloptions) {
+    function goPipeInfoRoot(pipe_no) {
       // api.alert({
       //     msg: JSON.stringify(urloptions)
       // });
@@ -361,8 +329,7 @@
             name: 'pipeinforoot',
             url: './pipeinforoot.html',
             pageParam: {
-                pipeinfo: pipeinfo,
-                urloptions: urloptions
+                pipeno: pipe_no
             }
         });
     }
@@ -385,7 +352,7 @@
             setTimeout(function() {
                 //执行刷新
                 api.refreshHeaderLoadDone();
-            }, 2000);
+            }, 50);
         });
     }
 
