@@ -110,13 +110,12 @@
 <script type="text/javascript" src="../script/jquery-3.3.1.min.js"></script>
 <script type="text/javascript" src="../script/common.js"></script>
 <script type="text/javascript">
-
     //var serverIP='192.168.0.11';
 
     //定义图片轮播变量
     var UIScrollPicture;
     //定义查询分页 开始page
-    var start=1;
+    var start = 1;
     var keyword_pipeno;
     //var UIListView;
     apiready = function() {
@@ -127,10 +126,10 @@
         dropdownLoading();
         isRollingToEnd();
         api.addEventListener({
-           name: 'myEvent'
-         }, function(ret, err) {
-              doSearchPipeInfo(ret.value.pipeno,ret.value.pageStart,ret.value.flag);
-          });
+            name: 'myEvent'
+        }, function(ret, err) {
+            doSearchPipeInfo(ret.value.pipeno, ret.value.pageStart, ret.value.flag);
+        });
     }
 
     //主页面图片轮播
@@ -139,7 +138,7 @@
             title: '加载中...',
             modal: false
         });
-        var s='http://'+serverIP+'/UploadFile/getTopTenPictures.action';
+        var s = 'http://' + serverIP + '/UploadFile/getTopTenPictures.action';
         api.ajax({
             url: s,
             method: 'post',
@@ -163,7 +162,7 @@
                     showPictures(ret);
                 }
             } else {
-              //alert("err");
+                //alert("err");
                 api.alert({
                     msg: JSON.stringify(err)
                 });
@@ -173,16 +172,16 @@
 
     }
 
-
+     //显示照片
     function showPictures(picturefiles) {
         var datalist = [];
         //alert("picturefiles.length="+picturefiles.length);
 
         for (var i = 0; i < picturefiles.length; i++) {
             var pic = picturefiles[i];
-            datalist.push('http://'+serverIP+'/upload/pictures/' + pic.pictureName);
+            datalist.push('http://' + serverIP + '/upload/pictures/' + pic.pictureName);
         }
-       //alert("datalist.length="+datalist.length);
+        //alert("datalist.length="+datalist.length);
 
 
 
@@ -194,17 +193,17 @@
                 h: 240
             },
             data: {
-                paths:datalist,
-                  // [
-                  //       'http://192.168.0.103/upload/pictures/IMG_001.JPG',
-                  //       'http://192.168.0.103/upload/pictures/IMG_002.JPG',
-                  //       'http://192.168.0.103/upload/pictures/IMG_003.JPG',
-                  //       'http://192.168.0.103/upload/pictures/IMG_004.JPG',
-                  //       'http://192.168.0.103/upload/pictures/IMG_006.JPG',
-                  //       'http://192.168.0.103/upload/pictures/IMG_007.JPG',
-                  //       'http://192.168.0.103/upload/pictures/IMG_008.JPG'
-                  //       ]
-                  caption:['1','2','3','4','5','6','7','8','9','10']
+                paths: datalist,
+                // [
+                //       'http://192.168.0.103/upload/pictures/IMG_001.JPG',
+                //       'http://192.168.0.103/upload/pictures/IMG_002.JPG',
+                //       'http://192.168.0.103/upload/pictures/IMG_003.JPG',
+                //       'http://192.168.0.103/upload/pictures/IMG_004.JPG',
+                //       'http://192.168.0.103/upload/pictures/IMG_006.JPG',
+                //       'http://192.168.0.103/upload/pictures/IMG_007.JPG',
+                //       'http://192.168.0.103/upload/pictures/IMG_008.JPG'
+                //       ]
+                caption: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
             },
             styles: {
                 caption: {
@@ -241,23 +240,23 @@
         });
     }
 
+    //展示搜索记录
+    function funcShowPipeResultList(pipedata, append) {
+        if (!append) {
 
-    function funcShowList(pipedata,append) {
-      if(!append){
-
-        $('#div-data').empty();
-      }
+            $('#div-data').empty();
+        }
         if (pipedata.length == 0) {
-            var obj=$('#nodata');
-            if(obj.length<=0)
-              $('#div-data').append('<div id="nodata">没有找到记录</div>');
+            var obj = $('#nodata');
+            if (obj.length <= 0)
+                $('#div-data').append('<div id="nodata">没有找到记录</div>');
         }
         for (var i = 0; i < pipedata.length; i++) {
             $('#div-data').append(pipeInfoTemplate(pipedata[i]));
         }
         //api.hideProgress();
     }
-
+    //钢管信息的模版
     function pipeInfoTemplate(pipe) {
         var template = '<div class="item style1"  onclick="pipeInfo(' + pipe.pipe_no + ');">' +
             '<div class="itemlogo userlogo"><img src="../image/pipe2.png" alt=""></div>' +
@@ -269,17 +268,17 @@
             '</div>';
         return template;
     }
-
-    function doSearchPipeInfo(pipeno,parm_start,append) {
+    // 搜索钢管信息
+    function doSearchPipeInfo(pipeno, parm_start, append) {
         //搜索管子
-        start=parm_start;
-        keyword_pipeno=pipeno;
+        start = parm_start;
+        keyword_pipeno = pipeno;
         //pipeno='1545470';
         api.showProgress({
             title: '加载中...',
             modal: false
         });
-        var s='http://'+serverIP+'/pipeinfo/searchPipe.action';
+        var s = 'http://' + serverIP + '/pipeinfo/searchPipe.action';
         api.ajax({
             url: s,
             method: 'post',
@@ -287,9 +286,9 @@
             dataType: 'json',
             data: {
                 values: {
-                    pipe_no:keyword_pipeno,
-                    page:start,
-                    rows:20
+                    pipe_no: keyword_pipeno,
+                    page: start,
+                    rows: 20
                 }
             }
         }, function(ret, err) {
@@ -300,10 +299,10 @@
                         msg: JSON.stringify(ret.message)
                     });
                 } else {
-                  //alert(JSON.stringify(ret.rows));
-                  funcShowList(ret.rows,append);
-                  api.refreshHeaderLoadDone();
-                    // var jsfun = 'funcShowList(' + JSON.stringify(ret) + ');';
+                    //alert(JSON.stringify(ret.rows));
+                    funcShowPipeResultList(ret.rows, append);
+                    api.refreshHeaderLoadDone();
+                    // var jsfun = 'funcShowPipeResultList(' + JSON.stringify(ret) + ');';
                     // api.execScript({
                     //     frameName: 'frame0',
                     //     script: jsfun
@@ -318,10 +317,58 @@
         });
     }
 
-
+    // 显示钢管详细信息
     function pipeInfo(pipeno) {
-        alert(pipeno);
+        //alert(pipeno);
+        var s = 'http://' + serverIP + '/APPRequestTransfer/getCoatingInfoByPipeNo.action';
+        api.ajax({
+            url: s,
+            method: 'post',
+            timeout: 30,
+            dataType: 'json',
+            data: {
+                values: {
+                    pipe_no: pipeno
+                }
+            }
+        }, function(ret, err) { //alert(ret);
+            api.hideProgress();
+            if (ret) {
+                if (ret.success == false) {
+                    api.alert({
+                        msg: JSON.stringify(ret.message)
+                    });
+                } else {
+                      goPipeInfoRoot(ret.pipeinfo,ret.urloptions);
+
+                }
+            } else {
+                //alert("err");
+                api.alert({
+                    msg: JSON.stringify(err)
+                });
+            }
+        });
     }
+
+
+    //打开钢管的涂层生产信息页面pipeinforoot
+    function goPipeInfoRoot(pipeinfo, urloptions) {
+      // api.alert({
+      //     msg: JSON.stringify(urloptions)
+      // });
+        api.openWin({
+            name: 'pipeinforoot',
+            url: './pipeinforoot.html',
+            pageParam: {
+                pipeinfo: pipeinfo,
+                urloptions: urloptions
+            }
+        });
+    }
+
+
+    //下拉刷新更新图片及钢管搜索列表
     function dropdownLoading() {
         api.setRefreshHeaderInfo({
             loadingImg: 'widget://image/loading_more.png',
@@ -333,24 +380,25 @@
             //在这里从服务器加载数据,加载完成后调用api.refreshHeaderLoadDone()方法恢复组件到默认状态
             //alert('执行下拉');
             broadcastPictures();
-            doSearchPipeInfo(keyword_pipeno,1,false);
+            doSearchPipeInfo(keyword_pipeno, 1, false);
 
-            setTimeout(function () {
+            setTimeout(function() {
                 //执行刷新
                 api.refreshHeaderLoadDone();
-            },2000);
+            }, 2000);
         });
     }
+
     function isRollingToEnd() {
         api.addEventListener({
             name: 'scrolltobottom',
             extra: {
-                threshold:0 //设置距离底部多少距离时触发,默认值为0,数字类型
+                threshold: 0 //设置距离底部多少距离时触发,默认值为0,数字类型
             }
         }, function(ret, err) {
             //alert('已滚动到底部');//开始分页加载数据
-            start=start+1;
-            doSearchPipeInfo(keyword_pipeno,start,true);
+            start = start + 1;
+            doSearchPipeInfo(keyword_pipeno, start, true);
 
 
         });

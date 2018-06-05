@@ -1,5 +1,5 @@
 var header, headerHeight = 0;
-var serverIP='192.168.0.11:8080';
+var serverIP='192.168.0.14:8080';
 function fnReadyHeader() {
     header = $api.byId('header');
     if (header) {
