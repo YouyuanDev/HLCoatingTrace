@@ -95,6 +95,15 @@
             border-radius: 3px;
         }
         .user-age span{padding:5px 10px;opacity:0.5;}
+        table{width:95%;height:auto;margin:0 auto;}
+        table tr{width:100%;}
+        table tr td{font-size:14px;padding:5px 0px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;}
+        table tr td:nth-of-type(odd){text-align:left;color:#7A7A7A;width:25%;}
+        table tr td:nth-of-type(even){width:25%;text-align:left;}
+        #footer {
+            background-color: #f2f2f2;
+            border-top: 1px solid #FAFAFA;
+        }
     </style>
 </head>
 <body>
@@ -104,10 +113,83 @@
         <span id="userinfo-tag"></span>
         <div class="save-contianer"><button userinfo-id="" id="save-btn">保存</button></div>
     </div>
+    <div style="width:100%;height:auto;">
+       <table>
+          <tr>
+            <td class="i18n1" name="pipeno">钢管编号:</td>
+            <td class="pipe_no"></td>
+            <td class="i18n1" name="statusname">状态:</td>
+            <td class="status_name"></td>
+          </tr>
+          <tr>
+            <td class="i18n1" name="od">外径:</td>
+            <td class="od"></td>
+            <td class="i18n1" name="wt">壁厚:</td>
+            <td class="wt"></td>
+          </tr>
+          <tr>
+            <td class="i18n1" name="plength">长度:</td>
+            <td class="p_length"></td>
+            <td class="i18n1" name="weight">重量:</td>
+            <td class="weight"></td>
+          </tr>
+          <tr>
+            <td class="i18n1" name="grade">钢级:</td>
+            <td class="grade"></td>
+            <td class="i18n1" name="heatno">炉号</td>
+            <td class="heat_no"></td>
+          </tr>
+          <tr>
+            <td class="i18n1" name="externalcoating">外涂类型:</td>
+            <td class="external_coating"></td>
+            <td class="i18n1" name="internalcoating">内涂类型:</td>
+            <td class="internal_coating"></td>
+          </tr>
+          <tr>
+            <td class="i18n1" name="projectno">项目编号:</td>
+            <td class="project_no"></td>
+            <td class="i18n1" name="projectname">项目名:</td>
+            <td class="project_name"></td>
+          </tr>
+          <tr>
+            <td class="i18n1" name="contractno">合同编号:</td>
+            <td class="contract_no"></td>
+            <td class="i18n1" name="pipemakinglotno">制管批号:</td>
+            <td class="pipe_making_lot_no"></td>
+          </tr>
+          <tr>
+            <td class="i18n1" name="centerlinecolor">中心色环:</td>
+            <td class="center_line_color"></td>
+            <td class="i18n1" name="pipeendcolor">管端色环:</td>
+            <td class="pipe_end_color"></td>
+          </tr>
+          <tr>
+            <td class="i18n1" name="rebevelmark">倒棱标志:</td>
+            <td class="rebevel_mark"></td>
+            <td class="i18n1" name="clientspec">客户标准:</td>
+            <td class="client_spec"></td>
+          </tr>
+          <tr>
+            <td class="i18n1" name="odcoatingdate">外涂日期:</td>
+            <td class="od_coating_date"></td>
+            <td class="i18n1" name="idcoatingdate">内涂日期:</td>
+            <td class="id_coating_date"></td>
+          </tr>
+          <tr>
+            <td class="i18n1" name="shipmentdate">出厂日期:</td>
+            <td class="shipment_date"></td>
+          </tr>
+       </table>
+    </div>
     <div class="div-data" id="div-data" style="margin-top:50px;font-size: 16px;color:#000000;font-family:" Sans-serif ";">
 
     </div>
-
+    <div id="footer" class="border-t">
+        流程信息
+    </div>
+    <!-- <div class="div-bottom"   style="text-align:center;display:fixed;bottom:0;width:100%;height:40px;line-height:40px;border-top:1px solid #FAFAFA;">
+         流程信息
+    </div> -->
 </body>
 </html>
 
@@ -116,7 +198,7 @@
 <script type="text/javascript" src="../script/common.js"></script>
 <script type="text/javascript">
     var UIActionSelector;
-
+    var pipeinfo;var urloptions;
     apiready = function() {
         UIActionSelector = api.require('UIActionSelector');
 
@@ -125,34 +207,54 @@
           api.closeWin();
         });
         var data = api.pageParam;
-        var pipeinfo = data.pipeinfo;
-        var urloptions = data.urloptions;
+        pipeinfo = data.pipeinfo;
+        urloptions =data.urloptions;
 
-        //alert("urloptions="+urloptions);
+
         //显示钢管基础信息
         showPipeBasicInfo(pipeinfo);
         //显示下一工序选项
-        showNextProcessOptions(pipeinfo,urloptions);
+        showNextProcessOptions();
      }
 
     //显示钢管基础信息
      function showPipeBasicInfo(pipeinfo){
-
+          $('.contract_no').text(pipeinfo.contract_no);$('.status_name').text(pipeinfo.status_name);
+          $('.weight').text(pipeinfo.weight);$('.client_spec').text(pipeinfo.client_spec);
+          $('.project_name').text(pipeinfo.project_name);$('.pipe_no').text(pipeinfo.pipe_no);
+          $('.project_no').text(pipeinfo.project_no);$('.p_length').text(pipeinfo.p_length);
+          $('.external_coating').text(pipeinfo.external_coating);$('.od').text(pipeinfo.od);
+          $('.grade').text(pipeinfo.grade);$('.wt').text(pipeinfo.wt);
+          $('.pipe_making_lot_no').text(pipeinfo.pipe_making_lot_no);$('.heat_no').text(pipeinfo.heat_no);
+          $('.internal_coating').text(pipeinfo.internal_coating);  $('.center_line_color').text(pipeinfo.center_line_color);
+          $('.pipe_end_color').text(pipeinfo.pipe_end_color); $('.rebevel_mark').text(pipeinfo.rebevel_mark);
+          $('.shipment_date').text(formatterdate(pipeinfo.shipment_date));$('.od_coating_date').text(formatterdate(pipeinfo.od_coating_date));
+          $('.id_coating_date').text(formatterdate(pipeinfo.id_coating_date));
      }
 
      //
-     function showNextProcessOptions(pipeinfo,urloptions){
-       if (urloptions.length == 0) {
-           $('#div-data').append('<div id="nodata">无跳转</div>');
+     function showNextProcessOptions(){
+       //alert(urloptions.length);
+       if(urloptions!=undefined){
+         for(var key in urloptions){
+             $('#div-data').append(nextProcessTemplate(key));
+         }
+       }else{
+         $('#div-data').append('<div id="nodata">无跳转</div>');
        }
-       for (var i = 0; i < urloptions.length; i++) {
-           $('#div-data').append(nextProcessTemplate(pipeinfo,urloptions[i],i));
-       }
+      //  return;
+      //  if (urloptions.length == 0) {
+      //      $('#div-data').append('<div id="nodata">无跳转</div>');
+      //  }
+      //  for (var i = 0; i < urloptions.length; i++) {
+      //      var $obj=$api.byId('div-data');
+      //      $obj.append(nextProcessTemplate(pipeinfo,urloptions[i],i));
+      //  }
      }
 
      //下一工序按钮的模版
-     function nextProcessTemplate(pipeinfo,pipeurlitem,index) {
-         var template = '<div class="item style1"  onclick="goNextProcess(' + urlitem.index + ','+pipeinfo+');">' +
+     function nextProcessTemplate(key) {
+         var template = '<div class="item style1" style="background-color:red;"  onclick="goNextProcess('+key+');">' +
              '<div class="itemlogo userlogo"><img src="../image/pipe2.png" alt=""></div>' +
 
              '</div>';
@@ -161,7 +263,8 @@
 
 
      //跳转下一工序页面
-     function goNextProcess(url,pipeinfo){
+     function goNextProcess(key){
+       var  url=urloptions[key];
        var nextURL='./'+url+'.html';
        api.openWin({
            name: url,

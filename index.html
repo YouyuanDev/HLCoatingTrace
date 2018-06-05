@@ -12,8 +12,8 @@
         /*head的样式*/
 
         header {
-            background-color: #FFFFFF;
             border-bottom: 1px solid #FAFAFA;
+            background-color: #FFFFFF;
         }
 
         header ul li {
@@ -35,7 +35,7 @@
             padding: 5px;
             height: 30px;
             margin: 0px 10px;
-            background-color: #ffffff; //#e6e6e6;
+            background-color: #FFFFFF; //#e6e6e6;
         }
 
         .scan-container {
@@ -95,6 +95,7 @@
             background-size: auto 30px;
             text-align: center;
             color: #4B5262;
+
         }
 
         #footer ul li.active {
@@ -149,9 +150,9 @@
 
 <body>
     <div id="wrap" class="flex-wrap flex-vertical">
-        <header>
+        <header id="header" >
             <ul>
-                <li class="border-b active">
+                <li class="border-b active" >
                     <div class="main-container">
                         <div class="scan-container"></div>
                         <div class="search-container">
@@ -161,7 +162,8 @@
                                 </div>
                                 <div class="clearfix"></div>
                             </div>
-
+                        </div>
+                    </div>
                 </li>
                 <li class="border-b">内防腐12</li>
                 <li class="border-b">待处理</li>
@@ -181,7 +183,7 @@
                 <li tapmode="hover" onclick="randomSwitchBtn( this );" class="flex-con">个人信息</li>
             </ul>
         </div>
-        </div>
+    </div>
 </body>
 
 </html>
@@ -192,15 +194,11 @@
     //定义二维码全局变量
     var FNScanner;
     apiready = function() {
-        $api.fixStatusBar($api.dom('header'));
-        api.setStatusBarStyle({
-            style: 'dark',
-            color: '#6ab494'
-        });
+        //设置TitleBar位置(兼容IOS)
+        fnSettingHeader();
         funIniGroup();
         //判断是否登录
         //JudgeLogin();
-
         FNScanner = api.require('FNScanner');
         //二维码点击事件
         $('.scan-container').click(function() {
@@ -219,11 +217,12 @@
                             script: jsfun
                         });
 
-                      //  doSearchPipeInfo(ret.content);
+                        //  doSearchPipeInfo(ret.content);
                         FNScanner.closeView();
                     }
                 }
             });
+
         });
         //搜索点击事件
         $('.search-span').click(function() {
@@ -231,9 +230,9 @@
             api.sendEvent({
                 name: 'myEvent',
                 extra: {
-                    pipeno:pipeno.value,
+                    pipeno: pipeno.value,
                     pageStart: 1,
-                    flag:false
+                    flag: false
                 }
             });
             //doSearchPipeInfo(pipeno.value);
@@ -298,8 +297,14 @@
             index: index
         });
     }
+    function fnSettingHeader(){
+      var sType=api.systemType;
+      var header = $api.byId('header');
+      if(sType=="android"){
 
-
-
-
+      }
+      else if(sType=="ios"){
+        $api.fixIos7Bar(header);
+      }
+    }
 </script>
