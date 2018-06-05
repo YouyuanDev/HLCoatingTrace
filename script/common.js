@@ -1,13 +1,21 @@
 var header, headerHeight = 0;
 var serverIP='192.168.0.12:8080';
+function fnSettingHeader(){
 
-function fnReadyHeader() {
-    header = $api.byId('header');
-    if (header) {
-        $api.fixIos7Bar(header);
-        headerHeight = $api.offset(header).h;
-    }
-};
+  var sType=api.systemType;
+  var header = $api.byId('header');
+  if(sType=="ios"){
+    $api.fixIos7Bar(header);
+  }
+  headerHeight = $api.offset(header).h;
+}
+// function fnReadyHeader() {
+//     header = $api.byId('header');
+//     if (header) {
+//         $api.fixIos7Bar(header);
+//         headerHeight = $api.offset(header).h;
+//     }
+// };
 function fnReadyFrame() {
     var frameName = api.winName + '_frame';
     api.openFrame({

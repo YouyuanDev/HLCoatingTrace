@@ -16,3 +16,10 @@ html,body {  font-size:14px; height:100%;background:#FFFFFF;}
 /*数据显示样式*/
 .div-data{text-align: center;padding:0px 0;color:#98c379;}
 .clearfix{clear: both;}
+.save-contianer button {
+    outline: none;
+    background-color: #19AD68;
+    color: #FFFFFF;
+    padding: 8px 15px;
+    border-radius: 3px;
+}

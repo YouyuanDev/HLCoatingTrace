@@ -56,7 +56,7 @@
             width: 100%;
             height: auto;
             display: none;
-            margin-bottom:20px;
+            margin-bottom: 20px;
         }
 
         .userinfo-item1 {
@@ -70,64 +70,69 @@
             outline: none;
             border-bottom: 1px solid #09aa30;
             font-size: 19px;
-            text-align:center;
+            text-align: center;
         }
-        .userinfo-item label{
-           width:100%;
-           height:40px;
-           line-height:40px;
-           border-radius:3px;
-           outline: none;
-           font-size: 19px;
-           text-align: center;
-           background-color:#999;
+
+        .userinfo-item label {
+            width: 100%;
+            height: 40px;
+            line-height: 40px;
+            border-radius: 3px;
+            outline: none;
+            font-size: 19px;
+            text-align: center;
+            background-color: #999;
         }
+
         .userinfo-item1 input {
             width: 20px;
             height: 20px;
             margin: 10px;
         }
 
-        .save-contianer button {
-            outline: none;
-            background-color: #09aa30;
-            color: #FFFFFF;
-            padding: 8px 15px;
-            border-radius: 3px;
+        .user-age span {
+            padding: 5px 10px;
+            opacity: 0.5;
         }
-        .user-age span{padding:5px 10px;opacity:0.5;}
     </style>
 </head>
 
 <body>
-    <div class="title" id="header">
-        <div class="arrow event-back"></div>
-        <span id="userinfo-tag"></span>
-        <div class="save-contianer"><button userinfo-id="" id="save-btn">保存</button></div>
-    </div>
-    <div class="userinfo-container">
-        <div class="userinfo-item user-name">
-            <input type="text" class="item-input" id="user-name" />
+    <div id="wrap" class="flex-wrap flex-vertical">
+      <header id="header">
+        <div class="title">
+          <div class="arrow event-back"></div>
+          <span id="userinfo-tag"></span>
+          <div class="save-contianer"><button userinfo-id="" id="save-btn">保存</button></div>
         </div>
-        <div class="userinfo-item user-pwd">
-            <input type="password" class="item-input" id="user-pwd" />
+      </header>
+        <div class="userinfo-container flex-con" id="main">
+            <div class="userinfo-item user-name">
+                <input type="text" class="item-input" id="user-name" />
+            </div>
+            <div class="userinfo-item user-pwd">
+                <input type="password" class="item-input" id="user-pwd" />
+            </div>
+            <div class="userinfo-item user-idno">
+                <input type="text" class="item-input" id="user-idno" />
+            </div>
+            <div class="userinfo-item user-phoneno">
+                <input type="text" class="item-input" id="user-phoneno" />
+            </div>
+            <div class="userinfo-item userinfo-item1 user-gender">
+                <input class="item-input1" type="radio" name="radio" id="user-gender1" value="1" />男
+                <input class="item-input1" type="radio" name="radio" id="user-gender2" value="2" />女
+            </div>
+            <div class="userinfo-item user-age">
+                <label id="user-age">21</label>
+                <span>点击修改年龄.</span>
+                <!-- <input type="text" class="item-input" id="user-age" /> -->
+            </div>
+            <div class="userinfo-item1">
+
+            </div>
         </div>
-        <div class="userinfo-item user-idno">
-            <input type="text" class="item-input" id="user-idno" />
-        </div>
-        <div class="userinfo-item user-phoneno">
-            <input type="text" class="item-input" id="user-phoneno" />
-        </div>
-        <div class="userinfo-item userinfo-item1 user-gender">
-            <input class="item-input1" type="radio" name="radio" id="user-gender1" value="1" />男
-            <input class="item-input1" type="radio" name="radio" id="user-gender2" value="2" />女
-        </div>
-        <div class="userinfo-item user-age">
-            <label id="user-age">21</label>
-            <span>点击修改年龄.</span>
-            <!-- <input type="text" class="item-input" id="user-age" /> -->
-        </div>
-        <div class="userinfo-item1">
+        <div id="footer" class="border-t">
 
         </div>
     </div>
@@ -142,67 +147,75 @@
 
     apiready = function() {
         UIActionSelector = api.require('UIActionSelector');
+
         getParamName();
+        var sType=api.systemType;
+        var header = $api.byId('header');
+        if(sType=="ios"){
+          $api.fixIos7Bar(header);
+        }
         //返回事件
         $('.event-back').click(function() {
             backUserInfo();
         });
         //保存事件
         $('#save-btn').click(function() {
-          var index=parseInt($('#save-btn').attr('userinfo-id'));
-          var result;
-          switch (index) {
-            case 1:
-              result=$api.byId('user-name').value;
-              break;
-            case 2:
-              result=$api.byId('user-pwd').value;
-              break;
-            case 3:
-              result=$api.byId('user-idno').value;
-              break;
-            case 4:
-              result=$api.byId('user-phoneno').value;
-              break;
-          case 5:
-              result=$api.byId('user-gender').value;
-              break;
-          case 6:
-              result=$api.byId('user-age').value;
-              break;
-          }
-          if(index!=undefined){
-            api.sendEvent({
-                name: 'SaveUserInfoEvent',
-                extra: {
-                    index:index,
-                    result:result
-                }
-            });
-          }else{
-            api.alert('修改失败!');
-          }
+            var index = parseInt($('#save-btn').attr('userinfo-id'));
+            var result;
+            switch (index) {
+                case 1:
+                    result = $api.byId('user-name').value;
+                    break;
+                case 2:
+                    result = $api.byId('user-pwd').value;
+                    break;
+                case 3:
+                    result = $api.byId('user-idno').value;
+                    break;
+                case 4:
+                    result = $api.byId('user-phoneno').value;
+                    break;
+                case 5:
+                    result = $api.byId('user-gender').value;
+                    break;
+                case 6:
+                    result = $api.byId('user-age').value;
+                    break;
+            }
+            if (index != undefined) {
+                api.sendEvent({
+                    name: 'SaveUserInfoEvent',
+                    extra: {
+                        index: index,
+                        result: result
+                    }
+                });
+            } else {
+                api.alert('修改失败!');
+            }
         });
         //年龄修改
         $('#user-age').click(function() {
-            var jsonArr=[];
-            var beginTimeYear=new Date('1940-01-01').getFullYear();
-            var endTimeYear=new Date().getFullYear();
-            var nowAgeOfYear=endTimeYear-$(this).text();
-            var indexArr=[];
+            var jsonArr = [];
+            var beginTimeYear = new Date('1940-01-01').getFullYear();
+            var endTimeYear = new Date().getFullYear();
+            var nowAgeOfYear = endTimeYear - $(this).text();
+            var indexArr = [];
             var item;
-            var index=0;
-            var flag=true;
-            for(var i=beginTimeYear;i<endTimeYear;i++){
-                     item={"name":i};
-                     jsonArr.push(item);
-                     if(i!=nowAgeOfYear&&flag){
-                        index++;
-                     }else{
-                        flag=false;
-                     }
-           }
-            indexArr[0]=index;
+            var index = 0;
+            var flag = true;
+            for (var i = beginTimeYear; i < endTimeYear; i++) {
+                item = {
+                    "name": i
+                };
+                jsonArr.push(item);
+                if (i != nowAgeOfYear && flag) {
+                    index++;
+                } else {
+                    flag = false;
+                }
+            }
+            indexArr[0] = index;
             UIActionSelector.open({
                 datas: jsonArr,
                 layout: {
@@ -247,16 +260,16 @@
                     bg: '#eee',
                     color: '#888'
                 },
-                actives:indexArr,
+                actives: indexArr,
                 fixedOn: api.frameName
             }, function(ret, err) {
                 if (ret) {
-                    if(ret.eventType=='ok'){
-                         var year=ret.level1;
-                         $('#user-age').text(endTimeYear-year);
+                    if (ret.eventType == 'ok') {
+                        var year = ret.level1;
+                        $('#user-age').text(endTimeYear - year);
                     }
                 } else {
-                  alert('系统繁忙');
+                    alert('系统繁忙');
                 }
                 UIActionSelector.hide();
             });
@@ -269,9 +282,9 @@
         var index = data.index;
         var labelName = data.labelName;
         var userData = data.userData;
-        if (index != '' && index != undefined && labelName != '' && labelName != undefined&& userData != undefined) {
+        if (index != '' && index != undefined && labelName != '' && labelName != undefined && userData != undefined) {
             $('#userinfo-tag').text(data.labelName);
-            $('#save-btn').attr('userinfo-id',index);
+            $('#save-btn').attr('userinfo-id', index);
             switch (index) {
                 case 1: //姓名
                     $('.user-name').css('display', 'block');
@@ -312,5 +325,4 @@
     function backUserInfo() {
         api.closeWin();
     }
-
 </script>

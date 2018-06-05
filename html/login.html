@@ -40,10 +40,18 @@
     </style>
 </head>
 <body>
-  <div class="title" id="header">
+    <div id="wrap" class="flex-wrap flex-vertical">
+      <header id="header">
+        <div class="title">
+          <div class="arrow event-back"></div>
+          登录
+        </div>
+      </header>
+  <!-- <div class="title" id="header">
       <div class="arrow event-back"></div>
       登录
-  </div>
+  </div> -->
+    </div>
 </body>
 </html>
 <script type="text/javascript" src="../script/api.js"></script>
@@ -51,8 +59,11 @@
 <script type="text/javascript" src="../script/common.js"></script>
 <script type="text/javascript">
 apiready = function() {
-   fnReadyHeader();
+   fnSettingHeader();
    fnReadyFrame();
+   $('.event-back').click(function() {
+     api.closeWin();
+   });
 };
 
 </script>
