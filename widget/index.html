@@ -202,6 +202,10 @@
         funIniGroup();
         //判断是否登录
         //JudgeLogin();
+        //设置回调函数
+        setPushListener();
+
+
         FNScanner = api.require('FNScanner');
         //二维码点击事件
         $('.scan-container').click(function() {
