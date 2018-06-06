@@ -153,7 +153,7 @@
             box-sizing: border-box;
             position: relative;
         }
-        
+
     </style>
 </head>
 
@@ -191,24 +191,8 @@
             });
             var data = api.pageParam;
             pipeno = data.pipeno;
-            //计算Header和footer高度
-            var nav = $api.byId('header');
-            var foot = $api.byId('footer');
-            var navHeight = $api.offset(nav).h;
-            var footHeight = $api.offset(foot).h;
-            api.openFrame({
-                name: 'pipeinfo_frame',
-                url: './pipeinfo_frame.html',
-                rect: {
-                    x: 0,
-                    y: navHeight,
-                    w: 'auto',
-                    h: api.winHeight - navHeight - footHeight
-                },
-                pageParam: {
-                    pipeno: pipeno
-                }
-            });
+
+            ShowPipeInfoFrame(pipeno);
             //接收frame回调
             api.addEventListener({
                 name: 'showNextProcessOptions'
@@ -216,32 +200,36 @@
                  urloptions=ret.value.urloptions;
                  //alert(JSON.stringify(ret.value));
                  showNextProcessOptions();
+
             });
             hlLanguage("../i18n/");
 
         }
 
-        // //下拉刷新更新钢管基础信息
-        // function dropdownLoading() {
-        //     api.setRefreshHeaderInfo({
-        //         loadingImg: 'widget://image/loading_more.png',
-        //         bgColor: '#ccc',
-        //         textColor: '#fff',
-        //         textDown: '下拉刷新...',
-        //         textUp: '松开刷新...'
-        //     }, function(ret, err) {
-        //         //在这里从服务器加载数据,加载完成后调用api.refreshHeaderLoadDone()方法恢复组件到默认状态
-        //         //alert('执行下拉');
-        //         //重新刷新
-        //         //alert("kaishi shuaxin");
-        //         SearchpipeInfo(pipeinfo.pipe_no);
-        //
-        //         setTimeout(function() {
-        //             //执行刷新
-        //             api.refreshHeaderLoadDone();
-        //         }, 50);
-        //     });
-        // }
+        function  ShowPipeInfoFrame(pipeno){
+          //计算Header和footer高度
+          var nav = $api.byId('header');
+          var foot = $api.byId('footer');
+          var navHeight = $api.offset(nav).h;
+          var footHeight = $api.offset(foot).h;
+          api.openFrame({
+              name: 'pipeinfo_frame',
+              url: './pipeinfo_frame.html',
+              rect: {
+                  x: 0,
+                  y: navHeight,
+                  w: 'auto',
+                  h: api.winHeight - navHeight - footHeight
+              },
+              pageParam: {
+                  pipeno: pipeno
+              }
+          });
+
+        }
+
+
+
         //
         //
         //
@@ -282,12 +270,12 @@
         } else {
               $('.foot-container').append('无跳转');
         }
-
+        hlLanguage("../i18n/");
     }
 
     //下一工序按钮的模版
     function nextProcessTemplate(key) {
-        var template = '<div class="process-button"  onclick="goNextProcess(' + key + ');">' + key + '</div>';
+        var template = '<div class="i18n1 process-button" name="'+key+'"  onclick="goNextProcess(' + key + ');">' + key + '</div>';
         return template;
     }
 

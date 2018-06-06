@@ -241,6 +241,7 @@
 
     function loginOut() {
         $('.loginout-btn').click(function() {
+           alert("这里没有调用后台logout，需要修改");
             var logintxt = $(this).text();
             if (logintxt == "登录") {
                 api.openWin({
@@ -249,8 +250,12 @@
                 });
             } else {
                 //退出登录
+                //解除所有的组
+                leaveAllPushGroup();
+
                 //解除推送绑定
                 unbindPush();
+
                 var operator_no = $api.getStorage('operatorno');
                 if (operator_no != undefined) {
                     $api.rmStorage('operatorno');

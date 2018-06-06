@@ -1,5 +1,5 @@
 var header, headerHeight = 0;
-var serverIP = '192.168.0.11:8080';
+var serverIP = '192.168.0.103:8080';
 
 function fnSettingHeader() {
 
@@ -79,7 +79,7 @@ function bindPush(){
       userName: api.deviceId,
       userId: api.deviceId
   }, function(ret, err) {
-    alert(JSON.stringify( ret));
+    //alert(JSON.stringify( ret));
     if(ret.status==true){
        //alert(api.deviceId+"bind成功");
     }else{
@@ -114,7 +114,7 @@ function joinPushGroup(groupName) {
     }, function(ret, err) {
         if (ret.status) {
           var s='加入组'+groupName+'成功';
-            api.alert({msg:s});
+           api.alert({msg:s});
         } else {
             api.alert({
                 msg: err.msg
@@ -132,7 +132,9 @@ function leaveAllPushGroup() {
     var push = api.require('push');
     push.leaveAllGroup(function( ret, err ){
          if( ret ){
-            alert( JSON.stringify( ret) );
+           var s='退出所有组成功';
+            api.alert({msg:s});
+            //alert( JSON.stringify( ret) );
          }else{
             alert( JSON.stringify( err) );
          }

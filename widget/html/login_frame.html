@@ -154,8 +154,7 @@
                 //绑定推送
                 bindPush();
                 var roles = ret.roles;
-                //解除所有的组
-                leaveAllPushGroup();
+                
                 //加入现在的组
                 if (roles != undefined) {
                     var rolelist = roles.split(";");
@@ -163,7 +162,7 @@
                         joinPushGroup(rolelist[i]);
                     }
                 }
-                
+
 
 
                 api.openWin({
