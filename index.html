@@ -168,7 +168,7 @@
                 <li class="border-b">内防腐12</li>
                 <li class="border-b">待处理</li>
                 <li class="border-b">统计</li>
-                <li class="border-b">个人信息</li>
+                <li class="border-b i18n1" name="personal">个人信息</li>
             </ul>
         </header>
         <div id="main" class="flex-con">
@@ -176,11 +176,11 @@
         </div>
         <div id="footer" class="border-t">
             <ul class="flex-wrap">
-                <li tapmode="hover" onclick="randomSwitchBtn( this );" class="flex-con active">涂层生产</li>
-                <li tapmode="hover" onclick="randomSwitchBtn( this );" class="flex-con">涂层实验</li>
-                <li tapmode="hover" onclick="randomSwitchBtn( this );" class="flex-con">成品发运</li>
-                <li tapmode="hover" onclick="randomSwitchBtn( this );" class="flex-con">当班统计</li>
-                <li tapmode="hover" onclick="randomSwitchBtn( this );" class="flex-con">个人信息</li>
+                <li tapmode="hover" onclick="randomSwitchBtn( this );" class="flex-con active i18n1" name="production">涂层生产</li>
+                <li tapmode="hover" onclick="randomSwitchBtn( this );" class="flex-con i18n1" name="experiment">涂层实验</li>
+                <li tapmode="hover" onclick="randomSwitchBtn( this );" class="flex-con i18n1" name="shipping">成品发运</li>
+                <li tapmode="hover" onclick="randomSwitchBtn( this );" class="flex-con i18n1" name="statistics">当班统计</li>
+                <li tapmode="hover" onclick="randomSwitchBtn( this );" class="i18n1 flex-con" name="personal">个人信息</li>
             </ul>
         </div>
     </div>
@@ -190,10 +190,13 @@
 <script type="text/javascript" src="script/api.js"></script>
 <script type="text/javascript" src="script/jquery-3.3.1.min.js"></script>
 <script type="text/javascript" src="script/common.js"></script>
+<script src="script/jquery.i18n.properties-1.0.9.js" type="text/javascript"></script>
+<script src="script/language.js" type="text/javascript"></script>
 <script type="text/javascript">
     //定义二维码全局变量
     var FNScanner;
     apiready = function() {
+
         //设置TitleBar位置(兼容IOS)
         fnSettingHeader();
         funIniGroup();
@@ -235,17 +238,8 @@
                     flag: false
                 }
             });
-            //doSearchPipeInfo(pipeno.value);
-            //pipe_no=pipeno.toString();
-            // alert(toString.call(pipeno.value));
-            // //return;
-            // var jsfun = 'doSearchPipeInfo('+pipeno.value+',1,false);';
-            // api.execScript({
-            //     frameName: 'frame0',
-            //     script: jsfun
-            // });
         });
-
+        hlLanguage("../i18n/");
     }
 
     function funIniGroup() {
@@ -297,5 +291,4 @@
             index: index
         });
     }
-
 </script>
