@@ -88,7 +88,6 @@ $.i18n.properties = function(settings) {
  */
 $.i18n.prop = function(key /* Add parameters as function arguments as necessary  */) {
   var value = $.i18n.map[key];
-  alert("key="+key+",val="+value);
 	if (value == null)
 		return '[' + key + ']';
 
