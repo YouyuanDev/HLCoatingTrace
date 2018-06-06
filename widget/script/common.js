@@ -82,9 +82,7 @@ function bindPush(){
     alert(JSON.stringify( ret));
     if(ret.status==true){
        //alert(api.deviceId+"bind成功");
-       return true;
     }else{
-      return false;
     }
   });
 }
@@ -98,10 +96,8 @@ function unbindPush(){
 },function(ret,err){
     if(ret.status){
         api.alert({msg:'解除绑定成功'});
-        return true;
     }else{
         api.alert({msg:err.msg});
-        return false;
     }
 });
 }
