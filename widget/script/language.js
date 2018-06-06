@@ -72,13 +72,9 @@ function hlLanguage(languagePath) {
 
     /* 选择语言 */
     $("#language").bind('change', function() {
-        var language = $(this).children('option:selected').val();
+        var language =$(this).children('option:selected').val();
         //重新设置cookie
         $api.setStorage('userLanguage',language);
-        // getCookie("userLanguage",language,{
-        //     expires: 30,
-        //     path:'/'
-        // });
-        location.reload();
+        api.rebootApp();
     });
 }
