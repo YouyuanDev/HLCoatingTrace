@@ -111,27 +111,7 @@
     apiready = function() {
         fnInit();
         //fnLogin();
-        var push = api.require('push');
-        push.bind({
-            userName: api.deviceId,
-            userId: api.deviceId
-        }, function(ret, err) {
-          alert(JSON.stringify( ret));
-          if(ret.status==true){
-             alert(api.deviceId+"bind成功");
-          }
-
-
-
-        });
-        push.joinGroup({
-            groupName: 'iosHLGroup'
-        }, function(ret, err) {});
-        push.setPreference({
-            notify: true,
-            updateCurrent: false
-        });
-
+        //866856205832146
 
     };
 
@@ -171,6 +151,24 @@
             api.hideProgress();
             if (ret.success) {
                 $api.setStorage('operatorno', operator_no_txt);
+                //
+                var roles = ret.roles;
+                var result = bindPush();
+                if (result) {
+                    //解除所有的组
+                    leaveAllPushGroup();
+                    //加入现在的组
+                    if (roles != null) {
+                        var rolelist = roles.split(";");
+                        for (i = 0; i < rolelist.length; i++) {
+                              alert(rolelist[i]);
+                              joinPushGroup(rolelist[i]);
+                        }
+                    }
+                    //设置回调函数
+                    setPushListener();
+                }
+
                 api.openWin({
                     name: 'index',
                     url: '../index.html'
