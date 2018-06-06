@@ -71,10 +71,11 @@ function hlLanguage(languagePath) {
     $("#language option[value="+i18nLanguage+"]").attr("selected",true);
 
     /* 选择语言 */
-    $("#language").bind('change', function() {
-        var language =$(this).children('option:selected').val();
-        //重新设置cookie
-        $api.setStorage('userLanguage',language);
-        api.rebootApp();
-    });
+    // $("#language").bind('change', function() {
+    //     var language =$(this).children('option:selected').val();
+    //     //重新设置cookie
+    //     //alert(language);
+    //     $api.setStorage('userLanguage','zh-CN');
+    //     api.rebootApp();
+    // });
 }

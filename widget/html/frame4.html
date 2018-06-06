@@ -28,9 +28,10 @@
             border-top: 1px solid #cdcdcd;
             padding: 4px 0px;
         }
-        ul li:last-child{
+        /*ul li:last-child{
           border-top:none;
-        }
+        }*/
+
         .list-item {
             padding: 2px;
             height: 40px;
@@ -62,11 +63,12 @@
             background-color: #999;
             /*margin: 20px 0 10px;*/
         }
-        #language{
-           width:100%;
-           outline: none;
-           height: 40px;
-        }
+
+        /*#language {
+            width: 100%;
+            outline: none;
+            height: 40px;
+        }*/
     </style>
 </head>
 
@@ -118,18 +120,17 @@
             </li>
             <li>
                 <div class="list-item">
+                    <label class="i18n1" name="languagesetting">语言设置</label>
+                    <div class="lsit-item-con" id="language"></div>
+                </div>
+            </li>
+            <li>
+                <div class="list-item">
                     <button class="loginout-btn i18n1" name="exitlogon">退出登录</button>
                 </div>
 
             </li>
-            <li>
-              <div class="list-item">
-                <select id="language">
-                  <option value="zh-CN">中文</option>
-                  <option value="en">ENGLISH</option>
-                </select>
-              </div>
-            </li>
+
         </ul>
     </div>
 </body>
@@ -170,6 +171,12 @@
                         $('#usergender').text("男");
                     else if (ret.psex == "F")
                         $('#usergender').text("女");
+                    var language = $api.getStorage('userLanguage');
+                    if (language == "en") {
+                        $('#language').text("英文");
+                    } else {
+                        $('#language').text("中文");
+                    }
                 } else {
                     api.alert("获取账户信息时出错!");
                 }
@@ -190,6 +197,7 @@
         }, function(ret, err) {
             saveUserInfo(ret.value.index, ret.value.result);
         });
+
         hlLanguage("../i18n/");
     };
     //修改用户信息事件
@@ -211,6 +219,9 @@
                     break;
                 case 4: //手机号
                     editUserInfo(index, $('#userphone').text(), labelName);
+                    break;
+                case 7: //语言
+                    editUserInfo(index, $('#language').text(), labelName);
                     break;
             }
         });
@@ -266,6 +277,9 @@
                     break;
                 case 4: //手机号
                     $('#userphone').text(value);
+                    break;
+                case 7: //语言
+                    $('#language').text(value);
                     break;
             }
         } else {

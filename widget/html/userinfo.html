@@ -119,6 +119,10 @@
             <div class="userinfo-item user-phoneno">
                 <input type="text" class="item-input" id="user-phoneno" />
             </div>
+            <div class="userinfo-item userinfo-item1 language">
+                <input class="item-input1" type="radio" name="radio" id="user-language1" value="1" />中文
+                <input class="item-input1" type="radio" name="radio" id="user-language2" value="2" />英文
+            </div>
             <!-- <div class="userinfo-item userinfo-item1 user-gender">
                 <input class="item-input1" type="radio" name="radio" id="user-gender1" value="1" />男
                 <input class="item-input1" type="radio" name="radio" id="user-gender2" value="2" />女
@@ -172,25 +176,39 @@
                 case 4:
                     result = $api.byId('user-phoneno').value;
                     break;
-                // case 5:
-                //     result = $api.byId('user-gender').value;
-                //     break;
+                case 7:
+                    result=$("input[name='radio']:checked").val();
+                    //result = $api.byId('language').value;
+                    break;
                 // case 6:
                 //     result = $api.byId('user-age').value;
                 //     break;
             }
-            if (index != undefined) {
-                api.sendEvent({
-                    name: 'SaveUserInfoEvent',
-                    extra: {
-                        index: index,
-                        result: result
-                    }
-                });
-                api.closeWin();
-            } else {
-                api.alert('修改失败!');
+            if(index!=7){
+              if (index != undefined) {
+                  api.sendEvent({
+                      name: 'SaveUserInfoEvent',
+                      extra: {
+                          index: index,
+                          result: result
+                      }
+                  });
+                  api.closeWin();
+              } else {
+                  api.alert('修改失败!');
+              }
+            }else{
+                  if(result==1){
+                    $api.setStorage('userLanguage','zh-CN');
+                  }else {
+                    $api.setStorage('userLanguage','en');
+                  }
+                  //var language =$(this).children('option:selected').val();
+                  //重新设置cookie
+                  //alert(language);
+                  api.rebootApp();
             }
+
         });
         //年龄修改
         // $('#user-age').click(function() {
@@ -300,15 +318,15 @@
                     $('.user-phoneno').css('display', 'block');
                     $('#user-phoneno').val(userData);
                     break;
-                // case 5: //性别
-                //     $('.user-gender').css('display', 'block');
-                //     if (userData == '男') {
-                //         $('#user-gender1').attr('checked', 'true');
-                //     } else {
-                //         $('#user-gender2').attr('checked', 'true');
-                //     }
-                //     $('#user-gender').val(userData);
-                //     break;
+                case 7: //性别
+                    $('.language').css('display', 'block');
+                    if (userData == '中文') {
+                        $('#user-language1').attr('checked', 'true');
+                    } else {
+                        $('#user-language2').attr('checked', 'true');
+                    }
+                    $('#language').val(userData);
+                    break;
                 // case 6: //年龄
                 //     $('.user-age').css('display', 'block');
                 //     $('#user-age').text(userData);
