@@ -111,6 +111,28 @@
     apiready = function() {
         fnInit();
         //fnLogin();
+        var push = api.require('push');
+        push.bind({
+            userName: api.deviceId,
+            userId: api.deviceId
+        }, function(ret, err) {
+          alert(JSON.stringify( ret));
+          if(ret.status==true){
+             alert(api.deviceId+"bind成功");
+          }
+
+
+
+        });
+        push.joinGroup({
+            groupName: 'iosHLGroup'
+        }, function(ret, err) {});
+        push.setPreference({
+            notify: true,
+            updateCurrent: false
+        });
+
+
     };
 
     function fnInit() {
@@ -133,9 +155,9 @@
             title: '登录中',
             modal: true
         });
-        var url="http://"+serverIP+"/Login/commitLogin.action";
+        var url = "http://" + serverIP + "/Login/commitLogin.action";
         api.ajax({
-            url:url,
+            url: url,
             method: 'post',
             timeout: 30,
             dataType: 'json',
