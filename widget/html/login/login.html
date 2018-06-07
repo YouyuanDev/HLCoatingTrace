@@ -68,20 +68,20 @@
         $('.event-back').click(function() {
            api.closeWin();
         });
-        alert(1);
+        alert("bmlocation start");
         var bmLocation= api.require('bmLocation');
-        bmLocation.getPermissionState(function(ret) {
-            var sta = ret.code;
-            alert(sta);
-        });
-        bmLocation.configManager({
-            accuracy: 'device_sensors',
-            filter: 1,
-            activityType: 'automotiveNavigation',
-            coordinateType: 'GCJ02',
-            locationTimeout: 10,
-            reGeocodeTimeout: 10
-        });
+        // bmLocation.getPermissionState(function(ret) {
+        //     var sta = ret.code;
+        //     alert(sta);
+        // });
+        // bmLocation.configManager({
+        //     accuracy: 'device_sensors',
+        //     filter: 1,
+        //     activityType: 'automotiveNavigation',
+        //     coordinateType: 'GCJ02',
+        //     locationTimeout: 10,
+        //     reGeocodeTimeout: 10
+        // });
         bmLocation.start({
             locatingWithReGeocode: true,
             backgroundLocation: false
