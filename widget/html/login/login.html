@@ -68,5 +68,40 @@
         $('.event-back').click(function() {
            api.closeWin();
         });
+        alert(1);
+        var bmLocation= api.require('bmLocation');
+        bmLocation.getPermissionState(function(ret) {
+            var sta = ret.code;
+            alert(sta);
+        });
+        bmLocation.configManager({
+            accuracy: 'device_sensors',
+            filter: 1,
+            activityType: 'automotiveNavigation',
+            coordinateType: 'GCJ02',
+            locationTimeout: 10,
+            reGeocodeTimeout: 10
+        });
+        bmLocation.start({
+            locatingWithReGeocode: true,
+            backgroundLocation: false
+        }, function(ret) {
+            var sta = ret.status;
+            if (sta) {
+                var lat = ret.location.latitude;
+                var lon = ret.location.longitude;
+                var t = ret.timestamp;
+                var str = '经度：' + lon + '<br>';
+                str += '纬度：' + lat + '<br>';
+                str += '更新时间：' + t + '<br>';
+                api.alert({
+                    msg: str
+                });
+            } else {
+                api.alert({
+                    msg: '发生错误'
+                });
+            }
+        });
     };
 </script>

@@ -108,93 +108,11 @@
 <script type="text/javascript" src="../../script/common.js"></script>
 <script type="text/javascript">
     var operator_no, password, operator_no_txt, password_txt;
+
     apiready = function() {
         fnInit();
         //fnLogin();
         //866856205832146
-        var bmLocation = api.require('bmLocation');
-        bmLocation.start({
-            locatingWithReGeocode: true,
-            backgroundLocation: false
-        }, function(ret) {
-            alert(ret);
-            var sta = ret.status;
-            if (sta) {
-                var lat = ret.location.latitude;
-                var lon = ret.location.longitude;
-                var t = ret.timestamp;
-                var str = '经度：' + lon + '<br>';
-                str += '纬度：' + lat + '<br>';
-                str += '更新时间：' + t + '<br>';
-                api.alert({
-                    msg: str
-                });
-            } else {
-                api.alert({
-                    msg: '发生错误'
-                });
-            }
-        });
-    };
-
-    function fnInit() {
-        operator_no = $api.byId('operator_no');
-        password = $api.byId('password');
-    };
-
-    function fnLogin() {
-        operator_no_txt = operator_no.value,
-            password_txt = password.value;
-        if (operator_no_txt.length <= 0) {
-            alert("请输入工号!");
-            return false;
-        }
-        if (password_txt.length <= 0) {
-            alert("请输入密码!");
-            return false;
-        }
-        api.showProgress({
-            title: '登录中',
-            modal: true
-        });
-        var url = "http://" + serverIP + "/Login/commitLogin.action";
-        api.ajax({
-            url: url,
-            method: 'post',
-            timeout: 30,
-            dataType: 'json',
-            data: {
-                values: {
-                    employee_no: operator_no_txt,
-                    ppassword: password_txt
-                }
-            }
-        }, function(ret, err) {
-            api.hideProgress();
-            if (ret.success) {
-                $api.setStorage('operatorno', operator_no_txt);
-                //绑定推送
-                bindPush();
-                var roles = ret.roles;
-                //加入现在的组
-                if (roles != undefined) {
-                    var rolelist = roles.split(";");
-                    for (i = 0; i < rolelist.length; i++) {
-                        joinPushGroup(rolelist[i]);
-                    }
-                }
-                api.sendEvent({
-                    name: 'reloadUserInfo'
-                });
-                api.closeWin();
-                // api.openWin({
-                //     name: 'index',
-                //     url: '../index.html'
-                // });
-            } else {
-                alert("用户名或密码错误!");
-            }
-        });
-
+        
     };
 </script>
