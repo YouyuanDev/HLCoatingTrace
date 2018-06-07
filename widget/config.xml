@@ -19,7 +19,7 @@
     <access origin="*"/>
 
     <feature name="bmLocation">
-        <param name="ios_api_key" value="OaRGFLVHVGwgevzdcZ8QoQC5envijo73"/>
+        <param name="ios_api_key" value="2Z0GExtWCfSzZApjSeb2xzerqnPG8KGd"/>
     </feature>
 
     <meta-data name="com.baidu.lbsapi.API_KEY" value="wDgywoNbKVxojUTb0cGG8K4odicYWGfd"/>
