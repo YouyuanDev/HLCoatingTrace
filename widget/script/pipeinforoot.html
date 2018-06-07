@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>涂层生产信息</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/style.css" />
+    <style>
+    html,
+    body {
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-box-orient: vertical;
+        -webkit-flex-flow: column;
+        flex-flow: column;
+        height: 100%;
+        background-color: #F8F8F8;
+    }
+
+        /*.userinfo-container {
+            padding: 5px 10px;
+        }
+
+        .userinfo-item {
+            width: 100%;
+            height: auto;
+            display: none;
+            margin-bottom: 20px;
+        }
+
+        .userinfo-item1 {
+            text-align: center;
+            font-size: 20px;
+        }
+
+        .userinfo-item .item-input {
+            width: 100%;
+            height: 40px;
+            outline: none;
+            border-bottom: 1px solid #09aa30;
+            font-size: 19px;
+            text-align: center;
+        }
+
+        .userinfo-item label {
+            width: 100%;
+            height: 40px;
+            line-height: 40px;
+            border-radius: 3px;
+            outline: none;
+            font-size: 19px;
+            text-align: center;
+            background-color: #999;
+        }
+
+        .userinfo-item1 input {
+            width: 20px;
+            height: 20px;
+            margin: 10px;
+        }
+
+        .user-age span {
+            padding: 5px 10px;
+            opacity: 0.5;
+        }
+
+        table {
+            width: 95%;
+            height: auto;
+            margin: 0 auto;
+        }
+
+        table tr {
+            width: 100%;
+        }
+
+        table tr td {
+            font-size: 14px;
+            padding: 5px 0px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        table tr td:nth-of-type(odd) {
+            text-align: left;
+            color: #7A7A7A;
+            width: 25%;
+        }
+
+        table tr td:nth-of-type(even) {
+            width: 25%;
+            text-align: left;
+        }*/
+        .process-button {
+            background-color: #19AD68;
+            width: 200px;
+            height: 43px;
+            text-align: center;
+            line-height: 43px;
+            color: #ffffff;
+            margin-right: 2px;
+        }
+
+        .foot-container .process-button:last-child {
+            margin-right: 0px;
+        }
+
+        /*.loadmore-btn {
+            background-color: #f2f2f2;
+            color: #4682B4;
+            height: 43px;
+            text-align: center;
+            line-height: 43px;
+            width: 95%;
+            outline: none;
+        }*/
+
+        .nav {
+            width: 100%;
+            height: 43px;
+            line-height:43px;
+            background-color: #fafafa;
+            border-bottom: 1px solid #FAFAFA;
+            text-align: center;
+        }
+
+        .nav .arrow {
+            float: left;
+            width: 43px;
+            height: 43px;
+            background-image: url(../../image/back.png);
+            background-size: 11px 20px;
+            background-repeat: no-repeat;
+            background-position: center center;
+        }
+
+
+
+        .content {
+            -webkit-box-flex: 1;
+            -webkit-flex: 1;
+            flex: 1;
+        }
+
+        .footer {
+            width: 100%;
+            height:43px;
+            background-color: #f2f2f2;
+            border-top: 1px solid #FAFAFA;
+            box-sizing: border-box;
+            position: relative;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="nav" id="header">
+        <div class="arrow" tapmode onclick="api.closeWin();"></div>
+        <span class="nav-pipeno" style="display:inline-block;margin-left:-43px;line-height:43px;"></span>
+    </div>
+    <div class="content">
+    </div>
+    <div class="footer" id=footer>
+      <div id="foot-container" style="width:100%;height:43px;display:flex;justify-content:center;align-items:center;" class="foot-container">
+
+      </div>
+    </div>
+</body>
+
+</html>
+
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script src="../../script/jquery.i18n.properties-1.0.9.js" type="text/javascript"></script>
+<script src="../../script/language.js" type="text/javascript"></script>
+<script type="text/javascript">
+    var UIActionSelector;
+    var pipeinfo;
+    var urloptions;
+    var pipeno;
+    apiready = function() {
+            UIActionSelector = api.require('UIActionSelector');
+            fnSettingHeader();
+            //返回事件
+            $('.event-back').click(function() {
+                api.closeWin();
+            });
+            var data = api.pageParam;
+            pipeno = data.pipeno;
+            $('.nav-pipeno').text(pipeno);
+            ShowPipeInfoFrame(pipeno);
+            //接收frame回调
+            api.addEventListener({
+                name: 'showNextProcessOptions'
+            }, function(ret, err) {
+                 urloptions=ret.value.urloptions;
+                 //alert(JSON.stringify(ret.value));
+                 showNextProcessOptions();
+
+            });
+            hlLanguage("../../i18n/");
+
+        }
+
+        function  ShowPipeInfoFrame(pipeno){
+          //计算Header和footer高度
+          var nav = $api.byId('header');
+          var foot = $api.byId('footer');
+          var navHeight = $api.offset(nav).h;
+          var footHeight = $api.offset(foot).h;
+          api.openFrame({
+              name: 'pipeinfo_frame',
+              url: './pipeinfo_frame.html',
+              rect: {
+                  x: 0,
+                  y: navHeight,
+                  w: 'auto',
+                  h: api.winHeight - navHeight - footHeight
+              },
+              pageParam: {
+                  pipeno: pipeno
+              }
+          });
+
+        }
+
+
+
+        //
+        //
+        //
+        // //显示钢管基础信息
+        // function showPipeBasicInfo(pipeinfo) {
+        //     $('.contract_no').text(pipeinfo.contract_no);
+        //     $('.status_name').text(pipeinfo.status_name);
+        //     $('.weight').text(pipeinfo.weight);
+        //     $('.client_spec').text(pipeinfo.client_spec);
+        //     $('.project_name').text(pipeinfo.project_name);
+        //     $('.pipe_no').text(pipeinfo.pipe_no);
+        //     $('.project_no').text(pipeinfo.project_no);
+        //     $('.p_length').text(pipeinfo.p_length);
+        //     $('.external_coating').text(pipeinfo.external_coating);
+        //     $('.od').text(pipeinfo.od);
+        //     $('.grade').text(pipeinfo.grade);
+        //     $('.wt').text(pipeinfo.wt);
+        //     $('.pipe_making_lot_no').text(pipeinfo.pipe_making_lot_no);
+        //     $('.heat_no').text(pipeinfo.heat_no);
+        //     $('.internal_coating').text(pipeinfo.internal_coating);
+        //     $('.center_line_color').text(pipeinfo.center_line_color);
+        //     $('.pipe_end_color').text(pipeinfo.pipe_end_color);
+        //     $('.rebevel_mark').text(pipeinfo.rebevel_mark);
+        //     $('.shipment_date').text(formatterdate(pipeinfo.shipment_date));
+        //     $('.od_coating_date').text(formatterdate(pipeinfo.od_coating_date));
+        //     $('.id_coating_date').text(formatterdate(pipeinfo.id_coating_date));
+        // }
+        //
+        //
+        //
+        //显示下一工序按钮
+    function showNextProcessOptions() {
+        $('.foot-container').empty();
+        if (urloptions != undefined) {
+            for (var key in urloptions) {
+                $('.foot-container').append(nextProcessTemplate(key));
+            }
+        } else {
+              $('.foot-container').append('无跳转');
+        }
+        hlLanguage("../i18n/");
+    }
+
+    //下一工序按钮的模版
+    function nextProcessTemplate(key) {
+        var template = '<div class="i18n1 process-button" name="'+key+'"  onclick="goNextProcess(' + key + ');">' + key + '</div>';
+        return template;
+    }
+
+
+    //跳转下一工序页面
+    function goNextProcess(key) {
+        var url = urloptions[key];
+        var nextURL = './' + url + '.html';
+        api.openWin({
+            name: url,
+            url: nextURL,
+            pageParam: {
+                pipe_no: pipeinfo.pipe_no
+            }
+        });
+    }
+</script>

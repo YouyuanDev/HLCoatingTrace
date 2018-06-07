@@ -101,9 +101,9 @@
         <div style="width:100%;height:auto;overflow-x: hidden;">
             <table class="pipeinfo-table">
                 <thead>
-                  <tr>
-                    <th class="i18n1" name="pipebasicinfo" colspan="4" style="text-align:center;">钢管基础信息</th>
-                  </tr>
+                    <tr>
+                        <th class="i18n1" name="pipebasicinfo" colspan="4" style="text-align:center;">钢管基础信息</th>
+                    </tr>
                 </thead>
                 <tr>
                     <td class="i18n1" name="pipeno"></td>
@@ -191,22 +191,45 @@
 <script type="text/javascript">
     var pipeno;
     var showmore = false;
+    var imageBrowser;
     apiready = function() {
-        var data = api.pageParam;
-        pipeno = data.pipeno;
-        //urloptions =data.urloptions;
-        if (pipeno != undefined)
-            SearchpipeInfo();
-        else {
-            alert("查询出现异常!");
-            return;
+            imageBrowser = api.require('imageBrowser');
+            var data = api.pageParam;
+            pipeno = data.pipeno;
+            //urloptions =data.urloptions;
+            if (pipeno != undefined)
+                SearchpipeInfo();
+            else {
+                alert("查询出现异常!");
+                return;
+            }
+            //下拉刷新，钢管信息
+            dropdownLoading();
+            hlLanguage("../../i18n/");
         }
-        //下拉刷新，钢管信息
-        dropdownLoading();
-        hlLanguage("../../i18n/");
+        //查看图片事件
+    function setBrowsePicutre(obj) {
+        var picturelistStr = $(obj).attr('data-list');
+        if (picturelistStr != undefined && picturelistStr.length > 0) {
+            var picturelist = picturelistStr.split(";");
+            if (picturelist.length > 0) {
+                var picturelistArr = [];
+                var url = "http://" + serverIP + "/upload/pictures/";
+                for (var i = 0; i < picturelist.length; i++) {
+                    if(picturelist[i]!=undefined&&picturelist[i].trim().length>0)
+                      picturelistArr.push(url + picturelist[i]);
+                }
+                imageBrowser.openImages({
+                    showList: true,
+                    imageUrls:picturelistArr
+                });
+            } else {
+                alert("暂无图片!");
+            }
+        } else {
+            alert("暂无图片!");
+        }
     }
-
-
 
     // 查询钢管详细信息
     function SearchpipeInfo() {
@@ -362,7 +385,8 @@
                         "rinsewaterconductivity": obj.rinse_water_conductivity,
                         "marking": marking,
                         "result": result,
-                        "remark": obj.remark
+                        "remark": obj.remark,
+                        "uploadfiles": obj.upload_files
                     };
                     $('#pipe-process-info').append(recordTemplate("odblastprocess", "外打砂记录", dic));
                 }
@@ -400,7 +424,8 @@
                         "oilwaterinaircompressor": oilwaterinaircompressor,
                         "elapsedtime": obj.elapsed_time,
                         "result": result,
-                        "remark": obj.remark
+                        "remark": obj.remark,
+                        "uploadfiles": obj.upload_files
                     };
                     $('#pipe-process-info').append(recordTemplate("odblastinspectionprocess", "外打砂检验记录", dic));
                 }
@@ -436,7 +461,8 @@
                         "sprayspeed": obj.spray_speed,
                         "applicationvoltage": obj.application_voltage,
                         "result": result,
-                        "remark": obj.remark
+                        "remark": obj.remark,
+                        "uploadfiles": obj.upload_files
                     };
                     $('#pipe-process-info').append(recordTemplate("odcoatingprocess", "外涂记录(2FBE)", dic));
                 }
@@ -471,7 +497,8 @@
                         "adhesionrating": obj.adhesion_rating,
                         "isdscsample": obj.is_dsc_sample,
                         "result": result,
-                        "remark": obj.remark
+                        "remark": obj.remark,
+                        "uploadfiles": obj.upload_files
                     };
                     $('#pipe-process-info').append(recordTemplate("odcoatinginspectionprocess", "外涂检验记录(2FBE)", dic));
                 }
@@ -507,7 +534,8 @@
                         "sprayspeed": obj.spray_speed,
                         "applicationvoltage": obj.application_voltage,
                         "result": result,
-                        "remark": obj.remark
+                        "remark": obj.remark,
+                        "uploadfiles": obj.upload_files
                     };
                     $('#pipe-process-info').append(recordTemplate("odcoating3lpeprocess", "外涂记录(3LPE)", dic));
                 }
@@ -566,7 +594,8 @@
                         "isdscsample": isdscsample,
                         "ispesample": ispesample,
                         "result": result,
-                        "remark": obj.remark
+                        "remark": obj.remark,
+                        "uploadfiles": obj.upload_files
                     };
                     $('#pipe-process-info').append(recordTemplate("odcoating3lpeinspectionprocess", "外涂检验记录(3LPE)", dic));
                 }
@@ -589,7 +618,8 @@
                         "pipeendcolor": obj.pipe_end_color,
                         "result": result,
                         "stencilcontent": obj.stencil_content,
-                        "remark": obj.remark
+                        "remark": obj.remark,
+                        "uploadfiles": obj.upload_files
                     };
                     $('#pipeRecord-container').append(recordTemplate("odstencilprocess", "外喷标记录", dic));
                 }
@@ -641,7 +671,8 @@
                         "coatingbevelanglelist": obj.coating_bevel_angle_list,
                         "epoxycutbacklist": obj.epoxy_cutback_list,
                         "result": result,
-                        "remark": obj.remark
+                        "remark": obj.remark,
+                        "uploadfiles": obj.upload_files
                     };
                     $('#pipe-process-info').append(recordTemplate("odfinalinspectionprocess", "外防终检记录", dic));
                 }
@@ -682,7 +713,8 @@
                         "marking": marking,
                         "abrasiveconductivity": obj.abrasive_conductivity,
                         "result": result,
-                        "remark": obj.remark
+                        "remark": obj.remark,
+                        "uploadfiles": obj.upload_files
                     };
                     $('#pipe-process-info').append(recordTemplate("idblastprocess", "内打砂记录", dic));
                 }
@@ -715,7 +747,8 @@
                         "surfacecondition": obj.surface_condition,
                         "elapsedtime": obj.elapsed_time,
                         "result": result,
-                        "remark": obj.remark
+                        "remark": obj.remark,
+                        "uploadfiles": obj.upload_files
                     };
                     $('#pipe-process-info').append(recordTemplate("idblastinspectionprocess", "内打砂检验记录", dic));
                 }
@@ -743,7 +776,8 @@
                         "curingfinishtime": getDate1(obj.curing_finish_time),
                         "curingtemp": obj.curing_temp,
                         "result": result,
-                        "remark": obj.remark
+                        "remark": obj.remark,
+                        "uploadfiles": obj.upload_files
                     };
                     $('#pipe-process-info').append(recordTemplate("idcoatingprocess", "内涂记录", dic));
                 }
@@ -780,7 +814,8 @@
                         "wetfilmthicknesslist": obj.wet_film_thickness_list,
                         "isglasssample": isglasssample,
                         "result": result,
-                        "remark": obj.remark
+                        "remark": obj.remark,
+                        "uploadfiles": obj.upload_files
                     };
                     $('#pipe-process-info').append(recordTemplate("idcoatinginspectionprocess", "内涂检验记录", dic));
                 }
@@ -801,7 +836,8 @@
                         "millno": obj.mill_no,
                         "stencilcontent": obj.stencil_content,
                         "result": result,
-                        "remark": obj.remark
+                        "remark": obj.remark,
+                        "uploadfiles": obj.upload_files
                     };
                     $('#pipe-process-info').append(recordTemplate("idstencilprocess", "内喷标记录", dic));
                 }
@@ -861,14 +897,15 @@
                         "magnetismlist": obj.magnetism_list,
                         "internalrepairs": obj.internal_repairs,
                         "result": result,
-                        "remark": obj.remark
+                        "remark": obj.remark,
+                        "uploadfiles": obj.upload_files
                     };
                     $('#pipe-process-info').append(recordTemplate("idfinalinspectionprocess", "内防终检记录", dic));
                 }
                 //扒皮
                 if (data.coatingStrips != undefined && data.coatingStrips != null && data.coatingStrips.length > 0) {
                     flag = true;
-                    var dicField = ["operatorno", "operationtime", "millno", "striptemperature", "odid", "result", "remark"];
+                    var dicField = ["operatorno", "operationtime", "millno", "striptemperature", "odid", "result", "remark", "uploadfiles"];
                     var template = "";
                     template += '<table  title="" class="dataintable" style="width:100%;height:auto;"><thead><tr>';
                     template += '<th class="i18n1" name="coatingstrip" colspan="7">扒皮记录</th>';
@@ -901,6 +938,7 @@
                             result = "待定";
                         template += '<td>' + result + '</td>';
                         template += '<td>' + obj.remark + '</td>';
+                        template += '<td><a style="color:#87CEEB;" data-list="' + obj.upload_files + '" class="upload-pictures i18n1" name="viewpicture">图片</a></td>';
                         template += '</tr>';
                     }
                     template += '</tbody></table>';
@@ -912,7 +950,7 @@
                     var dicField = ["operatorno", "operationtime", "millno", "coatingtype", "odid", "repairsize",
                         "repairnumber", "holidaynumber", "repairmethod", "unqualifiedreason", "inspectorno", "inspectiontime",
                         "surfacecondition", "repairthickness", "holidaytesting", "adhesion",
-                        "result", "remark"
+                        "result", "remark", "uploadfiles"
                     ];
                     var template = "";
                     template += '<table  title="" class="dataintable" style="width:100%;height:auto;"><thead><tr>';
@@ -975,6 +1013,7 @@
                             result = "待定";
                         template += '<td>' + result + '</td>';
                         template += '<td>' + obj.remark + '</td>';
+                        template += '<td><a style="color:#87CEEB;" data-list="' + obj.upload_files + '" class="upload-pictures i18n1" name="viewpicture">图片</a></td>';
                         template += '</tr>';
                     }
                     template += '</tbody></table>';
@@ -985,7 +1024,7 @@
                     flag = true;
                     var dicField = ["operatorno", "operationtime", "millno", "odid",
                         "grinding_cutoff", "remainingwallthicknesslist", "cutofflength", "originalpipelength", "pipelengthaftercut",
-                        "result", "remark"
+                        "result", "remark", "uploadfiles"
                     ];
                     var template = "";
                     template += '<table  title="" class="dataintable" style="width:100%;height:auto;"><thead><tr>';
@@ -1030,6 +1069,7 @@
                             result = "待定";
                         template += '<td>' + result + '</td>';
                         template += '<td>' + obj.remark + '</td>';
+                        template += '<td><a style="color:#87CEEB;" data-list="' + obj.upload_files + '" class="upload-pictures i18n1" name="viewpicture">图片</a></td>';
                         template += '</tr>';
                     }
                     template += '</tbody></table>';
@@ -1038,7 +1078,7 @@
                 //倒棱
                 if (data.pipeRebevelRecords != undefined && data.pipeRebevelRecords != null && data.pipeRebevelRecords.length > 0) {
                     flag = true;
-                    var dicField = ["operatorno", "operationtime", "squareness", "ovality", "bevelangle", "rootface", "result", "remark"];
+                    var dicField = ["operatorno", "operationtime", "squareness", "ovality", "bevelangle", "rootface", "result", "remark", "uploadfiles"];
                     var template = "";
                     template += '<table  title="" class="dataintable" style="width:100%;height:auto;"><thead><tr>';
                     template += '<th class="i18n1" name="pipeRebevelProcess" colspan="8">倒棱记录</th>';
@@ -1068,6 +1108,7 @@
                             result = "待定";
                         template += '<td>' + result + '</td>';
                         template += '<td>' + obj.remark + '</td>';
+                        template += '<td><a style="color:#87CEEB;" data-list="' + obj.upload_files + '" class="upload-pictures i18n1" name="viewpicture">图片</a></td>';
                         template += '</tr>';
                     }
                     template += '</tbody></table>';
@@ -1101,7 +1142,11 @@
         for (var key in dict) {
             template += '<tr style="width:100%;">';
             template += ' <td style="width:50%;color: #7A7A7A;padding:5px 0px;" class="i18n1 pipeinfo-td" name="' + key + '">' + key + '</td>';
-            template += ' <td style="width:50%;text-align:center;padding:5px 0px;" class="pipeinfo-td">' + dict[key] + '</td>';
+            if (key == "uploadfiles")
+                template += ' <td style="width:50%;text-align:center;padding:5px 0px;" class="pipeinfo-td"><a style="color:#87CEEB;" onclick="setBrowsePicutre(this)" data-list="' + dict[key] +
+                '" class="upload-pictures i18n1" name="viewpicture">图片</a></td>';
+            else
+                template += ' <td style="width:50%;text-align:center;padding:5px 0px;" class="pipeinfo-td">' + dict[key] + '</td>';
             template += '</tr>';
             // if (i >2) {
             //     template += '</tr><tr>';

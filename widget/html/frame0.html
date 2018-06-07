@@ -120,8 +120,9 @@
     //var UIListView;
     apiready = function() {
         UIScrollPicture = api.require('UIScrollPicture');
+
         //UIListView = api.require('UIListView');
-        broadcastPictures();
+        broadcastPictures(false);
         //下拉刷新,下拉加载
         dropdownLoading();
         isRollingToEnd();
@@ -130,10 +131,14 @@
         }, function(ret, err) {
             doSearchPipeInfo(ret.value.pipeno, ret.value.pageStart, ret.value.flag);
         });
+        api.openWin({
+            name: 'odblast',
+            url: './od/odblast.html'
+        });
     }
 
     //主页面图片轮播
-    function broadcastPictures() {
+    function broadcastPictures(reload) {
         api.showProgress({
             title: '加载中...',
             modal: false
@@ -159,7 +164,10 @@
                     });
                 } else {
                     // var picturefiles = JSON.stringify(ret);
+                    if(!reload)
                     showPictures(ret);
+                    else
+                    reloadPictures(ret);
                 }
             } else {
                 //alert("err");
@@ -172,7 +180,24 @@
 
     }
 
-     //显示照片
+
+
+    function reloadPictures(picturefiles) {
+      var datalist = [];
+      //alert("picturefiles.length="+picturefiles.length);
+
+      for (var i = 0; i < picturefiles.length; i++) {
+          var pic = picturefiles[i];
+          datalist.push('http://' + serverIP + '/upload/pictures/' + pic.pictureName);
+      }
+        UIScrollPicture.reloadData({
+            data: {
+                paths: datalist ,
+                caption: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
+            }
+        });
+    }
+    //显示照片
     function showPictures(picturefiles) {
         var datalist = [];
         //alert("picturefiles.length="+picturefiles.length);
@@ -181,10 +206,7 @@
             var pic = picturefiles[i];
             datalist.push('http://' + serverIP + '/upload/pictures/' + pic.pictureName);
         }
-        //alert("datalist.length="+datalist.length);
-
-
-
+        //UIScrollPicture.close();
         UIScrollPicture.open({
             rect: {
                 x: 0,
@@ -194,15 +216,6 @@
             },
             data: {
                 paths: datalist,
-                // [
-                //       'http://192.168.0.103/upload/pictures/IMG_001.JPG',
-                //       'http://192.168.0.103/upload/pictures/IMG_002.JPG',
-                //       'http://192.168.0.103/upload/pictures/IMG_003.JPG',
-                //       'http://192.168.0.103/upload/pictures/IMG_004.JPG',
-                //       'http://192.168.0.103/upload/pictures/IMG_006.JPG',
-                //       'http://192.168.0.103/upload/pictures/IMG_007.JPG',
-                //       'http://192.168.0.103/upload/pictures/IMG_008.JPG'
-                //       ]
                 caption: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
             },
             styles: {
@@ -322,9 +335,9 @@
 
     //打开钢管的涂层生产信息页面pipeinforoot
     function goPipeInfoRoot(pipe_no) {
-      // api.alert({
-      //     msg: JSON.stringify(urloptions)
-      // });
+        // api.alert({
+        //     msg: JSON.stringify(urloptions)
+        // });
         api.openWin({
             name: 'pipeinforoot',
             url: './pipeinfo/pipeinforoot.html',
@@ -346,7 +359,7 @@
         }, function(ret, err) {
             //在这里从服务器加载数据,加载完成后调用api.refreshHeaderLoadDone()方法恢复组件到默认状态
             //alert('执行下拉');
-            broadcastPictures();
+            broadcastPictures(true);
             doSearchPipeInfo(keyword_pipeno, 1, false);
 
             setTimeout(function() {
