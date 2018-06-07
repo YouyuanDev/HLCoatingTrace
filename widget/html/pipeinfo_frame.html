@@ -317,7 +317,7 @@
             api.hideProgress();
             if (data.success != undefined && data.success == false) {
                 api.alert({
-                    msg: JSON.stringify(data.msg)
+                    msg: JSON.stringify(data.message)
                 });
                 return;
             }
