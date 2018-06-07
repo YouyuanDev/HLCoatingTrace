@@ -21,7 +21,7 @@ function fnReadyFrame() {
     var frameName = api.winName + '_frame';
     api.openFrame({
         name: frameName,
-        url: '../html/' + frameName + '.html',
+        url: '../../html/' + frameName + '.html',
         bounces: true,
         rect: {
             x: 0,
