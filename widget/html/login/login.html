@@ -69,23 +69,12 @@
            api.closeWin();
         });
         alert("bmlocation start");
-        var bmLocation= api.require('bmLocation');
-        // bmLocation.getPermissionState(function(ret) {
-        //     var sta = ret.code;
-        //     alert(sta);
-        // });
-        // bmLocation.configManager({
-        //     accuracy: 'device_sensors',
-        //     filter: 1,
-        //     activityType: 'automotiveNavigation',
-        //     coordinateType: 'GCJ02',
-        //     locationTimeout: 10,
-        //     reGeocodeTimeout: 10
-        // });
+        var bmLocation = api.require('bmLocation');
         bmLocation.start({
             locatingWithReGeocode: true,
             backgroundLocation: false
         }, function(ret) {
+            alert(ret);
             var sta = ret.status;
             if (sta) {
                 var lat = ret.location.latitude;
@@ -103,5 +92,5 @@
                 });
             }
         });
-    };
+    }
 </script>
