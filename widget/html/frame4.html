@@ -145,15 +145,16 @@
 <script type="text/javascript">
     //var serverIP='192.168.0.11';
     apiready = function() {
+        modifyUserInfo();
+        setLoginInvent();
+        setLogoutInvent();
+        dropdownLoading();
         loadUserInfo();
         api.addEventListener({
             name: 'reloadUserInfo'
         }, function(ret, err) {
              loadUserInfo();
         });
-        modifyUserInfo();
-        setLoginInvent();
-        setLogoutInvent();
         api.addEventListener({
             name: 'SaveUserInfoEvent'
         }, function(ret, err) {
@@ -236,10 +237,32 @@
         });
     }
 
+    //下拉刷新更新个人信息
+    function dropdownLoading() {
+        api.setRefreshHeaderInfo({
+            loadingImg: 'widget://image/loading_more.png',
+            bgColor: '#ccc',
+            textColor: '#fff',
+            textDown: '下拉刷新...',
+            textUp: '松开刷新...'
+        }, function(ret, err) {
+            //在这里从服务器加载数据,加载完成后调用api.refreshHeaderLoadDone()方法恢复组件到默认状态
+            //alert('执行下拉');
+
+            loadUserInfo();
+
+            setTimeout(function() {
+                //执行刷新
+                api.refreshHeaderLoadDone();
+            }, 50);
+        });
+    }
+
+
     function editUserInfo(index, userData, labelName) {
         api.openWin({
             name: 'userinfo',
-            url: './userinfo.html',
+            url: './userinfo/userinfo.html',
             pageParam: {
                 index: index,
                 userData: userData,
