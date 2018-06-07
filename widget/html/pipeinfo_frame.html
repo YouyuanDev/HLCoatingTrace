@@ -300,7 +300,7 @@
     //更多生产信息
     function loadMoreInfo() {
         showmore = true;
-         //清空moreinfo
+        //清空moreinfo
         $('#pipe-process-info').empty();
         var s = 'http://' + serverIP + '/pipeinfo/searchPipeRecord.action';
         api.ajax({
@@ -315,11 +315,11 @@
             }
         }, function(data, err) { //alert(ret);
             api.hideProgress();
-            if(data.success!= undefined&&data.success==false){
-              api.alert({
-                  msg: JSON.stringify(data.msg)
-              });
-              return;
+            if (data.success != undefined && data.success == false) {
+                api.alert({
+                    msg: JSON.stringify(data.msg)
+                });
+                return;
             }
 
             if (data) {
@@ -1069,7 +1069,12 @@
                     $('#pipe-process-info').append(template);
                 }
                 if (!flag) {
-                    alert("暂无更多内容!");
+                    api.alert({
+                        title: '提示',
+                        msg: '暂无更多内容',
+                    }, function(ret, err) {
+
+                    });
                 } else {
                     $('.loadmore-div').remove();
                 }

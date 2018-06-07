@@ -1,5 +1,5 @@
 var header, headerHeight = 0;
-var serverIP = '192.168.0.103:8080';
+var serverIP = '192.168.0.12:8080';
 
 function fnSettingHeader() {
 
@@ -41,6 +41,7 @@ function JudgeLogin() {
     } else {
         return false;
     }
+
 }
 
 function formatterdate(value, row, index) {
@@ -113,13 +114,13 @@ function joinPushGroup(groupName) {
         groupName: groupName
     }, function(ret, err) {
         if (ret.status) {
-          var s='加入组'+groupName+'成功';
-           api.alert({msg:s});
+           //var s='加入组'+groupName+'成功';
+           //api.alert({msg:s});
         } else {
-            api.alert({
-                msg: err.msg
-            });
-            return;
+            // api.alert({
+            //     msg: err.msg
+            // });
+            //return;
         }
     });
     push.setPreference({

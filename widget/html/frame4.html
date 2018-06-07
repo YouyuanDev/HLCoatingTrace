@@ -51,7 +51,7 @@
             color: #C7C7C7;
         }
 
-        .loginout-btn {
+        .logout-btn, .login-btn{
             width: 100%;
             outline: none;
             height: 44px;
@@ -63,7 +63,6 @@
             background-color: #999;
             /*margin: 20px 0 10px;*/
         }
-
         /*#language {
             width: 100%;
             outline: none;
@@ -125,10 +124,12 @@
                 </div>
             </li>
             <li>
-                <div class="list-item">
-                    <button class="loginout-btn i18n1" name="exitlogon">退出登录</button>
+                <div class="list-item logout-div" style="display:none;">
+                    <button class="logout-btn i18n1" name="exitlogon">退出登录</button>
                 </div>
-
+                <div class="list-item login-div" style="display:none;">
+                    <button class="login-btn i18n1" name="login">登录</button>
+                </div>
             </li>
 
         </ul>
@@ -144,54 +145,15 @@
 <script type="text/javascript">
     //var serverIP='192.168.0.11';
     apiready = function() {
-        if (JudgeLogin()) {
-            //获取账户信息
-            var operator_no = $api.getStorage('operatorno');
-            var s = 'http://' + serverIP + '/person/getPersonByEmployeeNo.action';
-            api.ajax({
-                url: s,
-                method: 'post',
-                timeout: 30,
-                dataType: 'json',
-                data: {
-                    values: {
-                        employeeno: operator_no,
-                    }
-                }
-            }, function(ret, err) {
-                if (ret) {
-                    $('#userid').text(ret.id);
-                    $('#userno').text(ret.employee_no);
-                    $('#username').text(ret.pname);
-                    $('#userpwd').text(ret.ppassword);
-                    $('#userIdNo').text(ret.pidcard_no);
-                    $('#userphone').text(ret.pmobile);
-                    $('#userage').text(ret.page);
-                    if (ret.psex == "M")
-                        $('#usergender').text("男");
-                    else if (ret.psex == "F")
-                        $('#usergender').text("女");
-                    var language = $api.getStorage('userLanguage');
-                    if (language == "en") {
-                        $('#language').text("英文");
-                    } else {
-                        $('#language').text("中文");
-                    }
-                } else {
-                    api.alert("获取账户信息时出错!");
-                }
-            });
-            $('.loginout-btn').text('退出登录');
-        } else {
-            api.openWin({
-                name: 'login',
-                url: './login.html'
-            });
-            $('.loginout-btn').text('登录');
-
-        }
+        loadUserInfo();
+        api.addEventListener({
+            name: 'reloadUserInfo'
+        }, function(ret, err) {
+             loadUserInfo();
+        });
         modifyUserInfo();
-        loginOut();
+        setLoginInvent();
+        setLogoutInvent();
         api.addEventListener({
             name: 'SaveUserInfoEvent'
         }, function(ret, err) {
@@ -200,6 +162,53 @@
 
         hlLanguage("../i18n/");
     };
+    //加载用户信息
+    function loadUserInfo(){
+
+      //获取账户信息
+      var s = 'http://' + serverIP + '/person/getPersonByEmployeeNo.action';
+      api.ajax({
+          url: s,
+          method: 'post',
+          timeout: 30,
+          dataType: 'json',
+      }, function(ret, err) {
+          if (!ret.success){
+              $('#userid').text('');
+              $('#userno').text('');
+              $('#username').text('');
+              $('#userpwd').text('');
+              $('#userIdNo').text('');
+              $('#userphone').text('');
+              $('#userage').text('');
+              $('#usergender').text('');
+              $('.logout-div').css('display','none');
+              $('.login-div').css('display','block');
+          } else {
+              if (ret.data != undefined) {
+                  $('#userid').text(ret.data.id);
+                  $('#userno').text(ret.data.employee_no);
+                  $('#username').text(ret.data.pname);
+                  $('#userpwd').text(ret.data.ppassword);
+                  $('#userIdNo').text(ret.data.pidcard_no);
+                  $('#userphone').text(ret.data.pmobile);
+                  $('#userage').text(ret.data.page);
+                  if (ret.data.psex == "M")
+                      $('#usergender').text("男");
+                  else if (ret.data.psex == "F")
+                      $('#usergender').text("女");
+                  var language = $api.getStorage('userLanguage');
+                  if (language == "en") {
+                      $('#language').text("英文");
+                  } else {
+                      $('#language').text("中文");
+                  }
+                  $('.logout-div').css('display','block');
+                  $('.login-div').css('display','none');
+              }
+          }
+      });
+    }
     //修改用户信息事件
     function modifyUserInfo() {
         $('#userInfo-ul li').click(function() {
@@ -238,33 +247,53 @@
             }
         });
     }
-
-    function loginOut() {
-        $('.loginout-btn').click(function() {
-           alert("这里没有调用后台logout，需要修改");
-            var logintxt = $(this).text();
-            if (logintxt == "登录") {
-                api.openWin({
-                    name: 'login',
-                    url: './login.html'
-                });
-            } else {
-                //退出登录
-                //解除所有的组
-                leaveAllPushGroup();
-
-                //解除推送绑定
-                unbindPush();
-
-                var operator_no = $api.getStorage('operatorno');
-                if (operator_no != undefined) {
-                    $api.rmStorage('operatorno');
+    //登录
+    function setLoginInvent(){
+         $('.login-btn').click(function() {
+           api.openWin({
+               name: 'login',
+               url: './login.html'
+           });
+         });
+    }
+   //设置退出登录事件
+    function setLogoutInvent() {
+        $('.logout-btn').click(function() {
+            var s = 'http://' + serverIP + '/Login/Logout.action';
+            api.ajax({
+                url: s,
+                method: 'post',
+                timeout: 30,
+                dataType: 'json'
+            }, function(ret, err) {
+                if (ret.success) {
+                    api.closeFrame({
+                        name: 'frame4',
+                        url: './frame4.html'
+                    });
+                    api.alert({
+                        msg: JSON.stringify(ret.msg)
+                    });
+                        //退出登录
+                        //解除所有的组
+                        leaveAllPushGroup();
+                        //解除推送绑定
+                        unbindPush();
+                        var operator_no = $api.getStorage('operatorno');
+                        if (operator_no != undefined) {
+                            $api.rmStorage('operatorno');
+                        }
+                        loadUserInfo();
+                } else {
+                    //alert("err");
+                    api.alert({
+                        msg: JSON.stringify(err)
+                    });
                 }
-                api.openWin({
-                    name: 'login',
-                    url: './login.html'
-                });
-            }
+
+            });
+            //alert("这里没有调用后台logout，需要修改");
+
         });
     }
 

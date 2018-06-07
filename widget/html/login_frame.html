@@ -154,7 +154,6 @@
                 //绑定推送
                 bindPush();
                 var roles = ret.roles;
-                
                 //加入现在的组
                 if (roles != undefined) {
                     var rolelist = roles.split(";");
@@ -162,13 +161,14 @@
                         joinPushGroup(rolelist[i]);
                     }
                 }
-
-
-
-                api.openWin({
-                    name: 'index',
-                    url: '../index.html'
+                api.sendEvent({
+                    name: 'reloadUserInfo'
                 });
+                api.closeWin();
+                // api.openWin({
+                //     name: 'index',
+                //     url: '../index.html'
+                // });
             } else {
                 alert("用户名或密码错误!");
             }

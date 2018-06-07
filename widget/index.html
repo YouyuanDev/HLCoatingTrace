@@ -95,7 +95,6 @@
             background-size: auto 30px;
             text-align: center;
             color: #4B5262;
-
         }
 
         #footer ul li.active {
@@ -150,9 +149,9 @@
 
 <body>
     <div id="wrap" class="flex-wrap flex-vertical">
-        <header id="header" >
+        <header id="header">
             <ul>
-                <li class="border-b active" >
+                <li class="border-b active">
                     <div class="main-container">
                         <div class="scan-container"></div>
                         <div class="search-container">
@@ -294,5 +293,10 @@
             name: 'group',
             index: index
         });
+        if (index == 4) {
+            api.sendEvent({
+                name: 'reloadUserInfo'
+            });
+        }
     }
 </script>
