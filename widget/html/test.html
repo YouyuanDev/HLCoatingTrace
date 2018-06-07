@@ -6,8 +6,8 @@
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
     <title>test</title>
-    <link rel="stylesheet" type="text/css" href="../css/api.css" />
-    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="./css/api.css" />
+    <link rel="stylesheet" type="text/css" href="./css/style.css" />
     <style>
         .empty {
             text-align: center;
@@ -21,88 +21,37 @@
 </body>
 
 </html>
-<script type="text/javascript" src="script/api.js"></script>
-<script type="text/javascript" src="script/jquery-3.3.1.min.js"></script>
-<script type="text/javascript" src="script/common.js"></script>
+<script type="text/javascript" src="./script/api.js"></script>
+<script type="text/javascript" src="./script/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="./script/common.js"></script>
 <script type="text/javascript">
     var UIActionSelector;
 
     apiready = function() {
-
-        var UICustomPicker = api.require('UICustomPicker');
-        UICustomPicker.open({
-            rect: {
-                x: 30,
-                y: api.frameHeight / 2 - 170,
-                w: api.frameWidth - 260,
-                h: 340
-            },
-            styles: {
-                bg: 'rgba(0,0,0,0)',
-                normalColor: '#959595',
-                selectedColor: '#3685dd',
-                selectedSize: 36,
-                tagColor: '#3685dd',
-                tagSize: 36
-            },
-            data: [{
-                tag: '.',
-                scope: '0-100'
-            }, {
-                tag: '',
-                scope: '0-100'
-                //scope: ['a', 'b', 'c', 'd']
-            }],
-            rows: 3,
-            fixedOn: api.frameName,
-            fixed: true
-        }, function(ret, err) {
-            if (ret) {
-                alert(JSON.stringify(ret));
+        alert("11");
+        var bmLocation = api.require('bmLocation');
+        bmLocation.start({
+            locatingWithReGeocode: true,
+            backgroundLocation: false
+        }, function(ret) {
+            alert(ret);
+            var sta = ret.status;
+            if (sta) {
+                var lat = ret.location.latitude;
+                var lon = ret.location.longitude;
+                var t = ret.timestamp;
+                var str = '经度：' + lon + '<br>';
+                str += '纬度：' + lat + '<br>';
+                str += '更新时间：' + t + '<br>';
+                api.alert({
+                    msg: str
+                });
             } else {
-                alert(JSON.stringify(err));
+                api.alert({
+                    msg: '发生错误'
+                });
             }
         });
-
-
-
-        // UICustomPicker.refreshData({
-        //     id: 0,
-        //     data: [{
-        //         tag: '大写',
-        //         scope: [{
-        //             value: '一',
-        //             id: 1
-        //         }, {
-        //             value: '二',
-        //             id: 2
-        //         }, {
-        //             value: '三',
-        //             id: 3
-        //         }, {
-        //             value: '四',
-        //             id: 4
-        //         }]
-        //     }, {
-        //         tag: '汉子',
-        //         scope: [{
-        //             value: '壹',
-        //             id: 1
-        //         }, {
-        //             value: '贰',
-        //             id: 2
-        //         }, {
-        //             value: '叁',
-        //             id: 3
-        //         }, {
-        //             value: '肆',
-        //             id: 4
-        //         }]
-        //     }]
-        // });
-        // UICustomPicker.show({
-        //     id: 0
-        // });
 
     }
 </script>
