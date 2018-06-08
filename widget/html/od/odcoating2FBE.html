@@ -13,7 +13,7 @@
 <body>
     <header class="form-nav" id="header">
         <div class="arrow" tapmode onclick="api.closeWin();"></div>
-        <span class="nav-pipeno i18n1" name="odblastinspection" style="display:inline-block;margin-left:-43px;line-height:43px;"></span>
+        <span class="nav-pipeno i18n1" name="odcoating2FBE" style="display:inline-block;margin-left:-43px;line-height:43px;"></span>
     </header>
     <div class="from-content" id="content">
         <div class="form-item">
@@ -90,21 +90,50 @@
         </div>
         <div class="form-item">
             <div class="form-item-lbl">
-                <label class="i18n1" name="oilwaterinaircompressor"></label>
+                <label class="i18n1" name="toquenchduration"></label>
             </div>
             <div class="form-item-val">
-                <select id="dd" name="oil_water_in_air_compressor">
-                         <option value="0">否</option>
-                         <option value="1">是</option>
-                     </select>
+                  <input type="number" name="to_quench_duration" />
             </div>
         </div>
         <div class="form-item">
             <div class="form-item-lbl">
-                <label class="i18n1" name="elapsedtime"></label>
+                <label class="i18n1" name="airpressure"></label>
             </div>
             <div class="form-item-val">
-                <input type="number" name="elapsed_time" />
+                <input type="number" name="air_pressure" />
+            </div>
+        </div>
+        <div class="form-item">
+            <div class="form-item-lbl">
+                <label class="i18n1" name="coatingvoltage"></label>
+            </div>
+            <div class="form-item-val">
+                <input type="number" name="coating_voltage" />
+            </div>
+        </div>
+        <div class="form-item">
+            <div class="form-item-lbl">
+                <label class="i18n1" name="gundistance"></label>
+            </div>
+            <div class="form-item-val">
+                <input type="number" name="gun_distance" />
+            </div>
+        </div>
+        <div class="form-item">
+            <div class="form-item-lbl">
+                <label class="i18n1" name="sprayspeed"></label>
+            </div>
+            <div class="form-item-val">
+                <input type="number" name="spray_speed" />
+            </div>
+        </div>
+        <div class="form-item">
+            <div class="form-item-lbl">
+                <label class="i18n1" name="applicationvoltage"></label>
+            </div>
+            <div class="form-item-val">
+                <input type="number" name="application_voltage" />
             </div>
         </div>
         <div class="form-item">
@@ -112,12 +141,11 @@
                 <label class="i18n1" name="result"></label>
             </div>
             <div class="form-item-val">
-                <select id="cc" name="result">
-                        <option value="1">合格,进入外涂敷工序</option>
-                        <option value="0">不合格,重新打砂处理</option>
-                        <option value="2">待定</option>
-                        <option value="3">隔离，进入修磨或切割工序</option>
-                    </select>
+                  <select id="cc" name="result" >
+                      <option value="1">合格,进入外涂敷检验工序</option>
+                      <option value="0">不合格,进入外喷砂工序</option>
+                      <option value="2">待定</option>
+                  </select>
             </div>
         </div>
         <div class="form-item">
