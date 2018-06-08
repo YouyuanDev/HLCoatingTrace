@@ -6,127 +6,16 @@
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
     <title>外喷砂</title>
-    <link rel="stylesheet" type="text/css" href="../css/api.css" />
-    <link rel="stylesheet" type="text/css" href="../css/style.css" />
-    <style>
-    html,
-        body {
-            display: -webkit-box;
-            display: -webkit-flex;
-            display: flex;
-            -webkit-box-orient: vertical;
-            -webkit-flex-flow: column;
-            flex-flow: column;
-            height: 100%;
-            background-color: #F8F8F8;
-        }
-
-        .process-button {
-            background-color: #19AD68;
-            width: 200px;
-            height: 43px;
-            text-align: center;
-            line-height: 43px;
-            color: #ffffff;
-            margin-right: 2px;
-        }
-
-        .foot-container .process-button:last-child {
-            margin-right: 0px;
-        }
-
-        .nav {
-            width: 100%;
-            height: 43px;
-            line-height: 43px;
-            background-color: #f2f2f2;
-            border-bottom: 1px solid #FAFAFA;
-            text-align: center;
-        }
-
-        .nav .arrow {
-            float: left;
-            width: 43px;
-            height: 43px;
-            background-image: url(../../image/back.png);
-            background-size: 11px 20px;
-            background-repeat: no-repeat;
-            background-position: center center;
-        }
-
-        .content {
-            -webkit-box-flex: 1;
-            -webkit-flex: 1;
-            flex: 1;
-            padding: 4px;
-        }
-
-        .footer {
-            width: 100%;
-            height: 43px;
-            background-color: #f2f2f2;
-            border-top: 1px solid #FAFAFA;
-            box-sizing: border-box;
-            position: relative;
-        }
-
-        .process-button {
-            background-color: #19AD68;
-            width: 100%;
-            height: 43px;
-            text-align: center;
-            line-height: 43px;
-            color: #ffffff;
-        }
-
-        .form-item {
-            width: 100%;
-            height: auto;
-        }
-
-        .form-item .form-item-lbl {
-            width: 100%;
-        }
-
-        .form-item .form-item-lbl label {
-            line-height: 30px;
-        }
-
-        .form-item .form-item-val input,
-        select,button{
-            width: 100%;
-            height: 40px;
-            outline: none;
-        }
-        .form-item .form-item-val textarea{
-            width: 100%;resize: vertical;height:60px;
-        }
-        .form-item .form-item-val input[type="text"],input[type="number"],select,button,textarea{
-            -webkit-box-sizing: border-box;
-            -moz-box-sizing: border-box;
-            box-sizing: border-box;
-            font-size: 18px;
-            border: 1px solid #e1e1e1;
-            box-shadow: none;
-            padding: 4px 6px;
-            font-size: 14px;
-            color: #555;
-            vertical-align: middle;
-            outline: none;
-        }
-        .imgBox{
-           width:100%;height: auto;
-        }
-    }
-    </style>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/style.css" />
 </head>
 
 <body>
-    <div class="nav" id="header">
+    <header class="form-nav" id="header">
         <div class="arrow" tapmode onclick="api.closeWin();"></div>
         <span class="nav-pipeno i18n1" name="odblastprocess" style="display:inline-block;margin-left:-43px;line-height:43px;">外打砂</span>
-    </div>
-    <div class="content">
+    </header>
+    <div class="from-content" id="content">
         <div class="form-item">
             <div class="form-item-lbl">
                 <label class="i18n1" name="marking"></label>
@@ -144,6 +33,9 @@
             </div>
             <div class="form-item-val">
                 <button class="i18n1 form-surfacecondition" name="select"></button>
+            </div>
+            <div class="form-select-val">
+
             </div>
         </div>
         <div class="form-item">
@@ -224,8 +116,8 @@
             </div>
             <div class="form-item-val">
               <select id="cc"   name="result">
-                <option value="0">不合格,重新打砂处理</option>
                 <option value="1">合格,进入外喷砂检验工序</option>
+                <option value="0">不合格,重新打砂处理</option>
                 <option value="2">待定</option>
                 <option value="3">隔离，进入修磨或切割工序</option>
             </select>
@@ -240,6 +132,10 @@
             </div>
         </div>
         <div class="form-item">
+            <div class="imgBox"></div>
+            <!-- <div style=""></div> -->
+        </div>
+        <div class="form-item">
             <div class="form-item-lbl">
                 <label class="i18n1" name="selectpicture"></label>
             </div>
@@ -247,15 +143,13 @@
                  <button class="i18n1 form-pictures" name="selectpicture"></button>
             </div>
         </div>
-        <div class="form-item">
-            <div class="imgBox"></div>
-        </div>
+
     </div>
-    <div class="footer" id=footer>
+    <footer class="form-footer" id=footer>
         <div id="foot-container" style="width:100%;height:43px;display:flex;justify-content:center;align-items:center;" class="foot-container">
-            <div class="i18n1 process-button" name="submit" onclick="">提交</div>
+            <div class="i18n1 form-process-button" name="submit" onclick="">提交</div>
         </div>
-    </div>
+    </footer>
 </body>
 
 </html>
@@ -282,7 +176,7 @@
                 text: {
                     title: '外观缺陷',
                     leftBtn: '',
-                    rightBtn: ''
+                    rightBtn: '完成'
                 },
                 max: 0,
                 styles: {
@@ -304,8 +198,8 @@
                     },
                     rightButton: {
                         bg:'rgb(245,245,245)',
-                        w: 0,
-                        h: 0,
+                        w: 80,
+                        h: 35,
                         marginT: 5,
                         marginR: 8,
                         color: 'rgb(0,0,0)',
@@ -334,12 +228,18 @@
                 }, {
                     text: '其他见备注',
                     status: 'normal'
-                }]
+                },]
             }, function(ret, err) {
                 if (ret) {
-                    alert(JSON.stringify(ret));
+                    if(ret.eventType=="clickRight"||ret.eventType=="clickMask"){
+                      $('.form-select-val').empty();
+                      for (var i = 0; i < ret.items.length; i++) {
+                         $('.form-select-val').append(ret.items[i].text+",");
+                      }
+                      UIMultiSelector.hide();
+                    }
                 } else {
-                    //alert(JSON.stringify(err));
+                    alert(JSON.stringify(err));
                 }
             });
         });
@@ -371,7 +271,7 @@
             }, function(ret, err) {
                 if (ret) {
                     alert(ret.data);
-                    $('.imgBox').append(pictureTemplate(ret.base64Data));
+                    $('.imgBox').append(pictureTemplate(ret.data,ret.base64Data));
                     //$('#imgUp').attr('src', ret.base64Data);
                 } else {
                     alert(JSON.stringify(err));
@@ -390,9 +290,9 @@
             }, function(ret, err) {
                 if (ret) {
                     //alert(ret.data);
-                    $('.imgBox').append(pictureTemplate(ret.base64Data));
+                    $('.imgBox').append(pictureTemplate(ret.data,ret.base64Data));
                     alert(ret.data);
-                   var s = 'http://' + serverIP + '/UploadFile/uploadPicture.action';
+                    var s = 'http://' + serverIP + '/UploadFile/uploadPicture.action';
                     api.ajax({
                         url: s,
                         method: 'post',
@@ -421,12 +321,17 @@
             });
         }
     }
-
-    function pictureTemplate(imgUrl) {
-        var template = '<div class="width:100px;height:100px;background-color:red;position:relative;margin:0 auto;">' +
-            '<div style="width:20px;height:20px;border-radius:5px;background:#000000;position:absolute;top:0;">X</div>' +
-            '<img id="imgUp" style="width:100px;height:100px;" src="' + imgUrl + '"/>' +
+    //图片模板
+    function pictureTemplate(imgUrl,imgData) {
+        var template = '<div class="temp-container">' +
+            '<div onclick="delSelectPicture(this)" class="temp-del-icon">X</div>' +
+            '<img id="imgUp" data-url="'+imgUrl+'" src="' + imgData + '"/>' +
             '</div>';
         return template;
+    }
+    //删除选择的照片
+    function delSelectPicture(obj){
+        var picUrl=$(obj).siblings('img').attr('data-url');
+        $(obj).parent().remove();
     }
 </script>

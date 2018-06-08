@@ -85,6 +85,18 @@
             font-size: 13px;
             color: #2a90d7;
         }
+        .location-container{width:100%;height:40px;line-height:40px;border: 1px solid #e8e8e8;padding:4px 0px;}
+        .location-container .location-content{width:50%;float: left;height:40px;line-height:40px;padding-left:4px;}
+        .location-container .location-btn{
+           width:40px;
+           height:40px;
+           background:url(../../image/location.png);
+           background-repeat: no-repeat;
+           background-size:cover;
+           background-color:#e1e1e1;
+           border-radius:4px;outline: none;
+        }
+        .location-span{font-size: 14px;color: #999;}
     </style>
 </head>
 
@@ -96,6 +108,10 @@
         <div class="password">
             <input type="password" placeholder="密码" id="password">
             <!-- <div class="find" tapmode onclick="fnForgetPassword()">找回密码</div> -->
+        </div>
+        <div class="location-container">
+            <div class="location-content"><span>分厂信息:<span><span class="location-span">一分厂<span></div>
+            <button class="location-btn" onclick="setLocation()"></button>
         </div>
         <div class="login" tapmode onclick="fnLogin()">登录</div>
         <!-- <div class="register open-win" win="register_mobile">注册账号</div> -->
@@ -252,9 +268,14 @@
         });
 
     }
-
-
-
+    //设置定位
+    function setLocation(){
+        //开始计算定位
+        setMillName("二分厂");
+    }
+    function setMillName(millname){
+        $('.location-span').text(millname);
+    }
 
     function GetClosestMill() {
 
