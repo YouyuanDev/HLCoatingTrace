@@ -113,7 +113,7 @@
         fnInit();
         //fnLogin();
         //866856205832146
-        testbMap();
+        initbMap();
     };
 
     function fnInit() {
@@ -176,69 +176,95 @@
         });
     }
 
-    function testbMap() {
+    //bMap初始化，android不需要初始化
+    function initbMap() {
         var map = api.require('bMap');
-        map.initMapSDK(function(ret) {
+        if (api.systemType == "ios") {
+            map.initMapSDK(function(ret) {
+                if (ret.status) {
+                    openbMap();
+                } else {
+                    alert('地图初始化失败，无法使用定位！');
+                }
+            });
+        } else {
+            openbMap();
+        }
+
+    }
+    //地图初始化成功后调用，
+    function openbMap() {
+        var map = api.require('bMap');
+        //alert('地图初始化成功，可以从百度地图服务器检索信息了！');
+        map.open({
+            rect: {
+                x: 0,
+                y: 200,
+                w: api.winWidth,
+                h: api.frameHeight - 250
+
+            },
+            center: {
+                lon: 121.377462,
+                lat: 31.47022
+            },
+            zoomLevel: 18,
+            showUserLocation: true,
+            fixedOn: api.frameName,
+            fixed: true
+        }, function(ret) {
             if (ret.status) {
-                alert('地图初始化成功，可以从百度地图服务器检索信息了！');
-                map.open({
-                    rect: {
-                        x: 0,
-                        y: 0,
-                        w: 320,
-                        h: 300
-                    },
-                    center: {
-                        lon: 121.377462,
-                        lat: 31.47022
-                    },
-                    zoomLevel: 18,
-                    showUserLocation: true,
-                    fixedOn: api.frameName,
-                    fixed: true
-                }, function(ret) {
-                    if (ret.status) {
-                        alert('地图打开成功');
+                //alert('地图打开成功');
+                map.show();
+                map.showUserLocation({
+                    isShow: true,
+                    trackingMode: 'none'
+                });
+                //////
 
-                        map.showUserLocation({
-                            isShow: true,
-                            trackingMode: 'none'
-                        });
-                        //////
+                map.getLocationServices(function(ret, err) {
+                    if (ret.enable) {
+                        //alert(JSON.stringify(ret));
+                        map.getLocation({
+                            accuracy: '10m',
+                            autoStop: false,
+                            filter: 1
+                        }, function(ret, err) {
+                            if (ret.status) {
+                                map.stopLocation();
+                                alert(JSON.stringify(ret));
 
-
-
-
-                        map.getLocationServices(function(ret, err) {
-                            if (ret.enable) {
-                                //alert(JSON.stringify(ret));
                             } else {
-                                alert("未开启定位功能！");
+                                alert(err.code);
                             }
                         });
-
-
-
-                        map.getCurrentLocation(
-                            function(ret, err) {
-                                if (ret.status) {
-                                    alert(JSON.stringify(ret));
-                                } else {
-                                    alert(JSON.stringify(err));
-                                }
-                            });
-                        /////////
-
+                    } else {
+                        alert("未开启定位功能！");
                     }
                 });
 
 
+                /////////
 
-
-
-                //map.show();
-
+            } else {
+                alert('地图打开失败，无法使用定位！');
             }
         });
+
+    }
+
+
+
+
+    function GetClosestMill() {
+
+
+
+
+
+
+
+
+
     }
 </script>
