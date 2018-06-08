@@ -18,11 +18,17 @@
 
     <access origin="*"/>
 
-    <feature name="bmLocation">
+    <!-- <feature name="bmLocation">
         <param name="ios_api_key" value="2Z0GExtWCfSzZApjSeb2xzerqnPG8KGd"/>
     </feature>
 
-    <meta-data name="com.baidu.lbsapi.API_KEY" value="wDgywoNbKVxojUTb0cGG8K4odicYWGfd"/>
+    <meta-data name="com.baidu.lbsapi.API_KEY" value="wDgywoNbKVxojUTb0cGG8K4odicYWGfd"/> -->
+
+    <feature name="bMap">
+       <param name="android_api_key" value="wDgywoNbKVxojUTb0cGG8K4odicYWGfd" />
+       <param name="ios_api_key" value="2Z0GExtWCfSzZApjSeb2xzerqnPG8KGd" />
+     </feature>
+
 
     <preference name="backgroundMode" value="location"/>
 
