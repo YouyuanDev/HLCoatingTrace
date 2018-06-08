@@ -108,12 +108,25 @@
 <script type="text/javascript" src="../../script/common.js"></script>
 <script type="text/javascript">
     var operator_no, password, operator_no_txt, password_txt;
+    //所有mill信息
+    var mills= new Array();;
+    //最近mill的信息
+    var mill_no;
+    var mill_name;
+    var mill_distance = -1;
+    //是否正在请求计算距离
+    var requestingDistance = false;
+
+    //距离数组
+    var distanceArray = new Array();
 
     apiready = function() {
         fnInit();
-        //fnLogin();
-        //866856205832146
+
         initbMap();
+
+  var flag = setInterval(SetClosestMill, 1000);
+
     };
 
     function fnInit() {
@@ -122,6 +135,7 @@
     };
 
     function fnLogin() {
+        GetMyLonLat();
         operator_no_txt = operator_no.value,
             password_txt = password.value;
         if (operator_no_txt.length <= 0) {
@@ -221,27 +235,30 @@
                     trackingMode: 'none'
                 });
                 //////
+                setTimeout(function() {
+                    //延迟执行
+                    map.getLocationServices(function(ret, err) {
+                        if (ret.enable) {
+                            //alert(JSON.stringify(ret));
+                            map.getLocation({
+                                accuracy: '10m',
+                                autoStop: false,
+                                filter: 1
+                            }, function(ret, err) {
+                                if (ret.status) {
+                                    map.stopLocation();
+                                    alert(JSON.stringify(ret));
 
-                map.getLocationServices(function(ret, err) {
-                    if (ret.enable) {
-                        //alert(JSON.stringify(ret));
-                        map.getLocation({
-                            accuracy: '10m',
-                            autoStop: false,
-                            filter: 1
-                        }, function(ret, err) {
-                            if (ret.status) {
-                                map.stopLocation();
-                                alert(JSON.stringify(ret));
+                                } else {
+                                    alert(err.code);
+                                }
+                            });
+                        } else {
+                            alert("未开启定位功能！");
+                        }
+                    });
+                }, 50);
 
-                            } else {
-                                alert(err.code);
-                            }
-                        });
-                    } else {
-                        alert("未开启定位功能！");
-                    }
-                });
 
 
                 /////////
@@ -255,16 +272,118 @@
 
 
 
+    function GetMyLonLat() {
+        var my_lon;
+        var my_lat;
 
-    function GetClosestMill() {
-
-
-
-
-
-
-
-
-
+        var map = api.require('bMap');
+        map.getLocation({
+            accuracy: '10m',
+            autoStop: false,
+            filter: 1
+        }, function(ret, err) {
+            if (ret.status) {
+                map.stopLocation();
+                my_lon = ret.lon;
+                my_lat = ret.lat;
+                alert("mylon=" + my_lon + "my_lat=" + my_lat);
+                GetClosestMill(my_lon, my_lat);
+                //alert(JSON.stringify(ret));
+            } else {
+                alert(err.code);
+            }
+        });
     }
+
+
+
+    function GetClosestMill(my_lon, my_lat) {
+        //得到所有mill的坐标
+        var s = 'http://' + serverIP + '/millInfo/getAllMillsInfo.action';
+        api.ajax({
+            url: s,
+            method: 'post',
+            timeout: 30,
+            dataType: 'json',
+            data: {
+
+            }
+        }, function(ret, err) {
+            api.hideProgress();
+            if (ret) {
+                if (ret.success == true) {
+                    mills = ret.millinfo;
+                    for (var i = 0; i < mills.length; i++) {
+
+                        var mill = mills[i];
+                        var coordinate = mill.coordinate;
+                        var coords = coordinate.split(',');
+                        var mill_lon = coords[0];
+                        var mill_lat = coords[1];
+                        alert("mill" + i + " mill_lon=" + mill_lon);
+                        getDistance(mill_lon, mill_lat, my_lon, my_lat);
+                        setTimeout(function() {
+                          ;
+                        }, 2000);
+                    }
+
+                    setTimeout(function() {
+                        alert(JSON.stringify(mills));
+                        alert(distanceArray);
+                    }, 5000);
+
+                }
+            } else {
+                api.alert({
+                    msg: JSON.stringify(err)
+                });
+            }
+
+        });
+    }
+
+
+    function getDistance(mill_lon, mill_lat, my_lon, my_lat) {
+        var map = api.require('bMap');
+        map.getDistance({
+            start: {
+                lon: mill_lon,
+                lat: mill_lat
+            },
+            end: {
+                lon: my_lon,
+                lat: my_lat
+            }
+        }, function(ret) {
+            if (ret.status) {
+                requestingDistance = false;
+                distanceArray.push(ret.distance);
+                alert(" distance=" + ret.distance);
+            } else {
+                alert("错误" + ret);
+            }
+        });
+    }
+
+//取最近的mill作为分厂信息
+function SetClosestMill(){
+
+  if(mills.length==distanceArray.length&&mills.length!=0){
+      //alert("齐了");
+      var min_index=-1;
+      var min_dis=-1;
+      for(var i=0;i<distanceArray.length;i++){
+        if(min_index==-1||distanceArray[i]<min_dis){
+          min_index=i;
+          min_dis=distanceArray[i];
+        }
+      }
+      alert("最近index="+min_index);
+
+
+  }
+}
+
+
+
 </script>
