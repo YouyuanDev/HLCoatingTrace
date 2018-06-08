@@ -195,16 +195,18 @@
             var data = api.pageParam;
             pipeno = data.pipeno;
             $('.nav-pipeno').text(pipeno);
-            ShowPipeInfoFrame(pipeno);
+
             //接收frame回调
             api.addEventListener({
                 name: 'showNextProcessOptions'
             }, function(ret, err) {
-                 urloptions=ret.value.urloptions;
+
+                 urloptions=ret.value.urloptions;alert(urloptions);
                  //alert(JSON.stringify(ret.value));
                  showNextProcessOptions();
 
             });
+            ShowPipeInfoFrame(pipeno);
             hlLanguage("../../i18n/");
 
         }
@@ -278,6 +280,7 @@
 
     //下一工序按钮的模版
     function nextProcessTemplate(key) {
+        //alert(key);
         var template = '<div class="i18n1 process-button" name="'+key+'"  onclick="goNextProcess(' + key + ');">' + key + '</div>';
         return template;
     }

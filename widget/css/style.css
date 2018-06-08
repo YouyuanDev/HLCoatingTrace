@@ -85,7 +85,7 @@ html,body {  font-size:14px; height:100%;background:#FFFFFF;}
 .form-item .form-item-lbl {
     width: 100%;
 }
-.form-item .form-select-val,.form-select-val1,.form-begintime,.form-endtime{
+.form-item .form-select-val,.form-select-val1{
    width:100%;height:auto;padding:2px;color:#19AD68;
 }
 .form-item .form-item-lbl label {
