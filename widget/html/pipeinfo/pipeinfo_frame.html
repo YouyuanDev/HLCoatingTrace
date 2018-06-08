@@ -258,19 +258,21 @@
                     //显示钢管基础信息
                     showPipeBasicInfo(pipeinfo);
                     //显示下一工序选项，通知pipeinforoot.html刷新 选项按钮
-                    api.sendEvent({
-                        name: 'showNextProcessOptions',
-                        extra: {
-                            urloptions: urloptions
-                        }
+                    // api.sendEvent({
+                    //     name: 'showNextProcessOptions',
+                    //     extra: {
+                    //         urloptions: urloptions
+                    //     }
+                    // });
+                    var jsfun = 'showNextProcessOptions(' + JSON.stringify(ret.urloptions) + ');';
+                    api.execScript({
+                        name:'pipeinforoot',
+                        script: jsfun
                     });
-
                     //若已经显示了所有工序信息，则刷新
                     if (showmore) {
                         loadMoreInfo();
                     }
-
-
                 }
             } else {
                 //alert("err");

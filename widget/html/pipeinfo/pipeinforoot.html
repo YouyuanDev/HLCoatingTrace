@@ -98,7 +98,7 @@
         }*/
         .process-button {
             background-color: #19AD68;
-            width: 200px;
+            width: 100px;
             height: 43px;
             text-align: center;
             line-height: 43px;
@@ -195,17 +195,22 @@
             var data = api.pageParam;
             pipeno = data.pipeno;
             $('.nav-pipeno').text(pipeno);
-            ShowPipeInfoFrame(pipeno);
-            //接收frame回调
-            api.addEventListener({
-                name: 'showNextProcessOptions'
-            }, function(ret, err) {
-                 urloptions=ret.value.urloptions;
-                 //alert(JSON.stringify(ret.value));
-                 showNextProcessOptions();
 
-            });
+            //接收frame回调
+            // api.addEventListener({
+            //     name: 'showNextProcessOptions'
+            // }, function(ret, err) {
+            //      urloptions=ret.value.urloptions;
+            //      //alert(JSON.stringify(ret.value));
+            //      showNextProcessOptions();
+            //
+            // });
+
+            ShowPipeInfoFrame(pipeno);
+
             hlLanguage("../../i18n/");
+
+
 
         }
 
@@ -264,7 +269,8 @@
         //
         //
         //显示下一工序按钮
-    function showNextProcessOptions() {
+    function showNextProcessOptions(param_urloptions) {
+        urloptions= param_urloptions;
         $('.foot-container').empty();
         if (urloptions != undefined) {
             for (var key in urloptions) {
@@ -273,7 +279,7 @@
         } else {
               $('.foot-container').append('无跳转');
         }
-        hlLanguage("../i18n/");
+        hlLanguage("../../i18n/");
     }
 
     //下一工序按钮的模版
