@@ -1,5 +1,5 @@
 var header, headerHeight = 0;
-var serverIP = '192.168.0.14:8080';
+var serverIP = '192.168.0.103:8080';
 
 function fnSettingHeader() {
 
@@ -153,4 +153,56 @@ push.setListener(function( ret, err ){
         alert( JSON.stringify( err) );
      }
 });
+}
+
+
+//请求session中employeeno和millno参数
+//每个调用这个函数的页面需要实现 Go方法 和 Reverse方法
+function RequestMySesssion(){
+
+  //注册接收requestMySesssion回调
+  api.addEventListener({
+      name: 'GetMySessionCallbackEvent'
+  }, function(ret, err) {
+       if(ret.value.success){
+         //得到了session中的employeeno与millno
+         ////处理逻辑。。。
+         Go(ret.value.employeeno,ret.value.millno);
+         //alert(JSON.stringify(ret.value.millno));
+       }else{
+         //session中不存在millno
+         //alert(JSON.stringify(ret.value.msg));
+         //处理逻辑。。。
+         Reverse(ret.value.msg);
+       }
+  });
+
+//发出请求
+  var s = 'http://' + serverIP + '/Login/getMySession.action';
+  api.ajax({
+      url: s,
+      method: 'post',
+      timeout: 30,
+      dataType: 'json',
+      data: {
+      }
+  }, function(ret, err) {
+      api.hideProgress();
+      if (ret) {
+          api.sendEvent({
+              name: 'GetMySessionCallbackEvent',
+            extra: {
+              success:ret.success,
+              employeeno:ret.employeeno,
+              millno: ret.millno,
+              msg:ret.msg
+             }
+         });
+      } else {
+          api.alert({
+              msg: JSON.stringify(err)
+          });
+      }
+
+  });
 }

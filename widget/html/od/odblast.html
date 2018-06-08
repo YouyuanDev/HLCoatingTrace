@@ -162,10 +162,26 @@
     var UIMultiSelector;
     apiready = function() {
         UIMultiSelector = api.require('UIMultiSelector');
-        setSurfaceCondition();
-        setSelectPictures();
-        hlLanguage("../../i18n/");
+        //请求RequestMySesssion
+        RequestMySesssion();
     }
+
+    //继续方法
+     function Go(employeeno,millno){
+       //初始化表单业务逻辑
+       setSurfaceCondition();
+       setSelectPictures();
+       hlLanguage("../../i18n/");
+       alert("Go: employeeNo="+employeeno+" millno="+millno);
+     }
+
+     //撤退方法
+     function Reverse(msg){
+       alert(msg);
+     }
+
+
+
     //设置表面缺陷事件
     function setSurfaceCondition() {
         $('.form-surfacecondition').click(function() {
