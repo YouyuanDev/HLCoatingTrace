@@ -85,18 +85,38 @@
             font-size: 13px;
             color: #2a90d7;
         }
-        .location-container{width:100%;height:40px;line-height:40px;border: 1px solid #e8e8e8;padding:4px 0px;}
-        .location-container .location-content{width:50%;float: left;height:40px;line-height:40px;padding-left:4px;}
-        .location-container .location-btn{
-           width:40px;
-           height:40px;
-           background:url(../../image/location.png);
-           background-repeat: no-repeat;
-           background-size:cover;
-           background-color:#e1e1e1;
-           border-radius:4px;outline: none;
+
+        .location-container {
+            width: 100%;
+            height: 40px;
+            line-height: 40px;
+            border: 1px solid #e8e8e8;
+            padding: 4px 0px;
         }
-        .location-span{font-size: 14px;color: #999;}
+
+        .location-container .location-content {
+            width: 50%;
+            float: left;
+            height: 40px;
+            line-height: 40px;
+            padding-left: 4px;
+        }
+
+        .location-container .location-btn {
+            width: 40px;
+            height: 40px;
+            background: url(../../image/location.png);
+            background-repeat: no-repeat;
+            background-size: cover;
+            border-radius: 4px;
+            outline: none;
+            border: none;
+        }
+
+        .location-span {
+            font-size: 14px;
+            color: #999;
+        }
     </style>
 </head>
 
@@ -110,8 +130,9 @@
             <!-- <div class="find" tapmode onclick="fnForgetPassword()">找回密码</div> -->
         </div>
         <div class="location-container">
-            <div class="location-content"><span>分厂信息:<span><span class="location-span">一分厂<span></div>
-            <button class="location-btn" onclick="setLocation()"></button>
+            <div class="location-content"><span>所在分厂:<span><span class="location-span"><span></div>
+            <button class="location-btn" onclick="setMillLocation()"></button>
+            <input type="hidden" id="mill_no">
         </div>
         <div class="login" tapmode onclick="fnLogin()">登录</div>
         <!-- <div class="register open-win" win="register_mobile">注册账号</div> -->
@@ -125,23 +146,15 @@
 <script type="text/javascript">
     var operator_no, password, operator_no_txt, password_txt;
     //所有mill信息
-    var mills= new Array();;
-    //最近mill的信息
-    var mill_no;
-    var mill_name;
-    var mill_distance = -1;
-    //是否正在请求计算距离
-    var requestingDistance = false;
-
+    var mills= new Array();
     //距离数组
     var distanceArray = new Array();
+    //定时器
+    var timer=-1;
 
     apiready = function() {
         fnInit();
-
         initbMap();
-
-  var flag = setInterval(SetClosestMill, 1000);
 
     };
 
@@ -150,16 +163,26 @@
         password = $api.byId('password');
     };
 
+    function setMillName(millno,millname){
+        $('.location-span').text(millname);
+        $('#mill_no').val(millno);
+        //alert($('#mill_no').val());
+    }
+
     function fnLogin() {
-        GetMyLonLat();
-        operator_no_txt = operator_no.value,
+          operator_no_txt = operator_no.value,
             password_txt = password.value;
+        var millno=$('#mill_no').val();
         if (operator_no_txt.length <= 0) {
             alert("请输入工号!");
             return false;
         }
         if (password_txt.length <= 0) {
             alert("请输入密码!");
+            return false;
+        }
+        if (millno==undefined||millno.length==0) {
+            alert("请定位所在工厂!");
             return false;
         }
         api.showProgress({
@@ -175,7 +198,8 @@
             data: {
                 values: {
                     employee_no: operator_no_txt,
-                    ppassword: password_txt
+                    ppassword: password_txt,
+                    mill_no:millno
                 }
             }
         }, function(ret, err) {
@@ -229,7 +253,7 @@
         map.open({
             rect: {
                 x: 0,
-                y: 200,
+                y: 250,
                 w: api.winWidth,
                 h: api.frameHeight - 250
 
@@ -245,11 +269,12 @@
         }, function(ret) {
             if (ret.status) {
                 //alert('地图打开成功');
-                map.show();
+                setTimeout(function() {
                 map.showUserLocation({
                     isShow: true,
                     trackingMode: 'none'
                 });
+              },100);
                 //////
                 setTimeout(function() {
                     //延迟执行
@@ -263,8 +288,9 @@
                             }, function(ret, err) {
                                 if (ret.status) {
                                     map.stopLocation();
-                                    alert(JSON.stringify(ret));
-
+                                    //alert(JSON.stringify(ret));
+                                    //自动开启
+                                    setMillLocation();
                                 } else {
                                     alert(err.code);
                                 }
@@ -273,10 +299,7 @@
                             alert("未开启定位功能！");
                         }
                     });
-                }, 50);
-
-
-
+                }, 200);
                 /////////
 
             } else {
@@ -286,21 +309,20 @@
 
     }
 
+    //设置定位
+    function setMillLocation(){
+        //开始计算定位
+        GetMyLonLat();
+        if(timer==-1)
+          timer = setInterval(SetClosestMill, 200);
+    }
+
+
+
 
     function GetMyLonLat() {
         var my_lon;
         var my_lat;
-
-    //设置定位
-    function setLocation(){
-        //开始计算定位
-        setMillName("二分厂");
-    }
-    function setMillName(millname){
-        $('.location-span').text(millname);
-    }
-
-
         var map = api.require('bMap');
         map.getLocation({
             accuracy: '10m',
@@ -311,7 +333,7 @@
                 map.stopLocation();
                 my_lon = ret.lon;
                 my_lat = ret.lat;
-                alert("mylon=" + my_lon + "my_lat=" + my_lat);
+                //alert("mylon=" + my_lon + "my_lat=" + my_lat);
                 GetClosestMill(my_lon, my_lat);
                 //alert(JSON.stringify(ret));
             } else {
@@ -345,18 +367,12 @@
                         var coords = coordinate.split(',');
                         var mill_lon = coords[0];
                         var mill_lat = coords[1];
-                        alert("mill" + i + " mill_lon=" + mill_lon);
+                        //alert("mill" + i + " mill_lon=" + mill_lon);
                         getDistance(mill_lon, mill_lat, my_lon, my_lat);
                         setTimeout(function() {
                           ;
-                        }, 2000);
+                        }, 500);
                     }
-
-                    setTimeout(function() {
-                        alert(JSON.stringify(mills));
-                        alert(distanceArray);
-                    }, 5000);
-
                 }
             } else {
                 api.alert({
@@ -381,9 +397,8 @@
             }
         }, function(ret) {
             if (ret.status) {
-                requestingDistance = false;
                 distanceArray.push(ret.distance);
-                alert(" distance=" + ret.distance);
+                //alert(" distance=" + ret.distance);
             } else {
                 alert("错误" + ret);
             }
@@ -392,7 +407,6 @@
 
 //取最近的mill作为分厂信息
 function SetClosestMill(){
-
   if(mills.length==distanceArray.length&&mills.length!=0){
       //alert("齐了");
       var min_index=-1;
@@ -403,9 +417,12 @@ function SetClosestMill(){
           min_dis=distanceArray[i];
         }
       }
-      alert("最近index="+min_index);
-
-
+      //alert("最近分厂="+mills[min_index].mill_name);
+      setMillName(mills[min_index].mill_no,mills[min_index].mill_name);
+      mills.length=0;
+      distanceArray.length=0;
+      if(timer!=-1)
+      clearInterval(timer);
   }
 }
 
