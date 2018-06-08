@@ -182,7 +182,6 @@
 <script src="../../script/language.js" type="text/javascript"></script>
 <script type="text/javascript">
     var UIActionSelector;
-    var pipeinfo;
     var urloptions;
     var pipeno;
     apiready = function() {
@@ -236,38 +235,6 @@
 
         }
 
-
-
-        //
-        //
-        //
-        // //显示钢管基础信息
-        // function showPipeBasicInfo(pipeinfo) {
-        //     $('.contract_no').text(pipeinfo.contract_no);
-        //     $('.status_name').text(pipeinfo.status_name);
-        //     $('.weight').text(pipeinfo.weight);
-        //     $('.client_spec').text(pipeinfo.client_spec);
-        //     $('.project_name').text(pipeinfo.project_name);
-        //     $('.pipe_no').text(pipeinfo.pipe_no);
-        //     $('.project_no').text(pipeinfo.project_no);
-        //     $('.p_length').text(pipeinfo.p_length);
-        //     $('.external_coating').text(pipeinfo.external_coating);
-        //     $('.od').text(pipeinfo.od);
-        //     $('.grade').text(pipeinfo.grade);
-        //     $('.wt').text(pipeinfo.wt);
-        //     $('.pipe_making_lot_no').text(pipeinfo.pipe_making_lot_no);
-        //     $('.heat_no').text(pipeinfo.heat_no);
-        //     $('.internal_coating').text(pipeinfo.internal_coating);
-        //     $('.center_line_color').text(pipeinfo.center_line_color);
-        //     $('.pipe_end_color').text(pipeinfo.pipe_end_color);
-        //     $('.rebevel_mark').text(pipeinfo.rebevel_mark);
-        //     $('.shipment_date').text(formatterdate(pipeinfo.shipment_date));
-        //     $('.od_coating_date').text(formatterdate(pipeinfo.od_coating_date));
-        //     $('.id_coating_date').text(formatterdate(pipeinfo.id_coating_date));
-        // }
-        //
-        //
-        //
         //显示下一工序按钮
     function showNextProcessOptions(param_urloptions) {
         urloptions= param_urloptions;
@@ -284,20 +251,23 @@
 
     //下一工序按钮的模版
     function nextProcessTemplate(key) {
-        var template = '<div class="i18n1 process-button" name="'+key+'"  onclick="goNextProcess(' + key + ');">' + key + '</div>';
+        var template = '<div class="i18n1 process-button" name="'+key+'" onclick="goNextProcess(this)">' + key + '</div>';
         return template;
     }
 
 
     //跳转下一工序页面
-    function goNextProcess(key) {
+    function goNextProcess(obj) {
+        var key=$(obj).attr('name');
         var url = urloptions[key];
-        var nextURL = './' + url + '.html';
+
+        var nextURL = '../' + url + '.html';
+        //alert("nextURL="+nextURL);
         api.openWin({
             name: url,
             url: nextURL,
             pageParam: {
-                pipe_no: pipeinfo.pipe_no
+                pipe_no: pipeno
             }
         });
     }
