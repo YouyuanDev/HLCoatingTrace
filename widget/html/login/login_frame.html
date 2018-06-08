@@ -154,7 +154,11 @@
 
     apiready = function() {
         fnInit();
+        //得到服务器上所有工厂的信息
+        getAllMillsFromServer();
+        setTimeout(function() {
         initbMap();
+      },400);
 
     };
 
@@ -342,45 +346,47 @@
         });
     }
 
+function getAllMillsFromServer(){
+  //得到所有mill的坐标
+  var s = 'http://' + serverIP + '/millInfo/getAllMillsInfo.action';
+  api.ajax({
+      url: s,
+      method: 'post',
+      timeout: 30,
+      dataType: 'json',
+      data: {
 
+      }
+  }, function(ret, err) {
+      api.hideProgress();
+      if (ret) {
+          if (ret.success == true) {
+              mills = ret.millinfo;
+          }
+      } else {
+          api.alert({
+              msg: JSON.stringify(err)
+          });
+      }
+
+  });
+
+}
 
     function GetClosestMill(my_lon, my_lat) {
-        //得到所有mill的坐标
-        var s = 'http://' + serverIP + '/millInfo/getAllMillsInfo.action';
-        api.ajax({
-            url: s,
-            method: 'post',
-            timeout: 30,
-            dataType: 'json',
-            data: {
+      for (var i = 0; i < mills.length; i++) {
 
-            }
-        }, function(ret, err) {
-            api.hideProgress();
-            if (ret) {
-                if (ret.success == true) {
-                    mills = ret.millinfo;
-                    for (var i = 0; i < mills.length; i++) {
-
-                        var mill = mills[i];
-                        var coordinate = mill.coordinate;
-                        var coords = coordinate.split(',');
-                        var mill_lon = coords[0];
-                        var mill_lat = coords[1];
-                        //alert("mill" + i + " mill_lon=" + mill_lon);
-                        getDistance(mill_lon, mill_lat, my_lon, my_lat);
-                        setTimeout(function() {
-                          ;
-                        }, 500);
-                    }
-                }
-            } else {
-                api.alert({
-                    msg: JSON.stringify(err)
-                });
-            }
-
-        });
+          var mill = mills[i];
+          var coordinate = mill.coordinate;
+          var coords = coordinate.split(',');
+          var mill_lon = coords[0];
+          var mill_lat = coords[1];
+          //alert("mill" + i + " mill_lon=" + mill_lon);
+          getDistance(mill_lon, mill_lat, my_lon, my_lat);
+          setTimeout(function() {
+            ;
+          }, 500);
+      }
     }
 
 
@@ -419,7 +425,6 @@ function SetClosestMill(){
       }
       //alert("最近分厂="+mills[min_index].mill_name);
       setMillName(mills[min_index].mill_no,mills[min_index].mill_name);
-      mills.length=0;
       distanceArray.length=0;
       if(timer!=-1)
       clearInterval(timer);
