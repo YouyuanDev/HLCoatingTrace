@@ -45,10 +45,11 @@ html,body {  font-size:14px; height:100%;background:#FFFFFF;}
     background-position: center center;
 }
 
-.from-content {
+.form-content {
     /*padding: 4px;*/
     width:100%;
     overflow-y:auto;
+    -webkit-overflow-scrolling: touch
     top:43px;
     position:absolute;
     z-index:10;
@@ -85,7 +86,7 @@ html,body {  font-size:14px; height:100%;background:#FFFFFF;}
 .form-item .form-item-lbl {
     width: 100%;
 }
-.form-item .form-select-val,.form-select-val1{
+.form-item .form-steel-select-val,.form-coating-select-val{
    width:100%;height:auto;padding:2px;color:#19AD68;
 }
 .form-item .form-item-lbl label {
@@ -131,8 +132,9 @@ select,button{
 }
 .temp-container .temp-del-icon{
    width:20px;height:20px;border-radius:10px;
-   text-align:center;line-height:20px;background-color:#19AD68;
+   text-align:center;line-height:20px;background-color:red;
    position:absolute;top:-5px;right:-5px;color:#FFFFFF;
+   z-index:1000;
 }
 .temp-container img{
     width:100px;height:100px;
