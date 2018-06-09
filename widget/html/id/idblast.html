@@ -56,7 +56,7 @@
                 <label class="i18n1" name="internalsurfacecondition"></label>
             </div>
             <div class="form-item-val">
-                <button data-type="steel" class="i18n1 form-steel-condition form-condition" name="select"></button>
+                <button data-type="steel"  class="i18n1 form-steel-condition form-condition" name="select"></button>
             </div>
             <div class="form-steel-select-val">
             </div>
@@ -66,7 +66,7 @@
                 <label class="i18n1" name="externalcoatingcondition"></label>
             </div>
             <div class="form-item-val">
-                <button data-type="coating"  class="i18n1 form-coating-condition form-condition" name="select"></button>
+                <button data-type="coating" class="i18n1 form-coating-condition form-condition" name="select"></button>
             </div>
             <div class="form-coating-select-val">
 
@@ -148,7 +148,9 @@ apiready = function() {
   function Go(employeeno,millno){
 
     //初始化表单业务逻辑
-    setAllDefectInfo();
+    setAllDefectInfo("steel");
+    setAllDefectInfo("coating");
+    //setAllDefectInfo("coating");
     setSelectPictures();
     hlLanguage("../../i18n/");
   }

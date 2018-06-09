@@ -211,103 +211,111 @@ function RequestMySesssion() {
     });
 }
 //得到所有钢管表面的缺陷种类 type有两种，第一种steel,第二种coating
-function setAllDefectInfo() {
+function setAllDefectInfo(type) {
+    var s;
+    if (type == "steel") {
+        s = 'http://' + serverIP + '/DefectOperation/getAllSteelDefectInfo.action';
+    } else {
+        s = 'http://' + serverIP + '/DefectOperation/getAllCoatingDefectInfo.action';
+    }
+    api.ajax({
+        url: s,
+        method: 'post',
+        timeout: 30,
+        dataType: 'json',
+        data: {}
+    }, function(ret, err) {
+        var defectArr = ret;
+        var itemsArr = [];
+        if (defectArr != undefined) {
+            for (var i = 0; i < defectArr.length; i++) {
+                var temp = {
+                    text: defectArr[i].defect_name,
+                    status: 'normal'
+                };
+                itemsArr.push(temp);
+            }
+            //设置数据给属性
+            var divValTag = '.form-' + type + '-condition';
+            $(divValTag).attr("data-val", JSON.stringify(itemsArr));
+
+        }
+    });
     $('.form-condition').click(function() {
         var type = $(this).attr("data-type");
-        var s, title;
+        var itemsArr =JSON.parse($(this).attr("data-val"));
+        var title;
         if (type == "steel") {
-            s = 'http://' + serverIP + '/DefectOperation/getAllSteelDefectInfo.action';
             title = "外观缺陷"
         } else {
-            s = 'http://' + serverIP + '/DefectOperation/getAllCoatingDefectInfo.action';
             title = "涂层缺陷";
         }
-        var divtag = '.form-' + type + '-condition';
-        api.ajax({
-            url: s,
-            method: 'post',
-            timeout: 30,
-            dataType: 'json',
-            data: {}
+        //开始
+        var UIMultiSelector = api.require('UIMultiSelector');
+        UIMultiSelector.open({
+            rect: {
+                h: 244
+            },
+            text: {
+                title: title,
+                leftBtn: '',
+                rightBtn: '完成'
+            },
+            max: 0,
+            styles: {
+                mask: 'rgba(0,0,0,0.3)',
+                title: {
+                    bg: 'rgb(245,245,245)',
+                    color: 'rgb(0,0,0)',
+                    size: 16,
+                    h: 44
+                },
+                leftButton: {
+                    bg: 'rgb(255,255,255)',
+                    w: 0,
+                    h: 0,
+                    marginT: 5,
+                    marginL: 8,
+                    color: 'rgb(0,0,0)',
+                    size: 14
+                },
+                rightButton: {
+                    bg: 'rgb(245,245,245)',
+                    w: 80,
+                    h: 35,
+                    marginT: 5,
+                    marginR: 8,
+                    color: 'rgb(0,0,0)',
+                    size: 14
+                },
+                item: {
+                    h: 35,
+                    bg: 'rgb(255,255,255)',
+                    bgActive: 'rgb(25,173,104)',
+                    bgHighlight: 'rgb(25,173,104)',
+                    color: 'rgb(0,0,0,0.8)',
+                    active: 'rgb(255,255,255)',
+                    highlight: 'rgb(255,255,255)',
+                    size: 14,
+                    lineColor: 'rgb(169,169,169)',
+                    textAlign: 'center'
+                }
+            },
+            animation: true,
+            items: itemsArr
         }, function(ret, err) {
-            var defectArr = ret;
-            var itemsArr = [];
-            if (defectArr != undefined) {
-                for (var i = 0; i < defectArr.length; i++) {
-                    var temp = {
-                        text: defectArr[i].defect_name,
-                        status: 'normal'
-                    };
-                    itemsArr.push(temp);
+            if (ret) {
+                if (ret.eventType == "clickRight" || ret.eventType == "clickMask") {
+                    var divtag2 = '.form-' + type + '-select-val';
+                    $(divtag2).empty();
+                    for (var i = 0; i < ret.items.length; i++) {
+                        $(divtag2).append(ret.items[i].text + ",");
+                    }
+                    UIMultiSelector.close();
                 }
+            } else {
+                alert(JSON.stringify(err));
             }
-            //开始
-            var UIMultiSelector = api.require('UIMultiSelector');
-            UIMultiSelector.open({
-                rect: {
-                    h: 244
-                },
-                text: {
-                    title: title,
-                    leftBtn: '',
-                    rightBtn: '完成'
-                },
-                max: 0,
-                styles: {
-                    mask: 'rgba(0,0,0,0.3)',
-                    title: {
-                        bg: 'rgb(245,245,245)',
-                        color: 'rgb(0,0,0)',
-                        size: 16,
-                        h: 44
-                    },
-                    leftButton: {
-                        bg: 'rgb(255,255,255)',
-                        w: 0,
-                        h: 0,
-                        marginT: 5,
-                        marginL: 8,
-                        color: 'rgb(0,0,0)',
-                        size: 14
-                    },
-                    rightButton: {
-                        bg: 'rgb(245,245,245)',
-                        w: 80,
-                        h: 35,
-                        marginT: 5,
-                        marginR: 8,
-                        color: 'rgb(0,0,0)',
-                        size: 14
-                    },
-                    item: {
-                        h: 35,
-                        bg: 'rgb(255,255,255)',
-                        bgActive: 'rgb(25,173,104)',
-                        bgHighlight: 'rgb(25,173,104)',
-                        color: 'rgb(0,0,0,0.8)',
-                        active: 'rgb(255,255,255)',
-                        highlight: 'rgb(255,255,255)',
-                        size: 14,
-                        lineColor: 'rgb(169,169,169)',
-                        textAlign: 'center'
-                    }
-                },
-                animation: true,
-                items: itemsArr
-            }, function(ret, err) {
-                if (ret) {
-                    if (ret.eventType == "clickRight" || ret.eventType == "clickMask") {
-                        var divtag2 = '.form-' + type + '-select-val';
-                        $(divtag2).empty();
-                        for (var i = 0; i < ret.items.length; i++) {
-                            $(divtag2).append(ret.items[i].text + ",");
-                        }
-                        UIMultiSelector.close();
-                    }
-                } else {
-                    alert(JSON.stringify(err));
-                }
-            });
         });
     });
 }

@@ -49,7 +49,7 @@ html,body {  font-size:14px; height:100%;background:#FFFFFF;}
     /*padding: 4px;*/
     width:100%;
     overflow-y:auto;
-    -webkit-overflow-scrolling: touch
+    -webkit-overflow-scrolling: touch;
     top:43px;
     position:absolute;
     z-index:10;
