@@ -197,20 +197,26 @@
             var data = api.pageParam;
             pipeno = data.pipeno;
             //urloptions =data.urloptions;
-            if (pipeno != undefined){
-              SearchpipeInfo();
-            }
-            else {
+            if (pipeno != undefined) {
+                SearchpipeInfo();
+            } else {
                 alert("查询出现异常!");
                 return;
             }
             //下拉刷新，钢管信息
             dropdownLoading();
             hlLanguage("../../i18n/");
-            $(document).on('click','.upload-pictures',function(){
-               alert(3);
-            });
+            // $(document).on('tap','.upload-pictures',function(){
+            //     alert(2);
+            // });
+
         }
+        $(function(){
+          $(document).on('click','.upload-pictures',function(){
+              alert(4);
+              setBrowsePicutre(this);
+          });
+        });
         //查看图片事件
     function setBrowsePicutre(obj) {
         var picturelistStr = $(obj).attr('data-list');
@@ -220,7 +226,7 @@
                 var picturelistArr = [];
                 var url = "http://" + serverIP + "/upload/pictures/";
                 for (var i = 0; i < picturelist.length; i++) {
-                    if(picturelist[i] != undefined && picturelist[i].trim().length > 0)
+                    if (picturelist[i] != undefined && picturelist[i].trim().length > 0)
                         picturelistArr.push(url + picturelist[i]);
                 }
                 imageBrowser.openImages({
@@ -297,6 +303,7 @@
             textDown: '下拉刷新...',
             textUp: '松开刷新...'
         }, function(ret, err) {
+            // alert(2);
             //在这里从服务器加载数据,加载完成后调用api.refreshHeaderLoadDone()方法恢复组件到默认状态
             //重新刷新
             //alert("kaishi shuaxin");
@@ -349,7 +356,7 @@
                 }
             }
         }, function(data, err) { //alert(ret);
-            api.hideProgress();
+            //api.hideProgress();
             if (data.success != undefined && data.success == false) {
                 api.alert({
                     msg: JSON.stringify(data.message)
@@ -1094,7 +1101,15 @@
                             '" class="upload-pictures i18n1" name="viewpicture">图片</a></td></tr>';
                     }
                     template += '</tbody></table>';
-                    $('#pipe-process-info').append(template);
+
+                    // $('#pipe-process-info').append(template);
+                    // var demo2 = $api.domAll(".upload-pictures");
+                    // for (var i in demo2) {
+                    //     $api.addEvt(demo2, 'click', function() {
+                    //         alert(3);
+                    //          setBrowsePicutre(this);
+                    //     });
+                    // }
                 }
                 if (!flag) {
                     api.alert({
@@ -1106,7 +1121,7 @@
                 } else {
                     $('.loadmore-div').remove();
                 }
-                hlLanguage("../i18n/");
+                hlLanguage("../../i18n/");
             } else {
                 api.alert({
                     msg: JSON.stringify(err)
@@ -1124,11 +1139,12 @@
         for (var key in dict) {
             template += '<tr style="width:100%;">';
             template += ' <td style="width:50%;color: #7A7A7A;padding:5px 0px;" class="i18n1 pipeinfo-td" name="' + key + '">' + key + '</td>';
-            if (key == "uploadfiles")
-                template += '<td style="width:50%;text-align:center;padding:5px 0px;" class="pipeinfo-td"><a style="color:#87CEEB;" onclick="setBrowsePicutre(this)" data-list="' + dict[key] +
-                '" class="upload-pictures i18n1" name="viewpicture">图片</a></td>';
-            else
-                template += ' <td style="width:50%;text-align:center;padding:5px 0px;" class="pipeinfo-td">' + dict[key] + '</td>';
+            if (key == "uploadfiles"){
+              template += '<td style="width:50%;text-align:center;padding:5px 0px;" class="pipeinfo-td" ><div style="color:#87CEEB;background-color:red;" onclick="setBrowsePicutre(this);" data-list="' + dict[key] +'" class="upload-pictures i18n1" name="viewpicture">图片</div></td>';
+            }
+            else{
+              template += ' <td style="width:50%;text-align:center;padding:5px 0px;" class="pipeinfo-td">' + dict[key] + '</td>';
+            }
             template += '</tr>';
         }
         template += '</table><br>';
