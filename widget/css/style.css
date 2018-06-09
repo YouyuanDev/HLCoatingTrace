@@ -23,6 +23,16 @@ html,body {  font-size:14px; height:100%;background:#FFFFFF;}
     padding: 8px 15px;
     border-radius: 3px;
 }
+/*记录td*/
+.dataintable tr td:nth-child(odd){
+   width:50%;color: #7A7A7A;padding:5px 0px;
+}
+.dataintable tr td:nth-child(even){
+  width:50%;text-align:center;padding:5px 0px;
+}
+/*.history-td-pic{
+  width:50%;text-align:center;padding:5px 0px;
+}*/
 /*表单布局*/
 .form-nav {
     width:100%;

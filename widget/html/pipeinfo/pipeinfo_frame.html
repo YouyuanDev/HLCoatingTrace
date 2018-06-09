@@ -209,6 +209,7 @@
         }
         //查看图片事件
     function setBrowsePicutre(obj) {
+        alert(1);
         var picturelistStr = $(obj).attr('data-list');
         if (picturelistStr != undefined && picturelistStr.length > 0) {
             var picturelist = picturelistStr.split(";");
@@ -216,12 +217,12 @@
                 var picturelistArr = [];
                 var url = "http://" + serverIP + "/upload/pictures/";
                 for (var i = 0; i < picturelist.length; i++) {
-                    if(picturelist[i]!=undefined&&picturelist[i].trim().length>0)
-                      picturelistArr.push(url + picturelist[i]);
+                    if (picturelist[i] != undefined && picturelist[i].trim().length > 0)
+                        picturelistArr.push(url + picturelist[i]);
                 }
                 imageBrowser.openImages({
                     showList: true,
-                    imageUrls:picturelistArr
+                    imageUrls: picturelistArr
                 });
             } else {
                 alert("暂无图片!");
@@ -267,7 +268,7 @@
                     //alert("showNextProcessOptions="+JSON.stringify(ret.urloptions));
                     var jsfun = 'showNextProcessOptions(' + JSON.stringify(ret.urloptions) + ');';
                     api.execScript({
-                        name:'pipeinforoot',
+                        name: 'pipeinforoot',
                         script: jsfun
                     });
                     //若已经显示了所有工序信息，则刷新
@@ -363,7 +364,7 @@
                         result = "不合格,重新打砂处理";
                     else if (obj.result == "1")
                         result = "合格,进入外喷砂检验工序";
-                    else if (obj.result == "2")
+                    else if (obj.result == "10")
                         result = "待定";
                     else if (obj.result == "3")
                         result = "隔离,进入修磨或切割工序";
@@ -402,7 +403,7 @@
                         result = "不合格,重新打砂处理";
                     else if (obj.result == "1")
                         result = "合格,进入外涂敷工序";
-                    else if (obj.result == "2")
+                    else if (obj.result == "10")
                         result = "待定";
                     else if (obj.result == "3")
                         result = "隔离,进入修磨或切割工序";
@@ -441,7 +442,7 @@
                         result = "不合格,进入外喷砂工序";
                     else if (obj.result == "1")
                         result = "合格,进入外涂敷检验工序";
-                    else if (obj.result == "2")
+                    else if (obj.result == "10")
                         result = "待定";
                     var dic = {
                         "operatorno": obj.operator_no,
@@ -480,7 +481,7 @@
                         result = "合格,进入外喷标工序";
                     else if (obj.result == "2")
                         result = "不合格,进入待扒皮工序";
-                    else if (obj.result == "3")
+                    else if (obj.result == "10")
                         result = "待定";
                     else if (obj.result == "4")
                         result = "隔离,进入修磨或切割工序";
@@ -514,7 +515,7 @@
                         result = "不合格,进入外防喷砂工序";
                     else if (obj.result == "1")
                         result = "合格,进入外涂敷检验工序";
-                    else if (obj.result == "2")
+                    else if (obj.result == "10")
                         result = "待定";
                     var dic = {
                         "operatorno": obj.operator_no,
@@ -553,7 +554,7 @@
                         result = "合格,进入外喷标工序";
                     else if (obj.result == "2")
                         result = "不合格,进入待扒皮工序";
-                    else if (obj.result == "3")
+                    else if (obj.result == "10")
                         result = "待定";
                     else if (obj.result == "4")
                         result = "隔离,进入修磨或切割工序";
@@ -611,7 +612,7 @@
                         result = "不合格,重新喷标";
                     else if (obj.result == "1")
                         result = "合格,进入外防终检工序";
-                    else if (obj.result == "2")
+                    else if (obj.result == "10")
                         result = "待定";
                     var dic = {
                         "operatorno": obj.operator_no,
@@ -637,7 +638,7 @@
                         result = "合格,进入外防成品入库工序";
                     else if (obj.result == "2")
                         result = "不合格,进入外防待扒皮工序";
-                    else if (obj.result == "3")
+                    else if (obj.result == "10")
                         result = "待定";
                     else if (obj.result == "4")
                         result = "不合格,进入外喷标工序";
@@ -648,14 +649,14 @@
                         inspectionresult = "不合格";
                     else if (obj.inspection_result == "1")
                         inspectionresult = "合格";
-                    else if (obj.inspection_result == "2")
+                    else if (obj.inspection_result == "10")
                         inspectionresult = "待定";
                     var stencilverification = "";
                     if (obj.stencil_verification == "0")
                         stencilverification = "未检测";
                     else if (obj.stencil_verification == "1")
                         stencilverification = "合格";
-                    else if (obj.stencil_verification == "2")
+                    else if (obj.stencil_verification == "10")
                         stencilverification = "待定";
                     var cutbacksurface = "";
                     if (obj.cutback_surface == "0")
@@ -688,7 +689,7 @@
                         result = "不合格,重新喷砂处理";
                     else if (obj.result == "1")
                         result = "合格,进入内喷砂检验工序";
-                    else if (obj.result == "2")
+                    else if (obj.result == "10")
                         result = "待定";
                     else if (obj.result == "3")
                         result = "隔离,进入修磨或切割工序";
@@ -730,7 +731,7 @@
                         result = "不合格,重新喷砂处理";
                     else if (obj.result == "1")
                         result = "合格,进入内涂敷工序";
-                    else if (obj.result == "2")
+                    else if (obj.result == "10")
                         result = "待定";
                     else if (obj.result == "3")
                         result = "隔离,进入修磨或切割工序";
@@ -764,7 +765,7 @@
                         result = "不合格,进入内防喷砂工序";
                     else if (obj.result == "1")
                         result = "合格,进入内涂敷检验工序";
-                    else if (obj.result == "2")
+                    else if (obj.result == "10")
                         result = "待定";
                     var dic = {
                         "operatorno": obj.operator_no,
@@ -795,7 +796,7 @@
                         result = "合格,进入内喷标工序";
                     else if (obj.result == "2")
                         result = "合格,进入待扒皮工序";
-                    else if (obj.result == "3")
+                    else if (obj.result == "10")
                         result = "待定";
                     else if (obj.result == "4")
                         result = "隔离,进入修磨或切割工序";
@@ -831,7 +832,7 @@
                         result = "不合格,重新喷标";
                     else if (obj.result == "1")
                         result = "合格,进入内防终检工序";
-                    else if (obj.result == "2")
+                    else if (obj.result == "10")
                         result = "待定";
                     var dic = {
                         "operatorno": obj.operator_no,
@@ -859,7 +860,7 @@
                         result = "不合格,进入内防待扒皮工序";
                     else if (obj.result == "4")
                         result = "不合格,进入内喷标工序";
-                    else if (obj.result == "5")
+                    else if (obj.result == "10")
                         result = "待定";
                     else if (obj.result == "6")
                         result = "隔离,进入修磨或切割工序";
@@ -908,41 +909,36 @@
                 //扒皮
                 if (data.coatingStrips != undefined && data.coatingStrips != null && data.coatingStrips.length > 0) {
                     flag = true;
-                    var dicField = ["operatorno", "operationtime", "millno", "striptemperature", "odid", "result", "remark", "uploadfiles"];
                     var template = "";
                     template += '<table  title="" class="dataintable" style="width:100%;height:auto;"><thead><tr>';
-                    template += '<th class="i18n1" name="coatingstrip" colspan="7">扒皮记录</th>';
-                    template += '</tr></thead><tbody><tr>';
-                    for (var i = 0; i < dicField.length; i++) {
-                        template += '<td style="text-align:center;" class="i18n1" name=' + dicField[i] + '>' + dicField[i] + '</td>';
-                    }
-                    template += '</tr>';
+                    template += '<th class="i18n1" name="coatingstrip" colspan="2">扒皮记录</th>';
+                    template += '</tr></thead><tbody>';
                     var odid = "",
                         result = "";
                     for (var i = 0; i < data.coatingStrips.length; i++) {
                         odid = "";
                         result = "";
+                        template += '<tr><td  colspan="2" style="text-align:left;">' + (i + 1) + '.</td></tr>';
                         var obj = data.coatingStrips[i];
-                        template += '<tr>';
-                        template += '<td>' + obj.operator_no + '</td>';
-                        template += '<td>' + getDate1(obj.operation_time) + '</td>';
-                        template += '<td>' + obj.mill_no + '</td>';
-                        template += '<td>' + obj.strip_temperature + '</td>';
+                        template += '<tr><td class="i18n1" name="operatorno"></td><td>' + obj.operator_no + '</td></tr>';
+                        template += '<tr><td class="i18n1" name="operationtime"></td><td>' + getDate1(obj.operation_time) + '</td></tr>';
+                        template += '<tr><td class="i18n1" name="millno"></td><td>' + obj.mill_no + '</td></tr>';
+                        template += '<tr><td class="i18n1" name="striptemperature"></td><td>' + obj.strip_temperature + '</td></tr>';
                         if (obj.odid == "od")
                             odid = "外防";
                         else if (obj.odid == "id")
                             odid = "内防";
-                        template += '<td>' + odid + '</td>';
+                        template += '<tr><td class="i18n1" name="odid"></td><td>' + odid + '</td></tr>';
                         if (obj.result == "0")
                             result = "不合格,重新扒皮";
                         else if (obj.result == "1")
                             result = "合格,转为光管";
-                        else if (obj.result == "2")
+                        else if (obj.result == "10")
                             result = "待定";
-                        template += '<td>' + result + '</td>';
-                        template += '<td>' + obj.remark + '</td>';
-                        template += '<td><a style="color:#87CEEB;" data-list="' + obj.upload_files + '" class="upload-pictures i18n1" name="viewpicture">图片</a></td>';
-                        template += '</tr>';
+                        template += '<tr><td class="i18n1" name="result"></td><td>' + result + '</td></tr>';
+                        template += '<tr><td class="i18n1" name="remark"></td><td>' + obj.remark + '</td></tr>';
+                        template += '<tr><td class="i18n1" name="uploadfiles"></td><td><a style="color:#87CEEB;" onclick="setBrowsePicutre(this);" data-list="' + obj.upload_files +
+                            '" class="upload-pictures i18n1" name="viewpicture">图片</a></td></tr>';
                     }
                     template += '</tbody></table>';
                     $('#pipe-process-info').append(template);
@@ -950,41 +946,32 @@
                 //修补
                 if (data.coatingRepairs != undefined && data.coatingRepairs != null && data.coatingRepairs.length > 0) {
                     flag = true;
-                    var dicField = ["operatorno", "operationtime", "millno", "coatingtype", "odid", "repairsize",
-                        "repairnumber", "holidaynumber", "repairmethod", "unqualifiedreason", "inspectorno", "inspectiontime",
-                        "surfacecondition", "repairthickness", "holidaytesting", "adhesion",
-                        "result", "remark", "uploadfiles"
-                    ];
                     var template = "";
                     template += '<table  title="" class="dataintable" style="width:100%;height:auto;"><thead><tr>';
-                    template += '<th class="i18n1" name="coatingrepair" colspan="18">修补记录</th>';
+                    template += '<th class="i18n1" name="coatingrepair" colspan="2">修补记录</th>';
 
-                    template += '</tr></thead><tbody><tr>';
-                    for (var i = 0; i < dicField.length; i++) {
-                        template += '<td style="text-align: center;" class="i18n1" name=' + dicField[i] + '>' + dicField[i] + '</td>';
-                    }
-                    template += '</tr>';
+                    template += '</tr></thead><tbody>';
                     var odid = "",
                         result = "",
                         unqualifiedreason = "";
                     for (var i = 0; i < data.coatingRepairs.length; i++) {
                         odid = "";
                         result = "", unqualifiedreason = "";
+                        template += '<tr><td colspan="2" style="text-align:left;">' + (i + 1) + '.</td></tr>';
                         var obj = data.coatingRepairs[i];
-                        template += '<tr>';
-                        template += '<td>' + obj.operator_no + '</td>';
-                        template += '<td>' + getDate1(obj.operation_time) + '</td>';
-                        template += '<td>' + obj.mill_no + '</td>';
-                        template += '<td>' + obj.coating_type + '</td>';
+                        template += '<tr><td class="i18n1" name="operatorno"></td><td>' + obj.operator_no + '</td></tr>';
+                        template += '<tr><td class="i18n1" name="operationtime"></td><td>' + getDate1(obj.operation_time) + '</td></tr>';
+                        template += '<tr><td class="i18n1" name="millno"></td><td>' + obj.mill_no + '</td></tr>';
+                        template += '<tr><td class="i18n1" name="coatingtype"></td><td>' + obj.coating_type + '</td></tr>';
                         if (obj.odid == "od")
                             odid = "外防";
                         else if (obj.odid == "id")
                             odid = "内防";
-                        template += '<td>' + odid + '</td>';
-                        template += '<td>' + obj.repair_size + '</td>';
-                        template += '<td>' + obj.repair_number + '</td>';
-                        template += '<td>' + obj.holiday_number + '</td>';
-                        template += '<td>' + obj.repair_method + '</td>';
+                        template += '<tr><td class="i18n1" name="odid"></td><td>' + odid + '</td></tr>';
+                        template += '<tr><td class="i18n1" name="repairsize"></td><td>' + obj.repair_size + '</td></tr>';
+                        template += '<tr><td class="i18n1" name="repairnumber"></td><td>' + obj.repair_number + '</td></tr>';
+                        template += '<tr><td class="i18n1" name="holidaynumber"></td><td>' + obj.holiday_number + '</td></tr>';
+                        template += '<tr><td class="i18n1" name="repairmethod"></td><td>' + obj.repair_method + '</td></tr>';
                         if (obj.unqualified_reason == "1")
                             unqualifiedreason = "漏点";
                         else if (obj.unqualified_reason == "2")
@@ -995,13 +982,13 @@
                             unqualifiedreason = "附着力不合";
                         else if (obj.unqualified_reason == "5")
                             unqualifiedreason = "有杂质";
-                        template += '<td>' + unqualifiedreason + '</td>';
-                        template += '<td>' + obj.inspector_no + '</td>';
-                        template += '<td>' + getDate1(obj.inspection_time) + '</td>';
-                        template += '<td>' + obj.surface_condition + '</td>';
-                        template += '<td>' + obj.repair_thickness + '</td>';
-                        template += '<td>' + obj.holiday_testing + '</td>';
-                        template += '<td>' + obj.adhesion + '</td>';
+                        template += '<tr><td class="i18n1" name="unqualifiedreason"></td><td>' + unqualifiedreason + '</td></tr>';
+                        template += '<tr><td class="i18n1" name="inspectorno"></td><td>' + obj.inspector_no + '</td></tr>';
+                        template += '<tr><td class="i18n1" name="inspectiontime"></td><td>' + getDate1(obj.inspection_time) + '</td></tr>';
+                        template += '<tr><td class="i18n1" name="surfacecondition"></td><td>' + obj.surface_condition + '</td></tr>';
+                        template += '<tr><td class="i18n1" name="repairthickness"></td><td>' + obj.repair_thickness + '</td></tr>';
+                        template += '<tr><td class="i18n1" name="holidaytesting"></td><td>' + obj.holiday_testing + '</td></tr>';
+                        template += '<tr><td class="i18n1" name="adhesion"></td><td>' + obj.adhesion + '</td></tr>';
                         if (obj.result == "0")
                             result = "不合格,重新修补";
                         else if (obj.result == "1")
@@ -1012,12 +999,12 @@
                             result = "不合格,外防扒皮处理";
                         else if (obj.result == "4")
                             result = "不合格,内防扒皮处理";
-                        else if (obj.result == "5")
+                        else if (obj.result == "10")
                             result = "待定";
-                        template += '<td>' + result + '</td>';
-                        template += '<td>' + obj.remark + '</td>';
-                        template += '<td><a style="color:#87CEEB;" data-list="' + obj.upload_files + '" class="upload-pictures i18n1" name="viewpicture">图片</a></td>';
-                        template += '</tr>';
+                        template += '<tr><td class="i18n1" name="result"></td><td>' + result + '</td></tr>';
+                        template += '<tr><td class="i18n1" name="remark"></td><td>' + obj.remark + '</td></tr>';
+                        template += '<tr><td class="i18n1" name="uploadfiles"></td><td><a style="color:#87CEEB;" onclick="setBrowsePicutre(this);" data-list="' + obj.upload_files +
+                            '" class="upload-pictures i18n1" name="viewpicture">图片</a></td></tr>';
                     }
                     template += '</tbody></table>';
                     $('#pipe-process-info').append(template);
@@ -1025,55 +1012,47 @@
                 //修磨切割
                 if (data.barePipeGrindingCutoffRecords != undefined && data.barePipeGrindingCutoffRecords != null && data.barePipeGrindingCutoffRecords.length > 0) {
                     flag = true;
-                    var dicField = ["operatorno", "operationtime", "millno", "odid",
-                        "grinding_cutoff", "remainingwallthicknesslist", "cutofflength", "originalpipelength", "pipelengthaftercut",
-                        "result", "remark", "uploadfiles"
-                    ];
                     var template = "";
                     template += '<table  title="" class="dataintable" style="width:100%;height:auto;"><thead><tr>';
-                    template += '<th class="i18n1" name="barepipegrindingProcess" colspan="11">修磨切割记录</th>';
-                    template += '</tr></thead><tbody><tr>';
-                    for (var i = 0; i < dicField.length; i++) {
-                        template += '<td style="text-align: center;" class="i18n1" name=' + dicField[i] + '>' + dicField[i] + '</td>';
-                    }
-                    template += '</tr>';
+                    template += '<th class="i18n1" name="barepipegrindingProcess" colspan="2">修磨切割记录</th>';
+                    template += '</tr></thead><tbody>';
                     var odid = "",
                         result = "",
                         grindingcutoff = "";
                     for (var i = 0; i < data.barePipeGrindingCutoffRecords.length; i++) {
                         odid = "";
                         result = "", grindingcutoff = "";
+                        template += '<tr><td colspan="2" style="text-align:left;">' + (i + 1) + '.</td></tr>';
                         var obj = data.barePipeGrindingCutoffRecords[i];
-                        template += '<tr>';
-                        template += '<td>' + obj.operator_no + '</td>';
-                        template += '<td>' + getDate1(obj.operation_time) + '</td>';
-                        template += '<td>' + obj.mill_no + '</td>';
+                        template += '<tr><td class="i18n1" name="operatorno"></td><td>' + obj.operator_no + '</td></tr>';
+                        template += '<tr><td class="i18n1" name="operationtime"></td><td>' + getDate1(obj.operation_time) + '</td></tr>';
+                        template += '<tr><td class="i18n1" name="millno"></td><td>' + obj.mill_no + '</td></tr>';
                         if (obj.odid == "OD")
                             odid = "外表面";
                         else if (obj.odid == "ID")
                             odid = "内表面";
-                        template += '<td>' + odid + '</td>';
+                        template += '<tr><td class="i18n1" name="odid"></td><td>' + odid + '</td></tr>';
                         if (obj.grinding_cutoff = "G")
                             grindingcutoff = "修磨";
                         else if (obj.grinding_cutoff = "C")
                             grindingcutoff = "切割";
                         else if (obj.grinding_cutoff = "GC")
                             grindingcutoff = "修磨并切割";
-                        template += '<td>' + grindingcutoff + '</td>';
-                        template += '<td>' + obj.remaining_wall_thickness_list + '</td>';
-                        template += '<td>' + obj.cut_off_length + '</td>';
-                        template += '<td>' + obj.original_pipe_length + '</td>';
-                        template += '<td>' + obj.pipe_length_after_cut + '</td>';
+                        template += '<tr><td class="i18n1" name="grindingcutoff"></td><td>' + grindingcutoff + '</td></tr>';
+                        template += '<tr><td class="i18n1" name="remainingwallthicknesslist"></td><td>' + obj.remaining_wall_thickness_list + '</td></tr>';
+                        template += '<tr><td class="i18n1" name="cutofflength"></td><td>' + obj.cut_off_length + '</td></tr>';
+                        template += '<tr><td class="i18n1" name="originalpipelength"></td><td>' + obj.original_pipe_length + '</td></tr>';
+                        template += '<tr><td class="i18n1" name="pipelengthaftercut"></td><td>' + obj.pipe_length_after_cut + '</td></tr>';
                         if (obj.result == "0")
                             result = "不合格,重新修磨或切割处理";
                         else if (obj.result == "1")
                             result = "合格,返回上一工序";
-                        else if (obj.result == "2")
+                        else if (obj.result == "10")
                             result = "待定";
-                        template += '<td>' + result + '</td>';
-                        template += '<td>' + obj.remark + '</td>';
-                        template += '<td><a style="color:#87CEEB;" data-list="' + obj.upload_files + '" class="upload-pictures i18n1" name="viewpicture">图片</a></td>';
-                        template += '</tr>';
+                        template += '<tr><td class="i18n1" name="result"></td><td>' + result + '</td></tr>';
+                        template += '<tr><td class="i18n1" name="remark"></td><td>' + obj.remark + '</td></tr>';
+                        template += '<tr><td class="i18n1" name="uploadfiles"></td><td><a style="color:#87CEEB;" onclick="setBrowsePicutre(this);" data-list="' + obj.upload_files +
+                            '" class="upload-pictures i18n1" name="viewpicture">图片</a></td></tr>';
                     }
                     template += '</tbody></table>';
                     $('#pipe-process-info').append(template);
@@ -1081,38 +1060,35 @@
                 //倒棱
                 if (data.pipeRebevelRecords != undefined && data.pipeRebevelRecords != null && data.pipeRebevelRecords.length > 0) {
                     flag = true;
-                    var dicField = ["operatorno", "operationtime", "squareness", "ovality", "bevelangle", "rootface", "result", "remark", "uploadfiles"];
                     var template = "";
                     template += '<table  title="" class="dataintable" style="width:100%;height:auto;"><thead><tr>';
                     template += '<th class="i18n1" name="pipeRebevelProcess" colspan="8">倒棱记录</th>';
-                    template += '</tr></thead><tbody><tr>';
-                    for (var i = 0; i < dicField.length; i++) {
-                        template += '<td style="text-align: center;" class="i18n1" name=' + dicField[i] + '>' + dicField[i] + '</td>';
-                    }
-                    template += '</tr>';
+                    template += '</tr></thead><tbody>';
+
                     var odid = "",
                         result = "";
                     for (var i = 0; i < data.pipeRebevelRecords.length; i++) {
                         odid = "";
                         result = "";
+                        template += '<tr><td colspan="2" style="text-align:left;">' + (i + 1) + '.</td></tr>';
                         var obj = data.pipeRebevelRecords[i];
-                        template += '<tr>';
-                        template += '<td>' + obj.operator_no + '</td>';
-                        template += '<td>' + getDate1(obj.operation_time) + '</td>';
-                        template += '<td>' + obj.squareness + '</td>';
-                        template += '<td>' + obj.ovality + '</td>';
-                        template += '<td>' + obj.bevel_angle + '</td>';
-                        template += '<td>' + obj.rootface + '</td>';
+                        //template += '<tr>';
+                        template += '<tr><td class="i18n1" name="operatorno"></td><td>' + obj.operator_no + '</td></tr>';
+                        template += '<tr><td class="i18n1" name="operationtime"></td><td>' + getDate1(obj.operation_time) + '</td></tr>';
+                        template += '<tr><td class="i18n1" name="squareness"></td><td>' + obj.squareness + '</td></tr>';
+                        template += '<tr><td class="i18n1" name="ovality"></td><td>' + obj.ovality + '</td></tr>';
+                        template += '<tr><td class="i18n1" name="bevelangle"></td><td>' + obj.bevel_angle + '</td></tr>';
+                        template += '<tr><td class="i18n1" name="rootface"></td><td>' + obj.rootface + '</td></tr>';
                         if (obj.result == "0")
                             result = "不合格,重新倒棱处理";
                         else if (obj.result == "1")
                             result = "合格";
-                        else if (obj.result == "2")
+                        else if (obj.result == "10")
                             result = "待定";
-                        template += '<td>' + result + '</td>';
-                        template += '<td>' + obj.remark + '</td>';
-                        template += '<td><a style="color:#87CEEB;" data-list="' + obj.upload_files + '" class="upload-pictures i18n1" name="viewpicture">图片</a></td>';
-                        template += '</tr>';
+                        template += '<tr><td class="i18n1" name="result"></td><td>' + result + '</td></tr>';
+                        template += '<tr><td class="i18n1" name="remark"></td><td>' + obj.remark + '</td></tr>';
+                        template += '<tr><td class="i18n1" name="uploadfiles"></td><td><a style="color:#87CEEB;" onclick="setBrowsePicutre(this);" data-list="' + obj.upload_files +
+                            '" class="upload-pictures i18n1" name="viewpicture">图片</a></td></tr>';
                     }
                     template += '</tbody></table>';
                     $('#pipe-process-info').append(template);
@@ -1146,7 +1122,7 @@
             template += '<tr style="width:100%;">';
             template += ' <td style="width:50%;color: #7A7A7A;padding:5px 0px;" class="i18n1 pipeinfo-td" name="' + key + '">' + key + '</td>';
             if (key == "uploadfiles")
-                template += ' <td style="width:50%;text-align:center;padding:5px 0px;" class="pipeinfo-td"><a style="color:#87CEEB;" onclick="setBrowsePicutre(this)" data-list="' + dict[key] +
+                template += ' <td style="width:50%;text-align:center;padding:5px 0px;" class="pipeinfo-td"><a style="color:#87CEEB;" onclick="setBrowsePicutre(this);" data-list="' + dict[key] +
                 '" class="upload-pictures i18n1" name="viewpicture">图片</a></td>';
             else
                 template += ' <td style="width:50%;text-align:center;padding:5px 0px;" class="pipeinfo-td">' + dict[key] + '</td>';
