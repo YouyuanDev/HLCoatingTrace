@@ -205,18 +205,14 @@
             }
             //下拉刷新，钢管信息
             dropdownLoading();
-            hlLanguage("../../i18n/");
-            // $(document).on('tap','.upload-pictures',function(){
-            //     alert(2);
-            // });
 
         }
-        $(function(){
-          $(document).on('click','.upload-pictures',function(){
-              alert(4);
-              setBrowsePicutre(this);
-          });
-        });
+        // $(function(){
+        //   $(document).on('click','.upload-pictures',function(){
+        //       alert(4);
+        //       setBrowsePicutre(this);
+        //   });
+        // });
         //查看图片事件
     function setBrowsePicutre(obj) {
         var picturelistStr = $(obj).attr('data-list');
@@ -284,6 +280,7 @@
                     if (showmore) {
                         loadMoreInfo();
                     }
+                    hlLanguage("../../i18n/");
                 }
             } else {
                 //alert("err");
