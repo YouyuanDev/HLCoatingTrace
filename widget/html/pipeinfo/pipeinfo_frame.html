@@ -172,7 +172,7 @@
             </table>
         </div>
         <div class="loadmore-div" style="height:auto;margin-top:50px;font-size: 16px;color:#000000;font-family:" Sans-serif ";">
-            <button class="loadmore-btn i18n1" name="loadmorninfo" onclick="loadMoreInfo()">更多生产信息...</button>
+            <div class="loadmore-btn i18n1" name="loadmorninfo" onclick="loadMoreInfo()">更多生产信息...</div>
         </div>
         <div id="pipe-process-info" style="width:100%;height:auto;margin:0 auto;overflow-x: hidden;">
 
@@ -191,11 +191,14 @@
 <script type="text/javascript">
     var pipeno;
     var showmore = false;
-    var imageBrowser;
+    //var imageBrowser;
     apiready = function() {
-            imageBrowser = api.require('imageBrowser');
+
             var data = api.pageParam;
             pipeno = data.pipeno;
+
+            //下拉刷新，钢管信息
+            dropdownLoading();
             //urloptions =data.urloptions;
             if (pipeno != undefined) {
                 SearchpipeInfo();
@@ -203,8 +206,7 @@
                 alert("查询出现异常!");
                 return;
             }
-            //下拉刷新，钢管信息
-            dropdownLoading();
+
 
         }
         // $(function(){
@@ -225,6 +227,7 @@
                     if (picturelist[i] != undefined && picturelist[i].trim().length > 0)
                         picturelistArr.push(url + picturelist[i]);
                 }
+                var imageBrowser = api.require('imageBrowser');
                 imageBrowser.openImages({
                     showList: true,
                     imageUrls: picturelistArr
