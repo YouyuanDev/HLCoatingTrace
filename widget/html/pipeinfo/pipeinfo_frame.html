@@ -197,8 +197,9 @@
             var data = api.pageParam;
             pipeno = data.pipeno;
             //urloptions =data.urloptions;
-            if (pipeno != undefined)
-                SearchpipeInfo();
+            if (pipeno != undefined){
+              SearchpipeInfo();
+            }
             else {
                 alert("查询出现异常!");
                 return;
@@ -206,6 +207,9 @@
             //下拉刷新，钢管信息
             dropdownLoading();
             hlLanguage("../../i18n/");
+            $(document).on('click','.upload-pictures',function(){
+               alert(3);
+            });
         }
         //查看图片事件
     function setBrowsePicutre(obj) {
@@ -216,7 +220,7 @@
                 var picturelistArr = [];
                 var url = "http://" + serverIP + "/upload/pictures/";
                 for (var i = 0; i < picturelist.length; i++) {
-                    if (picturelist[i] != undefined && picturelist[i].trim().length > 0)
+                    if(picturelist[i] != undefined && picturelist[i].trim().length > 0)
                         picturelistArr.push(url + picturelist[i]);
                 }
                 imageBrowser.openImages({
@@ -1121,7 +1125,7 @@
             template += '<tr style="width:100%;">';
             template += ' <td style="width:50%;color: #7A7A7A;padding:5px 0px;" class="i18n1 pipeinfo-td" name="' + key + '">' + key + '</td>';
             if (key == "uploadfiles")
-                template += ' <td style="width:50%;text-align:center;padding:5px 0px;" class="pipeinfo-td"><a style="color:#87CEEB;" onclick="setBrowsePicutre(this);" data-list="' + dict[key] +
+                template += '<td style="width:50%;text-align:center;padding:5px 0px;" class="pipeinfo-td"><a style="color:#87CEEB;" onclick="setBrowsePicutre(this)" data-list="' + dict[key] +
                 '" class="upload-pictures i18n1" name="viewpicture">图片</a></td>';
             else
                 template += ' <td style="width:50%;text-align:center;padding:5px 0px;" class="pipeinfo-td">' + dict[key] + '</td>';

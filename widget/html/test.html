@@ -26,31 +26,79 @@
 <script type="text/javascript" src="./script/common.js"></script>
 <script type="text/javascript">
     var UIActionSelector;
-
+    var UISelector;
     apiready = function() {
 
-        var bmLocation = api.require('bmLocation');
-        bmLocation.start({
-            locatingWithReGeocode: true,
-            backgroundLocation: false
-        }, function(ret) {
-          alert("11");
-            alert(ret);
-            var sta = ret.status;
-            if (sta) {
-                var lat = ret.location.latitude;
-                var lon = ret.location.longitude;
-                var t = ret.timestamp;
-                var str = '经度：' + lon + '<br>';
-                str += '纬度：' + lat + '<br>';
-                str += '更新时间：' + t + '<br>';
-                api.alert({
-                    msg: str
-                });
+        UISelector = api.require('UISelector');
+        UISelector.open({
+            rect: {
+                x: 30,
+                y: api.frameHeight / 2 - 170,
+                w: api.frameWidth - 60,
+                h: 340
+            },
+            styles: {
+                bg: 'rgba(0,0,0,0)',
+                text: {
+                    size: 14,
+                    selected: '#fff',
+                    normal: '#000'
+                },
+                item: {
+                    w: 80,
+                    h: 45,
+                    normal: '#87ceeb',
+                    selected: '#218868',
+                    zoomIn: 1.2
+                }
+            },
+            rows: 5,
+            indexs: [1, 2, 3],
+            bounce: false,
+            fixedOn: api.frameName,
+            fixed: false,
+            data: [{
+                title: 'A',
+                contents: [{
+                    title: 'a',
+                    contents: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
+                }]
+            }, {
+                title: 'B',
+                contents: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
+            }, {
+                title: 'C',
+                contents: ['1a', '2b', '3c', '4d', '5e', '6f', '7g', '8h', '9i', '10j']
+            }, {
+                title: 'D',
+                contents: ['1t', '2t', '3t', '4t', '5t', '6t', '7t', '8t', '9t', '10t']
+            }, {
+                title: 'E',
+                contents: ['1a', '2a', '3a', '4a', '5a', '6a', '7a', '8a', '9a', '10a']
+            }, {
+                title: 'F',
+                contents: ['1f', '2f', '3f', '4f', '5f', '6f', '7f', '8f', '9f', '10f']
+            }, {
+                title: 'G',
+                contents: ['1!', '2!', '3!', '4!', '5!', '6!', '7!', '8!', '9!', '10!']
+            }, {
+                title: 'H',
+                contents: ['1th', '2th', '3th', '4th', '5th', '6th', '7th', '8th', '9th', '10th']
+            }, {
+                title: 'I',
+                contents: ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten']
+            }, {
+                title: 'J',
+                contents: ['壹', '貮', '叁', '肆', '伍', '陆', '柒', '捌', '玖', '拾']
+            }, {
+                title: 'K',
+                contents: ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十']
+            }]
+        }, function(ret, err) {
+            if (ret) {
+                alert(JSON.stringify(ret));
             } else {
-                api.alert({
-                    msg: '发生错误'
-                });
+                alert(JSON.stringify(err));
             }
         });
 
