@@ -308,7 +308,7 @@ function setAllDefectInfo(type) {
                 if (ret.eventType == "clickRight" || ret.eventType == "clickMask") {
                     var divtag2 = '.form-' + type + '-select-val';
                     $(divtag2).empty();
-                    for (var i = 0; i < ret.items.length; i++) {
+                    for (var i = 0; ret.items!=undefined&&i < ret.items.length; i++) {
                         $(divtag2).append(ret.items[i].text + ",");
                     }
                     UIMultiSelector.close();
@@ -347,7 +347,7 @@ function getPicture(sourceType) {
             saveToPhotoAlbum: true
         }, function(ret, err) {
             if (ret) {
-                alert(ret.data);
+                alert("getPicture="+ret.data);
                 $('.imgBox').append(pictureTemplate(ret.data, ret.base64Data));
                 //$('#imgUp').attr('src', ret.base64Data);
             } else {
@@ -368,7 +368,7 @@ function getPicture(sourceType) {
             if (ret) {
                 //alert(ret.data);
                 $('.imgBox').append(pictureTemplate(ret.data, ret.base64Data));
-                alert(ret.data);
+                alert("222"+ret.data);
                 var s = 'http://' + serverIP + '/UploadFile/uploadPicture.action';
                 api.ajax({
                     url: s,
@@ -383,9 +383,9 @@ function getPicture(sourceType) {
                     }
                 }, function(ret, err) {
                     if (ret) {
-                        api.alert({
-                            msg: JSON.stringify(ret)
-                        });
+                        // api.alert({
+                        //     msg: JSON.stringify(ret)
+                        // });
                     } else {
                         api.alert({
                             msg: JSON.stringify(err)
@@ -410,4 +410,164 @@ function pictureTemplate(imgUrl, imgData) {
 function delSelectPicture(obj) {
     var picUrl = $(obj).siblings('img').attr('data-url');
     $(obj).parent().remove();
+}
+
+
+//根据pipeno millno 获取 本次检验频次信息
+function RequestInspectionFrequency(pipeno,millno) {
+
+    //注册接收RequestInspectionFrequency回调
+    api.addEventListener({
+        name: 'RequestInspectionFrequencyCallbackEvent'
+    }, function(ret, err) {
+        if (ret.value.success) {
+            //得到了检验频次信息
+            ////处理逻辑。。。
+            //alert(JSON.stringify(ret.value.data));
+            GetInspectFreqOK(ret.value.data);
+
+        } else {
+            //session中不存在millno
+            //alert(JSON.stringify(ret.value.msg));
+            //处理逻辑。。。
+            GetInspectFreqFail();
+        }
+    });
+    //发出请求
+    var s = 'http://' + serverIP + '/InspectionFrequencyOperation/getAllInspectionTimeMapByPipeNoMillNo.action';
+    api.ajax({
+        url: s,
+        method: 'post',
+        timeout: 30,
+        dataType: 'json',
+        data: {
+             values:{
+               pipe_no: pipeno,
+               mill_no: millno
+             }
+        }
+    }, function(ret, err) {
+        api.hideProgress();
+        var success=false;
+        if (ret) {
+            success=true;
+        } else {
+            api.alert({
+                msg: JSON.stringify(err)
+            });
+        }
+        api.sendEvent({
+            name: 'RequestInspectionFrequencyCallbackEvent',
+            extra: {
+                success: success,
+                data: ret
+            }
+        });
+
+    });
+}
+
+
+
+//根据pipeno  获取 外防接收标准
+function RequestODAcceptCriteria(pipeno) {
+
+    //注册接收RequestODAcceptCriteria回调
+    api.addEventListener({
+        name: 'RequestODAcceptCriteriaCallbackEvent'
+    }, function(ret, err) {
+        if (ret.value.success) {
+            //得到了外防接收标准
+            ////处理逻辑。。。
+            GetODAcceptCriteriaOK(ret.value.data);
+        } else {
+            //alert(JSON.stringify(ret.value.msg));
+            //处理逻辑。。。
+            GetODAcceptCriteriaFail();
+        }
+    });
+
+    //发出请求
+    var s = 'http://' + serverIP + '/AcceptanceCriteriaOperation/getODAcceptanceCriteriaByPipeNo.action';
+    api.ajax({
+        url: s,
+        method: 'post',
+        timeout: 30,
+        dataType: 'json',
+        data: {
+             values:{
+               pipe_no:pipeno
+             }
+        }
+    }, function(ret, err) {
+        api.hideProgress();
+        var success=false;
+        if (ret) {
+            success=true;
+        } else {
+            api.alert({
+                msg: JSON.stringify(err)
+            });
+        }
+        api.sendEvent({
+            name: 'RequestODAcceptCriteriaCallbackEvent',
+            extra: {
+                success: success,
+                data: ret
+            }
+        });
+
+    });
+}
+
+
+//根据pipeno  获取 内防接收标准
+function RequestIDAcceptCriteria(pipeno) {
+
+    //注册接收RequestIDAcceptCriteria回调
+    api.addEventListener({
+        name: 'RequestIDAcceptCriteriaCallbackEvent'
+    }, function(ret, err) {
+        if (ret.value.success) {
+            //得到了内防接收标准
+            ////处理逻辑。。。
+            GetIDAcceptCriteriaOK(ret.value.data);
+        } else {
+            //alert(JSON.stringify(ret.value.msg));
+            //处理逻辑。。。
+            GetIDAcceptCriteriaFail();
+        }
+    });
+
+    //发出请求
+    var s = 'http://' + serverIP + '/AcceptanceCriteriaOperation/getIDAcceptanceCriteriaByPipeNo.action';
+    api.ajax({
+        url: s,
+        method: 'post',
+        timeout: 30,
+        dataType: 'json',
+        data: {
+             values:{
+               pipe_no:pipeno
+             }
+        }
+    }, function(ret, err) {
+        api.hideProgress();
+        var success=false;
+        if (ret) {
+            success=true;
+        } else {
+            api.alert({
+                msg: JSON.stringify(err)
+            });
+        }
+        api.sendEvent({
+            name: 'RequestIDAcceptCriteriaCallbackEvent',
+            extra: {
+                success: success,
+                data: ret
+            }
+        });
+
+    });
 }

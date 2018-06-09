@@ -132,8 +132,11 @@
             doSearchPipeInfo(ret.value.pipeno, ret.value.pageStart, ret.value.flag);
         });
         api.openWin({
-            name: 'idblast',
-            url: './id/idblast.html'
+            name: 'odblast',
+            url: './od/odblast.html',
+            pageParam: {
+                pipe_no: '1539970'
+            }
         });
     }
 
