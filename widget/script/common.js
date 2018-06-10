@@ -441,10 +441,10 @@ function RequestInspectionFrequency(pipeno,millno) {
         timeout: 30,
         dataType: 'json',
         data: {
-        //  values:{
-            "pipe_no": pipeno,
-            "mill_no": millno
-        //  }
+          values: {
+            pipe_no: pipeno,
+            mill_no: millno
+        }
 
         }
     }, function(ret, err) {
@@ -497,7 +497,7 @@ function RequestODAcceptCriteria(pipeno) {
         dataType: 'json',
         data: {
              values:{
-               "pipe_no":pipeno
+               pipe_no:pipeno
              }
         }
     }, function(ret, err) {
@@ -549,7 +549,7 @@ function RequestIDAcceptCriteria(pipeno) {
         dataType: 'json',
         data: {
              values:{
-               "pipe_no":pipeno
+               pipe_no:pipeno
              }
         }
     }, function(ret, err) {
