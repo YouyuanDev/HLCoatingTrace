@@ -175,8 +175,8 @@
     //继续方法
     function Go(employeeno, millno) {
         //初始化表单业务逻辑
-        alert(pipeno);
-        alert(millno);
+        //alert(pipeno);
+        //alert(millno);
         if (pipeno != undefined) {
             RequestInspectionFrequency(pipeno, millno);
             RequestODAcceptCriteria(pipeno);
@@ -196,10 +196,9 @@
     //得到检验频次信息成功
     function GetInspectFreqOK(data) {
         inspectFreqMap = data;
-        alert(JSON.stringify(data));
-        // api.alert({
-        //     msg: JSON.stringify(inspectFreqMap['id_salt_contamination_after_blasting_freq'])
-        // });
+        api.alert({
+            msg: JSON.stringify(inspectFreqMap)
+        });
     }
 
     //得到检验频次信息失败

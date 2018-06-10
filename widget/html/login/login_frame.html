@@ -224,6 +224,12 @@
                     name: 'reloadUserInfo'
                 });
                 api.closeWin();
+                //关闭bMap
+                var map = api.require('bMap');
+                map.close();
+                
+
+
                 // api.openWin({
                 //     name: 'index',
                 //     url: '../index.html'
