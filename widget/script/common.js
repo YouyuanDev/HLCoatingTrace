@@ -441,10 +441,8 @@ function RequestInspectionFrequency(pipeno,millno) {
         timeout: 30,
         dataType: 'json',
         data: {
-             values:{
                pipe_no: pipeno,
                mill_no: millno
-             }
         }
     }, function(ret, err) {
         api.hideProgress();
