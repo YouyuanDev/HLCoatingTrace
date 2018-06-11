@@ -20,6 +20,8 @@ function fnSettingHeader() {
 //     }
 // };
 function fnReadyFrame() {
+    var nav = $api.byId('header');
+    var navHeight = $api.offset(nav).h;
     var frameName = api.winName + '_frame';
     api.openFrame({
         name: frameName,
@@ -27,7 +29,7 @@ function fnReadyFrame() {
         bounces: true,
         rect: {
             x: 0,
-            y: headerHeight,
+            y: navHeight,
             w: 'auto',
             h: 'auto'
         },
