@@ -103,7 +103,7 @@
         <div class="title">
           <div class="arrow event-back"></div>
           <span id="userinfo-tag"></span>
-          <div class="save-contianer"><button userinfo-id="" id="save-btn">保存</button></div>
+          <div class="save-contianer"><button class="i18n1" name="save" userinfo-id="" id="save-btn"></button></div>
         </div>
       </header>
         <div class="userinfo-container flex-con" id="main">
@@ -121,7 +121,7 @@
             </div>
             <div class="userinfo-item userinfo-item1 language">
                 <input class="item-input1" type="radio" name="radio" id="user-language1" value="1" />中文
-                <input class="item-input1" type="radio" name="radio" id="user-language2" value="2" />英文
+                <input class="item-input1" type="radio" name="radio" id="user-language2" value="2" />English
             </div>
             <!-- <div class="userinfo-item userinfo-item1 user-gender">
                 <input class="item-input1" type="radio" name="radio" id="user-gender1" value="1" />男
@@ -164,27 +164,29 @@
             var index = parseInt($('#save-btn').attr('userinfo-id'));
             var result;
             switch (index) {
-                case 1:
+                case 3:
                     result = $api.byId('user-name').value;
                     break;
-                case 2:
+                case 4:
                     result = $api.byId('user-pwd').value;
                     break;
-                case 3:
+                case 5:
                     result = $api.byId('user-idno').value;
                     break;
-                case 4:
+                case 6:
                     result = $api.byId('user-phoneno').value;
                     break;
-                case 7:
+                case 9:
                     result=$("input[name='radio']:checked").val();
                     //result = $api.byId('language').value;
+                    break;
+                default:
                     break;
                 // case 6:
                 //     result = $api.byId('user-age').value;
                 //     break;
             }
-            if(index!=7){
+            if(index!=9){
               if (index != undefined) {
                   api.sendEvent({
                       name: 'SaveUserInfoEvent',
@@ -210,6 +212,9 @@
             }
 
         });
+        hlLanguage("../../i18n/");
+
+
         //年龄修改
         // $('#user-age').click(function() {
         //     var jsonArr = [];
@@ -302,23 +307,23 @@
             $('#userinfo-tag').text(data.labelName);
             $('#save-btn').attr('userinfo-id', index);
             switch (index) {
-                case 1: //姓名
+                case 3: //姓名
                     $('.user-name').css('display', 'block');
                     $('#user-name').val(userData);
                     break;
-                case 2: //密码
+                case 4: //密码
                     $('.user-pwd').css('display', 'block');
                     $('#user-pwd').val(userData);
                     break;
-                case 3: //身份证号
+                case 5: //身份证号
                     $('.user-idno').css('display', 'block');
                     $('#user-idno').val(userData);
                     break;
-                case 4: //手机号
+                case 6: //手机号
                     $('.user-phoneno').css('display', 'block');
                     $('#user-phoneno').val(userData);
                     break;
-                case 7: //性别
+                case 9: //语言
                     $('.language').css('display', 'block');
                     if (userData == '中文') {
                         $('#user-language1').attr('checked', 'true');
@@ -326,6 +331,8 @@
                         $('#user-language2').attr('checked', 'true');
                     }
                     $('#language').val(userData);
+                    break;
+                default:
                     break;
                 // case 6: //年龄
                 //     $('.user-age').css('display', 'block');

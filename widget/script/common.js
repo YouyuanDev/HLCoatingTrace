@@ -337,6 +337,7 @@ function setSelectPictures() {
     });
 }
 
+//loading动画效果
 function DoLoadingPicture(){
   var UILoading = api.require('UILoading');
   UILoading.flower({
@@ -357,6 +358,7 @@ function ClearLoadingPicture(){
   uiloading.closeFlower({
       id: g_loadingID
   });
+  g_loadingID=0;
 }
 
 

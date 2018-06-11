@@ -211,6 +211,12 @@
           timeout: 30,
           dataType: 'json',
       }, function(ret, err) {
+        var language = $api.getStorage('userLanguage');
+        if (language == "en") {
+            $('#language').text("English");
+        } else {
+            $('#language').text("中文");
+        }
           if (!ret.success){
               $('#userid').text('');
               $('#userno').text('');
@@ -239,12 +245,7 @@
                       $('#usergender').text("男");
                   else if (ret.data.psex == "F")
                       $('#usergender').text("女");
-                  var language = $api.getStorage('userLanguage');
-                  if (language == "en") {
-                      $('#language').text("英文");
-                  } else {
-                      $('#language').text("中文");
-                  }
+
                   $('.logout-div').css('display','block');
                   $('.login-div').css('display','none');
               }
@@ -255,27 +256,29 @@
     function modifyUserInfo() {
         $('#userInfo-ul li').click(function() {
             var userno=$('#userno').text();
-            if(userno==undefined||userno.trim().length<=0)
-              return;
             var index = $(this).index();
+            if((userno==undefined||userno.trim().length<=0)&&index!=9)
+              return;
             var labelName = $(this).find('label').text();
             switch (index) {
                 case 0: //工号
                     break;
-                case 1: //姓名
+                case 3: //姓名
                     editUserInfo(index, $('#username').text(), labelName);
                     break;
-                case 2: //密码
+                case 4: //密码
                     editUserInfo(index, $('#userpwd').text(), labelName);
                     break;
-                case 3: //身份证号
+                case 5: //身份证号
                     editUserInfo(index, $('#userIdNo').text(), labelName);
                     break;
-                case 4: //手机号
+                case 6: //手机号
                     editUserInfo(index, $('#userphone').text(), labelName);
                     break;
-                case 7: //语言
+                case 9: //语言
                     editUserInfo(index, $('#language').text(), labelName);
+                    break;
+                default:
                     break;
             }
         });
@@ -369,20 +372,22 @@
             switch (index) {
                 case 0: //工号
                     break;
-                case 1: //姓名
+                case 3: //姓名
                     $('#username').text(value);
                     break;
-                case 2: //密码
+                case 4: //密码
                     $('#userpwd').text(value);
                     break;
-                case 3: //身份证号
+                case 5: //身份证号
                     $('#userIdNo').text(value);
                     break;
-                case 4: //手机号
+                case 6: //手机号
                     $('#userphone').text(value);
                     break;
-                case 7: //语言
+                case 9: //语言
                     $('#language').text(value);
+                    break;
+                default:
                     break;
             }
         } else {

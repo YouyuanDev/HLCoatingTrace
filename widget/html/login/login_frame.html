@@ -130,11 +130,11 @@
             <!-- <div class="find" tapmode onclick="fnForgetPassword()">找回密码</div> -->
         </div>
         <div class="location-container">
-            <div class="location-content"><span>所在分厂:<span><span class="location-span"><span></div>
+            <div class="location-content"><span><label class="i18n1" name="atmill">所在323分厂<</label>:<span><span class="location-span"><span></div>
             <button class="location-btn" onclick="setMillLocation()"></button>
             <input type="hidden" id="mill_no">
         </div>
-        <div class="login" tapmode onclick="fnLogin()">登录</div>
+        <div class="login" tapmode onclick="fnLogin()"><label class="i18n1" name="login"></label></div>
         <!-- <div class="register open-win" win="register_mobile">注册账号</div> -->
     </div>
 </body>
@@ -143,6 +143,8 @@
 <script type="text/javascript" src="../../script/api.js"></script>
 <script type="text/javascript" src="../../script/jquery-3.3.1.min.js"></script>
 <script type="text/javascript" src="../../script/common.js"></script>
+<script src="../../script/jquery.i18n.properties-1.0.9.js" type="text/javascript"></script>
+<script src="../../script/language.js" type="text/javascript"></script>
 <script type="text/javascript">
     var operator_no, password, operator_no_txt, password_txt;
     //所有mill信息
@@ -151,6 +153,8 @@
     var distanceArray = new Array();
     //定时器
     var timer=-1;
+    //UILoading 的id
+    var g_loadingID=0;
 
     apiready = function() {
         fnInit();
@@ -159,7 +163,7 @@
         setTimeout(function() {
         initbMap();
       },400);
-
+    hlLanguage("../../i18n/");
     };
 
     function fnInit() {
@@ -208,6 +212,7 @@
             }
         }, function(ret, err) {
             api.hideProgress();
+            //ClearLoadingPicture();
             if (ret.success) {
                 $api.setStorage('operatorno', operator_no_txt);
                 //绑定推送
@@ -220,14 +225,16 @@
                         joinPushGroup(rolelist[i]);
                     }
                 }
+                //关闭bMap
+                var map = api.require('bMap');
+                map.close();
+
                 api.sendEvent({
                     name: 'reloadUserInfo'
                 });
                 api.closeWin();
-                //关闭bMap
-                var map = api.require('bMap');
-                map.close();
-                
+
+
 
 
                 // api.openWin({
@@ -328,9 +335,8 @@
     }
 
 
-
-
     function GetMyLonLat() {
+        //DoLoadingPicture();
         var my_lon;
         var my_lat;
         var map = api.require('bMap');
@@ -347,7 +353,9 @@
                 GetClosestMill(my_lon, my_lat);
                 //alert(JSON.stringify(ret));
             } else {
+                //ClearLoadingPicture();
                 alert(err.code);
+
             }
         });
     }
@@ -408,12 +416,14 @@ function getAllMillsFromServer(){
                 lat: my_lat
             }
         }, function(ret) {
+          //ClearLoadingPicture();
             if (ret.status) {
                 distanceArray.push(ret.distance);
                 //alert(" distance=" + ret.distance);
             } else {
                 alert("错误" + ret);
             }
+
         });
     }
 
@@ -434,6 +444,7 @@ function SetClosestMill(){
       distanceArray.length=0;
       if(timer!=-1)
       clearInterval(timer);
+
   }
 }
 

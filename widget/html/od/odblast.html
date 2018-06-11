@@ -197,6 +197,7 @@
     var g_loadingID=0;
 
     apiready = function() {
+        DoLoadingPicture();
         var data = api.pageParam;
         g_pipeno = data.pipe_no;
         fnSettingHeader();
@@ -220,10 +221,12 @@
         setControls();
         getPendingRecordInfo("OdOperation",g_pipeno);
         hlLanguage("../../i18n/");
+        ClearLoadingPicture();
     }
 
     //撤退方法
     function Reverse(msg) {
+        ClearLoadingPicture();
         alert(msg);
         setTimeout("closeWindow()", 1000);
     }
