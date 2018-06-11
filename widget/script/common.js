@@ -1,5 +1,5 @@
 var header, headerHeight = 0;
-var serverIP = '192.168.0.12:8080';
+var serverIP = '192.168.0.103:8080';
 
 function fnSettingHeader() {
 
@@ -337,6 +337,31 @@ function setSelectPictures() {
     });
 }
 
+function DoLoadingPicture(){
+  var UILoading = api.require('UILoading');
+  UILoading.flower({
+      center: {
+          x: 160,
+          y: 240
+      },
+      size: 30,
+      fixed: true
+  }, function(ret) {
+      //alert(JSON.stringify(ret));
+      g_loadingID=ret.id;
+  });
+}
+
+function ClearLoadingPicture(){
+  var uiloading = api.require('UILoading');
+  uiloading.closeFlower({
+      id: g_loadingID
+  });
+}
+
+
+
+
 function getPicture(sourceType) {
     if (sourceType == 1) { // 拍照
         api.getPicture({
@@ -350,6 +375,7 @@ function getPicture(sourceType) {
         }, function(ret, err) {
             if (ret) {
                 var s = 'http://' + serverIP + '/UploadFile/uploadPicture.action';
+                DoLoadingPicture();
                 api.ajax({
                     url: s,
                     method: 'post',
@@ -362,6 +388,7 @@ function getPicture(sourceType) {
                         }
                     }
                 }, function(rets, errs) {
+                   ClearLoadingPicture();
                     if (rets) {
                         $('.imgBox').append(pictureTemplate(rets.imgUrl, ret.base64Data));
                         alert("上传成功!");
@@ -370,6 +397,8 @@ function getPicture(sourceType) {
                             msg: JSON.stringify(errs)
                         });
                     }
+
+
                 });
                 //$('#imgUp').attr('src', ret.base64Data);
             } else {
@@ -388,6 +417,7 @@ function getPicture(sourceType) {
         }, function(ret, err) {
             if (ret) {
                 var s = 'http://' + serverIP + '/UploadFile/uploadPicture.action';
+                DoLoadingPicture();
                 api.ajax({
                     url: s,
                     method: 'post',
@@ -400,6 +430,7 @@ function getPicture(sourceType) {
                         }
                     }
                 }, function(rets, errs) {
+                  ClearLoadingPicture();
                     if (rets) {
                         $('.imgBox').append(pictureTemplate(rets.imgUrl, ret.base64Data));
                         alert("上传成功!");
@@ -1249,7 +1280,7 @@ function initFormNumber() {
         if ($(this).val().length <= 0) {
             var name = $(this).parent().siblings('.form-item-lbl').children('label').text().replace("本次必填", "");
             api.alert({
-                msg:"请输入:"+name
+                msg: "请输入:" + name
             });
 
             result = false;
@@ -1267,44 +1298,44 @@ function initFormNumber() {
     return true;
 }
 
-function getPendingRecordInfo(controller,pipe_no){
-  api.addEventListener({
-      name: 'getPendingRecordCallBackEvent'
-  }, function(ret, err) {
-      if (ret.value.success) {
-          getPendingRecordInfoOK(ret.value.data);
-      } else {
-          getPendingRecordInfoFail();
-      }
-  });
-  var s = 'http://' + serverIP + '/'+controller+'/getPendingRecordByPipeNo.action';
-  api.ajax({
-      url: s,
-      method: 'post',
-      timeout: 30,
-      dataType: 'json',
-      data: {
-          values: {
-              pipe_no: pipe_no
-          }
-      }
-  }, function(ret, err) { //alert(ret);
-      if (ret) {
-          api.sendEvent({
-              name: 'getPendingRecordCallBackEvent',
-              extra: {
-                  success: ret.success,
-                  data: ret.record
-              }
-          });
-      } else {
-          //alert("err");
-          api.alert({
-              msg: JSON.stringify(err)
-          });
-      }
+function getPendingRecordInfo(controller, pipe_no) {
+    api.addEventListener({
+        name: 'getPendingRecordCallBackEvent'
+    }, function(ret, err) {
+        if (ret.value.success) {
+            getPendingRecordInfoOK(ret.value.data);
+        } else {
+            getPendingRecordInfoFail();
+        }
+    });
+    var s = 'http://' + serverIP + '/' + controller + '/getPendingRecordByPipeNo.action';
+    api.ajax({
+        url: s,
+        method: 'post',
+        timeout: 30,
+        dataType: 'json',
+        data: {
+            values: {
+                pipe_no: pipe_no
+            }
+        }
+    }, function(ret, err) { //alert(ret);
+        if (ret) {
+            api.sendEvent({
+                name: 'getPendingRecordCallBackEvent',
+                extra: {
+                    success: ret.success,
+                    data: ret.record
+                }
+            });
+        } else {
+            //alert("err");
+            api.alert({
+                msg: JSON.stringify(err)
+            });
+        }
 
-  });
+    });
 }
 //alert
 // function alertMsg() {

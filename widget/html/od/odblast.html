@@ -193,6 +193,9 @@
     var inspectFreqMap=[];
     //OD接收标准
     var ODacceptCriteriaMap;
+    //UILoading 的id
+    var g_loadingID=0;
+
     apiready = function() {
         var data = api.pageParam;
         g_pipeno = data.pipe_no;
