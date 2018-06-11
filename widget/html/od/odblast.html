@@ -8,6 +8,7 @@
     <title>外喷砂</title>
     <link rel="stylesheet" type="text/css" href="../../css/api.css" />
     <link rel="stylesheet" type="text/css" href="../../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/mobiscroll.custom-3.0.0-beta6.min.css" />
 </head>
 
 <body>
@@ -43,7 +44,7 @@
                 <label class="i18n1" name="preheattemp"></label>
             </div>
             <div class="form-item-val">
-                <input type="number" name="preheat_temp" />
+                <input class="mob-preheat-temperature" type="text" name="preheat_temp" />
             </div>
         </div>
         <div class="form-item">
@@ -51,7 +52,7 @@
                 <label class="i18n1" name="saltcontaminationbeforeblasting"></label>
             </div>
             <div class="form-item-val">
-                <input type="number" name="salt_contamination_before_blasting" />
+                <input class="mob-salt-contamination" type="text" name="salt_contamination_before_blasting" />
             </div>
         </div>
         <div class="form-item">
@@ -59,7 +60,7 @@
                 <label class="i18n1" name="alkalinedwelltime"></label>
             </div>
             <div class="form-item-val">
-                <input type="number" name="alkaline_dwell_time" />
+                <input class="mob-second-time" type="text" name="alkaline_dwell_time" />
             </div>
         </div>
         <div class="form-item">
@@ -67,7 +68,7 @@
                 <label class="i18n1" name="alkalineconcentration"></label>
             </div>
             <div class="form-item-val">
-                <input type="number" name="alkaline_concentration" />
+                <input class="mob-concentration" type="text" name="alkaline_concentration" />
             </div>
         </div>
         <div class="form-item">
@@ -75,7 +76,7 @@
                 <label class="i18n1" name="acidwashtime"></label>
             </div>
             <div class="form-item-val">
-                <input type="number" name="acid_wash_time" />
+                <input class="mob-second-time" type="text" name="acid_wash_time" />
             </div>
         </div>
         <div class="form-item">
@@ -83,7 +84,7 @@
                 <label class="i18n1" name="acidconcentration"></label>
             </div>
             <div class="form-item-val">
-                <input type="number" name="acid_concentration" />
+                <input class="mob-concentration" type="text" name="acid_concentration" />
             </div>
         </div>
         <div class="form-item">
@@ -91,7 +92,7 @@
                 <label class="i18n1" name="rinsewaterconductivity"></label>
             </div>
             <div class="form-item-val">
-                <input type="number" name="rinse_water_conductivity" />
+                <input class="mob-water-conductivity" type="text" name="rinse_water_conductivity" />
             </div>
         </div>
         <div class="form-item">
@@ -99,7 +100,7 @@
                 <label class="i18n1" name="abrasiveconductivity"></label>
             </div>
             <div class="form-item-val">
-                <input type="number" name="abrasive_conductivity" />
+                <input class="mob-abrasive-conductivity" type="text" name="abrasive_conductivity" />
             </div>
         </div>
         <div class="form-item">
@@ -107,7 +108,7 @@
                 <label class="i18n1" name="blastlinespeed"></label>
             </div>
             <div class="form-item-val">
-                <input type="number" name="blast_line_speed" />
+                <input class="mob-line-speed"  type="text" name="blast_line_speed" />
             </div>
         </div>
         <div class="form-item">
@@ -118,7 +119,7 @@
                 <select id="cc" name="result">
                 <option value="1">合格,进入外喷砂检验工序</option>
                 <option value="0">不合格,重新打砂处理</option>
-                <option value="2">待定</option>
+                <option value="10">待定</option>
                 <option value="3">隔离，进入修磨或切割工序</option>
             </select>
             </div>
@@ -158,6 +159,7 @@
 <script type="text/javascript" src="../../script/common.js"></script>
 <script src="../../script/jquery.i18n.properties-1.0.9.js" type="text/javascript"></script>
 <script src="../../script/language.js" type="text/javascript"></script>
+<script src="../../script/mobiscroll.custom-3.0.0-beta6.min.js" type="text/javascript"></script>
 <script type="text/javascript">
     var pipeno;
     //检验频次Map
@@ -184,6 +186,7 @@
         }
         setAllDefectInfo("steel");
         setSelectPictures();
+        setControls();
         hlLanguage("../../i18n/");
     }
 

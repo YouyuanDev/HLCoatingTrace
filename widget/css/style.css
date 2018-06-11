@@ -64,6 +64,7 @@ html,body {  font-size:14px; height:100%;background:#FFFFFF;}
     position:absolute;
     z-index:10;
     padding:4px 0px;
+    padding-bottom:10px;
     bottom:43px;
 }
 .form-footer {
@@ -109,6 +110,7 @@ select,button{
     height: 40px;
     outline: none;
 }
+ 
 .form-item .form-item-val select,button{
    background-color:#e1e1e1;
 }

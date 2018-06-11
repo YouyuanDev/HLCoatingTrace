@@ -1,5 +1,5 @@
 var header, headerHeight = 0;
-var serverIP = '192.168.3.14:8080';
+var serverIP = '192.168.0.12:8080';
 
 function fnSettingHeader() {
 
@@ -243,7 +243,7 @@ function setAllDefectInfo(type) {
     });
     $('.form-condition').click(function() {
         var type = $(this).attr("data-type");
-        var itemsArr =JSON.parse($(this).attr("data-val"));
+        var itemsArr = JSON.parse($(this).attr("data-val"));
         var title;
         if (type == "steel") {
             title = "外观缺陷"
@@ -308,7 +308,7 @@ function setAllDefectInfo(type) {
                 if (ret.eventType == "clickRight" || ret.eventType == "clickMask") {
                     var divtag2 = '.form-' + type + '-select-val';
                     $(divtag2).empty();
-                    for (var i = 0; ret.items!=undefined&&i < ret.items.length; i++) {
+                    for (var i = 0; ret.items != undefined && i < ret.items.length; i++) {
                         $(divtag2).append(ret.items[i].text + ",");
                     }
                     UIMultiSelector.close();
@@ -347,7 +347,7 @@ function getPicture(sourceType) {
             saveToPhotoAlbum: true
         }, function(ret, err) {
             if (ret) {
-                alert("getPicture="+ret.data);
+                alert("getPicture=" + ret.data);
                 $('.imgBox').append(pictureTemplate(ret.data, ret.base64Data));
                 //$('#imgUp').attr('src', ret.base64Data);
             } else {
@@ -368,7 +368,7 @@ function getPicture(sourceType) {
             if (ret) {
                 //alert(ret.data);
                 $('.imgBox').append(pictureTemplate(ret.data, ret.base64Data));
-                alert("222"+ret.data);
+                alert("222" + ret.data);
                 var s = 'http://' + serverIP + '/UploadFile/uploadPicture.action';
                 api.ajax({
                     url: s,
@@ -414,7 +414,7 @@ function delSelectPicture(obj) {
 
 
 //根据pipeno millno 获取 本次检验频次信息
-function RequestInspectionFrequency(pipeno,millno) {
+function RequestInspectionFrequency(pipeno, millno) {
 
     //注册接收RequestInspectionFrequency回调
     api.addEventListener({
@@ -441,17 +441,17 @@ function RequestInspectionFrequency(pipeno,millno) {
         timeout: 30,
         dataType: 'json',
         data: {
-          values: {
-            pipe_no: pipeno,
-            mill_no: millno
-        }
+            values: {
+                pipe_no: pipeno,
+                mill_no: millno
+            }
 
         }
     }, function(ret, err) {
         api.hideProgress();
-        var success=false;
+        var success = false;
         if (ret) {
-            success=true;
+            success = true;
         } else {
             api.alert({
                 msg: JSON.stringify(err)
@@ -496,15 +496,15 @@ function RequestODAcceptCriteria(pipeno) {
         timeout: 30,
         dataType: 'json',
         data: {
-             values:{
-               pipe_no:pipeno
-             }
+            values: {
+                pipe_no: pipeno
+            }
         }
     }, function(ret, err) {
         api.hideProgress();
-        var success=false;
+        var success = false;
         if (ret) {
-            success=true;
+            success = true;
         } else {
             api.alert({
                 msg: JSON.stringify(err)
@@ -548,15 +548,15 @@ function RequestIDAcceptCriteria(pipeno) {
         timeout: 30,
         dataType: 'json',
         data: {
-             values:{
-               pipe_no:pipeno
-             }
+            values: {
+                pipe_no: pipeno
+            }
         }
     }, function(ret, err) {
         api.hideProgress();
-        var success=false;
+        var success = false;
         if (ret) {
-            success=true;
+            success = true;
         } else {
             api.alert({
                 msg: JSON.stringify(err)
@@ -570,5 +570,206 @@ function RequestIDAcceptCriteria(pipeno) {
             }
         });
 
+    });
+}
+//设置控件
+function setControls() {
+    //设置温度相关的控件
+    $(".mob-preheat-temperature").mobiscroll().temperature({
+        theme: 'auto',
+        lang: 'zh',
+        display: 'center',
+        min: 10,
+        max: 100,
+        defaultValue: 40,
+        units: ['c'],
+        unitNames: {
+            c: '°C'
+        },
+        onSet: function(event, inst) {
+            var selectedVal = inst.getVal();
+            $(this).val(selectedVal.replace('°C', ''));
+        }
+    });
+    //空气温度
+    $(".mob-air-temperature").mobiscroll().temperature({
+        theme: 'auto',
+        lang: 'zh',
+        display: 'center',
+        min: -5,
+        defaultValue: 40,
+        max: 60,
+        units: ['c'],
+        unitNames: {
+            c: '°C'
+        },
+        onSet: function(event, inst) {
+            var selectedVal = inst.getVal();
+            $(this).val(selectedVal.replace('°C', ''));
+        }
+    });
+    //钢管温度
+    $(".mob-pipe-temperature").mobiscroll().temperature({
+        theme: 'auto',
+        lang: 'zh',
+        display: 'center',
+        min: 10,
+        max: 100,
+        defaultValue: 40,
+        units: ['c'],
+        unitNames: {
+            c: '°C'
+        },
+        onSet: function(event, inst) {
+            var selectedVal = inst.getVal();
+            $(this).val(selectedVal.replace('°C', ''));
+        }
+    });
+    //打砂前后盐度
+    $('.mob-salt-contamination').mobiscroll().number({
+        theme: 'auto',
+        lang: 'zh',
+        display: 'center',
+        min: 0,
+        max: 50,
+        defaultValue: 25.5,
+        step: 0.1,
+        units: ['c'],
+        unitNames: {
+            c: 'mg/㎡'
+        },
+        onSet: function(event, inst) {
+            var selectedVal = inst.getVal();
+            $(this).val(selectedVal.replace('mg/㎡', ''));
+        }
+    });
+    //所用时间s
+    $('.mob-second-time').mobiscroll().number({
+        theme: 'auto',
+        lang: 'zh',
+        display: 'center',
+        min: 0,
+        max: 100,
+        defaultValue: 28,
+        units: ['c'],
+        unitNames: {
+            c: 's'
+        },
+        onSet: function(event, inst) {
+            var selectedVal = inst.getVal();
+            $(this).val(selectedVal.replace('s', ''));
+        }
+    });
+    //浓度
+    $('.mob-concentration').mobiscroll().number({
+        theme: 'auto',
+        lang: 'zh',
+        display: 'center',
+        min: 0,
+        max: 100,
+        defaultValue: 50.1,
+        step: 0.1,
+        units: ['c'],
+        unitNames: {
+            c: '%'
+        },
+        onSet: function(event, inst) {
+            var selectedVal = inst.getVal();
+            $(this).val(selectedVal.replace('%', ''));
+        }
+    });
+    //冲洗电导率
+    $('.mob-water-conductivity').mobiscroll().number({
+        theme: 'auto',
+        lang: 'zh',
+        display: 'center',
+        min: 0,
+        max: 100,
+        step: 1,
+        defaultValue: 60,
+        units: ['c'],
+        unitNames: {
+            c: 'μS/cm'
+        },
+        onSet: function(event, inst) {
+            var selectedVal = inst.getVal();
+            $(this).val(selectedVal.replace('μS/cm', ''));
+        }
+    });
+    //磨料电导率
+    $('.mob-abrasive-conductivity').mobiscroll().number({
+        theme: 'auto',
+        lang: 'zh',
+        display: 'center',
+        min: 0,
+        max: 100,
+        step: 1,
+        defaultValue: 60,
+        units: ['c'],
+        unitNames: {
+            c: 'μS/cm'
+        },
+        onSet: function(event, inst) {
+            var selectedVal = inst.getVal();
+            $(this).val(selectedVal.replace('μS/cm', ''));
+        }
+    });
+    //速度
+    $('.mob-line-speed').mobiscroll().number({
+        theme: 'auto',
+        lang: 'zh',
+        display: 'center',
+        min: 0,
+        max: 20,
+        defaultValue: 10.1,
+        step: 0.1,
+        units: ['c'],
+        unitNames: {
+            c: 'm/s'
+        },
+        onSet: function(event, inst) {
+            var selectedVal = inst.getVal();
+            $(this).val(selectedVal.replace('m/s', ''));
+        }
+    });
+    var numList = "";
+    var $nowObj;
+    //数字集合
+    $('.mob-number-thickness-list').mobiscroll().numpad({
+        theme: 'auto',
+        lang: 'zh',
+        display: 'bottom',
+        min: 0,
+        max: 9999,
+        scale: 0,
+        fill: 'ltr',
+        defaultValue: 0,
+        decimalSeparator: '.',
+        rtl: false,
+        preset: 'decimal',
+        buttons: [
+            'set', {
+                text: '删除',
+                icon: '',
+                handler: function(event, inst) {
+                    var selectedVal = $nowObj.val();
+                    selectedVal=selectedVal.substring(0,selectedVal.lastIndexOf(','));
+                    selectedVal = selectedVal.substring(0,(selectedVal.lastIndexOf(',')+1));
+                    $nowObj.val(selectedVal);
+                    numList=selectedVal;
+                }
+            },
+            'cancel'
+        ],
+        onBeforeShow: function(event, inst) {
+            $nowObj = $(this);
+            numList = $(this).val();
+            inst.setVal('0');
+        },
+        onSet: function(event, inst) {
+            var selectedVal = inst.getVal();
+            $(this).val(numList + "" + selectedVal + ',');
+            inst.show();
+        }
     });
 }

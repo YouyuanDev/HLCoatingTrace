@@ -8,6 +8,7 @@
     <title>外涂2FBE</title>
     <link rel="stylesheet" type="text/css" href="../../css/api.css" />
     <link rel="stylesheet" type="text/css" href="../../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/mobiscroll.custom-3.0.0-beta6.min.css" />
 </head>
 
 <body>
@@ -184,6 +185,7 @@
 <script type="text/javascript" src="../../script/common.js"></script>
 <script src="../../script/jquery.i18n.properties-1.0.9.js" type="text/javascript"></script>
 <script src="../../script/language.js" type="text/javascript"></script>
+<script src="../../script/mobiscroll.custom-3.0.0-beta6.min.js" type="text/javascript"></script>
 <script type="text/javascript">
   apiready = function() {
           RequestMySesssion();
@@ -192,6 +194,7 @@
     function Go(employeeno,millno){
       //初始化表单业务逻辑
       setSelectPictures();
+      setControls();
       hlLanguage("../../i18n/");
     }
     //撤退方法

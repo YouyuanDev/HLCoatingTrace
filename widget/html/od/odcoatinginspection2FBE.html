@@ -8,6 +8,7 @@
     <title>外涂2FBE检验</title>
     <link rel="stylesheet" type="text/css" href="../../css/api.css" />
     <link rel="stylesheet" type="text/css" href="../../css/style.css" />
+      <link rel="stylesheet" type="text/css" href="../../css/mobiscroll.custom-3.0.0-beta6.min.css" />
 </head>
 
 <body>
@@ -21,7 +22,7 @@
                 <label class="i18n1" name="basecoatthicknesslist"></label>
             </div>
             <div class="form-item-val">
-                <input type="text" name="base_coat_thickness_list" value="" />
+                <input class="mob-number-thickness-list" type="text" name="base_coat_thickness_list" value=""/> 
             </div>
         </div>
         <div class="form-item">
@@ -175,6 +176,7 @@
 <script type="text/javascript" src="../../script/common.js"></script>
 <script src="../../script/jquery.i18n.properties-1.0.9.js" type="text/javascript"></script>
 <script src="../../script/language.js" type="text/javascript"></script>
+<script src="../../script/mobiscroll.custom-3.0.0-beta6.min.js" type="text/javascript"></script>
 <script type="text/javascript">
        apiready = function() {
             RequestMySesssion();
@@ -184,6 +186,7 @@
            //初始化表单业务逻辑
            setAllDefectInfo("coating");
            setSelectPictures();
+           setControls();
            hlLanguage("../../i18n/");
          }
 

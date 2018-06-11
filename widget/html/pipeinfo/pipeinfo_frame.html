@@ -69,6 +69,7 @@
             text-align: center;
             line-height: 43px;
             width: 95%;
+            margin:0 auto;
             outline: none;
         }
         /*.dataintable,.dataintable tr {
@@ -947,8 +948,8 @@
                             result = "待定";
                         template += '<tr><td class="i18n1" name="result"></td><td>' + result + '</td></tr>';
                         template += '<tr><td class="i18n1" name="remark"></td><td>' + obj.remark + '</td></tr>';
-                        template += '<tr><td class="i18n1" name="uploadfiles"></td><td><a style="color:#87CEEB;" onclick="setBrowsePicutre(this);" data-list="' + obj.upload_files +
-                            '" class="upload-pictures i18n1" name="viewpicture">图片</a></td></tr>';
+                        template += '<tr><td class="i18n1" name="uploadfiles"></td><td><div style="color:#87CEEB;" onclick="setBrowsePicutre(this);" data-list="' + obj.upload_files +
+                            '" class="upload-pictures i18n1" name="viewpicture">图片</div></td></tr>';
                     }
                     template += '</tbody></table>';
                     $('#pipe-process-info').append(template);
@@ -1013,8 +1014,8 @@
                             result = "待定";
                         template += '<tr><td class="i18n1" name="result"></td><td>' + result + '</td></tr>';
                         template += '<tr><td class="i18n1" name="remark"></td><td>' + obj.remark + '</td></tr>';
-                        template += '<tr><td class="i18n1" name="uploadfiles"></td><td><a style="color:#87CEEB;" onclick="setBrowsePicutre(this);" data-list="' + obj.upload_files +
-                            '" class="upload-pictures i18n1" name="viewpicture">图片</a></td></tr>';
+                        template += '<tr><td class="i18n1" name="uploadfiles"></td><td><div style="color:#87CEEB;" onclick="setBrowsePicutre(this);" data-list="' + obj.upload_files +
+                            '" class="upload-pictures i18n1" name="viewpicture">图片</div></td></tr>';
                     }
                     template += '</tbody></table>';
                     $('#pipe-process-info').append(template);
@@ -1061,8 +1062,8 @@
                             result = "待定";
                         template += '<tr><td class="i18n1" name="result"></td><td>' + result + '</td></tr>';
                         template += '<tr><td class="i18n1" name="remark"></td><td>' + obj.remark + '</td></tr>';
-                        template += '<tr><td class="i18n1" name="uploadfiles"></td><td><a style="color:#87CEEB;" onclick="setBrowsePicutre(this);" data-list="' + obj.upload_files +
-                            '" class="upload-pictures i18n1" name="viewpicture">图片</a></td></tr>';
+                        template += '<tr><td class="i18n1" name="uploadfiles"></td><td><div style="color:#87CEEB;" onclick="setBrowsePicutre(this);" data-list="' + obj.upload_files +
+                            '" class="upload-pictures i18n1" name="viewpicture">图片</div></td></tr>';
                     }
                     template += '</tbody></table>';
                     $('#pipe-process-info').append(template);
@@ -1097,8 +1098,8 @@
                             result = "待定";
                         template += '<tr><td class="i18n1" name="result"></td><td>' + result + '</td></tr>';
                         template += '<tr><td class="i18n1" name="remark"></td><td>' + obj.remark + '</td></tr>';
-                        template += '<tr><td class="i18n1" name="uploadfiles"></td><td><a style="color:#87CEEB;" onclick="setBrowsePicutre(this);" data-list="' + obj.upload_files +
-                            '" class="upload-pictures i18n1" name="viewpicture">图片</a></td></tr>';
+                        template += '<tr><td class="i18n1" name="uploadfiles"></td><td><div style="color:#87CEEB;" onclick="setBrowsePicutre(this);" data-list="' + obj.upload_files +
+                            '" class="upload-pictures i18n1" name="viewpicture">图片</div></td></tr>';
                     }
                     template += '</tbody></table>';
 
@@ -1140,7 +1141,7 @@
             template += '<tr style="width:100%;">';
             template += ' <td style="width:50%;color: #7A7A7A;padding:5px 0px;" class="i18n1 pipeinfo-td" name="' + key + '">' + key + '</td>';
             if (key == "uploadfiles"){
-              template += '<td style="width:50%;text-align:center;padding:5px 0px;" class="pipeinfo-td" ><div style="color:#87CEEB;background-color:red;" onclick="setBrowsePicutre(this);" data-list="' + dict[key] +'" class="upload-pictures i18n1" name="viewpicture">图片</div></td>';
+              template += '<td style="width:50%;text-align:center;padding:5px 0px;" class="pipeinfo-td" ><div style="color:#87CEEB;" onclick="setBrowsePicutre(this);" data-list="' + dict[key] +'" class="upload-pictures i18n1" name="viewpicture">图片</div></td>';
             }
             else{
               template += ' <td style="width:50%;text-align:center;padding:5px 0px;" class="pipeinfo-td">' + dict[key] + '</td>';
