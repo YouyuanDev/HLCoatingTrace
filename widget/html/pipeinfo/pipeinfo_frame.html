@@ -15,38 +15,6 @@
             background-color: #f4f5f6;
         }
 
-        .pipeinfo-table,
-        .dataintable tr {
-            width: 100%;
-        }
-
-        .pipeinfo-table tr td:nth-child(odd) {
-            text-align: left;
-            color: #7A7A7A;
-            width: 25%;
-            overflow: hidden;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-        }
-
-        .pipeinfo-table tr td:nth-child(even) {
-            width: 25%;
-            text-align: left;
-            overflow: hidden;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-        }
-        /*.pipeinfo-td{
-          overflow: hidden;
-          white-space: nowrap;
-          text-overflow: ellipsis;
-        }*/
-
-        .pipeinfo-table tr td {
-            margin-top: 5px;
-            font-size: 14px;
-            padding: 5px 0px;
-        }
 
         .process-button {
             background-color: #19AD68;
@@ -339,6 +307,7 @@
         $('.shipment_date').text(formatterdate(pipeinfo.shipment_date));
         $('.od_coating_date').text(formatterdate(pipeinfo.od_coating_date));
         $('.id_coating_date').text(formatterdate(pipeinfo.id_coating_date));
+
     }
     //更多生产信息
     function loadMoreInfo() {

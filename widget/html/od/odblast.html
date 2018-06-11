@@ -18,6 +18,27 @@
     </header>
     <div class="form-content" id="content">
         <div class="form-item">
+          <table class="pipeinfo-table">
+              <thead>
+                  <tr>
+                      <th class="i18n1" name="pipebasicinfo" colspan="4" style="text-align:center;">钢管基础信息</th>
+                  </tr>
+              </thead>
+              <tr>
+                  <td class="i18n1" name="pipeno"></td>
+                  <td class="pipe_no"></td>
+                  <td class="i18n1" name="statusname"></td>
+                  <td class="status_name"></td>
+              </tr>
+              <tr>
+                  <td class="i18n1" name="od"></td>
+                  <td class="od"></td>
+                  <td class="i18n1" name="wt"></td>
+                  <td class="wt"></td>
+              </tr>
+          </table>
+        </div>
+        <div class="form-item">
             <div class="form-item-lbl">
                 <label class="i18n1" name="marking"></label>
             </div>
@@ -41,74 +62,74 @@
         </div>
         <div class="form-item">
             <div class="form-item-lbl">
-                <label class="i18n1" name="preheattemp"></label>
+                <label class="i18n1 preheat_temp_lbl" name="preheattemp"></label>
             </div>
             <div class="form-item-val">
-                <input class="mob-preheat-temperature" type="text" name="preheat_temp" />
+                <input class="mob-preheat-temperature preheat_temp" type="text" name="preheat_temp" />
             </div>
         </div>
         <div class="form-item">
             <div class="form-item-lbl">
-                <label class="i18n1" name="saltcontaminationbeforeblasting"></label>
+                <label class="i18n1 salt_contamination_before_blast_lbl" name="saltcontaminationbeforeblasting"></label>
             </div>
             <div class="form-item-val">
-                <input class="mob-salt-contamination" type="text" name="salt_contamination_before_blasting" />
+                <input class="mob-salt-contamination salt_contamination_before_blast" type="text" name="salt_contamination_before_blasting" />
             </div>
         </div>
         <div class="form-item">
             <div class="form-item-lbl">
-                <label class="i18n1" name="alkalinedwelltime"></label>
+                <label class="i18n1 alkaline_dwell_time_lbl" name="alkalinedwelltime"></label>
             </div>
             <div class="form-item-val">
-                <input class="mob-second-time" type="text" name="alkaline_dwell_time" />
+                <input class="mob-second-time alkaline_dwell_time" type="text" name="alkaline_dwell_time" />
             </div>
         </div>
         <div class="form-item">
             <div class="form-item-lbl">
-                <label class="i18n1" name="alkalineconcentration"></label>
+                <label class="i18n1 alkaline_concentration_lbl" name="alkalineconcentration"></label>
             </div>
             <div class="form-item-val">
-                <input class="mob-concentration" type="text" name="alkaline_concentration" />
+                <input class="mob-concentration alkaline_concentration" type="text" name="alkaline_concentration" />
             </div>
         </div>
         <div class="form-item">
             <div class="form-item-lbl">
-                <label class="i18n1" name="acidwashtime"></label>
+                <label class="i18n1 acid_wash_time_lbl" name="acidwashtime"></label>
             </div>
             <div class="form-item-val">
-                <input class="mob-second-time" type="text" name="acid_wash_time" />
+                <input class="mob-second-time acid_wash_time" type="text" name="acid_wash_time" />
             </div>
         </div>
         <div class="form-item">
             <div class="form-item-lbl">
-                <label class="i18n1" name="acidconcentration"></label>
+                <label class="i18n1 acid_concentration_lbl" name="acidconcentration"></label>
             </div>
             <div class="form-item-val">
-                <input class="mob-concentration" type="text" name="acid_concentration" />
+                <input class="mob-concentration acid_concentration" type="text" name="acid_concentration" />
             </div>
         </div>
         <div class="form-item">
             <div class="form-item-lbl">
-                <label class="i18n1" name="rinsewaterconductivity"></label>
+                <label class="i18n1 rinse_water_conductivity_lbl" name="rinsewaterconductivity"></label>
             </div>
             <div class="form-item-val">
-                <input class="mob-water-conductivity" type="text" name="rinse_water_conductivity" />
+                <input class="mob-water-conductivity rinse_water_conductivity" type="text" name="rinse_water_conductivity" />
             </div>
         </div>
         <div class="form-item">
             <div class="form-item-lbl">
-                <label class="i18n1" name="abrasiveconductivity"></label>
+                <label class="i18n1 abrasive_conductivity_lbl" name="abrasiveconductivity"></label>
             </div>
             <div class="form-item-val">
-                <input class="mob-abrasive-conductivity" type="text" name="abrasive_conductivity" />
+                <input class="mob-abrasive-conductivity abrasive_conductivity" type="text" name="abrasive_conductivity" />
             </div>
         </div>
         <div class="form-item">
             <div class="form-item-lbl">
-                <label class="i18n1" name="blastlinespeed"></label>
+                <label class="i18n1 blast_line_speed_lbl" name="blastlinespeed"></label>
             </div>
             <div class="form-item-val">
-                <input class="mob-line-speed"  type="text" name="blast_line_speed" />
+                <input class="mob-line-speed blast_line_speed"  type="text" name="blast_line_speed" />
             </div>
         </div>
         <div class="form-item">
@@ -125,6 +146,18 @@
             </div>
         </div>
         <div class="form-item">
+            <div class="imgBox"></div>
+            <!-- <div style=""></div> -->
+        </div>
+        <div class="form-item">
+            <div class="form-item-lbl">
+                <label class="i18n1" name="uploadpicture"></label>
+            </div>
+            <div class="form-item-val">
+                <button class="i18n1 form-pictures" name="selectpicture"></button>
+            </div>
+        </div>
+        <div class="form-item">
             <div class="form-item-lbl">
                 <label class="i18n1" name="remark"></label>
             </div>
@@ -132,18 +165,7 @@
                 <textarea name="remark"></textarea>
             </div>
         </div>
-        <div class="form-item">
-            <div class="imgBox"></div>
-            <!-- <div style=""></div> -->
-        </div>
-        <div class="form-item">
-            <div class="form-item-lbl">
-                <label class="i18n1" name="selectpicture"></label>
-            </div>
-            <div class="form-item-val">
-                <button class="i18n1 form-pictures" name="selectpicture"></button>
-            </div>
-        </div>
+
 
     </div>
     <footer class="form-footer" id=footer>
@@ -177,12 +199,10 @@
     //继续方法
     function Go(employeeno, millno) {
         //初始化表单业务逻辑
-        //alert(pipeno);
-        //alert(millno);
         if (pipeno != undefined) {
             RequestInspectionFrequency(pipeno, millno);
             RequestODAcceptCriteria(pipeno);
-
+            getPipeBasicInfoHeader(pipeno);
         }
         setAllDefectInfo("steel");
         setSelectPictures();

@@ -424,8 +424,21 @@ function RequestInspectionFrequency(pipeno, millno) {
             //得到了检验频次信息
             ////处理逻辑。。。
             //alert(JSON.stringify(ret.value.data));
-            GetInspectFreqOK(ret.value.data);
-
+            //GetInspectFreqOK(ret.value.data);
+            var data=ret.value.data;
+            $.each(data, function(name, value) {
+                var needInspectNow=value.needInspectNow;
+                if(name!=undefined){
+                  if(name.indexOf("od_")!=-1||name.indexOf("id_")!=-1||name.indexOf("_freq")!=-1){
+                    name="."+name.replace("od_","").replace("id_","").replace("_freq","")+"_lbl";
+                    //alert(name);
+                    if(needInspectNow!=undefined&&needInspectNow){
+                        if($(name).children('.freq-span').length<=0)
+                          $(name).append('<span class="freq-span" style="color:red;padding-left:5px;">必填</span>');
+                    }
+                  }
+                }
+            });
         } else {
             //session中不存在millno
             //alert(JSON.stringify(ret.value.msg));
@@ -472,15 +485,46 @@ function RequestInspectionFrequency(pipeno, millno) {
 
 //根据pipeno  获取 外防接收标准
 function RequestODAcceptCriteria(pipeno) {
-
+     //alert(pipeno);
+    // pipeno="1524540";
     //注册接收RequestODAcceptCriteria回调
     api.addEventListener({
         name: 'RequestODAcceptCriteriaCallbackEvent'
     }, function(ret, err) {
         if (ret.value.success) {
             //得到了外防接收标准
-            ////处理逻辑。。。
-            GetODAcceptCriteriaOK(ret.value.data);
+            //GetODAcceptCriteriaOK(ret.value.data);
+            var data =ret.value.data[0];
+            if(data!=undefined){
+              $.each(data, function(name, value) {
+                  if(name!=undefined){
+                    if(name.indexOf("_min")!=-1){
+                      name="."+name.replace("_min","");
+                      if(value!=undefined)
+                      $(name).attr('data-min',value);
+                      name=name+"_lbl";
+                      if($(name).children('.range-span').length<=0){
+                          $(name).append('<span class="range-span">'+value+'~</span>');
+                      }else{
+                         var txt=$(name).children('.range-span').text();
+                         $(name).children('.range-span').text(value+"~"+txt);
+                      }
+                    }else if(name.indexOf("_max")!=-1){
+                      name="."+name.replace("_max","");
+                      if(value!=undefined)
+                      $(name).attr('data-max',value);
+                      name=name+"_lbl";
+                      if($(name).children('.range-span').length<=0){
+                          $(name).append('<span class="range-span">~'+value+'</span>');
+                      }else{
+                         var txt=$(name).children('.range-span').text();
+                         $(name).children('.range-span').text(txt+""+value);
+                      }
+                    }
+                  }
+              });
+            }
+
         } else {
             //alert(JSON.stringify(ret.value.msg));
             //处理逻辑。。。
@@ -532,7 +576,27 @@ function RequestIDAcceptCriteria(pipeno) {
         if (ret.value.success) {
             //得到了内防接收标准
             ////处理逻辑。。。
-            GetIDAcceptCriteriaOK(ret.value.data);
+            //GetIDAcceptCriteriaOK(ret.value.data);
+            var data =ret.value.data[0];
+            if(data!=undefined){
+              $.each(data, function(name, value) {
+                  //alert(name);
+                  //alert(value);
+                  alert(toString.call(name)+":"+name);
+                  if(name!=undefined){
+                    if(name.indexOf("_min")!=-1){
+                      name="."+name.replace("_min","");
+                      if(value!=undefined)
+                      $(name).attr('data-min',value);
+                    }else if(name.indexOf("_max")!=-1){
+                      name="."+name.replace("_max","");
+                      if(value!=undefined)
+                      $(name).attr('data-max',value);
+                    }
+                  }
+              });
+            }
+
         } else {
             //alert(JSON.stringify(ret.value.msg));
             //处理逻辑。。。
@@ -581,7 +645,9 @@ function setControls() {
         display: 'center',
         min: 10,
         max: 100,
-        defaultValue: 40,
+        defaultValue: 50,
+        step:0.5,
+        scale:1,
         units: ['c'],
         unitNames: {
             c: '°C'
@@ -589,6 +655,24 @@ function setControls() {
         onSet: function(event, inst) {
             var selectedVal = inst.getVal();
             $(this).val(selectedVal.replace('°C', ''));
+            var minVal=$(this).attr('data-min');
+            var maxVal=$(this).attr('data-max');
+            alert(minVal+"~"+maxVal);
+            var flag=true;
+            if(selectedVal!=undefined){
+              if(maxVal!=undefined){
+                  if(parseFloat(maxVal)<parseFloat(selectedVal))
+                    flag=false;
+              }
+              if(minVal!=undefined){
+                 if(parseFloat(selectedVal)<parseFloat(minVal))
+                    flag=false;
+              }
+              if(flag)
+                $(this).css('background','#FFFFFF');
+              else
+                $(this).css('background','#F9A6A6');
+            }
         }
     });
     //空气温度
@@ -597,7 +681,7 @@ function setControls() {
         lang: 'zh',
         display: 'center',
         min: -5,
-        defaultValue: 40,
+        defaultValue: 30,
         max: 60,
         units: ['c'],
         unitNames: {
@@ -606,6 +690,23 @@ function setControls() {
         onSet: function(event, inst) {
             var selectedVal = inst.getVal();
             $(this).val(selectedVal.replace('°C', ''));
+            var minVal=$(this).attr('data-min');
+            var maxVal=$(this).attr('data-max');
+            var flag=true;
+            if(selectedVal!=undefined){
+              if(maxVal!=undefined){
+                  if(parseFloat(maxVal)<parseFloat(selectedVal))
+                    flag=false;
+              }
+              if(minVal!=undefined){
+                 if(parseFloat(selectedVal)<parseFloat(minVal))
+                    flag=false;
+              }
+              if(flag)
+                $(this).css('background','#FFFFFF');
+              else
+                $(this).css('background','#F9A6A6');
+            }
         }
     });
     //钢管温度
@@ -615,7 +716,7 @@ function setControls() {
         display: 'center',
         min: 10,
         max: 100,
-        defaultValue: 40,
+        defaultValue: 45,
         units: ['c'],
         unitNames: {
             c: '°C'
@@ -623,6 +724,24 @@ function setControls() {
         onSet: function(event, inst) {
             var selectedVal = inst.getVal();
             $(this).val(selectedVal.replace('°C', ''));
+            var minVal=$(this).attr('data-min');
+            var maxVal=$(this).attr('data-max');
+            var flag=true;
+            if(selectedVal!=undefined){
+              if(maxVal!=undefined){
+                  if(parseFloat(maxVal)<parseFloat(selectedVal))
+                    flag=false;
+              }
+              if(minVal!=undefined){
+                 if(parseFloat(selectedVal)<parseFloat(minVal))
+                    flag=false;
+              }
+              if(flag)
+                $(this).css('background','#FFFFFF');
+              else
+                $(this).css('background','#F9A6A6');
+            }
+
         }
     });
     //打砂前后盐度
@@ -632,8 +751,9 @@ function setControls() {
         display: 'center',
         min: 0,
         max: 50,
-        defaultValue: 25.5,
+        defaultValue: 5,
         step: 0.1,
+        scale:1,
         units: ['c'],
         unitNames: {
             c: 'mg/㎡'
@@ -641,6 +761,24 @@ function setControls() {
         onSet: function(event, inst) {
             var selectedVal = inst.getVal();
             $(this).val(selectedVal.replace('mg/㎡', ''));
+            var minVal=$(this).attr('data-min');
+            var maxVal=$(this).attr('data-max');
+            alert(minVal+"~"+maxVal);
+            var flag=true;
+            if(selectedVal!=undefined){
+              if(maxVal!=undefined){
+                  if(parseFloat(maxVal)<parseFloat(selectedVal))
+                    flag=false;
+              }
+              if(minVal!=undefined){
+                 if(parseFloat(selectedVal)<parseFloat(minVal))
+                    flag=false;
+              }
+              if(flag)
+                $(this).css('background','#FFFFFF');
+              else
+                $(this).css('background','#F9A6A6');
+            }
         }
     });
     //所用时间s
@@ -651,6 +789,8 @@ function setControls() {
         min: 0,
         max: 100,
         defaultValue: 28,
+        step:1,
+        scale:0,
         units: ['c'],
         unitNames: {
             c: 's'
@@ -658,6 +798,24 @@ function setControls() {
         onSet: function(event, inst) {
             var selectedVal = inst.getVal();
             $(this).val(selectedVal.replace('s', ''));
+            var minVal=$(this).attr('data-min');
+            var maxVal=$(this).attr('data-max');
+            alert(minVal+"~"+maxVal);
+            var flag=true;
+            if(selectedVal!=undefined){
+              if(maxVal!=undefined){
+                  if(parseFloat(maxVal)<parseFloat(selectedVal))
+                    flag=false;
+              }
+              if(minVal!=undefined){
+                 if(parseFloat(selectedVal)<parseFloat(minVal))
+                    flag=false;
+              }
+              if(flag)
+                $(this).css('background','#FFFFFF');
+              else
+                $(this).css('background','#F9A6A6');
+            }
         }
     });
     //浓度
@@ -667,8 +825,9 @@ function setControls() {
         display: 'center',
         min: 0,
         max: 100,
-        defaultValue: 50.1,
+        defaultValue: 50,
         step: 0.1,
+        scale:1,
         units: ['c'],
         unitNames: {
             c: '%'
@@ -676,6 +835,24 @@ function setControls() {
         onSet: function(event, inst) {
             var selectedVal = inst.getVal();
             $(this).val(selectedVal.replace('%', ''));
+            var minVal=$(this).attr('data-min');
+            var maxVal=$(this).attr('data-max');
+            alert(minVal+"~"+maxVal);
+            var flag=true;
+            if(selectedVal!=undefined){
+              if(maxVal!=undefined){
+                  if(parseFloat(maxVal)<parseFloat(selectedVal))
+                    flag=false;
+              }
+              if(minVal!=undefined){
+                 if(parseFloat(selectedVal)<parseFloat(minVal))
+                    flag=false;
+              }
+              if(flag)
+                $(this).css('background','#FFFFFF');
+              else
+                $(this).css('background','#F9A6A6');
+            }
         }
     });
     //冲洗电导率
@@ -686,7 +863,7 @@ function setControls() {
         min: 0,
         max: 100,
         step: 1,
-        defaultValue: 60,
+        defaultValue: 10,
         units: ['c'],
         unitNames: {
             c: 'μS/cm'
@@ -694,6 +871,24 @@ function setControls() {
         onSet: function(event, inst) {
             var selectedVal = inst.getVal();
             $(this).val(selectedVal.replace('μS/cm', ''));
+            var minVal=$(this).attr('data-min');
+            var maxVal=$(this).attr('data-max');
+            alert(minVal+"~"+maxVal);
+            var flag=true;
+            if(selectedVal!=undefined){
+              if(maxVal!=undefined){
+                  if(parseFloat(maxVal)<parseFloat(selectedVal))
+                    flag=false;
+              }
+              if(minVal!=undefined){
+                 if(parseFloat(selectedVal)<parseFloat(minVal))
+                    flag=false;
+              }
+              if(flag)
+                $(this).css('background','#FFFFFF');
+              else
+                $(this).css('background','#F9A6A6');
+            }
         }
     });
     //磨料电导率
@@ -704,7 +899,7 @@ function setControls() {
         min: 0,
         max: 100,
         step: 1,
-        defaultValue: 60,
+        defaultValue: 20,
         units: ['c'],
         unitNames: {
             c: 'μS/cm'
@@ -712,6 +907,24 @@ function setControls() {
         onSet: function(event, inst) {
             var selectedVal = inst.getVal();
             $(this).val(selectedVal.replace('μS/cm', ''));
+            var minVal=$(this).attr('data-min');
+            var maxVal=$(this).attr('data-max');
+            alert(minVal+"~"+maxVal);
+            var flag=true;
+            if(selectedVal!=undefined){
+              if(maxVal!=undefined){
+                  if(parseFloat(maxVal)<parseFloat(selectedVal))
+                    flag=false;
+              }
+              if(minVal!=undefined){
+                 if(parseFloat(selectedVal)<parseFloat(minVal))
+                    flag=false;
+              }
+              if(flag)
+                $(this).css('background','#FFFFFF');
+              else
+                $(this).css('background','#F9A6A6');
+            }
         }
     });
     //速度
@@ -721,8 +934,9 @@ function setControls() {
         display: 'center',
         min: 0,
         max: 20,
-        defaultValue: 10.1,
+        defaultValue: 0.5,
         step: 0.1,
+        scale:1,
         units: ['c'],
         unitNames: {
             c: 'm/s'
@@ -730,6 +944,24 @@ function setControls() {
         onSet: function(event, inst) {
             var selectedVal = inst.getVal();
             $(this).val(selectedVal.replace('m/s', ''));
+            var minVal=$(this).attr('data-min');
+            var maxVal=$(this).attr('data-max');
+            alert(minVal+"~"+maxVal);
+            var flag=true;
+            if(selectedVal!=undefined){
+              if(maxVal!=undefined){
+                  if(parseFloat(maxVal)<parseFloat(selectedVal))
+                    flag=false;
+              }
+              if(minVal!=undefined){
+                 if(parseFloat(selectedVal)<parseFloat(minVal))
+                    flag=false;
+              }
+              if(flag)
+                $(this).css('background','#FFFFFF');
+              else
+                $(this).css('background','#F9A6A6');
+            }
         }
     });
     var numList = "";
@@ -753,10 +985,10 @@ function setControls() {
                 icon: '',
                 handler: function(event, inst) {
                     var selectedVal = $nowObj.val();
-                    selectedVal=selectedVal.substring(0,selectedVal.lastIndexOf(','));
-                    selectedVal = selectedVal.substring(0,(selectedVal.lastIndexOf(',')+1));
+                    selectedVal = selectedVal.substring(0, selectedVal.lastIndexOf(','));
+                    selectedVal = selectedVal.substring(0, (selectedVal.lastIndexOf(',') + 1));
                     $nowObj.val(selectedVal);
-                    numList=selectedVal;
+                    numList = selectedVal;
                 }
             },
             'cancel'
@@ -769,7 +1001,31 @@ function setControls() {
         onSet: function(event, inst) {
             var selectedVal = inst.getVal();
             $(this).val(numList + "" + selectedVal + ',');
-            inst.show();
+            var arr=selectedVal.split(',');
+            var minVal=$(this).attr('data-min');
+            var maxVal=$(this).attr('data-max');
+            alert(minVal+"~"+maxVal);
+            var flag=true;
+            if(selectedVal!=undefined){
+              for (var i = 0; i < arr.length; i++) {
+                if(maxVal!=undefined){
+                    if(parseFloat(maxVal)<parseFloat(selectedVal)){
+                        flag=false;
+                        break;
+                    }
+                }
+                if(minVal!=undefined){
+                   if(parseFloat(selectedVal)<parseFloat(minVal)){
+                       flag=false;
+                     break;
+                   }
+                }
+              }
+            }
+            if(flag)
+              $(this).css('background','#FFFFFF');
+            else
+              $(this).css('background','#F9A6A6');
         }
     });
 }
@@ -802,15 +1058,15 @@ function RequestPipeBodyAcceptCriteria(pipeno) {
         timeout: 30,
         dataType: 'json',
         data: {
-             values:{
-               pipe_no:pipeno
-             }
+            values: {
+                pipe_no: pipeno
+            }
         }
     }, function(ret, err) {
         api.hideProgress();
-        var success=false;
+        var success = false;
         if (ret) {
-            success=true;
+            success = true;
         } else {
             api.alert({
                 msg: JSON.stringify(err)
@@ -854,15 +1110,15 @@ function Request2FBELabAcceptCriteria(pipeno) {
         timeout: 30,
         dataType: 'json',
         data: {
-             values:{
-               pipe_no:pipeno
-             }
+            values: {
+                pipe_no: pipeno
+            }
         }
     }, function(ret, err) {
         api.hideProgress();
-        var success=false;
+        var success = false;
         if (ret) {
-            success=true;
+            success = true;
         } else {
             api.alert({
                 msg: JSON.stringify(err)
@@ -905,15 +1161,15 @@ function Request3LPELabAcceptCriteria(pipeno) {
         timeout: 30,
         dataType: 'json',
         data: {
-             values:{
-               pipe_no:pipeno
-             }
+            values: {
+                pipe_no: pipeno
+            }
         }
     }, function(ret, err) {
         api.hideProgress();
-        var success=false;
+        var success = false;
         if (ret) {
-            success=true;
+            success = true;
         } else {
             api.alert({
                 msg: JSON.stringify(err)
@@ -928,4 +1184,39 @@ function Request3LPELabAcceptCriteria(pipeno) {
         });
 
     });
+}
+//获取表单头部钢管信息
+function getPipeBasicInfoHeader(pipeno){
+  var s = 'http://' + serverIP + '/APPRequestTransfer/getCoatingInfoByPipeNo.action';
+  api.ajax({
+      url: s,
+      method: 'post',
+      timeout: 30,
+      dataType: 'json',
+      data: {
+          values: {
+              pipe_no: pipeno
+          }
+      }
+  }, function(ret, err) { //alert(ret);
+      if (ret) {
+          if (ret.success == false) {
+              api.alert({
+                  msg: JSON.stringify(ret.message)
+              });
+          } else {
+              pipeinfo = ret.pipeinfo;
+              $('.pipeinfo-table .pipe_no').text(pipeinfo.pipe_no);
+              $('.pipeinfo-table .status_name').text(pipeinfo.status_name);
+              $('.pipeinfo-table .od').text(pipeinfo.od);
+              $('.pipeinfo-table .wt').text(pipeinfo.wt);
+              hlLanguage("../../i18n/");
+          }
+      } else {
+          //alert("err");
+          api.alert({
+              msg: JSON.stringify(err)
+          });
+      }
+  });
 }
