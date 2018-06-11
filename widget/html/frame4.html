@@ -101,6 +101,20 @@
             </li>
             <li>
                 <div class="list-item">
+                    <label class="i18n1" name="rolename"></label>
+                    <div class="lsit-item-con" id="userrolenamelist"></div>
+
+                </div>
+            </li>
+            <li>
+                <div class="list-item">
+                    <label class="i18n1" name="millno"></label>
+                    <div class="lsit-item-con" id="millname"></div>
+
+                </div>
+            </li>
+            <li>
+                <div class="list-item">
                     <label class="i18n1" name="pname"></label>
                     <div class="lsit-item-con" id="username"></div>
                     <div class="list-item-icon"></div>
@@ -212,6 +226,8 @@
               if (ret.data != undefined) {
                   $('#userid').text(ret.data.id);
                   $('#userno').text(ret.data.employee_no);
+                  $('#userrolenamelist').text(ret.data.role_no_list);
+                  $('#millname').text(ret.millname);
                   $('#username').text(ret.data.pname);
                   $('#userpwd').text(ret.data.ppassword);
                   $('#userIdNo').text(ret.data.pidcard_no);
