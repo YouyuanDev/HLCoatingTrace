@@ -773,3 +773,159 @@ function setControls() {
         }
     });
 }
+
+
+
+//根据pipeno  获取 钢管本体接收标准
+function RequestPipeBodyAcceptCriteria(pipeno) {
+
+    //注册接收RequestPipeBodyAcceptCriteria回调
+    api.addEventListener({
+        name: 'RequestPipeBodyAcceptCriteriaCallbackEvent'
+    }, function(ret, err) {
+        if (ret.value.success) {
+            //得到了钢管本体接收标准
+            ////处理逻辑。。。
+            GetPipeBodyAcceptCriteriaOK(ret.value.data);
+        } else {
+            //alert(JSON.stringify(ret.value.msg));
+            //处理逻辑。。。
+            GetPipeBodyAcceptCriteriaFail();
+        }
+    });
+
+    //发出请求
+    var s = 'http://' + serverIP + '/AcceptanceCriteriaOperation/getPipeBodyAcceptanceCriteriaByPipeNo.action';
+    api.ajax({
+        url: s,
+        method: 'post',
+        timeout: 30,
+        dataType: 'json',
+        data: {
+             values:{
+               pipe_no:pipeno
+             }
+        }
+    }, function(ret, err) {
+        api.hideProgress();
+        var success=false;
+        if (ret) {
+            success=true;
+        } else {
+            api.alert({
+                msg: JSON.stringify(err)
+            });
+        }
+        api.sendEvent({
+            name: 'RequestPipeBodyAcceptCriteriaCallbackEvent',
+            extra: {
+                success: success,
+                data: ret
+            }
+        });
+
+    });
+}
+
+
+//根据pipeno  获取 2FBE lab实验接收标准
+function Request2FBELabAcceptCriteria(pipeno) {
+
+    //注册接收Request2FBELabAcceptCriteria回调
+    api.addEventListener({
+        name: 'Request2FBELabAcceptCriteriaCallbackEvent'
+    }, function(ret, err) {
+        if (ret.value.success) {
+            //得到了2FBE lab实验接收标准
+            ////处理逻辑。。。
+            Get2FBELabAcceptCriteriaOK(ret.value.data);
+        } else {
+            //alert(JSON.stringify(ret.value.msg));
+            //处理逻辑。。。
+            Get2FBELabAcceptCriteriaFail();
+        }
+    });
+
+    //发出请求
+    var s = 'http://' + serverIP + '/LabTestingAcceptanceCriteriaOperation/getAcceptanceCriteria2FbeByPipeNo.action';
+    api.ajax({
+        url: s,
+        method: 'post',
+        timeout: 30,
+        dataType: 'json',
+        data: {
+             values:{
+               pipe_no:pipeno
+             }
+        }
+    }, function(ret, err) {
+        api.hideProgress();
+        var success=false;
+        if (ret) {
+            success=true;
+        } else {
+            api.alert({
+                msg: JSON.stringify(err)
+            });
+        }
+        api.sendEvent({
+            name: 'Request2FBELabAcceptCriteriaCallbackEvent',
+            extra: {
+                success: success,
+                data: ret
+            }
+        });
+
+    });
+}
+
+//根据pipeno  获取 3LPE lab实验接收标准
+function Request3LPELabAcceptCriteria(pipeno) {
+
+    //注册接收Request3LPELabAcceptCriteria回调
+    api.addEventListener({
+        name: 'Request3LPELabAcceptCriteriaCallbackEvent'
+    }, function(ret, err) {
+        if (ret.value.success) {
+            //得到了3LPE lab实验接收标准
+            ////处理逻辑。。。
+            Get3LPELabAcceptCriteriaOK(ret.value.data);
+        } else {
+            //alert(JSON.stringify(ret.value.msg));
+            //处理逻辑。。。
+            Get3LPELabAcceptCriteriaFail();
+        }
+    });
+
+    //发出请求
+    var s = 'http://' + serverIP + '/LabTestingAcceptanceCriteriaOperation/getAcceptanceCriteria3LpeByPipeNo.action';
+    api.ajax({
+        url: s,
+        method: 'post',
+        timeout: 30,
+        dataType: 'json',
+        data: {
+             values:{
+               pipe_no:pipeno
+             }
+        }
+    }, function(ret, err) {
+        api.hideProgress();
+        var success=false;
+        if (ret) {
+            success=true;
+        } else {
+            api.alert({
+                msg: JSON.stringify(err)
+            });
+        }
+        api.sendEvent({
+            name: 'Request3LPELabAcceptCriteriaCallbackEvent',
+            extra: {
+                success: success,
+                data: ret
+            }
+        });
+
+    });
+}
