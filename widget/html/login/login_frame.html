@@ -102,20 +102,38 @@
             padding-left: 4px;
         }
 
+        .location-container .location-content .txtlabel {
+            font-size: 16px;
+        }
+
         .location-container .location-btn {
             width: 40px;
             height: 40px;
+            float: right;
             background: url(../../image/location.png);
             background-repeat: no-repeat;
             background-size: cover;
             border-radius: 4px;
             outline: none;
             border: none;
+            /*padding-left: 50px;*/
+        }
+
+        .location-container .locating-label {
+            width: 40px;
+            height: 40px;
+            float: right;
+            /*color: #4682B4;*/
+            outline: none;
+            border: none;
+            font-size: 16px;
         }
 
         .location-span {
-            font-size: 14px;
-            color: #999;
+            font-size: 16px;
+            color: #4682B4;
+            margin-left: 10px;
+            /*color: #999;*/
         }
     </style>
 </head>
@@ -130,8 +148,8 @@
             <!-- <div class="find" tapmode onclick="fnForgetPassword()">找回密码</div> -->
         </div>
         <div class="location-container">
-            <div class="location-content"><span><label class="i18n1" name="atmill">所在分厂<</label>:<span><span class="location-span"><span></div>
-            <button class="location-btn" onclick="setMillLocation()"></button>
+            <div class="location-content"><label class="i18n1 txtlabel" name="atmill">所在分厂</label><label class="txtlabel">:</label><span class="location-span"></span></div>
+            <button class="location-btn" onclick="setMillLocation()"></button><label class="i18n1 locating-label" name="locating">定位</label>
             <input type="hidden" id="mill_no">
         </div>
         <div class="login" tapmode onclick="fnLogin()"><label class="i18n1" name="login"></label></div>
@@ -148,22 +166,22 @@
 <script type="text/javascript">
     var operator_no, password, operator_no_txt, password_txt;
     //所有mill信息
-    var mills= new Array();
+    var mills = new Array();
     //距离数组
     var distanceArray = new Array();
     //定时器
-    var timer=-1;
+    var timer = -1;
     //UILoading 的id
-    var g_loadingID=0;
+    var g_loadingID = 0;
 
     apiready = function() {
         fnInit();
         //得到服务器上所有工厂的信息
         getAllMillsFromServer();
         setTimeout(function() {
-        initbMap();
-      },400);
-    hlLanguage("../../i18n/");
+            initbMap();
+        }, 400);
+        hlLanguage("../../i18n/");
     };
 
     function fnInit() {
@@ -171,16 +189,16 @@
         password = $api.byId('password');
     };
 
-    function setMillName(millno,millname){
+    function setMillName(millno, millname) {
         $('.location-span').text(millname);
         $('#mill_no').val(millno);
         //alert($('#mill_no').val());
     }
 
     function fnLogin() {
-          operator_no_txt = operator_no.value,
+        operator_no_txt = operator_no.value,
             password_txt = password.value;
-        var millno=$('#mill_no').val();
+        var millno = $('#mill_no').val();
         if (operator_no_txt.length <= 0) {
             alert("请输入工号!");
             return false;
@@ -189,7 +207,7 @@
             alert("请输入密码!");
             return false;
         }
-        if (millno==undefined||millno.length==0) {
+        if (millno == undefined || millno.length == 0) {
             alert("请定位所在工厂!");
             return false;
         }
@@ -207,7 +225,7 @@
                 values: {
                     employee_no: operator_no_txt,
                     ppassword: password_txt,
-                    mill_no:millno
+                    mill_no: millno
                 }
             }
         }, function(ret, err) {
@@ -287,11 +305,11 @@
             if (ret.status) {
                 //alert('地图打开成功');
                 setTimeout(function() {
-                map.showUserLocation({
-                    isShow: true,
-                    trackingMode: 'none'
-                });
-              },100);
+                    map.showUserLocation({
+                        isShow: true,
+                        trackingMode: 'none'
+                    });
+                }, 100);
                 //////
                 setTimeout(function() {
                     //延迟执行
@@ -327,11 +345,11 @@
     }
 
     //设置定位
-    function setMillLocation(){
+    function setMillLocation() {
         //开始计算定位
         GetMyLonLat();
-        if(timer==-1)
-          timer = setInterval(SetClosestMill, 200);
+        if (timer == -1)
+            timer = setInterval(SetClosestMill, 200);
     }
 
 
@@ -360,47 +378,46 @@
         });
     }
 
-function getAllMillsFromServer(){
-  //得到所有mill的坐标
-  var s = 'http://' + serverIP + '/millInfo/getAllMillsInfo.action';
-  api.ajax({
-      url: s,
-      method: 'post',
-      timeout: 30,
-      dataType: 'json',
-      data: {
+    function getAllMillsFromServer() {
+        //得到所有mill的坐标
+        var s = 'http://' + serverIP + '/millInfo/getAllMillsInfo.action';
+        api.ajax({
+            url: s,
+            method: 'post',
+            timeout: 30,
+            dataType: 'json',
+            data: {
 
-      }
-  }, function(ret, err) {
-      api.hideProgress();
-      if (ret) {
-          if (ret.success == true) {
-              mills = ret.millinfo;
-          }
-      } else {
-          api.alert({
-              msg: JSON.stringify(err)
-          });
-      }
+            }
+        }, function(ret, err) {
+            api.hideProgress();
+            if (ret) {
+                if (ret.success == true) {
+                    mills = ret.millinfo;
+                }
+            } else {
+                api.alert({
+                    msg: JSON.stringify(err)
+                });
+            }
 
-  });
+        });
 
-}
+    }
 
     function GetClosestMill(my_lon, my_lat) {
-      for (var i = 0; i < mills.length; i++) {
+        for (var i = 0; i < mills.length; i++) {
 
-          var mill = mills[i];
-          var coordinate = mill.coordinate;
-          var coords = coordinate.split(',');
-          var mill_lon = coords[0];
-          var mill_lat = coords[1];
-          //alert("mill" + i + " mill_lon=" + mill_lon);
-          getDistance(mill_lon, mill_lat, my_lon, my_lat);
-          setTimeout(function() {
-            ;
-          }, 500);
-      }
+            var mill = mills[i];
+            var coordinate = mill.coordinate;
+            var coords = coordinate.split(',');
+            var mill_lon = coords[0];
+            var mill_lat = coords[1];
+            //alert("mill" + i + " mill_lon=" + mill_lon);
+            getDistance(mill_lon, mill_lat, my_lon, my_lat);
+            setTimeout(function() {;
+            }, 500);
+        }
     }
 
 
@@ -416,7 +433,7 @@ function getAllMillsFromServer(){
                 lat: my_lat
             }
         }, function(ret) {
-          //ClearLoadingPicture();
+            //ClearLoadingPicture();
             if (ret.status) {
                 distanceArray.push(ret.distance);
                 //alert(" distance=" + ret.distance);
@@ -427,27 +444,24 @@ function getAllMillsFromServer(){
         });
     }
 
-//取最近的mill作为分厂信息
-function SetClosestMill(){
-  if(mills.length==distanceArray.length&&mills.length!=0){
-      //alert("齐了");
-      var min_index=-1;
-      var min_dis=-1;
-      for(var i=0;i<distanceArray.length;i++){
-        if(min_index==-1||distanceArray[i]<min_dis){
-          min_index=i;
-          min_dis=distanceArray[i];
+    //取最近的mill作为分厂信息
+    function SetClosestMill() {
+        if (mills.length == distanceArray.length && mills.length != 0) {
+            //alert("齐了");
+            var min_index = -1;
+            var min_dis = -1;
+            for (var i = 0; i < distanceArray.length; i++) {
+                if (min_index == -1 || distanceArray[i] < min_dis) {
+                    min_index = i;
+                    min_dis = distanceArray[i];
+                }
+            }
+            //alert("最近分厂="+mills[min_index].mill_name);
+            setMillName(mills[min_index].mill_no, mills[min_index].mill_name);
+            distanceArray.length = 0;
+            if (timer != -1)
+                clearInterval(timer);
+
         }
-      }
-      //alert("最近分厂="+mills[min_index].mill_name);
-      setMillName(mills[min_index].mill_no,mills[min_index].mill_name);
-      distanceArray.length=0;
-      if(timer!=-1)
-      clearInterval(timer);
-
-  }
-}
-
-
-
+    }
 </script>
