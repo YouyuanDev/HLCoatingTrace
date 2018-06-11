@@ -60,7 +60,7 @@ html,body {  font-size:14px; height:100%;background:#FFFFFF;}
     width:100%;
     overflow-y:auto;
     -webkit-overflow-scrolling: touch;
-    top:43px;
+    top:63px;
     position:absolute;
     z-index:10;
     padding:4px 0px;
@@ -182,4 +182,7 @@ select,button{
     margin-top: 5px;
     font-size: 14px;
     padding: 5px 0px;
+}
+.range-span{
+  padding-left:4px;
 }

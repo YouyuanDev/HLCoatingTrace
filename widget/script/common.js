@@ -1,5 +1,5 @@
 var header, headerHeight = 0;
-var serverIP = '192.168.0.14:8080';
+var serverIP = '192.168.0.12:8080';
 
 function fnSettingHeader() {
 
@@ -7,8 +7,10 @@ function fnSettingHeader() {
     var header = $api.byId('header');
     if (sType == "ios") {
         $api.fixIos7Bar(header);
+
+    } else if (sType == "android") {
+        $api.fixStatusBar(header);
     }
-    headerHeight = $api.offset(header).h;
 }
 // function fnReadyHeader() {
 //     header = $api.byId('header');
@@ -347,28 +349,6 @@ function getPicture(sourceType) {
             saveToPhotoAlbum: true
         }, function(ret, err) {
             if (ret) {
-                alert("getPicture=" + ret.data);
-                $('.imgBox').append(pictureTemplate(ret.data, ret.base64Data));
-                //$('#imgUp').attr('src', ret.base64Data);
-            } else {
-                alert(JSON.stringify(err));
-            }
-        });
-
-    } else if (sourceType == 2) { // 从相机中选择
-        api.getPicture({
-            sourceType: 'library',
-            encodingType: 'jpg',
-            mediaValue: 'pic',
-            destinationType: 'base64',
-            quality: 50,
-            targetWidth: 750,
-            targetHeight: 750
-        }, function(ret, err) {
-            if (ret) {
-                //alert(ret.data);
-                $('.imgBox').append(pictureTemplate(ret.data, ret.base64Data));
-                alert("222" + ret.data);
                 var s = 'http://' + serverIP + '/UploadFile/uploadPicture.action';
                 api.ajax({
                     url: s,
@@ -381,14 +361,51 @@ function getPicture(sourceType) {
                             file: ret.data
                         }
                     }
-                }, function(ret, err) {
-                    if (ret) {
-                        // api.alert({
-                        //     msg: JSON.stringify(ret)
-                        // });
+                }, function(rets, errs) {
+                    if (rets) {
+                        $('.imgBox').append(pictureTemplate(rets.imgUrl, ret.base64Data));
+                        alert("上传成功!");
                     } else {
                         api.alert({
-                            msg: JSON.stringify(err)
+                            msg: JSON.stringify(errs)
+                        });
+                    }
+                });
+                //$('#imgUp').attr('src', ret.base64Data);
+            } else {
+                alert(JSON.stringify(err));
+            }
+        });
+    } else if (sourceType == 2) { // 从相机中选择
+        api.getPicture({
+            sourceType: 'library',
+            encodingType: 'jpg',
+            mediaValue: 'pic',
+            destinationType: 'base64',
+            quality: 50,
+            targetWidth: 750,
+            targetHeight: 750
+        }, function(ret, err) {
+            if (ret) {
+                var s = 'http://' + serverIP + '/UploadFile/uploadPicture.action';
+                api.ajax({
+                    url: s,
+                    method: 'post',
+                    data: {
+                        values: {
+                            name: 'haha'
+                        },
+                        files: {
+                            file: ret.data
+                        }
+                    }
+                }, function(rets, errs) {
+                    if (rets) {
+                        $('.imgBox').append(pictureTemplate(rets.imgUrl, ret.base64Data));
+                        alert("上传成功!");
+                    } else {
+                        api.alert({
+                            msg: JSON.stringify(errs)
                         });
                     }
                 });
@@ -422,21 +439,20 @@ function RequestInspectionFrequency(pipeno, millno) {
     }, function(ret, err) {
         if (ret.value.success) {
             //得到了检验频次信息
-            ////处理逻辑。。。
-            //alert(JSON.stringify(ret.value.data));
-            //GetInspectFreqOK(ret.value.data);
-            var data=ret.value.data;
+            var data = ret.value.data;
             $.each(data, function(name, value) {
-                var needInspectNow=value.needInspectNow;
-                if(name!=undefined){
-                  if(name.indexOf("od_")!=-1||name.indexOf("id_")!=-1||name.indexOf("_freq")!=-1){
-                    name="."+name.replace("od_","").replace("id_","").replace("_freq","")+"_lbl";
-                    //alert(name);
-                    if(needInspectNow!=undefined&&needInspectNow){
-                        if($(name).children('.freq-span').length<=0)
-                          $(name).append('<span class="freq-span" style="color:red;padding-left:5px;">必填</span>');
+                var needInspectNow = value.needInspectNow;
+                if (name != undefined) {
+                    if (name.indexOf("od_") != -1 || name.indexOf("id_") != -1 || name.indexOf("_freq") != -1) {
+                        name0 = "." + name.replace("od_", "").replace("id_", "").replace("_freq", "");
+                        name = "." + name.replace("od_", "").replace("id_", "").replace("_freq", "") + "_lbl";
+                        //alert(name);
+                        if (needInspectNow != undefined && needInspectNow) {
+                            $(name0).attr('data-required', true);
+                            if ($(name).children('.freq-span').length <= 0)
+                                $(name).append('<span class="freq-span" style="color:red;padding-left:5px;">本次必填</span>');
+                        }
                     }
-                  }
                 }
             });
         } else {
@@ -485,7 +501,7 @@ function RequestInspectionFrequency(pipeno, millno) {
 
 //根据pipeno  获取 外防接收标准
 function RequestODAcceptCriteria(pipeno) {
-     //alert(pipeno);
+    //alert(pipeno);
     // pipeno="1524540";
     //注册接收RequestODAcceptCriteria回调
     api.addEventListener({
@@ -494,35 +510,35 @@ function RequestODAcceptCriteria(pipeno) {
         if (ret.value.success) {
             //得到了外防接收标准
             //GetODAcceptCriteriaOK(ret.value.data);
-            var data =ret.value.data[0];
-            if(data!=undefined){
-              $.each(data, function(name, value) {
-                  if(name!=undefined){
-                    if(name.indexOf("_min")!=-1){
-                      name="."+name.replace("_min","");
-                      if(value!=undefined)
-                      $(name).attr('data-min',value);
-                      name=name+"_lbl";
-                      if($(name).children('.range-span').length<=0){
-                          $(name).append('<span class="range-span">'+value+'~</span>');
-                      }else{
-                         var txt=$(name).children('.range-span').text();
-                         $(name).children('.range-span').text(value+"~"+txt);
-                      }
-                    }else if(name.indexOf("_max")!=-1){
-                      name="."+name.replace("_max","");
-                      if(value!=undefined)
-                      $(name).attr('data-max',value);
-                      name=name+"_lbl";
-                      if($(name).children('.range-span').length<=0){
-                          $(name).append('<span class="range-span">~'+value+'</span>');
-                      }else{
-                         var txt=$(name).children('.range-span').text();
-                         $(name).children('.range-span').text(txt+""+value);
-                      }
+            var data = ret.value.data[0];
+            if (data != undefined) {
+                $.each(data, function(name, value) {
+                    if (name != undefined) {
+                        if (name.indexOf("_min") != -1) {
+                            name = "." + name.replace("_min", "");
+                            if (value != undefined)
+                                $(name).attr('data-min', value);
+                            name = name + "_lbl";
+                            if ($(name).children('.range-span').length <= 0) {
+                                $(name).append('<span class="range-span">' + value + '~</span>');
+                            } else {
+                                var txt = $(name).children('.range-span').text();
+                                $(name).children('.range-span').text(value + "~" + txt);
+                            }
+                        } else if (name.indexOf("_max") != -1) {
+                            name = "." + name.replace("_max", "");
+                            if (value != undefined)
+                                $(name).attr('data-max', value);
+                            name = name + "_lbl";
+                            if ($(name).children('.range-span').length <= 0) {
+                                $(name).append('<span class="range-span">' + value + '</span>');
+                            } else {
+                                var txt = $(name).children('.range-span').text();
+                                $(name).children('.range-span').text(txt + "" + value);
+                            }
+                        }
                     }
-                  }
-              });
+                });
             }
 
         } else {
@@ -577,24 +593,35 @@ function RequestIDAcceptCriteria(pipeno) {
             //得到了内防接收标准
             ////处理逻辑。。。
             //GetIDAcceptCriteriaOK(ret.value.data);
-            var data =ret.value.data[0];
-            if(data!=undefined){
-              $.each(data, function(name, value) {
-                  //alert(name);
-                  //alert(value);
-                  alert(toString.call(name)+":"+name);
-                  if(name!=undefined){
-                    if(name.indexOf("_min")!=-1){
-                      name="."+name.replace("_min","");
-                      if(value!=undefined)
-                      $(name).attr('data-min',value);
-                    }else if(name.indexOf("_max")!=-1){
-                      name="."+name.replace("_max","");
-                      if(value!=undefined)
-                      $(name).attr('data-max',value);
+            var data = ret.value.data[0];
+            if (data != undefined) {
+                $.each(data, function(name, value) {
+                    if (name != undefined) {
+                        if (name.indexOf("_min") != -1) {
+                            name = "." + name.replace("_min", "");
+                            if (value != undefined)
+                                $(name).attr('data-min', value);
+                            name = name + "_lbl";
+                            if ($(name).children('.range-span').length <= 0) {
+                                $(name).append('<span class="range-span">' + value + '~</span>');
+                            } else {
+                                var txt = $(name).children('.range-span').text();
+                                $(name).children('.range-span').text(value + "~" + txt);
+                            }
+                        } else if (name.indexOf("_max") != -1) {
+                            name = "." + name.replace("_max", "");
+                            if (value != undefined)
+                                $(name).attr('data-max', value);
+                            name = name + "_lbl";
+                            if ($(name).children('.range-span').length <= 0) {
+                                $(name).append('<span class="range-span">' + value + '</span>');
+                            } else {
+                                var txt = $(name).children('.range-span').text();
+                                $(name).children('.range-span').text(txt + "" + value);
+                            }
+                        }
                     }
-                  }
-              });
+                });
             }
 
         } else {
@@ -646,8 +673,8 @@ function setControls() {
         min: 10,
         max: 100,
         defaultValue: 50,
-        step:0.5,
-        scale:1,
+        step: 0.5,
+        scale: 1,
         units: ['c'],
         unitNames: {
             c: '°C'
@@ -655,23 +682,23 @@ function setControls() {
         onSet: function(event, inst) {
             var selectedVal = inst.getVal();
             $(this).val(selectedVal.replace('°C', ''));
-            var minVal=$(this).attr('data-min');
-            var maxVal=$(this).attr('data-max');
-            alert(minVal+"~"+maxVal);
-            var flag=true;
-            if(selectedVal!=undefined){
-              if(maxVal!=undefined){
-                  if(parseFloat(maxVal)<parseFloat(selectedVal))
-                    flag=false;
-              }
-              if(minVal!=undefined){
-                 if(parseFloat(selectedVal)<parseFloat(minVal))
-                    flag=false;
-              }
-              if(flag)
-                $(this).css('background','#FFFFFF');
-              else
-                $(this).css('background','#F9A6A6');
+            var minVal = $(this).attr('data-min');
+            var maxVal = $(this).attr('data-max');
+
+            var flag = true;
+            if (selectedVal != undefined) {
+                if (maxVal != undefined) {
+                    if (parseFloat(maxVal) < parseFloat(selectedVal))
+                        flag = false;
+                }
+                if (minVal != undefined) {
+                    if (parseFloat(selectedVal) < parseFloat(minVal))
+                        flag = false;
+                }
+                if (flag)
+                    $(this).css('background', '#FFFFFF');
+                else
+                    $(this).css('background', '#F9A6A6');
             }
         }
     });
@@ -690,22 +717,22 @@ function setControls() {
         onSet: function(event, inst) {
             var selectedVal = inst.getVal();
             $(this).val(selectedVal.replace('°C', ''));
-            var minVal=$(this).attr('data-min');
-            var maxVal=$(this).attr('data-max');
-            var flag=true;
-            if(selectedVal!=undefined){
-              if(maxVal!=undefined){
-                  if(parseFloat(maxVal)<parseFloat(selectedVal))
-                    flag=false;
-              }
-              if(minVal!=undefined){
-                 if(parseFloat(selectedVal)<parseFloat(minVal))
-                    flag=false;
-              }
-              if(flag)
-                $(this).css('background','#FFFFFF');
-              else
-                $(this).css('background','#F9A6A6');
+            var minVal = $(this).attr('data-min');
+            var maxVal = $(this).attr('data-max');
+            var flag = true;
+            if (selectedVal != undefined) {
+                if (maxVal != undefined) {
+                    if (parseFloat(maxVal) < parseFloat(selectedVal))
+                        flag = false;
+                }
+                if (minVal != undefined) {
+                    if (parseFloat(selectedVal) < parseFloat(minVal))
+                        flag = false;
+                }
+                if (flag)
+                    $(this).css('background', '#FFFFFF');
+                else
+                    $(this).css('background', '#F9A6A6');
             }
         }
     });
@@ -724,22 +751,22 @@ function setControls() {
         onSet: function(event, inst) {
             var selectedVal = inst.getVal();
             $(this).val(selectedVal.replace('°C', ''));
-            var minVal=$(this).attr('data-min');
-            var maxVal=$(this).attr('data-max');
-            var flag=true;
-            if(selectedVal!=undefined){
-              if(maxVal!=undefined){
-                  if(parseFloat(maxVal)<parseFloat(selectedVal))
-                    flag=false;
-              }
-              if(minVal!=undefined){
-                 if(parseFloat(selectedVal)<parseFloat(minVal))
-                    flag=false;
-              }
-              if(flag)
-                $(this).css('background','#FFFFFF');
-              else
-                $(this).css('background','#F9A6A6');
+            var minVal = $(this).attr('data-min');
+            var maxVal = $(this).attr('data-max');
+            var flag = true;
+            if (selectedVal != undefined) {
+                if (maxVal != undefined) {
+                    if (parseFloat(maxVal) < parseFloat(selectedVal))
+                        flag = false;
+                }
+                if (minVal != undefined) {
+                    if (parseFloat(selectedVal) < parseFloat(minVal))
+                        flag = false;
+                }
+                if (flag)
+                    $(this).css('background', '#FFFFFF');
+                else
+                    $(this).css('background', '#F9A6A6');
             }
 
         }
@@ -753,7 +780,7 @@ function setControls() {
         max: 50,
         defaultValue: 5,
         step: 0.1,
-        scale:1,
+        scale: 1,
         units: ['c'],
         unitNames: {
             c: 'mg/㎡'
@@ -761,23 +788,22 @@ function setControls() {
         onSet: function(event, inst) {
             var selectedVal = inst.getVal();
             $(this).val(selectedVal.replace('mg/㎡', ''));
-            var minVal=$(this).attr('data-min');
-            var maxVal=$(this).attr('data-max');
-            alert(minVal+"~"+maxVal);
-            var flag=true;
-            if(selectedVal!=undefined){
-              if(maxVal!=undefined){
-                  if(parseFloat(maxVal)<parseFloat(selectedVal))
-                    flag=false;
-              }
-              if(minVal!=undefined){
-                 if(parseFloat(selectedVal)<parseFloat(minVal))
-                    flag=false;
-              }
-              if(flag)
-                $(this).css('background','#FFFFFF');
-              else
-                $(this).css('background','#F9A6A6');
+            var minVal = $(this).attr('data-min');
+            var maxVal = $(this).attr('data-max');
+            var flag = true;
+            if (selectedVal != undefined) {
+                if (maxVal != undefined) {
+                    if (parseFloat(maxVal) < parseFloat(selectedVal))
+                        flag = false;
+                }
+                if (minVal != undefined) {
+                    if (parseFloat(selectedVal) < parseFloat(minVal))
+                        flag = false;
+                }
+                if (flag)
+                    $(this).css('background', '#FFFFFF');
+                else
+                    $(this).css('background', '#F9A6A6');
             }
         }
     });
@@ -789,8 +815,8 @@ function setControls() {
         min: 0,
         max: 100,
         defaultValue: 28,
-        step:1,
-        scale:0,
+        step: 1,
+        scale: 0,
         units: ['c'],
         unitNames: {
             c: 's'
@@ -798,23 +824,22 @@ function setControls() {
         onSet: function(event, inst) {
             var selectedVal = inst.getVal();
             $(this).val(selectedVal.replace('s', ''));
-            var minVal=$(this).attr('data-min');
-            var maxVal=$(this).attr('data-max');
-            alert(minVal+"~"+maxVal);
-            var flag=true;
-            if(selectedVal!=undefined){
-              if(maxVal!=undefined){
-                  if(parseFloat(maxVal)<parseFloat(selectedVal))
-                    flag=false;
-              }
-              if(minVal!=undefined){
-                 if(parseFloat(selectedVal)<parseFloat(minVal))
-                    flag=false;
-              }
-              if(flag)
-                $(this).css('background','#FFFFFF');
-              else
-                $(this).css('background','#F9A6A6');
+            var minVal = $(this).attr('data-min');
+            var maxVal = $(this).attr('data-max');
+            var flag = true;
+            if (selectedVal != undefined) {
+                if (maxVal != undefined) {
+                    if (parseFloat(maxVal) < parseFloat(selectedVal))
+                        flag = false;
+                }
+                if (minVal != undefined) {
+                    if (parseFloat(selectedVal) < parseFloat(minVal))
+                        flag = false;
+                }
+                if (flag)
+                    $(this).css('background', '#FFFFFF');
+                else
+                    $(this).css('background', '#F9A6A6');
             }
         }
     });
@@ -827,7 +852,7 @@ function setControls() {
         max: 100,
         defaultValue: 50,
         step: 0.1,
-        scale:1,
+        scale: 1,
         units: ['c'],
         unitNames: {
             c: '%'
@@ -835,23 +860,22 @@ function setControls() {
         onSet: function(event, inst) {
             var selectedVal = inst.getVal();
             $(this).val(selectedVal.replace('%', ''));
-            var minVal=$(this).attr('data-min');
-            var maxVal=$(this).attr('data-max');
-            alert(minVal+"~"+maxVal);
-            var flag=true;
-            if(selectedVal!=undefined){
-              if(maxVal!=undefined){
-                  if(parseFloat(maxVal)<parseFloat(selectedVal))
-                    flag=false;
-              }
-              if(minVal!=undefined){
-                 if(parseFloat(selectedVal)<parseFloat(minVal))
-                    flag=false;
-              }
-              if(flag)
-                $(this).css('background','#FFFFFF');
-              else
-                $(this).css('background','#F9A6A6');
+            var minVal = $(this).attr('data-min');
+            var maxVal = $(this).attr('data-max');
+            var flag = true;
+            if (selectedVal != undefined) {
+                if (maxVal != undefined) {
+                    if (parseFloat(maxVal) < parseFloat(selectedVal))
+                        flag = false;
+                }
+                if (minVal != undefined) {
+                    if (parseFloat(selectedVal) < parseFloat(minVal))
+                        flag = false;
+                }
+                if (flag)
+                    $(this).css('background', '#FFFFFF');
+                else
+                    $(this).css('background', '#F9A6A6');
             }
         }
     });
@@ -871,23 +895,22 @@ function setControls() {
         onSet: function(event, inst) {
             var selectedVal = inst.getVal();
             $(this).val(selectedVal.replace('μS/cm', ''));
-            var minVal=$(this).attr('data-min');
-            var maxVal=$(this).attr('data-max');
-            alert(minVal+"~"+maxVal);
-            var flag=true;
-            if(selectedVal!=undefined){
-              if(maxVal!=undefined){
-                  if(parseFloat(maxVal)<parseFloat(selectedVal))
-                    flag=false;
-              }
-              if(minVal!=undefined){
-                 if(parseFloat(selectedVal)<parseFloat(minVal))
-                    flag=false;
-              }
-              if(flag)
-                $(this).css('background','#FFFFFF');
-              else
-                $(this).css('background','#F9A6A6');
+            var minVal = $(this).attr('data-min');
+            var maxVal = $(this).attr('data-max');
+            var flag = true;
+            if (selectedVal != undefined) {
+                if (maxVal != undefined) {
+                    if (parseFloat(maxVal) < parseFloat(selectedVal))
+                        flag = false;
+                }
+                if (minVal != undefined) {
+                    if (parseFloat(selectedVal) < parseFloat(minVal))
+                        flag = false;
+                }
+                if (flag)
+                    $(this).css('background', '#FFFFFF');
+                else
+                    $(this).css('background', '#F9A6A6');
             }
         }
     });
@@ -907,23 +930,22 @@ function setControls() {
         onSet: function(event, inst) {
             var selectedVal = inst.getVal();
             $(this).val(selectedVal.replace('μS/cm', ''));
-            var minVal=$(this).attr('data-min');
-            var maxVal=$(this).attr('data-max');
-            alert(minVal+"~"+maxVal);
-            var flag=true;
-            if(selectedVal!=undefined){
-              if(maxVal!=undefined){
-                  if(parseFloat(maxVal)<parseFloat(selectedVal))
-                    flag=false;
-              }
-              if(minVal!=undefined){
-                 if(parseFloat(selectedVal)<parseFloat(minVal))
-                    flag=false;
-              }
-              if(flag)
-                $(this).css('background','#FFFFFF');
-              else
-                $(this).css('background','#F9A6A6');
+            var minVal = $(this).attr('data-min');
+            var maxVal = $(this).attr('data-max');
+            var flag = true;
+            if (selectedVal != undefined) {
+                if (maxVal != undefined) {
+                    if (parseFloat(maxVal) < parseFloat(selectedVal))
+                        flag = false;
+                }
+                if (minVal != undefined) {
+                    if (parseFloat(selectedVal) < parseFloat(minVal))
+                        flag = false;
+                }
+                if (flag)
+                    $(this).css('background', '#FFFFFF');
+                else
+                    $(this).css('background', '#F9A6A6');
             }
         }
     });
@@ -936,7 +958,7 @@ function setControls() {
         max: 20,
         defaultValue: 0.5,
         step: 0.1,
-        scale:1,
+        scale: 1,
         units: ['c'],
         unitNames: {
             c: 'm/s'
@@ -944,23 +966,22 @@ function setControls() {
         onSet: function(event, inst) {
             var selectedVal = inst.getVal();
             $(this).val(selectedVal.replace('m/s', ''));
-            var minVal=$(this).attr('data-min');
-            var maxVal=$(this).attr('data-max');
-            alert(minVal+"~"+maxVal);
-            var flag=true;
-            if(selectedVal!=undefined){
-              if(maxVal!=undefined){
-                  if(parseFloat(maxVal)<parseFloat(selectedVal))
-                    flag=false;
-              }
-              if(minVal!=undefined){
-                 if(parseFloat(selectedVal)<parseFloat(minVal))
-                    flag=false;
-              }
-              if(flag)
-                $(this).css('background','#FFFFFF');
-              else
-                $(this).css('background','#F9A6A6');
+            var minVal = $(this).attr('data-min');
+            var maxVal = $(this).attr('data-max');
+            var flag = true;
+            if (selectedVal != undefined) {
+                if (maxVal != undefined) {
+                    if (parseFloat(maxVal) < parseFloat(selectedVal))
+                        flag = false;
+                }
+                if (minVal != undefined) {
+                    if (parseFloat(selectedVal) < parseFloat(minVal))
+                        flag = false;
+                }
+                if (flag)
+                    $(this).css('background', '#FFFFFF');
+                else
+                    $(this).css('background', '#F9A6A6');
             }
         }
     });
@@ -1001,31 +1022,30 @@ function setControls() {
         onSet: function(event, inst) {
             var selectedVal = inst.getVal();
             $(this).val(numList + "" + selectedVal + ',');
-            var arr=selectedVal.split(',');
-            var minVal=$(this).attr('data-min');
-            var maxVal=$(this).attr('data-max');
-            alert(minVal+"~"+maxVal);
-            var flag=true;
-            if(selectedVal!=undefined){
-              for (var i = 0; i < arr.length; i++) {
-                if(maxVal!=undefined){
-                    if(parseFloat(maxVal)<parseFloat(selectedVal)){
-                        flag=false;
-                        break;
+            var arr = selectedVal.split(',');
+            var minVal = $(this).attr('data-min');
+            var maxVal = $(this).attr('data-max');
+            var flag = true;
+            if (selectedVal != undefined) {
+                for (var i = 0; i < arr.length; i++) {
+                    if (maxVal != undefined) {
+                        if (parseFloat(maxVal) < parseFloat(selectedVal)) {
+                            flag = false;
+                            break;
+                        }
+                    }
+                    if (minVal != undefined) {
+                        if (parseFloat(selectedVal) < parseFloat(minVal)) {
+                            flag = false;
+                            break;
+                        }
                     }
                 }
-                if(minVal!=undefined){
-                   if(parseFloat(selectedVal)<parseFloat(minVal)){
-                       flag=false;
-                     break;
-                   }
-                }
-              }
             }
-            if(flag)
-              $(this).css('background','#FFFFFF');
+            if (flag)
+                $(this).css('background', '#FFFFFF');
             else
-              $(this).css('background','#F9A6A6');
+                $(this).css('background', '#F9A6A6');
         }
     });
 }
@@ -1186,8 +1206,78 @@ function Request3LPELabAcceptCriteria(pipeno) {
     });
 }
 //获取表单头部钢管信息
-function getPipeBasicInfoHeader(pipeno){
-  var s = 'http://' + serverIP + '/APPRequestTransfer/getCoatingInfoByPipeNo.action';
+function getPipeBasicInfoHeader(pipeno, millno) {
+    var s = 'http://' + serverIP + '/APPRequestTransfer/getCoatingInfoByPipeNo.action';
+    api.ajax({
+        url: s,
+        method: 'post',
+        timeout: 30,
+        dataType: 'json',
+        data: {
+            values: {
+                pipe_no: pipeno
+            }
+        }
+    }, function(ret, err) { //alert(ret);
+        if (ret) {
+            if (ret.success == false) {
+                api.alert({
+                    msg: JSON.stringify(ret.message)
+                });
+            } else {
+                pipeinfo = ret.pipeinfo;
+                $('.pipeinfo-table .pipe_no').text(pipeinfo.pipe_no);
+                $('.pipeinfo-table .status_name').text(pipeinfo.status_name);
+                $('.pipeinfo-table .od').text(pipeinfo.od);
+                $('.pipeinfo-table .wt').text(pipeinfo.wt);
+                $('.pipeinfo-table .millno').text(millno);
+                hlLanguage("../../i18n/");
+            }
+        } else {
+            //alert("err");
+            api.alert({
+                msg: JSON.stringify(err)
+            });
+        }
+    });
+}
+//初始化未填项目
+function initFormNumber() {
+    var result = true;
+    //必填项目检验
+    $("input[data-required=true]").each(function(a, b) {
+        if ($(this).val().length <= 0) {
+            var name = $(this).parent().siblings('.form-item-lbl').children('label').text().replace("本次必填", "");
+            api.alert({
+                msg:"请输入:"+name
+            });
+
+            result = false;
+            return result;
+        }
+    });
+    if (!result)
+        return false;
+    //设置默认值
+    $("input[data-number=true]").each(function(a, b) {
+        if ($(this).val().length <= 0) {
+            $(this).val(-99);
+        }
+    });
+    return true;
+}
+
+function getPendingRecordInfo(controller,pipe_no){
+  api.addEventListener({
+      name: 'getPendingRecordCallBackEvent'
+  }, function(ret, err) {
+      if (ret.value.success) {
+          getPendingRecordInfoOK(ret.value.data);
+      } else {
+          getPendingRecordInfoFail();
+      }
+  });
+  var s = 'http://' + serverIP + '/'+controller+'/getPendingRecordByPipeNo.action';
   api.ajax({
       url: s,
       method: 'post',
@@ -1195,28 +1285,36 @@ function getPipeBasicInfoHeader(pipeno){
       dataType: 'json',
       data: {
           values: {
-              pipe_no: pipeno
+              pipe_no: pipe_no
           }
       }
   }, function(ret, err) { //alert(ret);
       if (ret) {
-          if (ret.success == false) {
-              api.alert({
-                  msg: JSON.stringify(ret.message)
-              });
-          } else {
-              pipeinfo = ret.pipeinfo;
-              $('.pipeinfo-table .pipe_no').text(pipeinfo.pipe_no);
-              $('.pipeinfo-table .status_name').text(pipeinfo.status_name);
-              $('.pipeinfo-table .od').text(pipeinfo.od);
-              $('.pipeinfo-table .wt').text(pipeinfo.wt);
-              hlLanguage("../../i18n/");
-          }
+          api.sendEvent({
+              name: 'getPendingRecordCallBackEvent',
+              extra: {
+                  success: ret.success,
+                  data: ret.record
+              }
+          });
       } else {
           //alert("err");
           api.alert({
               msg: JSON.stringify(err)
           });
       }
+
   });
 }
+//alert
+// function alertMsg() {
+//     $.mobiscroll().widget({
+//             theme: 'auto',
+//             lang: 'zh'
+//             display: 'center',
+//             buttons: [{
+//                     text: 'OK',
+//                     handler: 'set'
+//                 }
+//             });
+//     }

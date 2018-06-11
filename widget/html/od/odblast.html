@@ -36,6 +36,10 @@
                   <td class="i18n1" name="wt"></td>
                   <td class="wt"></td>
               </tr>
+              <tr>
+                  <td class="i18n1" name="millno"></td>
+                  <td class="millno"></td>
+              </tr>
           </table>
         </div>
         <div class="form-item">
@@ -65,7 +69,7 @@
                 <label class="i18n1 preheat_temp_lbl" name="preheattemp"></label>
             </div>
             <div class="form-item-val">
-                <input class="mob-preheat-temperature preheat_temp" type="text" name="preheat_temp" />
+                <input data-number="true" class="mob-preheat-temperature preheat_temp" type="text" name="preheat_temp" />
             </div>
         </div>
         <div class="form-item">
@@ -73,7 +77,7 @@
                 <label class="i18n1 salt_contamination_before_blast_lbl" name="saltcontaminationbeforeblasting"></label>
             </div>
             <div class="form-item-val">
-                <input class="mob-salt-contamination salt_contamination_before_blast" type="text" name="salt_contamination_before_blasting" />
+                <input data-number=true data-required=false class="mob-salt-contamination salt_contamination_before_blast" type="text" name="salt_contamination_before_blasting" />
             </div>
         </div>
         <div class="form-item">
@@ -81,7 +85,7 @@
                 <label class="i18n1 alkaline_dwell_time_lbl" name="alkalinedwelltime"></label>
             </div>
             <div class="form-item-val">
-                <input class="mob-second-time alkaline_dwell_time" type="text" name="alkaline_dwell_time" />
+                <input data-number=true data-required=false class="mob-second-time alkaline_dwell_time" type="text" name="alkaline_dwell_time" />
             </div>
         </div>
         <div class="form-item">
@@ -89,15 +93,15 @@
                 <label class="i18n1 alkaline_concentration_lbl" name="alkalineconcentration"></label>
             </div>
             <div class="form-item-val">
-                <input class="mob-concentration alkaline_concentration" type="text" name="alkaline_concentration" />
+                <input data-number=true data-required=false class="mob-concentration alkaline_concentration" type="text" name="alkaline_concentration" />
             </div>
         </div>
         <div class="form-item">
             <div class="form-item-lbl">
-                <label class="i18n1 acid_wash_time_lbl" name="acidwashtime"></label>
+                <label  class="i18n1 acid_wash_time_lbl" name="acidwashtime"></label>
             </div>
             <div class="form-item-val">
-                <input class="mob-second-time acid_wash_time" type="text" name="acid_wash_time" />
+                <input data-number=true data-required=false class="mob-second-time acid_wash_time" type="text" name="acid_wash_time" />
             </div>
         </div>
         <div class="form-item">
@@ -105,7 +109,7 @@
                 <label class="i18n1 acid_concentration_lbl" name="acidconcentration"></label>
             </div>
             <div class="form-item-val">
-                <input class="mob-concentration acid_concentration" type="text" name="acid_concentration" />
+                <input data-number=true data-required=false class="mob-concentration acid_concentration" type="text" name="acid_concentration" />
             </div>
         </div>
         <div class="form-item">
@@ -113,7 +117,7 @@
                 <label class="i18n1 rinse_water_conductivity_lbl" name="rinsewaterconductivity"></label>
             </div>
             <div class="form-item-val">
-                <input class="mob-water-conductivity rinse_water_conductivity" type="text" name="rinse_water_conductivity" />
+                <input data-number=true data-required=false class="mob-water-conductivity rinse_water_conductivity" type="text" name="rinse_water_conductivity" />
             </div>
         </div>
         <div class="form-item">
@@ -121,7 +125,7 @@
                 <label class="i18n1 abrasive_conductivity_lbl" name="abrasiveconductivity"></label>
             </div>
             <div class="form-item-val">
-                <input class="mob-abrasive-conductivity abrasive_conductivity" type="text" name="abrasive_conductivity" />
+                <input data-number=true data-required=false class="mob-abrasive-conductivity abrasive_conductivity" type="text" name="abrasive_conductivity" />
             </div>
         </div>
         <div class="form-item">
@@ -129,7 +133,7 @@
                 <label class="i18n1 blast_line_speed_lbl" name="blastlinespeed"></label>
             </div>
             <div class="form-item-val">
-                <input class="mob-line-speed blast_line_speed"  type="text" name="blast_line_speed" />
+                <input data-number=true data-required=false class="mob-line-speed blast_line_speed"  type="text" name="blast_line_speed" />
             </div>
         </div>
         <div class="form-item">
@@ -137,7 +141,7 @@
                 <label class="i18n1" name="result"></label>
             </div>
             <div class="form-item-val">
-                <select id="cc" name="result">
+                <select id="result" name="result">
                 <option value="1">合格,进入外喷砂检验工序</option>
                 <option value="0">不合格,重新打砂处理</option>
                 <option value="10">待定</option>
@@ -162,7 +166,7 @@
                 <label class="i18n1" name="remark"></label>
             </div>
             <div class="form-item-val">
-                <textarea name="remark"></textarea>
+                <textarea id="remark" name="remark"></textarea>
             </div>
         </div>
 
@@ -170,7 +174,7 @@
     </div>
     <footer class="form-footer" id=footer>
         <div id="foot-container" style="width:100%;height:43px;display:flex;justify-content:center;align-items:center;" class="foot-container">
-            <div class="i18n1 form-process-button" name="submit" onclick="">提交</div>
+            <div class="i18n1 form-process-button" name="submit" onclick="submitForm()">提交</div>
         </div>
     </footer>
 </body>
@@ -183,14 +187,16 @@
 <script src="../../script/language.js" type="text/javascript"></script>
 <script src="../../script/mobiscroll.custom-3.0.0-beta6.min.js" type="text/javascript"></script>
 <script type="text/javascript">
-    var pipeno;
+    var g_pipeno;
+    var  g_employeeno,g_millno;
     //检验频次Map
     var inspectFreqMap=[];
     //OD接收标准
     var ODacceptCriteriaMap;
     apiready = function() {
         var data = api.pageParam;
-        pipeno = data.pipe_no;
+        g_pipeno = data.pipe_no;
+        fnSettingHeader();
         //请求RequestMySesssion
         RequestMySesssion();
 
@@ -198,15 +204,18 @@
 
     //继续方法
     function Go(employeeno, millno) {
+        g_employeeno=employeeno;
+        g_millno=millno;
         //初始化表单业务逻辑
-        if (pipeno != undefined) {
-            RequestInspectionFrequency(pipeno, millno);
-            RequestODAcceptCriteria(pipeno);
-            getPipeBasicInfoHeader(pipeno);
+        if (g_pipeno != undefined) {
+            RequestODAcceptCriteria(g_pipeno);
+            RequestInspectionFrequency(g_pipeno, g_millno);
+            getPipeBasicInfoHeader(g_pipeno,g_millno);
         }
         setAllDefectInfo("steel");
         setSelectPictures();
         setControls();
+        getPendingRecordInfo("OdOperation",g_pipeno);
         hlLanguage("../../i18n/");
     }
 
@@ -241,7 +250,7 @@
     //得到外防接收标准失败
     function GetODAcceptCriteriaFail(){
       api.alert({
-          msg: 'GetODAcceptCriteriaFail'
+          msg: 'GetODAcpromptMsgceptCriteriaFail'
       });
     }
 
@@ -249,5 +258,85 @@
 
     function closeWindow() {
         api.closeWin();
+    }
+    function submitForm(){
+        if(initFormNumber()){
+          var s = 'http://' + serverIP + '/OdOperation/saveOdBlastProcess.action';
+          var imgUrl="";
+				  $('.imgBox  .temp-container img').each(function() {
+					  var temp=$(this).attr("data-url");
+					  imgUrl+=(temp+";");
+				  });
+          alert(imgUrl);
+          api.ajax({
+              url: s,
+              method: 'post',
+              timeout: 30,
+              dataType: 'json',
+              data: {
+                  values: {
+                      pipe_no:g_pipeno,
+                      mill_no:g_millno,
+                      operator_no:g_employeeno,
+                      marking:$('#mk').val(),
+                      surface_condition:$('.form-steel-select-val').text(),
+                      preheat_temp:$('input[name="preheat_temp"]').val(),
+                      salt_contamination_before_blasting:$('input[name="salt_contamination_before_blasting"]').val(),
+                      alkaline_dwell_time:$('input[name="alkaline_dwell_time"]').val(),
+                      alkaline_concentration:$('input[name="alkaline_concentration"]').val(),
+                      acid_wash_time:$('input[name="acid_wash_time"]').val(),
+                      acid_concentration:$('input[name="acid_concentration"]').val(),
+                      rinse_water_conductivity:$('input[name="rinse_water_conductivity"]').val(),
+                      abrasive_conductivity:$('input[name="abrasive_conductivity"]').val(),
+                      blast_line_speed:$('input[name="blast_line_speed"]').val(),
+                      result:$('#result').val(),
+                      blast_line_speed:$('input[name="blast_line_speed"]').val(),
+                      upload_files:imgUrl,
+                      remark:$('#remark').val(),
+                  }
+              }
+          }, function(ret, err) { //alert(ret);
+              if (ret) {
+                     api.alert({
+                      msg:ret.message
+                     });
+                     if(ret.success){
+                       api.closeWin();
+                     }
+              } else {
+                  api.alert({
+                      msg: JSON.stringify(err)
+                  });
+              }
+          });
+        }
+    }
+    function getPendingRecordInfoOK(data){
+      if(data!=undefined){
+        $('#mk').val(data.marking);
+        $('.form-steel-select-val').text(data.surface_condition);
+        $('input[name="preheat_temp"]').val(data.preheat_temp);
+        $('input[name="salt_contamination_before_blasting"]').val(data.salt_contamination_before_blasting);
+        $('input[name="alkaline_dwell_time"]').val(data.alkaline_dwell_time);
+        $('input[name="alkaline_concentration"]').val(data.alkaline_concentration);
+        $('input[name="acid_wash_time"]').val(data.acid_wash_time);
+        $('input[name="acid_concentration"]').val(data.acid_concentration);
+        $('input[name="rinse_water_conductivity"]').val(data.rinse_water_conductivity);
+        $('input[name="abrasive_conductivity"]').val(data.abrasive_conductivity);
+        $('input[name="blast_line_speed"]').val(data.blast_line_speed);
+        $('#result').val(data.result);
+        $('input[name="blast_line_speed"]').val(data.blast_line_speed);
+        var imgUrl=data.upload_files;
+        var imgArr=imgUrl.split(';');
+        var s='http://' + serverIP + '/upload/pictures/';
+        for (var i = 0; i < imgArr.length; i++) {
+            if(imgArr[i]!=undefined&&imgArr[i].length>0)
+              $('.imgBox').append(pictureTemplate(s+imgArr[i],s+imgArr[i]));
+        }
+        $('#remark').val(data.remark);
+      }
+    }
+    function getPendingRecordInfoFail(){
+
     }
 </script>
