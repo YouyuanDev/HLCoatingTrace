@@ -43,6 +43,15 @@
             </table>
         </div>
         <div class="form-item">
+            <input type="hidden" value="0" class="id"/>
+            <!-- <div class="form-item-lbl">
+                <label class="i18n1 air_temp_lbl" name="airtemp"></label>
+            </div>
+            <div class="form-item-val">
+                <input type="text" data-number=true data-required=false  class="mob-air-temperature air_temp" name="air_temp" value="" />
+            </div> -->
+        </div>
+        <div class="form-item">
             <div class="form-item-lbl">
                 <label class="i18n1" name="marking"></label>
             </div>
@@ -271,8 +280,10 @@
             var s = 'http://' + serverIP + '/OdOperation/saveOdBlastProcess.action';
             var imgUrl = "";
             $('.imgBox  .temp-container img').each(function() {
-                var temp = $(this).attr("data-url");
-                imgUrl += (temp + ";");
+              var temp = $(this).attr("data-url");
+              if(temp!=undefined){
+                  imgUrl += (temp + ";");
+              }
             });
             alert(imgUrl);
             api.ajax({
@@ -282,6 +293,7 @@
                 dataType: 'json',
                 data: {
                     values: {
+                        id:$('.id').val(),
                         pipe_no: g_pipeno,
                         mill_no: g_millno,
                         operator_no: g_employeeno,
@@ -334,13 +346,14 @@
             $('input[name="blast_line_speed"]').val(data.blast_line_speed);
             $('#result').val(data.result);
             $('input[name="blast_line_speed"]').val(data.blast_line_speed);
+             $('.id').val(data.id);
             var imgUrl = data.upload_files;
             if (imgUrl.length > 0) {
                 var imgArr = imgUrl.split(';');
                 var s = 'http://' + serverIP + '/upload/pictures/';
                 for (var i = 0; i < imgArr.length; i++) {
                     if (imgArr[i] != undefined && imgArr[i].length > 0)
-                        $('.imgBox').append(pictureTemplate(s + imgArr[i], s + imgArr[i]));
+                        $('.imgBox').append(pictureTemplate(imgArr[i], s + imgArr[i]));
                 }
             }
             $('#remark').val(data.remark);

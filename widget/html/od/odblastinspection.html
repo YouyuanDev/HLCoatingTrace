@@ -17,6 +17,7 @@
         <span class="nav-pipeno i18n1" name="odblastinspection" style="display:inline-block;margin-left:-43px;line-height:43px;"></span>
     </header>
     <div class="form-content" id="content">
+
         <div class="form-item">
             <table class="pipeinfo-table">
                 <thead>
@@ -43,8 +44,17 @@
             </table>
         </div>
         <div class="form-item">
+            <input type="hidden" value="0" class="id"/>
+            <!-- <div class="form-item-lbl">
+                <label class="i18n1 air_temp_lbl" name="airtemp"></label>
+            </div>
+            <div class="form-item-val">
+                <input type="text" data-number=true data-required=false  class="mob-air-temperature air_temp" name="air_temp" value="" />
+            </div> -->
+        </div>
+        <div class="form-item">
             <div class="form-item-lbl">
-                <label class="i18n1" name="airtemp"></label>
+                <label class="i18n1 air_temp_lbl" name="airtemp"></label>
             </div>
             <div class="form-item-val">
                 <input type="text" data-number=true data-required=false  class="mob-air-temperature air_temp" name="air_temp" value="" />
@@ -52,7 +62,7 @@
         </div>
         <div class="form-item">
             <div class="form-item-lbl">
-                <label class="i18n1" name="relativehumidity"></label>
+                <label  class="i18n1 relative_humidity_lbl" name="relativehumidity"></label>
             </div>
             <div class="form-item-val">
                 <input type="text" data-number=true data-required=false  class="mob-humidity relative_humidity" name="relative_humidity" value="" />
@@ -60,34 +70,42 @@
         </div>
         <div class="form-item">
             <div class="form-item-lbl">
-                <label class="i18n1" name="dewpoint"></label>
+                <label class="i18n1 dew_point_lbl" name="dewpoint"></label>
             </div>
             <div class="form-item-val">
-                <input type="text" data-number=true data-required=false  class="mob-air-temperature dew_point"  name="dew_point" />
+                <input type="text" data-number=true data-required=false onchange="setDeltaTemp()"  class="mob-air-temperature dew_point"  name="dew_point" />
             </div>
         </div>
         <div class="form-item">
             <div class="form-item-lbl">
-                <label class="i18n1" name="pipetemp"></label>
+                <label class="i18n1 pipe_temp_after_blast_lbl" name="pipetemp"></label>
             </div>
             <div class="form-item-val">
-                <input type="text" data-number=true data-required=false  class="mob-pipe-temperature pipe_temp" name="pipe_temp" />
+                <input type="text"  data-number=true data-required=false onchange="setDeltaTemp()"  class="mob-pipe-temperature pipe_temp_after_blast" name="pipe_temp_after_blast" />
             </div>
         </div>
         <div class="form-item">
             <div class="form-item-lbl">
-                <label class="i18n1" name="profile"></label>
+                <label class="i18n1 temp_above_dew_point_lbl" name="deltatemp"></label>
             </div>
             <div class="form-item-val">
-                <input type="text" data-number=true data-required=false name="profile" />
+                <input type="text" readonly=true data-number=true data-required=false  class="temp_above_dew_point delta_temp"/>
             </div>
         </div>
         <div class="form-item">
             <div class="form-item-lbl">
-                <label class="i18n1" name="saltcontaminationafterblasting"></label>
+                <label class="i18n1 profile_lbl" name="profile"></label>
             </div>
             <div class="form-item-val">
-                <input type="number" data-number=true data-required=false  class="mob-salt-contamination salt_contamination_after_blasting" name="salt_contamination_after_blasting" />
+                <input type="text" data-number=true data-required=false  class="mob-profile" name="profile" />
+            </div>
+        </div>
+        <div class="form-item">
+            <div class="form-item-lbl">
+                <label class="i18n1 salt_contamination_after_blasting_lbl" name="saltcontaminationafterblasting"></label>
+            </div>
+            <div class="form-item-val">
+                <input type="text" data-number=true data-required=false  class="mob-salt-contamination salt_contamination_after_blasting" name="salt_contamination_after_blasting" />
             </div>
         </div>
         <div class="form-item">
@@ -140,14 +158,14 @@
                      </select>
             </div>
         </div>
-        <div class="form-item">
+        <!-- <div class="form-item">
             <div class="form-item-lbl">
                 <label class="i18n1" name="elapsedtime"></label>
             </div>
             <div class="form-item-val">
                 <input type="number" name="elapsed_time" />
             </div>
-        </div>
+        </div> -->
         <div class="form-item">
             <div class="form-item-lbl">
                 <label class="i18n1" name="result"></label>
@@ -281,24 +299,26 @@
              $('#sdr').val(data.surface_dust_rating);
              $('input[name="relative_humidity"]').val(data.relative_humidity);
              $('input[name="dew_point"]').val(data.dew_point);
-             $('input[name="pipe_temp"]').val(data.pipe_temp);
+             $('input[name="pipe_temp_after_blast"]').val(data.pipe_temp);
              $('input[name="profile"]').val(data.profile);
              $('.form-steel-select-val').text(data.surface_condition);
              $('#oilwater').val(data.oil_water_in_air_compressor);
-             $('input[name="elapsed_time"]').val(data.elapsed_time);
+            //  $('input[name="elapsed_time"]').val(data.elapsed_time);
              $('input[name="salt_contamination_after_blasting"]').val(data.salt_contamination_after_blasting);
              $('#result').val(data.result);
+             $('.id').val(data.id);
             var imgUrl = data.upload_files;
             if(imgUrl.length>0){
               var imgArr = imgUrl.split(';');
               var s = 'http://' + serverIP + '/upload/pictures/';
               for (var i = 0; i < imgArr.length; i++) {
                   if (imgArr[i] != undefined && imgArr[i].length > 0)
-                      $('.imgBox').append(pictureTemplate(s + imgArr[i], s + imgArr[i]));
+                      $('.imgBox').append(pictureTemplate(imgArr[i], s + imgArr[i]));
               }
             }
 
             $('#remark').val(data.remark);
+            setDeltaTemp();//设置露点温度差
         }
     }
 
@@ -312,8 +332,10 @@
             var s = 'http://' + serverIP + '/OdBlastInspectionOperation/saveOdBlastInspectionProcess.action';
             var imgUrl = "";
             $('.imgBox  .temp-container img').each(function() {
-                var temp = $(this).attr("data-url");
-                imgUrl += (temp + ";");
+              var temp = $(this).attr("data-url");
+              if(temp!=undefined){
+                  imgUrl += (temp + ";");
+              }
             });
             alert(imgUrl);
             api.ajax({
@@ -323,6 +345,7 @@
                 dataType: 'json',
                 data: {
                     values: {
+                        id:$('.id').val(),
                         pipe_no: g_pipeno,
                         mill_no: g_millno,
                         operator_no: g_employeeno,
@@ -331,11 +354,11 @@
                         surface_dust_rating:$('#sdr').val(),
                         relative_humidity:$('input[name="relative_humidity"]').val(),
                         dew_point:$('input[name="dew_point"]').val(),
-                        pipe_temp:$('input[name="pipe_temp"]').val(),
+                        pipe_temp:$('input[name="pipe_temp_after_blast"]').val(),
                         profile:$('input[name="profile"]').val(),
                         surface_condition:$('.form-steel-select-val').text(),
                         oil_water_in_air_compressor:$('#oilwater').val(),
-                        elapsed_time:$('input[name="elapsed_time"]').val(),
+                        // elapsed_time:$('input[name="elapsed_time"]').val(),
                         salt_contamination_after_blasting:$('input[name="salt_contamination_after_blasting"]').val(),
                         result:$('#result').val(),
                         upload_files: imgUrl,
@@ -357,5 +380,31 @@
                 }
             });
         }
+    }
+    function setDeltaTemp(){
+       if($('.dew_point').val()!=undefined&&$('.dew_point').val()!=""&&$('.pipe_temp_after_blast').val()!=undefined&&$('.pipe_temp_after_blast').val()!=""){
+         var dew_point=$('.dew_point').val().replace('°C', '');
+         var pipe_temp=$('.pipe_temp_after_blast').val().replace('°C', '');
+         var delta=parseFloat(pipe_temp)-parseFloat(dew_point);
+         $('.delta_temp').val(delta);
+         var minVal = $('.delta_temp').attr('data-min');
+         var maxVal = $('.delta_temp').attr('data-max');
+         var flag=true;
+         if (delta != undefined) {
+             if (maxVal != undefined) {
+                 if (parseFloat(maxVal) < parseFloat(delta))
+                     flag = false;
+             }
+             if (minVal != undefined) {
+                 if (parseFloat(delta) < parseFloat(minVal))
+                     flag = false;
+             }
+             if (flag)
+                 $('.delta_temp').css('background', '#FFFFFF');
+             else
+                 $('.delta_temp').css('background', '#F9A6A6');
+         }
+       }
+
     }
 </script>

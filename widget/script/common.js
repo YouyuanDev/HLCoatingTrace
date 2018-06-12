@@ -1129,6 +1129,42 @@ function setControls() {
                 $(this).css('background', '#F9A6A6');
         }
     });
+    //锚纹深度
+    $('.mob-profile').mobiscroll().number({
+        theme: 'auto',
+        lang: 'zh',
+        display: 'center',
+        min: 0,
+        max: 100,
+        defaultValue: 50,
+        step:1,
+        scale:0,
+        units: ['c'],
+        unitNames: {
+            c: 'μm'
+        },
+        onSet: function(event, inst) {
+            var selectedVal = inst.getVal();
+            $(this).val(selectedVal.replace('μm', ''));
+            var minVal = $(this).attr('data-min');
+            var maxVal = $(this).attr('data-max');
+            var flag = true;
+            if (selectedVal != undefined) {
+                if (maxVal != undefined) {
+                    if (parseFloat(maxVal) < parseFloat(selectedVal))
+                        flag = false;
+                }
+                if (minVal != undefined) {
+                    if (parseFloat(selectedVal) < parseFloat(minVal))
+                        flag = false;
+                }
+                if (flag)
+                    $(this).css('background', '#FFFFFF');
+                else
+                    $(this).css('background', '#F9A6A6');
+            }
+        }
+    });
 }
 
 
