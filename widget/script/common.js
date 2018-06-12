@@ -699,7 +699,45 @@ function RequestIDAcceptCriteria(pipeno) {
 }
 //设置控件
 function setControls() {
+
+ //湿度
+  $(".mob-humidity").mobiscroll().temperature({
+      theme: 'auto',
+      lang: 'zh',
+      display: 'center',
+      min: 0,
+      defaultValue: 50,
+      max: 100,
+      units: ['c'],
+      unitNames: {
+          c: '%'
+      },
+      onSet: function(event, inst) {
+          var selectedVal = inst.getVal();
+          $(this).val(selectedVal.replace('%', ''));
+          var minVal = $(this).attr('data-min');
+          var maxVal = $(this).attr('data-max');
+          var flag = true;
+          if (selectedVal != undefined) {
+              if (maxVal != undefined) {
+                  if (parseFloat(maxVal) < parseFloat(selectedVal))
+                      flag = false;
+              }
+              if (minVal != undefined) {
+                  if (parseFloat(selectedVal) < parseFloat(minVal))
+                      flag = false;
+              }
+              if (flag)
+                  $(this).css('background', '#FFFFFF');
+              else
+                  $(this).css('background', '#F9A6A6');
+          }
+      }
+  });
+
+
     //设置温度相关的控件
+    //if($(".mob-preheat-temperature")!=undefined)
     $(".mob-preheat-temperature").mobiscroll().temperature({
         theme: 'auto',
         lang: 'zh',
@@ -737,6 +775,7 @@ function setControls() {
         }
     });
     //空气温度
+    //if($(".mob-air-temperature")!=undefined)
     $(".mob-air-temperature").mobiscroll().temperature({
         theme: 'auto',
         lang: 'zh',
@@ -771,6 +810,7 @@ function setControls() {
         }
     });
     //钢管温度
+    //if($(".mob-pipe-temperature")!=undefined)
     $(".mob-pipe-temperature").mobiscroll().temperature({
         theme: 'auto',
         lang: 'zh',
@@ -806,6 +846,7 @@ function setControls() {
         }
     });
     //打砂前后盐度
+    //if($(".mob-salt-contamination")!=undefined)
     $('.mob-salt-contamination').mobiscroll().number({
         theme: 'auto',
         lang: 'zh',
@@ -842,6 +883,7 @@ function setControls() {
         }
     });
     //所用时间s
+    //if($(".mob-second-time")!=undefined)
     $('.mob-second-time').mobiscroll().number({
         theme: 'auto',
         lang: 'zh',
@@ -878,6 +920,7 @@ function setControls() {
         }
     });
     //浓度
+    //if($(".mob-concentration")!=undefined)
     $('.mob-concentration').mobiscroll().number({
         theme: 'auto',
         lang: 'zh',
@@ -914,6 +957,7 @@ function setControls() {
         }
     });
     //冲洗电导率
+    //if($('.mob-water-conductivity')!=undefined)
     $('.mob-water-conductivity').mobiscroll().number({
         theme: 'auto',
         lang: 'zh',
@@ -949,6 +993,7 @@ function setControls() {
         }
     });
     //磨料电导率
+    //if($('.mob-abrasive-conductivity')!=undefined)
     $('.mob-abrasive-conductivity').mobiscroll().number({
         theme: 'auto',
         lang: 'zh',
@@ -984,6 +1029,7 @@ function setControls() {
         }
     });
     //速度
+    //if($('.mob-line-speed')!=undefined)
     $('.mob-line-speed').mobiscroll().number({
         theme: 'auto',
         lang: 'zh',
@@ -1022,6 +1068,7 @@ function setControls() {
     var numList = "";
     var $nowObj;
     //数字集合
+    //if($('.mob-number-thickness-list')!=undefined)
     $('.mob-number-thickness-list').mobiscroll().numpad({
         theme: 'auto',
         lang: 'zh',
