@@ -365,8 +365,6 @@ function ClearLoadingPicture(){
 }
 
 
-
-
 function getPicture(sourceType) {
     if (sourceType == 1) { // 拍照
         api.getPicture({

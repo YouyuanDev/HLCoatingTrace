@@ -35,7 +35,7 @@
             padding: 5px;
             height: 30px;
             margin: 0px 10px;
-            background-color: #FFFFFF; //#e6e6e6;
+            background-color: #ffffff; //#e6e6e6;
         }
 
         .scan-container {
@@ -53,15 +53,15 @@
             width: 90%;
         }
 
-        .search-input {
+        /*.search-input {
             width: 100%;
             height: 100%;
             line-height: 30px;
             float: left;
             background-color: #ffffff;
-        }
+        }*/
 
-        .search-input input {
+        /*.search-input input {
             height: 32px;
             width: 70%;
             padding-top: 2px;
@@ -71,7 +71,7 @@
             outline: none;
             background-color: #e6e6e6;
             font-family: "Sans-serif";
-        }
+        }*/
 
         .search-span {
             width: 30px;
@@ -155,12 +155,14 @@
                     <div class="main-container">
                         <div class="scan-container"></div>
                         <div class="search-container">
-                            <div class="search-input"><input type="number" id="search-input" placeholder="请扫描二维码或输入管号..." />
-                                <div class="search-span">
-                                    <div></div>
-                                </div>
-                                <div class="clearfix"></div>
+
+                            <!-- <div class="search-input"><input type="number" id="search-input" placeholder="请扫描二维码或输入管号..." />
+                            -->
+                            <div class="search-span">
+                                <div></div>
                             </div>
+                            <div class="clearfix"></div>
+                            <!-- </div>  -->
                         </div>
                     </div>
                 </li>
@@ -198,6 +200,8 @@
 
         //设置TitleBar位置(兼容IOS)
         fnSettingHeader();
+        //设置搜索栏
+        initSearchBar();
         funIniGroup();
         //判断是否登录
         //JudgeLogin();
@@ -216,14 +220,17 @@
                     if (ret.eventType == 'success') {
                         //alert(ret.content);
                         //设置搜索框为读到的二维码数据
-                        $api.byId('search-input').value = ret.content;
-                        var jsfun = 'doSearchPipeInfo(' + ret.content + ',1,false);';
-                        api.execScript({
-                            frameName: 'frame0',
-                            script: jsfun
+                        var UIInput = api.require('UIInput');
+                        UIInput.value({
+                            msg: ret.content
                         });
 
-                        //  doSearchPipeInfo(ret.content);
+                        // var jsfun = 'doSearchPipeInfo(' + ret.content + ',1,false);';
+                        // api.execScript({
+                        //     frameName: 'frame0',
+                        //     script: jsfun
+                        // });
+                        sendSearchEvent(ret.content);
                         FNScanner.closeView();
                     }
                 }
@@ -232,17 +239,26 @@
         });
         //搜索点击事件
         $('.search-span').click(function() {
-            var pipeno = $api.byId('search-input');
-            api.sendEvent({
-                name: 'myEvent',
-                extra: {
-                    pipeno: pipeno.value,
-                    pageStart: 1,
-                    flag: false
+            var UIInput = api.require('UIInput');
+            UIInput.value(function(ret) {
+                if (ret) {
+                    sendSearchEvent(ret.msg);
                 }
             });
         });
         hlLanguage("./i18n/");
+    }
+
+    //发送查询管号事件
+    function sendSearchEvent(pipeno) {
+        api.sendEvent({
+            name: 'myEvent',
+            extra: {
+                pipeno: pipeno,
+                pageStart: 1,
+                flag: false
+            }
+        });
     }
 
     function funIniGroup() {
@@ -271,6 +287,54 @@
 
         });
     }
+    //初始化搜索栏
+    function initSearchBar() {
+
+        var UIInput = api.require('UIInput');
+        UIInput.open({
+            rect: {
+                x: 60,
+                y: 25,
+                w: api.winWidth - 150,
+                h: 35
+            },
+            styles: {
+                bgColor: '#fff',
+                size: 18,
+                color: '#111',
+                placeholder: {
+                    color: '#ccc'
+                }
+            },
+            autoFocus: false,
+            maxRows: 1,
+            placeholder: ' 请输入管号  ',
+            keyboardType: 'search',
+            fixedOn: api.frameName
+        }, function(ret) {
+            if (ret.eventType == 'change') {
+                //alert(JSON.stringify(ret));
+            } else if (ret.eventType == 'search') {
+                var UIInput = api.require('UIInput');
+                UIInput.value(function(ret1) {
+                    if (ret1) {
+                        sendSearchEvent(ret1.msg);
+                    }
+                });
+                //关闭键盘
+                UIInput.closeKeyboard({
+                    id: ret.id
+                });
+            }
+
+
+        });
+
+
+
+    }
+
+
 
     // 随意切换按钮
     function randomSwitchBtn(tag) {
