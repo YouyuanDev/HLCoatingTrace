@@ -97,8 +97,10 @@
             color: #4B5262;
         }
 
+        /*5个文字menu的颜色*/
         #footer ul li.active {
             color: #09aa30;
+              /*#09aa30;*/
         }
 
         #footer ul li:nth-child(1) {
@@ -353,14 +355,24 @@
         }
         $api.addCls(eFootLis[index], 'active');
         $api.addCls(eHeaderLis[index], 'active');
+
+        if (index==3||index == 4) {
+          var UIInput = api.require('UIInput');
+          UIInput.hide({
+              id: 1
+          });
+            api.sendEvent({
+                name: 'reloadUserInfo'
+            });
+        }else{
+          var UIInput = api.require('UIInput');
+          UIInput.show({
+              id: 1
+          });
+        }
         api.setFrameGroupIndex({
             name: 'group',
             index: index
         });
-        if (index == 4) {
-            api.sendEvent({
-                name: 'reloadUserInfo'
-            });
-        }
     }
 </script>
