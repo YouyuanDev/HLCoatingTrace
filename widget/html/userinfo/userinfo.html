@@ -40,13 +40,37 @@
             background-position: center center;
         }
 
-        .save-contianer {
+        .save-container {
             position: absolute;
-            width: 100px;
-            height: 43px;
+            width: 60px;
+            height: 30px;
             bottom: 0;
             right: 0;
+            margin-right: 20px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+
         }
+
+        .save-container .save-button{
+              position: relative;
+              width: 100%;
+              /*outline: none;*/
+              height: 30px;
+              line-height: 30px;
+              text-align: center;
+              font-size: 18px;
+              color: #fff;
+              border-radius: 4px;
+              background-color: #19AD68;
+
+        }
+
+        .top-title{
+        
+          font-size: 18px;
+        }
+
 
         .userinfo-container {
             padding: 5px 10px;
@@ -102,8 +126,8 @@
       <header id="header">
         <div class="title">
           <div class="arrow event-back"></div>
-          <span id="userinfo-tag"></span>
-          <div class="save-contianer"><button class="i18n1" name="save" userinfo-id="" id="save-btn"></button></div>
+          <span class="top-title" id="userinfo-tag"></span>
+          <div class="save-container"><label class="i18n1 save-button" name="save" userinfo-id="" id="save-btn"></label></div>
         </div>
       </header>
         <div class="userinfo-container flex-con" id="main">

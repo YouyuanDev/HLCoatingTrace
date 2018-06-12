@@ -65,17 +65,7 @@
             background-position: left center;
         }
 
-        .login {
-            width: 100%;
-            height: 44px;
-            line-height: 44px;
-            text-align: center;
-            font-size: 13px;
-            color: #fff;
-            border-radius: 4px;
-            background-color: #999;
-            margin: 20px 0 10px;
-        }
+
 
         .register {
             width: 100%;
@@ -120,13 +110,14 @@
         }
 
         .location-container .locating-label {
-            width: 40px;
+            width: 60px;
             height: 40px;
             float: right;
             /*color: #4682B4;*/
             outline: none;
             border: none;
             font-size: 16px;
+            text-align: right;
         }
 
         .location-span {
@@ -135,6 +126,33 @@
             margin-left: 10px;
             /*color: #999;*/
         }
+
+        .login {
+            width: 100%;
+            height: 44px;
+            line-height: 44px;
+            text-align: center;
+            font-size: 13px;
+            color: #fff;
+            border-radius: 4px;
+            margin: 20px 0 10px;
+        }
+
+        .login-btn{
+            width: 100%;
+            outline: none;
+            height: 44px;
+            line-height: 44px;
+            text-align: center;
+            font-size: 18px;
+            color: #fff;
+            border-radius: 4px;
+            background-color: #19AD68;
+
+            /*margin: 20px 0 10px;*/
+        }
+
+
     </style>
 </head>
 
@@ -149,10 +167,10 @@
         </div>
         <div class="location-container">
             <div class="location-content"><label class="i18n1 txtlabel" name="atmill">所在分厂</label><label class="txtlabel">:</label><span class="location-span"></span></div>
-            <button class="location-btn" onclick="setMillLocation()"></button><label class="i18n1 locating-label" name="locating">定位</label>
+            <div class="location-btn" onclick="setMillLocation()"></div><label class="i18n1 locating-label" name="locating">定位</label>
             <input type="hidden" id="mill_no">
         </div>
-        <div class="login" tapmode onclick="fnLogin()"><label class="i18n1" name="login"></label></div>
+        <div class="login" tapmode onclick="fnLogin()"><label class="i18n1 login-btn" name="login"></label></div>
         <!-- <div class="register open-win" win="register_mobile">注册账号</div> -->
     </div>
 </body>
@@ -343,6 +361,8 @@
         });
 
     }
+
+
 
     //设置定位
     function setMillLocation() {

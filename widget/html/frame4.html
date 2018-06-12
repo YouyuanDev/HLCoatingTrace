@@ -47,9 +47,9 @@
             text-align: left;
         }
 
-        .list-item .lsit-item-con {
+        .list-item .list-item-con {
             float: left;
-            width:55%;
+            width:60%;
             /*padding-right: 20px;*/
             color: #C7C7C7;
             text-align: right;
@@ -57,7 +57,7 @@
         }
         .list-item .list-item-icon{
            float:right;
-           width:40px;
+           width:30px;
            height:40px;
            line-height:40px;
            background:url(../image/forward.png);
@@ -68,16 +68,30 @@
            opacity: 0.5;
         }
 
-        .logout-btn, .login-btn{
+        .login-btn{
             width: 100%;
             outline: none;
-            height: 40px;
-            line-height: 40px;
+            height: 44px;
+            line-height: 44px;
             text-align: center;
             font-size: 18px;
             color: #fff;
             border-radius: 4px;
-            background-color: #999;
+            background-color: #19AD68;
+
+            /*margin: 20px 0 10px;*/
+        }
+
+        .logout-btn {
+            width: 100%;
+            outline: none;
+            height: 44px;
+            line-height: 44px;
+            text-align: center;
+            font-size: 18px;
+            color: #fff;
+            border-radius: 4px;
+            background-color: red;
 
             /*margin: 20px 0 10px;*/
         }
@@ -99,77 +113,77 @@
             <li>
                 <div class="list-item">
                     <label class="i18n1" name="employeeno"></label>
-                    <div class="lsit-item-con" id="userno"></div>
+                    <div class="list-item-con" id="userno"></div>
 
                 </div>
             </li>
             <li>
                 <div class="list-item">
                     <label class="i18n1" name="rolename"></label>
-                    <div class="lsit-item-con" id="userrolenamelist"></div>
+                    <div class="list-item-con" id="userrolenamelist"></div>
 
                 </div>
             </li>
             <li>
                 <div class="list-item">
                     <label class="i18n1" name="millno"></label>
-                    <div class="lsit-item-con" id="millname"></div>
+                    <div class="list-item-con" id="millname"></div>
 
                 </div>
             </li>
             <li>
                 <div class="list-item">
                     <label class="i18n1" name="pname"></label>
-                    <div class="lsit-item-con" id="username"></div>
+                    <div class="list-item-con" id="username"></div>
                     <div class="list-item-icon"></div>
                 </div>
             </li>
             <li>
                 <div class="list-item">
                     <label class="i18n1" name="ppassword"></label>
-                    <div class="lsit-item-con" id="userpwd"></div>
+                    <div class="list-item-con" id="userpwd"></div>
                     <div class="list-item-icon"></div>
                 </div>
             </li>
             <li>
                 <div class="list-item">
                     <label class="i18n1" name="pidcardno"></label>
-                    <div class="lsit-item-con" id="userIdNo"></div>
+                    <div class="list-item-con" id="userIdNo"></div>
                     <div class="list-item-icon"></div>
                 </div>
             </li>
             <li>
                 <div class="list-item">
                     <label class="i18n1" name="pmobile"></label>
-                    <div class="lsit-item-con" id="userphone"></div>
+                    <div class="list-item-con" id="userphone"></div>
                     <div class="list-item-icon"></div>
                 </div>
             </li>
             <li>
                 <div class="list-item">
                     <label class="i18n1" name="psex">性别</label>
-                    <div class="lsit-item-con" id="usergender"></div>
+                    <div class="list-item-con" id="usergender"></div>
                 </div>
             </li>
             <li>
                 <div class="list-item">
                     <label class="i18n1" name="page">年龄</label>
-                    <div class="lsit-item-con" id="userage"></div>
+                    <div class="list-item-con" id="userage"></div>
                 </div>
             </li>
             <li>
                 <div class="list-item">
                     <label class="i18n1" name="languagesetting">语言设置</label>
-                    <div class="lsit-item-con" id="language"></div>
+                    <div class="list-item-con" id="language"></div>
                     <div class="list-item-icon"></div>
                 </div>
             </li>
             <li>
                 <div class="list-item logout-div" style="display:none;">
-                    <button class="logout-btn i18n1" name="exitlogon">退出登录</button>
+                    <div class="logout-btn i18n1" name="exitlogon">退出登录</div>
                 </div>
                 <div class="list-item login-div" style="display:none;">
-                    <button class="login-btn i18n1" name="login">登录</button>
+                    <div class="login-btn i18n1" name="login">登录</div>
                 </div>
             </li>
 

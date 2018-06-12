@@ -1,5 +1,5 @@
 var header, headerHeight = 0;
-var serverIP = '192.168.0.103:8080';
+var serverIP = '192.168.0.14:8080';
 
 function fnSettingHeader() {
 
@@ -344,10 +344,11 @@ function DoLoadingPicture(){
   var UILoading = api.require('UILoading');
   UILoading.flower({
       center: {
-          x: 160,
-          y: 240
+        x: api.winWidth/2.0,
+      y: api.winHeight/2.0
       },
       size: 30,
+       mask: 'rgba(0,0,0,0.5)',
       fixed: true
   }, function(ret) {
       //alert(JSON.stringify(ret));
