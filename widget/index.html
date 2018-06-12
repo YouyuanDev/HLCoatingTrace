@@ -361,9 +361,11 @@
           UIInput.hide({
               id: 1
           });
-            api.sendEvent({
-                name: 'reloadUserInfo'
-            });
+           if(index == 4){
+             api.sendEvent({
+                 name: 'reloadUserInfo'
+             });
+           }
         }else{
           var UIInput = api.require('UIInput');
           UIInput.show({
