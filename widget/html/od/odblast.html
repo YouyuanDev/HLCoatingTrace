@@ -235,9 +235,9 @@
     function GetAllProcessInfoByPipeNoOK(data) {
         ClearLoadingPicture();
         g_employeeno = data.employeeno;
-        g_millno=data.millno;
-        if(data.pipeinfo.status!="bare1"){
-          //alert("status not right");
+        g_millno = data.millno;
+        if (data.pipeinfo.status != "bare1") {
+            //alert("status not right");
             closeWindow();
         }
         setAllDefectInfo("steel");
@@ -248,8 +248,9 @@
             initInspectionFreq(data.inspectfreq);
             initPipeBasicHeader(data.pipeinfo, data.millno);
         }, 200);
-          setControls();
-          setSelectPictures();
+
+        setControls();
+        setSelectPictures();
         //alert(JSON.stringify(data));
         getPendingRecordInfo("OdOperation", g_pipeno);
         hlLanguage("../../i18n/");
@@ -259,7 +260,7 @@
     }
     //得到外防接收标准失败
     function GetAllProcessInfoByPipeNoFail() {
-      ClearLoadingPicture();
+        ClearLoadingPicture();
         api.alert({
             msg: 'GetAllProcessInfoByPipeNoFail'
         });
@@ -279,7 +280,7 @@
                     imgUrl += (temp + ";");
                 }
             });
-            alert(imgUrl);
+            //alert(imgUrl);
             api.ajax({
                 url: s,
                 method: 'post',
@@ -314,7 +315,7 @@
                         msg: ret.message
                     });
                     if (ret.success) {
-                        api.closeWin();
+                        closeWindow();
                     }
                 } else {
                     api.alert({
@@ -327,20 +328,38 @@
 
     function getPendingRecordInfoOK(data) {
         if (data != undefined) {
+            $('.id').val(data.id);
             $('#mk').val(data.marking);
             $('.form-steel-select-val').text(data.surface_condition);
-            $('input[name="preheat_temp"]').val(data.preheat_temp);
-            $('input[name="salt_contamination_before_blasting"]').val(data.salt_contamination_before_blasting);
-            $('input[name="alkaline_dwell_time"]').val(data.alkaline_dwell_time);
-            $('input[name="alkaline_concentration"]').val(data.alkaline_concentration);
-            $('input[name="acid_wash_time"]').val(data.acid_wash_time);
-            $('input[name="acid_concentration"]').val(data.acid_concentration);
-            $('input[name="rinse_water_conductivity"]').val(data.rinse_water_conductivity);
-            $('input[name="abrasive_conductivity"]').val(data.abrasive_conductivity);
-            $('input[name="blast_line_speed"]').val(data.blast_line_speed);
+            if (data.preheat_temp != -99) {
+                $('input[name="preheat_temp"]').val(data.preheat_temp);
+            }
+            if (data.salt_contamination_before_blasting != -99) {
+                $('input[name="salt_contamination_before_blasting"]').val(data.salt_contamination_before_blasting);
+            }
+            if (data.alkaline_dwell_time != -99) {
+                $('input[name="alkaline_dwell_time"]').val(data.alkaline_dwell_time);
+            }
+            if (data.alkaline_concentration != -99) {
+                $('input[name="alkaline_concentration"]').val(data.alkaline_concentration);
+            }
+            if (data.acid_wash_time != -99) {
+                $('input[name="acid_wash_time"]').val(data.acid_wash_time);
+            }
+            if (data.acid_concentration != -99) {
+                $('input[name="acid_concentration"]').val(data.acid_concentration);
+            }
+            if (data.rinse_water_conductivity != -99) {
+                $('input[name="rinse_water_conductivity"]').val(data.rinse_water_conductivity);
+            }
+            if (data.abrasive_conductivity != -99) {
+                $('input[name="abrasive_conductivity"]').val(data.abrasive_conductivity);
+            }
+            if (data.blast_line_speed != -99) {
+                $('input[name="blast_line_speed"]').val(data.blast_line_speed);
+            }
             $('#result').val(data.result);
-            $('input[name="blast_line_speed"]').val(data.blast_line_speed);
-            $('.id').val(data.id);
+
             var imgUrl = data.upload_files;
             if (imgUrl.length > 0) {
                 var imgArr = imgUrl.split(';');

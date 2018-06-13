@@ -8,7 +8,7 @@
     <title>外喷砂检验</title>
     <link rel="stylesheet" type="text/css" href="../../css/api.css" />
     <link rel="stylesheet" type="text/css" href="../../css/style.css" />
-        <link rel="stylesheet" type="text/css" href="../../css/mobiscroll.custom-3.0.0-beta6.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/mobiscroll.custom-3.0.0-beta6.min.css" />
 </head>
 
 <body>
@@ -44,7 +44,7 @@
             </table>
         </div>
         <div class="form-item">
-            <input type="hidden" value="0" class="id"/>
+            <input type="hidden" value="0" class="id" />
             <!-- <div class="form-item-lbl">
                 <label class="i18n1 air_temp_lbl" name="airtemp"></label>
             </div>
@@ -57,15 +57,15 @@
                 <label class="i18n1 air_temp_lbl" name="airtemp"></label>
             </div>
             <div class="form-item-val">
-                <input type="text" data-number=true data-required=false  class="mob-air-temperature air_temp" name="air_temp" value="" />
+                <input type="text" data-number=true data-required=false class="mob-air-temperature air_temp" name="air_temp" value="" />
             </div>
         </div>
         <div class="form-item">
             <div class="form-item-lbl">
-                <label  class="i18n1 relative_humidity_lbl" name="relativehumidity"></label>
+                <label class="i18n1 relative_humidity_lbl" name="relativehumidity"></label>
             </div>
             <div class="form-item-val">
-                <input type="text" data-number=true data-required=false  class="mob-humidity relative_humidity" name="relative_humidity" value="" />
+                <input type="text" data-number=true data-required=false class="mob-humidity relative_humidity" name="relative_humidity" value="" />
             </div>
         </div>
         <div class="form-item">
@@ -73,7 +73,7 @@
                 <label class="i18n1 dew_point_lbl" name="dewpoint"></label>
             </div>
             <div class="form-item-val">
-                <input type="text" data-number=true data-required=false onchange="setDeltaTemp()"  class="mob-air-temperature dew_point"  name="dew_point" />
+                <input type="text" data-number=true data-required=false onchange="setDeltaTemp()" class="mob-air-temperature dew_point" name="dew_point" />
             </div>
         </div>
         <div class="form-item">
@@ -81,7 +81,7 @@
                 <label class="i18n1 pipe_temp_after_blast_lbl" name="pipetemp"></label>
             </div>
             <div class="form-item-val">
-                <input type="text"  data-number=true data-required=false onchange="setDeltaTemp()"  class="mob-pipe-temperature pipe_temp_after_blast" name="pipe_temp_after_blast" />
+                <input type="text" data-number=true data-required=false onchange="setDeltaTemp()" class="mob-pipe-temperature pipe_temp_after_blast" name="pipe_temp_after_blast" />
             </div>
         </div>
         <div class="form-item">
@@ -89,7 +89,7 @@
                 <label class="i18n1 temp_above_dew_point_lbl" name="deltatemp"></label>
             </div>
             <div class="form-item-val">
-                <input type="text" readonly=true data-number=true data-required=false  class="temp_above_dew_point delta_temp"/>
+                <input type="text" readonly=true data-number=true data-required=false class="temp_above_dew_point delta_temp" />
             </div>
         </div>
         <div class="form-item">
@@ -97,7 +97,7 @@
                 <label class="i18n1 profile_lbl" name="profile"></label>
             </div>
             <div class="form-item-val">
-                <input type="text" data-number=true data-required=false  class="mob-profile" name="profile" />
+                <input type="text" data-number=true data-required=false class="mob-profile" name="profile" />
             </div>
         </div>
         <div class="form-item">
@@ -105,7 +105,7 @@
                 <label class="i18n1 salt_contamination_after_blasting_lbl" name="saltcontaminationafterblasting"></label>
             </div>
             <div class="form-item-val">
-                <input type="text" data-number=true data-required=false  class="mob-salt-contamination salt_contamination_after_blasting" name="salt_contamination_after_blasting" />
+                <input type="text" data-number=true data-required=false class="mob-salt-contamination salt_contamination_after_blasting" name="salt_contamination_after_blasting" />
             </div>
         </div>
         <div class="form-item">
@@ -171,7 +171,7 @@
                 <label class="i18n1" name="result"></label>
             </div>
             <div class="form-item-val">
-                <select id="result"  name="result">
+                <select id="result" name="result">
                         <option value="1">合格,进入外涂敷工序</option>
                         <option value="0">不合格,重新打砂处理</option>
                         <option value="10">待定</option>
@@ -228,34 +228,32 @@
     apiready = function() {
             var data = api.pageParam;
             g_pipeno = data.pipe_no;
-            //DoLoadingPicture();
+            DoLoadingPicture();
             fnSettingHeader();
-            //请求RequestMySesssion
-            //RequestMySesssion();
             RequestAllProcessInfoByPipeNo(g_pipeno);
         }
         //继续方法
-    // function Go(employeeno, millno) {
-    //
-    //     g_employeeno = employeeno;
-    //     g_millno = millno;
-    //     //初始化表单业务逻辑
-    //     if (g_pipeno != undefined&&g_millno!=undefined) {
-    //         RequestODAcceptCriteria(g_pipeno,g_millno);
-    //         //getPipeBasicInfoHeader(g_pipeno, g_millno);
-    //     }
-    //     setAllDefectInfo("steel");
-    //     setSelectPictures();
-    //     hlLanguage("../../i18n/");
-    //     ClearLoadingPicture();
-    // }
-    // //撤退方法
-    // function Reverse(msg) {
-    //     //ClearLoadingPicture();
-    //     alert(msg);
-    //
-    //     setTimeout("closeWindow()", 1000);
-    // }
+        // function Go(employeeno, millno) {
+        //
+        //     g_employeeno = employeeno;
+        //     g_millno = millno;
+        //     //初始化表单业务逻辑
+        //     if (g_pipeno != undefined&&g_millno!=undefined) {
+        //         RequestODAcceptCriteria(g_pipeno,g_millno);
+        //         //getPipeBasicInfoHeader(g_pipeno, g_millno);
+        //     }
+        //     setAllDefectInfo("steel");
+        //     setSelectPictures();
+        //     hlLanguage("../../i18n/");
+        //     ClearLoadingPicture();
+        // }
+        // //撤退方法
+        // function Reverse(msg) {
+        //     //ClearLoadingPicture();
+        //     alert(msg);
+        //
+        //     setTimeout("closeWindow()", 1000);
+        // }
 
 
 
@@ -278,8 +276,8 @@
         ClearLoadingPicture();
         //alert(JSON.stringify(data));
         g_employeeno = data.employeeno;
-        g_millno=data.millno;
-        if(data.pipeinfo.status!="od1"){
+        g_millno = data.millno;
+        if (data.pipeinfo.status != "od1") {
             closeWindow();
         }
         setTimeout(function() {
@@ -289,8 +287,8 @@
             initInspectionFreq(data.inspectfreq);
             initPipeBasicHeader(data.pipeinfo, data.millno);
         }, 200);
-          setControls();
-          setSelectPictures();
+        setControls();
+        setSelectPictures();
 
         getPendingRecordInfo("OdBlastInspectionOperation", g_pipeno);
         hlLanguage("../../i18n/");
@@ -300,7 +298,7 @@
     }
     //得到外防接收标准失败
     function GetAllProcessInfoByPipeNoFail() {
-      ClearLoadingPicture();
+        ClearLoadingPicture();
         api.alert({
             msg: 'GetAllProcessInfoByPipeNoFail'
         });
@@ -328,31 +326,45 @@
 
     function getPendingRecordInfoOK(data) {
         if (data != undefined) {
-             $('input[name="air_temp"]').val(data.air_temp);
-             $('#bfs').val(data.blast_finish_sa25);
-             $('#sdr').val(data.surface_dust_rating);
-             $('input[name="relative_humidity"]').val(data.relative_humidity);
-             $('input[name="dew_point"]').val(data.dew_point);
-             $('input[name="pipe_temp_after_blast"]').val(data.pipe_temp);
-             $('input[name="profile"]').val(data.profile);
-             $('.form-steel-select-val').text(data.surface_condition);
-             $('#oilwater').val(data.oil_water_in_air_compressor);
+            $('.id').val(data.id);
+            if (data.air_temp != -99) {
+                $('input[name="air_temp"]').val(data.air_temp);
+            }
+            $('#bfs').val(data.blast_finish_sa25);
+            $('#sdr').val(data.surface_dust_rating);
+            if (data.relative_humidity != -99) {
+                $('input[name="relative_humidity"]').val(data.relative_humidity);
+            }
+            if (data.dew_point != -99) {
+                $('input[name="dew_point"]').val(data.dew_point);
+            }
+            if (data.pipe_temp != -99) {
+                $('input[name="pipe_temp_after_blast"]').val(data.pipe_temp);
+            }
+            if (data.profile != -99) {
+                $('input[name="profile"]').val(data.profile);
+            }
+
+            $('.form-steel-select-val').text(data.surface_condition);
+            $('#oilwater').val(data.oil_water_in_air_compressor);
             //  $('input[name="elapsed_time"]').val(data.elapsed_time);
-             $('input[name="salt_contamination_after_blasting"]').val(data.salt_contamination_after_blasting);
-             $('#result').val(data.result);
-             $('.id').val(data.id);
+            if (data.salt_contamination_after_blasting != -99) {
+                $('input[name="salt_contamination_after_blasting"]').val(data.salt_contamination_after_blasting);
+            }
+            $('#result').val(data.result);
+
             var imgUrl = data.upload_files;
-            if(imgUrl.length>0){
-              var imgArr = imgUrl.split(';');
-              var s = 'http://' + serverIP + '/upload/pictures/';
-              for (var i = 0; i < imgArr.length; i++) {
-                  if (imgArr[i] != undefined && imgArr[i].length > 0)
-                      $('.imgBox').append(pictureTemplate(imgArr[i], s + imgArr[i]));
-              }
+            if (imgUrl.length > 0) {
+                var imgArr = imgUrl.split(';');
+                var s = 'http://' + serverIP + '/upload/pictures/';
+                for (var i = 0; i < imgArr.length; i++) {
+                    if (imgArr[i] != undefined && imgArr[i].length > 0)
+                        $('.imgBox').append(pictureTemplate(imgArr[i], s + imgArr[i]));
+                }
             }
 
             $('#remark').val(data.remark);
-            setDeltaTemp();//设置露点温度差
+            setDeltaTemp(); //设置露点温度差
         }
     }
 
@@ -366,10 +378,10 @@
             var s = 'http://' + serverIP + '/OdBlastInspectionOperation/saveOdBlastInspectionProcess.action';
             var imgUrl = "";
             $('.imgBox  .temp-container img').each(function() {
-              var temp = $(this).attr("data-url");
-              if(temp!=undefined){
-                  imgUrl += (temp + ";");
-              }
+                var temp = $(this).attr("data-url");
+                if (temp != undefined) {
+                    imgUrl += (temp + ";");
+                }
             });
             alert(imgUrl);
             api.ajax({
@@ -379,22 +391,22 @@
                 dataType: 'json',
                 data: {
                     values: {
-                        id:$('.id').val(),
+                        id: $('.id').val(),
                         pipe_no: g_pipeno,
                         mill_no: g_millno,
                         operator_no: g_employeeno,
-                        air_temp:$('input[name="air_temp"]').val(),
-                        blast_finish_sa25:$('#bfs').val(),
-                        surface_dust_rating:$('#sdr').val(),
-                        relative_humidity:$('input[name="relative_humidity"]').val(),
-                        dew_point:$('input[name="dew_point"]').val(),
-                        pipe_temp:$('input[name="pipe_temp_after_blast"]').val(),
-                        profile:$('input[name="profile"]').val(),
-                        surface_condition:$('.form-steel-select-val').text(),
-                        oil_water_in_air_compressor:$('#oilwater').val(),
+                        air_temp: $('input[name="air_temp"]').val(),
+                        blast_finish_sa25: $('#bfs').val(),
+                        surface_dust_rating: $('#sdr').val(),
+                        relative_humidity: $('input[name="relative_humidity"]').val(),
+                        dew_point: $('input[name="dew_point"]').val(),
+                        pipe_temp: $('input[name="pipe_temp_after_blast"]').val(),
+                        profile: $('input[name="profile"]').val(),
+                        surface_condition: $('.form-steel-select-val').text(),
+                        oil_water_in_air_compressor: $('#oilwater').val(),
                         // elapsed_time:$('input[name="elapsed_time"]').val(),
-                        salt_contamination_after_blasting:$('input[name="salt_contamination_after_blasting"]').val(),
-                        result:$('#result').val(),
+                        salt_contamination_after_blasting: $('input[name="salt_contamination_after_blasting"]').val(),
+                        result: $('#result').val(),
                         upload_files: imgUrl,
                         remark: $('#remark').val(),
                     }
@@ -405,7 +417,7 @@
                         msg: ret.message
                     });
                     if (ret.success) {
-                        api.closeWin();
+                        closeWindow();
                     }
                 } else {
                     api.alert({
@@ -417,30 +429,31 @@
     }
 
     //设置 钢管温度与露点温度差
-    function setDeltaTemp(){
-       if($('.dew_point').val()!=undefined&&$('.dew_point').val()!=""&&$('.pipe_temp_after_blast').val()!=undefined&&$('.pipe_temp_after_blast').val()!=""){
-         var dew_point=$('.dew_point').val().replace('°C', '');
-         var pipe_temp=$('.pipe_temp_after_blast').val().replace('°C', '');
-         var delta=parseFloat(pipe_temp)-parseFloat(dew_point);
-         $('.delta_temp').val(delta);
-         var minVal = $('.delta_temp').attr('data-min');
-         var maxVal = $('.delta_temp').attr('data-max');
-         var flag=true;
-         if (delta != undefined) {
-             if (maxVal != undefined) {
-                 if (parseFloat(maxVal) < parseFloat(delta))
-                     flag = false;
-             }
-             if (minVal != undefined) {
-                 if (parseFloat(delta) < parseFloat(minVal))
-                     flag = false;
-             }
-             if (flag)
-                 $('.delta_temp').css('background', '#FFFFFF');
-             else
-                 $('.delta_temp').css('background', '#F9A6A6');
-         }
-       }
+    function setDeltaTemp() {
+        if ($('.dew_point').val() != undefined && $('.dew_point').val() != "" && $('.dew_point').val() != "-99" && $('.pipe_temp_after_blast').val() != undefined && $('.pipe_temp_after_blast').val() != "" && $('.pipe_temp_after_blast').val() !=
+            "-99") {
+            var dew_point = $('.dew_point').val().replace('°C', '');
+            var pipe_temp = $('.pipe_temp_after_blast').val().replace('°C', '');
+            var delta = parseFloat(pipe_temp) - parseFloat(dew_point);
+            $('.delta_temp').val(delta);
+            var minVal = $('.delta_temp').attr('data-min');
+            var maxVal = $('.delta_temp').attr('data-max');
+            var flag = true;
+            if (delta != undefined) {
+                if (maxVal != undefined) {
+                    if (parseFloat(maxVal) < parseFloat(delta))
+                        flag = false;
+                }
+                if (minVal != undefined) {
+                    if (parseFloat(delta) < parseFloat(minVal))
+                        flag = false;
+                }
+                if (flag)
+                    $('.delta_temp').css('background', '#FFFFFF');
+                else
+                    $('.delta_temp').css('background', '#F9A6A6');
+            }
+        }
 
     }
 </script>

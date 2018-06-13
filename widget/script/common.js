@@ -785,6 +785,8 @@ function setControls() {
         min: 0,
         defaultValue: 50,
         max: 100,
+        step: 0.1,
+        scale: 1,
         units: ['c'],
         unitNames: {
             c: '%'
@@ -860,6 +862,8 @@ function setControls() {
         min: -5,
         defaultValue: 30,
         max: 60,
+        step: 0.1,
+        scale: 1,
         units: ['c'],
         unitNames: {
             c: '°C'
@@ -893,6 +897,8 @@ function setControls() {
         display: 'center',
         min: 10,
         max: 100,
+        step: 0.1,
+        scale: 1,
         defaultValue: 45,
         units: ['c'],
         unitNames: {
@@ -1499,6 +1505,7 @@ function getPendingRecordInfo(controller, pipe_no) {
     api.addEventListener({
         name: 'getPendingRecordCallBackEvent'
     }, function(ret, err) {
+        $('.imgBox').empty();
         if (ret.value.success) {
             getPendingRecordInfoOK(ret.value.data);
         } else {

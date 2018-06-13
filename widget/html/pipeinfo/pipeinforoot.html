@@ -200,7 +200,7 @@
                  pipeno=ret.value.pipe_no;
                  //alert(JSON.stringify(ret.value));
                  ShowPipeInfoFrame(pipeno);
-
+                //  api.closeWin();
             });
             //接收frame回调
             // api.addEventListener({
@@ -239,6 +239,7 @@
                   w: 'auto',
                   h: api.winHeight - navHeight - footHeight
               },
+              reload:true,
               pageParam: {
                   pipeno: pipeno
               }
