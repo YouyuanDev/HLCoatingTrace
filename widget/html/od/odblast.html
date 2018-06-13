@@ -43,7 +43,7 @@
             </table>
         </div>
         <div class="form-item">
-            <input type="hidden" value="0" class="id"/>
+            <input type="hidden" value="0" class="id" />
             <!-- <div class="form-item-lbl">
                 <label class="i18n1 air_temp_lbl" name="airtemp"></label>
             </div>
@@ -198,10 +198,7 @@
 <script type="text/javascript">
     var g_pipeno;
     var g_employeeno, g_millno;
-    //检验频次Map
-    var inspectFreqMap = [];
-    //OD接收标准
-    var ODacceptCriteriaMap;
+
     //UILoading 的id
     var g_loadingID = 0;
 
@@ -210,80 +207,77 @@
         var data = api.pageParam;
         g_pipeno = data.pipe_no;
         fnSettingHeader();
+        RequestAllProcessInfoByPipeNo(g_pipeno);
         //请求RequestMySesssion
-        RequestMySesssion();
+        //RequestMySesssion();
 
     }
 
     //继续方法
-    function Go(employeeno, millno) {
-        g_employeeno = employeeno;
-        g_millno = millno;
-        //初始化表单业务逻辑
-        if (g_pipeno != undefined) {
-            RequestODAcceptCriteria(g_pipeno);
-            RequestInspectionFrequency(g_pipeno, g_millno);
-            getPipeBasicInfoHeader(g_pipeno, g_millno);
+    // function Go(employeeno, millno) {
+    //     g_employeeno = employeeno;
+    //     g_millno = millno;
+    //     //初始化表单业务逻辑
+    //     if (g_pipeno != undefined&&g_millno!=undefined) {
+    //         //RequestAllProcessInfoByPipeNo(g_pipeno,g_millno);
+    //     }
+    //     ClearLoadingPicture();
+    // }
+    //
+    // //撤退方法
+    // function Reverse(msg) {
+    //     ClearLoadingPicture();
+    //     alert(msg);
+    //     setTimeout("closeWindow()", 1000);
+    // }
+
+    //得到钢管数据汇总成功
+    function GetAllProcessInfoByPipeNoOK(data) {
+        ClearLoadingPicture();
+        g_employeeno = data.employeeno;
+        g_millno=data.millno;
+        if(data.pipeinfo.status!="bare1"){
+          //alert("status not right");
+            closeWindow();
         }
         setAllDefectInfo("steel");
-        setSelectPictures();
-        setControls();
+        setTimeout(function() {
+            //执行刷新
+            initCriteria(data.odcriteria);
+            initCriteria(data.pbcriteria);
+            initInspectionFreq(data.inspectfreq);
+            initPipeBasicHeader(data.pipeinfo, data.millno);
+        }, 200);
+          setControls();
+          setSelectPictures();
+        //alert(JSON.stringify(data));
         getPendingRecordInfo("OdOperation", g_pipeno);
         hlLanguage("../../i18n/");
-        ClearLoadingPicture();
-    }
-
-    //撤退方法
-    function Reverse(msg) {
-        ClearLoadingPicture();
-        alert(msg);
-        setTimeout("closeWindow()", 1000);
-    }
-
-    //得到检验频次信息成功
-    function GetInspectFreqOK(data) {
-        inspectFreqMap = data;
-        api.alert({
-            msg: JSON.stringify(inspectFreqMap)
-        });
-    }
-
-    //得到检验频次信息失败
-    function GetInspectFreqFail() {
-        api.alert({
-            msg: 'GetInspectFreqFail'
-        });
-    }
-
-    //得到外防接收标准成功
-    function GetODAcceptCriteriaOK(data) {
-        ODacceptCriteriaMap = data;
-        api.alert({
-            msg: JSON.stringify(ODacceptCriteriaMap)
-        });
+        // api.alert({
+        //     msg: JSON.stringify(ODacceptCriteriaMap)
+        // });
     }
     //得到外防接收标准失败
-    function GetODAcceptCriteriaFail() {
+    function GetAllProcessInfoByPipeNoFail() {
+      ClearLoadingPicture();
         api.alert({
-            msg: 'GetODAcceptCriteriaFail'
+            msg: 'GetAllProcessInfoByPipeNoFail'
         });
+        closeWindow();
     }
 
 
 
-    function closeWindow() {
-        api.closeWin();
-    }
 
     function submitForm() {
         if (initFormNumber()) {
             var s = 'http://' + serverIP + '/OdOperation/saveOdBlastProcess.action';
             var imgUrl = "";
             $('.imgBox  .temp-container img').each(function() {
-              var temp = $(this).attr("data-url");
-              if(temp!=undefined){
-                  imgUrl += (temp + ";");
-              }
+                var temp = $(this).attr("data-url");
+                if (temp != undefined) {
+                    imgUrl += (temp + ";");
+                }
             });
             alert(imgUrl);
             api.ajax({
@@ -293,7 +287,7 @@
                 dataType: 'json',
                 data: {
                     values: {
-                        id:$('.id').val(),
+                        id: $('.id').val(),
                         pipe_no: g_pipeno,
                         mill_no: g_millno,
                         operator_no: g_employeeno,
@@ -346,7 +340,7 @@
             $('input[name="blast_line_speed"]').val(data.blast_line_speed);
             $('#result').val(data.result);
             $('input[name="blast_line_speed"]').val(data.blast_line_speed);
-             $('.id').val(data.id);
+            $('.id').val(data.id);
             var imgUrl = data.upload_files;
             if (imgUrl.length > 0) {
                 var imgArr = imgUrl.split(';');

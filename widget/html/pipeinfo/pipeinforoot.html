@@ -194,7 +194,14 @@
             var data = api.pageParam;
             pipeno = data.pipeno;
             $('.nav-pipeno').text(pipeno);
+            api.addEventListener({
+                name: 'refreshPipeRoot'
+            }, function(ret, err) {
+                 pipeno=ret.value.pipe_no;
+                 //alert(JSON.stringify(ret.value));
+                 ShowPipeInfoFrame(pipeno);
 
+            });
             //接收frame回调
             // api.addEventListener({
             //     name: 'showNextProcessOptions'
@@ -212,6 +219,10 @@
 
 
         }
+
+
+
+
 
         function  ShowPipeInfoFrame(pipeno){
           //计算Header和footer高度

@@ -157,71 +157,81 @@ var g_loadingID = 0;
         var data = api.pageParam;
         g_pipeno = data.pipe_no;
         fnSettingHeader();
+        RequestAllProcessInfoByPipeNo(g_pipeno);
         //请求RequestMySesssion
-        RequestMySesssion();
+        //RequestMySesssion();
     }
 
     //继续方法
-    function Go(employeeno, millno) {
-        //初始化表单业务逻辑
-        g_employeeno = employeeno;
-        g_millno = millno;
-        if (g_pipeno != undefined) {
-            RequestODAcceptCriteria(g_pipeno);
-            RequestInspectionFrequency(g_pipeno, g_millno);
-            getPipeBasicInfoHeader(g_pipeno, g_millno);
-        }
+    // function Go(employeeno, millno) {
+    //     //初始化表单业务逻辑
+    //     g_employeeno = employeeno;
+    //     g_millno = millno;
+    //     if (g_pipeno != undefined&&g_millno!=undefined) {
+    //         RequestODAcceptCriteria(g_pipeno,g_millno);
+    //         //getPipeBasicInfoHeader(g_pipeno, g_millno);
+    //     }
+    //
+    //     setSelectPictures();
+    //     hlLanguage("../../i18n/");
+    //     ClearLoadingPicture();
+    // }
+    //
+    // //撤退方法
+    // function Reverse(msg) {
+    //   ClearLoadingPicture();
+    //     alert(msg);
+    //     setTimeout("closeWindow()", 1000);
+    // }
 
-        setSelectPictures();
-        setControls();
-        getPendingRecordInfo("OdStencilOperation", g_pipeno);
-        hlLanguage("../../i18n/");
-        ClearLoadingPicture();
-    }
-
-    //撤退方法
-    function Reverse(msg) {
-      ClearLoadingPicture();
-        alert(msg);
-        setTimeout("closeWindow()", 1000);
-    }
-
-    function closeWindow() {
-        api.closeWin();
-    }
     //得到检验频次信息成功
-    function GetInspectFreqOK(data) {
-        inspectFreqMap = data;
-        api.alert({
-            msg: JSON.stringify(inspectFreqMap)
-        });
-    }
+    // function GetInspectFreqOK(data) {
+    //     inspectFreqMap = data;
+    //     api.alert({
+    //         msg: JSON.stringify(inspectFreqMap)
+    //     });
+    // }
+    //
+    // //得到检验频次信息失败
+    // function GetInspectFreqFail() {
+    //     api.alert({
+    //         msg: 'GetInspectFreqFail'
+    //     });
+    // }
 
-    //得到检验频次信息失败
-    function GetInspectFreqFail() {
-        api.alert({
-            msg: 'GetInspectFreqFail'
-        });
-    }
+    //得到钢管数据汇总成功
+    function GetAllProcessInfoByPipeNoOK(data) {
+        ClearLoadingPicture();
+        g_employeeno = data.employeeno;
+        g_millno=data.millno;
+        if(data.pipeinfo.status!="od4"){
+            closeWindow();
+        }
+        setTimeout(function() {
+            //执行刷新
+            initCriteria(data.odcriteria);
+            initCriteria(data.pbcriteria);
+            initInspectionFreq(data.inspectfreq);
+            initPipeBasicHeader(data.pipeinfo, data.millno);
+        }, 200);
+          setControls();
+          setSelectPictures();
 
-    //得到外防接收标准成功
-    function GetODAcceptCriteriaOK(data) {
-        ODacceptCriteriaMap = data;
-        //alert(JSON.stringify(data));
-
-        //若数据为空，初始化
+        getPendingRecordInfo("OdStencilOperation", g_pipeno);
         if(data&&$('#stencil_content').val()==""){
-          var str = data[0].stencil_content;
+          var str = data.stencil_content;
           $('#stencil_content').val(str);
         }
+        hlLanguage("../../i18n/");
         // api.alert({
         //     msg: JSON.stringify(ODacceptCriteriaMap)
         // });
     }
     //得到外防接收标准失败
-    function GetODAcceptCriteriaFail() {
+    function GetAllProcessInfoByPipeNoFail() {
+      ClearLoadingPicture();
         api.alert({
-            msg: 'GetODAcceptCriteriaFail'
+            msg: 'GetAllProcessInfoByPipeNoFail'
         });
     }
 

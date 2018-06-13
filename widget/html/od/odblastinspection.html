@@ -110,35 +110,35 @@
         </div>
         <div class="form-item">
             <div class="form-item-lbl">
-                <label class="i18n1" name="blastfinishsa25"></label>
+                <label class="i18n1 blast_finish_sa25_lbl" name="blastfinishsa25"></label>
             </div>
             <div class="form-item-val">
-                <select id="bfs" name="blast_finish_sa25">
-                         <option value="2.0" selected="selected">Sa2.0</option>
+                <select id="bfs" data-required=false name="blast_finish_sa25">
+                         <option value="2.0">Sa2.0</option>
                          <option value="2.5">Sa2.5</option>
                          <option value="3.0">Sa3.0</option>
-                         <option value="">未测</option>
+                         <option value="" selected="selected">未测</option>
                      </select>
             </div>
         </div>
         <div class="form-item">
             <div class="form-item-lbl">
-                <label class="i18n1" name="surfacedustrating"></label>
+                <label class="i18n1 surface_dust_rating_lbl" name="surfacedustrating"></label>
             </div>
             <div class="form-item-val">
-                <select id="sdr" name="surface_dust_rating">
-                         <option value="1" selected="selected">1级</option>
+                <select id="sdr" data-required=false name="surface_dust_rating">
+                         <option value="-99" selected="selected">未测</option>
+                         <option value="1" >1级</option>
                          <option value="2">2级</option>
                          <option value="3">3级</option>
                          <option value="4">4级</option>
                          <option value="5">5级</option>
-                         <option value="-99">未测</option>
                      </select>
             </div>
         </div>
         <div class="form-item">
             <div class="form-item-lbl">
-                <label class="i18n1" name="surfacecondition"></label>
+                <label class="i18n1 surface_condition_lbl" name="surfacecondition"></label>
             </div>
             <div class="form-item-val">
                 <button data-type="steel" class="i18n1 form-steel-condition form-condition" name="select"></button>
@@ -149,10 +149,10 @@
         </div>
         <div class="form-item">
             <div class="form-item-lbl">
-                <label class="i18n1" name="oilwaterinaircompressor"></label>
+                <label class="i18n1 oil_water_in_air_compressor_lbl" name="oilwaterinaircompressor"></label>
             </div>
             <div class="form-item-val">
-                <select id="oilwater" name="oil_water_in_air_compressor">
+                <select id="oilwater" data-required=false name="oil_water_in_air_compressor">
                          <option value="0">否</option>
                          <option value="1">是</option>
                      </select>
@@ -231,66 +231,100 @@
             //DoLoadingPicture();
             fnSettingHeader();
             //请求RequestMySesssion
-            RequestMySesssion();
+            //RequestMySesssion();
+            RequestAllProcessInfoByPipeNo(g_pipeno);
         }
         //继续方法
-    function Go(employeeno, millno) {
+    // function Go(employeeno, millno) {
+    //
+    //     g_employeeno = employeeno;
+    //     g_millno = millno;
+    //     //初始化表单业务逻辑
+    //     if (g_pipeno != undefined&&g_millno!=undefined) {
+    //         RequestODAcceptCriteria(g_pipeno,g_millno);
+    //         //getPipeBasicInfoHeader(g_pipeno, g_millno);
+    //     }
+    //     setAllDefectInfo("steel");
+    //     setSelectPictures();
+    //     hlLanguage("../../i18n/");
+    //     ClearLoadingPicture();
+    // }
+    // //撤退方法
+    // function Reverse(msg) {
+    //     //ClearLoadingPicture();
+    //     alert(msg);
+    //
+    //     setTimeout("closeWindow()", 1000);
+    // }
 
-        g_employeeno = employeeno;
-        g_millno = millno;
-        //初始化表单业务逻辑
-        if (g_pipeno != undefined) {
-            RequestODAcceptCriteria(g_pipeno);
-            RequestInspectionFrequency(g_pipeno, g_millno);
-            getPipeBasicInfoHeader(g_pipeno, g_millno);
-        }
-        setAllDefectInfo("steel");
-        setSelectPictures();
-        setControls();
-        getPendingRecordInfo("OdBlastInspectionOperation", g_pipeno);
-        hlLanguage("../../i18n/");
-        ClearLoadingPicture();
-    }
-    //撤退方法
-    function Reverse(msg) {
-        //ClearLoadingPicture();
-        alert(msg);
 
-        setTimeout("closeWindow()", 1000);
-    }
-
-    function closeWindow() {
-        api.closeWin();
-    }
 
     //得到检验频次信息成功
-    function GetInspectFreqOK(data) {
-        inspectFreqMap = data;
-        api.alert({
-            msg: JSON.stringify(inspectFreqMap)
-        });
-    }
+    // function GetInspectFreqOK(data) {
+    //     inspectFreqMap = data;
+    //     api.alert({
+    //         msg: JSON.stringify(inspectFreqMap)
+    //     });
+    // }
+    //
+    // //得到检验频次信息失败
+    // function GetInspectFreqFail() {
+    //     api.alert({
+    //         msg: 'GetInspectFreqFail'
+    //     });
+    // }
 
-    //得到检验频次信息失败
-    function GetInspectFreqFail() {
-        api.alert({
-            msg: 'GetInspectFreqFail'
-        });
-    }
+    function GetAllProcessInfoByPipeNoOK(data) {
+        ClearLoadingPicture();
+        //alert(JSON.stringify(data));
+        g_employeeno = data.employeeno;
+        g_millno=data.millno;
+        if(data.pipeinfo.status!="od1"){
+            closeWindow();
+        }
+        setTimeout(function() {
+            //执行刷新
+            initCriteria(data.odcriteria);
+            initCriteria(data.pbcriteria);
+            initInspectionFreq(data.inspectfreq);
+            initPipeBasicHeader(data.pipeinfo, data.millno);
+        }, 200);
+          setControls();
+          setSelectPictures();
 
-    //得到外防接收标准成功
-    function GetODAcceptCriteriaOK(data) {
-        ODacceptCriteriaMap = data;
-        api.alert({
-            msg: JSON.stringify(ODacceptCriteriaMap)
-        });
+        getPendingRecordInfo("OdBlastInspectionOperation", g_pipeno);
+        hlLanguage("../../i18n/");
+        // api.alert({
+        //     msg: JSON.stringify(ODacceptCriteriaMap)
+        // });
     }
     //得到外防接收标准失败
-    function GetODAcceptCriteriaFail() {
+    function GetAllProcessInfoByPipeNoFail() {
+      ClearLoadingPicture();
         api.alert({
-            msg: 'GetODAcceptCriteriaFail'
+            msg: 'GetAllProcessInfoByPipeNoFail'
         });
+        closeWindow();
     }
+
+
+    //得到外防接收标准成功
+    // function GetODAcceptCriteriaOK(data) {
+    //     ODacceptCriteriaMap = data.criteria;
+    //     inspectFreqMap = data.inspectfreq;
+    //     setControls();
+    //     getPendingRecordInfo("OdBlastInspectionOperation", g_pipeno);
+    //     hlLanguage("../../i18n/");
+    //     // api.alert({
+    //     //     msg: JSON.stringify(ODacceptCriteriaMap)
+    //     // });
+    // }
+    // //得到外防接收标准失败
+    // function GetODAcceptCriteriaFail() {
+    //     api.alert({
+    //         msg: 'GetODAcceptCriteriaFail'
+    //     });
+    // }
 
     function getPendingRecordInfoOK(data) {
         if (data != undefined) {

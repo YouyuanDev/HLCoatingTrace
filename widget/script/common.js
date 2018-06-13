@@ -340,28 +340,28 @@ function setSelectPictures() {
 }
 
 //loading动画效果
-function DoLoadingPicture(){
-  var UILoading = api.require('UILoading');
-  UILoading.flower({
-      center: {
-        x: api.winWidth/2.0,
-      y: api.winHeight/2.0
-      },
-      size: 30,
-       mask: 'rgba(0,0,0,0.5)',
-      fixed: true
-  }, function(ret) {
-      //alert(JSON.stringify(ret));
-      g_loadingID=ret.id;
-  });
+function DoLoadingPicture() {
+    var UILoading = api.require('UILoading');
+    UILoading.flower({
+        center: {
+            x: api.winWidth / 2.0,
+            y: api.winHeight / 2.0
+        },
+        size: 30,
+        mask: 'rgba(0,0,0,0.5)',
+        fixed: true
+    }, function(ret) {
+        //alert(JSON.stringify(ret));
+        g_loadingID = ret.id;
+    });
 }
 
-function ClearLoadingPicture(){
-  var uiloading = api.require('UILoading');
-  uiloading.closeFlower({
-      id: g_loadingID
-  });
-  g_loadingID=0;
+function ClearLoadingPicture() {
+    var uiloading = api.require('UILoading');
+    uiloading.closeFlower({
+        id: g_loadingID
+    });
+    g_loadingID = 0;
 }
 
 
@@ -391,7 +391,7 @@ function getPicture(sourceType) {
                         }
                     }
                 }, function(rets, errs) {
-                   ClearLoadingPicture();
+                    ClearLoadingPicture();
                     if (rets) {
                         $('.imgBox').append(pictureTemplate(rets.imgUrl, ret.base64Data));
                         alert("上传成功!");
@@ -433,7 +433,7 @@ function getPicture(sourceType) {
                         }
                     }
                 }, function(rets, errs) {
-                  ClearLoadingPicture();
+                    ClearLoadingPicture();
                     if (rets) {
                         $('.imgBox').append(pictureTemplate(rets.imgUrl, ret.base64Data));
                         alert("上传成功!");
@@ -464,126 +464,105 @@ function delSelectPicture(obj) {
 }
 
 
-//根据pipeno millno 获取 本次检验频次信息
-function RequestInspectionFrequency(pipeno, millno) {
+//根据pipeno millno 获取 本次检验频次信息  已合并至OD ID 接收标准同时获取
+// function RequestInspectionFrequency(pipeno, millno) {
+//
+//     //注册接收RequestInspectionFrequency回调
+//     api.addEventListener({
+//         name: 'RequestInspectionFrequencyCallbackEvent'
+//     }, function(ret, err) {
+//         if (ret.value.success) {
+//             //得到了检验频次信息
+//             var data = ret.value.data;
+//             $.each(data, function(name, value) {
+//                 var needInspectNow = value.needInspectNow;
+//                 if (name != undefined) {
+//                     if (name.indexOf("od_") != -1 || name.indexOf("id_") != -1 || name.indexOf("_freq") != -1) {
+//                         name0 = "." + name.replace("od_", "").replace("id_", "").replace("_freq", "");
+//                         name = "." + name.replace("od_", "").replace("id_", "").replace("_freq", "") + "_lbl";
+//                         //alert(name);
+//                         if (needInspectNow != undefined && needInspectNow) {
+//                             $(name0).attr('data-required', true);
+//                             if ($(name).children('.freq-span').length <= 0)
+//                                 $(name).append('<span class="freq-span" style="color:red;padding-left:5px;">本次必填</span>');
+//                         }
+//                     }
+//                 }
+//             });
+//         } else {
+//             //session中不存在millno
+//             //alert(JSON.stringify(ret.value.msg));
+//             //处理逻辑。。。
+//             GetInspectFreqFail();
+//         }
+//     });
+//     //发出请求
+//     var s = 'http://' + serverIP + '/InspectionFrequencyOperation/getAllInspectionTimeMapByPipeNoMillNo.action';
+//     api.ajax({
+//         url: s,
+//         method: 'post',
+//         timeout: 30,
+//         dataType: 'json',
+//         data: {
+//             values: {
+//                 pipe_no: pipeno,
+//                 mill_no: millno
+//             }
+//
+//         }
+//     }, function(ret, err) {
+//         api.hideProgress();
+//         var success = false;
+//         if (ret) {
+//             success = true;
+//         } else {
+//             api.alert({
+//                 msg: JSON.stringify(err)
+//             });
+//         }
+//         api.sendEvent({
+//             name: 'RequestInspectionFrequencyCallbackEvent',
+//             extra: {
+//                 success: success,
+//                 data: ret
+//             }
+//         });
+//
+//     });
+// }
 
-    //注册接收RequestInspectionFrequency回调
-    api.addEventListener({
-        name: 'RequestInspectionFrequencyCallbackEvent'
-    }, function(ret, err) {
-        if (ret.value.success) {
-            //得到了检验频次信息
-            var data = ret.value.data;
-            $.each(data, function(name, value) {
-                var needInspectNow = value.needInspectNow;
-                if (name != undefined) {
-                    if (name.indexOf("od_") != -1 || name.indexOf("id_") != -1 || name.indexOf("_freq") != -1) {
-                        name0 = "." + name.replace("od_", "").replace("id_", "").replace("_freq", "");
-                        name = "." + name.replace("od_", "").replace("id_", "").replace("_freq", "") + "_lbl";
-                        //alert(name);
-                        if (needInspectNow != undefined && needInspectNow) {
-                            $(name0).attr('data-required', true);
-                            if ($(name).children('.freq-span').length <= 0)
-                                $(name).append('<span class="freq-span" style="color:red;padding-left:5px;">本次必填</span>');
-                        }
-                    }
-                }
-            });
-        } else {
-            //session中不存在millno
-            //alert(JSON.stringify(ret.value.msg));
-            //处理逻辑。。。
-            GetInspectFreqFail();
-        }
-    });
-    //发出请求
-    var s = 'http://' + serverIP + '/InspectionFrequencyOperation/getAllInspectionTimeMapByPipeNoMillNo.action';
-    api.ajax({
-        url: s,
-        method: 'post',
-        timeout: 30,
-        dataType: 'json',
-        data: {
-            values: {
-                pipe_no: pipeno,
-                mill_no: millno
-            }
-
-        }
-    }, function(ret, err) {
-        api.hideProgress();
-        var success = false;
-        if (ret) {
-            success = true;
-        } else {
-            api.alert({
-                msg: JSON.stringify(err)
-            });
-        }
-        api.sendEvent({
-            name: 'RequestInspectionFrequencyCallbackEvent',
-            extra: {
-                success: success,
-                data: ret
-            }
-        });
-
-    });
-}
 
 
-
-//根据pipeno  获取 外防接收标准
-function RequestODAcceptCriteria(pipeno) {
+//根据pipeno  内外防腐标准、检验频率、钢管信息、光管检验频率、pending数据  APP使用  stencil_content 做完动态替换
+function RequestAllProcessInfoByPipeNo(pipeno) {
     //alert(pipeno);
     // pipeno="1524540";
-    //注册接收RequestODAcceptCriteria回调
+    //注册接收RequestAllProcessInfoByPipeNo回调
     api.addEventListener({
-        name: 'RequestODAcceptCriteriaCallbackEvent'
+        name: 'RequestAllProcessInfoByPipeNoCallbackEvent'
     }, function(ret, err) {
         if (ret.value.success) {
             //得到了外防接收标准  下一行代码不要注释！！
-            GetODAcceptCriteriaOK(ret.value.data);
-            var data = ret.value.data[0];
-            if (data != undefined) {
-                $.each(data, function(name, value) {
-                    if (name != undefined) {
-                        if (name.indexOf("_min") != -1) {
-                            name = "." + name.replace("_min", "");
-                            if (value != undefined)
-                                $(name).attr('data-min', value);
-                            name = name + "_lbl";
-                            if ($(name).children('.range-span').length <= 0) {
-                                $(name).append('<span class="range-span">' + value + '~</span>');
-                            } else {
-                                var txt = $(name).children('.range-span').text();
-                                $(name).children('.range-span').text(value + "~" + txt);
-                            }
-                        } else if (name.indexOf("_max") != -1) {
-                            name = "." + name.replace("_max", "");
-                            if (value != undefined)
-                                $(name).attr('data-max', value);
-                            name = name + "_lbl";
-                            if ($(name).children('.range-span').length <= 0) {
-                                $(name).append('<span class="range-span">' + value + '</span>');
-                            } else {
-                                var txt = $(name).children('.range-span').text();
-                                $(name).children('.range-span').text(txt + "" + value);
-                            }
-                        }
-                    }
-                });
-            }
+            var employeeno = ret.value.data.employeeno;
+            var millno = ret.value.data.millno;
+            var odcriteria = ret.value.data.odcriteria;
+            var idcriteria = ret.value.data.idcriteria;
+            var pbcriteria = ret.value.data.pbcriteria;
+            var inspectfreq = ret.value.data.inspectfreq;
+            var pipeinfo = ret.value.data.pipeinfo;
 
+
+
+            GetAllProcessInfoByPipeNoOK(ret.value.data);
         } else {
             //alert(JSON.stringify(ret.value.msg));
             //处理逻辑。。。
-            GetODAcceptCriteriaFail();
+            GetAllProcessInfoByPipeNoFail();
         }
     });
 
     //发出请求
-    var s = 'http://' + serverIP + '/AcceptanceCriteriaOperation/getODAcceptanceCriteriaByPipeNo.action';
+    var s = 'http://' + serverIP + '/APPRequestTransfer/getAllProcessInfoByPipeNo.action';
     api.ajax({
         url: s,
         method: 'post',
@@ -605,7 +584,7 @@ function RequestODAcceptCriteria(pipeno) {
             });
         }
         api.sendEvent({
-            name: 'RequestODAcceptCriteriaCallbackEvent',
+            name: 'RequestAllProcessInfoByPipeNoCallbackEvent',
             extra: {
                 success: success,
                 data: ret
@@ -613,127 +592,225 @@ function RequestODAcceptCriteria(pipeno) {
         });
 
     });
+}
+
+//关闭窗口并且更新piperoot页面
+function closeWindow() {
+  api.sendEvent({
+      name: 'refreshPipeRoot',
+      extra: {
+          pipe_no:g_pipeno
+      }
+  });
+  setTimeout(function() {
+    api.closeWin();
+  },100);
+}
+
+///初始化钢管信息header
+function initPipeBasicHeader(pipeinfo, millno) {
+    if (pipeinfo != undefined) {
+        $('.pipeinfo-table .pipe_no').text(pipeinfo.pipe_no);
+        $('.pipeinfo-table .status_name').text(pipeinfo.status_name);
+        $('.pipeinfo-table .od').text(pipeinfo.od);
+        $('.pipeinfo-table .wt').text(pipeinfo.wt);
+        $('.pipeinfo-table .millno').text(millno);
+    }
+}
+
+//初始化检测频率标签
+function initInspectionFreq(freq) {
+    if (freq != undefined) {
+        $.each(freq, function(name, value) {
+            var needInspectNow = value.needInspectNow;
+            if (name != undefined) {
+                if (name.indexOf("od_") != -1 || name.indexOf("id_") != -1 || name.indexOf("_freq") != -1) {
+                    name0 = "." + name.replace("od_", "").replace("id_", "").replace("_freq", "");
+                    name = "." + name.replace("od_", "").replace("id_", "").replace("_freq", "") + "_lbl";
+                    //alert(name);
+                    if (needInspectNow != undefined && needInspectNow) {
+                        $(name0).attr('data-required', true);
+                        if ($(name).children('.freq-span').length <= 0)
+                            $(name).append('<span class="freq-span" style="color:red;padding-left:5px;">本次必填</span>');
+                    }
+                }
+            }
+        });
+    }
+}
+
+
+//涂层、光管标准最大值最小值标签初始化
+function initCriteria(criteria) {
+    if (criteria != undefined) {
+        $.each(criteria, function(name, value) {
+            if (name != undefined) {
+                if (name.indexOf("_min") != -1) {
+                    name = "." + name.replace("_min", "");
+                    if (value != undefined)
+                        $(name).attr('data-min', value);
+                    name = name + "_lbl";
+                    if ($(name).children('.range-span').length <= 0) {
+                        $(name).append('<span class="range-span">' + value + '~</span>');
+                    } else {
+                        //alert("name=" + name);
+                        var txt = $(name).children('.range-span').text();
+                        //判断是否已经设置了min 因为  存在检测项  od_xx_min  id_xx_min
+                        $(name).children('.range-span').text(value + "~" + txt);
+                    }
+                } else if (name.indexOf("_max") != -1) {
+                    name = "." + name.replace("_max", "");
+                    if (value != undefined)
+                        $(name).attr('data-max', value);
+                    name = name + "_lbl";
+                    if ($(name).children('.range-span').length <= 0) {
+                        $(name).append('<span class="range-span">' + value + '</span>');
+                    } else {
+                        var txt = $(name).children('.range-span').text();
+                        $(name).children('.range-span').text(txt + "" + value);
+                    }
+                }
+            }
+        });
+    }
 }
 
 
 //根据pipeno  获取 内防接收标准
-function RequestIDAcceptCriteria(pipeno) {
-
-    //注册接收RequestIDAcceptCriteria回调
-    api.addEventListener({
-        name: 'RequestIDAcceptCriteriaCallbackEvent'
-    }, function(ret, err) {
-        if (ret.value.success) {
-            //得到了内防接收标准
-            ////处理逻辑。。。
-            //GetIDAcceptCriteriaOK(ret.value.data);
-            var data = ret.value.data[0];
-            if (data != undefined) {
-                $.each(data, function(name, value) {
-                    if (name != undefined) {
-                        if (name.indexOf("_min") != -1) {
-                            name = "." + name.replace("_min", "");
-                            if (value != undefined)
-                                $(name).attr('data-min', value);
-                            name = name + "_lbl";
-                            if ($(name).children('.range-span').length <= 0) {
-                                $(name).append('<span class="range-span">' + value + '~</span>');
-                            } else {
-                                var txt = $(name).children('.range-span').text();
-                                $(name).children('.range-span').text(value + "~" + txt);
-                            }
-                        } else if (name.indexOf("_max") != -1) {
-                            name = "." + name.replace("_max", "");
-                            if (value != undefined)
-                                $(name).attr('data-max', value);
-                            name = name + "_lbl";
-                            if ($(name).children('.range-span').length <= 0) {
-                                $(name).append('<span class="range-span">' + value + '</span>');
-                            } else {
-                                var txt = $(name).children('.range-span').text();
-                                $(name).children('.range-span').text(txt + "" + value);
-                            }
-                        }
-                    }
-                });
-            }
-
-        } else {
-            //alert(JSON.stringify(ret.value.msg));
-            //处理逻辑。。。
-            GetIDAcceptCriteriaFail();
-        }
-    });
-
-    //发出请求
-    var s = 'http://' + serverIP + '/AcceptanceCriteriaOperation/getIDAcceptanceCriteriaByPipeNo.action';
-    api.ajax({
-        url: s,
-        method: 'post',
-        timeout: 30,
-        dataType: 'json',
-        data: {
-            values: {
-                pipe_no: pipeno
-            }
-        }
-    }, function(ret, err) {
-        api.hideProgress();
-        var success = false;
-        if (ret) {
-            success = true;
-        } else {
-            api.alert({
-                msg: JSON.stringify(err)
-            });
-        }
-        api.sendEvent({
-            name: 'RequestIDAcceptCriteriaCallbackEvent',
-            extra: {
-                success: success,
-                data: ret
-            }
-        });
-
-    });
-}
+// function RequestIDAcceptCriteria(pipeno, millno) {
+//
+//     //注册接收RequestIDAcceptCriteria回调
+//     api.addEventListener({
+//         name: 'RequestIDAcceptCriteriaCallbackEvent'
+//     }, function(ret, err) {
+//         if (ret.value.success) {
+//             //得到了内防接收标准
+//             ////处理逻辑。。。
+//             GetIDAcceptCriteriaOK(ret.value.data);
+//             var data = ret.value.data.criteria;
+//             var freq = ret.value.data.inspectfreq;
+//             if (data != undefined) {
+//                 $.each(data, function(name, value) {
+//                     if (name != undefined) {
+//                         if (name.indexOf("_min") != -1) {
+//                             name = "." + name.replace("_min", "");
+//                             if (value != undefined)
+//                                 $(name).attr('data-min', value);
+//                             name = name + "_lbl";
+//                             if ($(name).children('.range-span').length <= 0) {
+//                                 $(name).append('<span class="range-span">' + value + '~</span>');
+//                             } else {
+//                                 var txt = $(name).children('.range-span').text();
+//                                 $(name).children('.range-span').text(value + "~" + txt);
+//                             }
+//                         } else if (name.indexOf("_max") != -1) {
+//                             name = "." + name.replace("_max", "");
+//                             if (value != undefined)
+//                                 $(name).attr('data-max', value);
+//                             name = name + "_lbl";
+//                             if ($(name).children('.range-span').length <= 0) {
+//                                 $(name).append('<span class="range-span">' + value + '</span>');
+//                             } else {
+//                                 var txt = $(name).children('.range-span').text();
+//                                 $(name).children('.range-span').text(txt + "" + value);
+//                             }
+//                         }
+//                     }
+//                 });
+//             }
+//             $.each(freq, function(name, value) {
+//                 var needInspectNow = value.needInspectNow;
+//                 if (name != undefined) {
+//                     if (name.indexOf("od_") != -1 || name.indexOf("id_") != -1 || name.indexOf("_freq") != -1) {
+//                         name0 = "." + name.replace("od_", "").replace("id_", "").replace("_freq", "");
+//                         name = "." + name.replace("od_", "").replace("id_", "").replace("_freq", "") + "_lbl";
+//                         //alert(name);
+//                         if (needInspectNow != undefined && needInspectNow) {
+//                             $(name0).attr('data-required', true);
+//                             if ($(name).children('.freq-span').length <= 0)
+//                                 $(name).append('<span class="freq-span" style="color:red;padding-left:5px;">本次必填</span>');
+//                         }
+//                     }
+//                 }
+//             });
+//
+//         } else {
+//             //alert(JSON.stringify(ret.value.msg));
+//             //处理逻辑。。。
+//             GetIDAcceptCriteriaFail();
+//         }
+//     });
+//
+//     //发出请求
+//     var s = 'http://' + serverIP + '/AcceptanceCriteriaOperation/getIDAcceptanceCriteriaByPipeNo.action';
+//     api.ajax({
+//         url: s,
+//         method: 'post',
+//         timeout: 30,
+//         dataType: 'json',
+//         data: {
+//             values: {
+//                 pipe_no: pipeno,
+//                 mill_no: millno
+//             }
+//         }
+//     }, function(ret, err) {
+//         api.hideProgress();
+//         var success = false;
+//         if (ret) {
+//             success = true;
+//         } else {
+//             api.alert({
+//                 msg: JSON.stringify(err)
+//             });
+//         }
+//         api.sendEvent({
+//             name: 'RequestIDAcceptCriteriaCallbackEvent',
+//             extra: {
+//                 success: success,
+//                 data: ret
+//             }
+//         });
+//
+//     });
+// }
 //设置控件
 function setControls() {
 
- //湿度
-  $(".mob-humidity").mobiscroll().temperature({
-      theme: 'auto',
-      lang: 'zh',
-      display: 'center',
-      min: 0,
-      defaultValue: 50,
-      max: 100,
-      units: ['c'],
-      unitNames: {
-          c: '%'
-      },
-      onSet: function(event, inst) {
-          var selectedVal = inst.getVal();
-          $(this).val(selectedVal.replace('%', ''));
-          var minVal = $(this).attr('data-min');
-          var maxVal = $(this).attr('data-max');
-          var flag = true;
-          if (selectedVal != undefined) {
-              if (maxVal != undefined) {
-                  if (parseFloat(maxVal) < parseFloat(selectedVal))
-                      flag = false;
-              }
-              if (minVal != undefined) {
-                  if (parseFloat(selectedVal) < parseFloat(minVal))
-                      flag = false;
-              }
-              if (flag)
-                  $(this).css('background', '#FFFFFF');
-              else
-                  $(this).css('background', '#F9A6A6');
-          }
-      }
-  });
+    //湿度
+    $(".mob-humidity").mobiscroll().temperature({
+        theme: 'auto',
+        lang: 'zh',
+        display: 'center',
+        min: 0,
+        defaultValue: 50,
+        max: 100,
+        units: ['c'],
+        unitNames: {
+            c: '%'
+        },
+        onSet: function(event, inst) {
+            var selectedVal = inst.getVal();
+            $(this).val(selectedVal.replace('%', ''));
+            var minVal = $(this).attr('data-min');
+            var maxVal = $(this).attr('data-max');
+            var flag = true;
+            if (selectedVal != undefined) {
+                if (maxVal != undefined) {
+                    if (parseFloat(maxVal) < parseFloat(selectedVal))
+                        flag = false;
+                }
+                if (minVal != undefined) {
+                    if (parseFloat(selectedVal) < parseFloat(minVal))
+                        flag = false;
+                }
+                if (flag)
+                    $(this).css('background', '#FFFFFF');
+                else
+                    $(this).css('background', '#F9A6A6');
+            }
+        }
+    });
 
 
     //设置温度相关的控件
@@ -1171,8 +1248,8 @@ function setControls() {
         min: 0,
         max: 100,
         defaultValue: 50,
-        step:1,
-        scale:0,
+        step: 1,
+        scale: 0,
         units: ['c'],
         unitNames: {
             c: 'μm'
@@ -1204,55 +1281,55 @@ function setControls() {
 
 
 //根据pipeno  获取 钢管本体接收标准
-function RequestPipeBodyAcceptCriteria(pipeno) {
-
-    //注册接收RequestPipeBodyAcceptCriteria回调
-    api.addEventListener({
-        name: 'RequestPipeBodyAcceptCriteriaCallbackEvent'
-    }, function(ret, err) {
-        if (ret.value.success) {
-            //得到了钢管本体接收标准
-            ////处理逻辑。。。
-            GetPipeBodyAcceptCriteriaOK(ret.value.data);
-        } else {
-            //alert(JSON.stringify(ret.value.msg));
-            //处理逻辑。。。
-            GetPipeBodyAcceptCriteriaFail();
-        }
-    });
-
-    //发出请求
-    var s = 'http://' + serverIP + '/AcceptanceCriteriaOperation/getPipeBodyAcceptanceCriteriaByPipeNo.action';
-    api.ajax({
-        url: s,
-        method: 'post',
-        timeout: 30,
-        dataType: 'json',
-        data: {
-            values: {
-                pipe_no: pipeno
-            }
-        }
-    }, function(ret, err) {
-        api.hideProgress();
-        var success = false;
-        if (ret) {
-            success = true;
-        } else {
-            api.alert({
-                msg: JSON.stringify(err)
-            });
-        }
-        api.sendEvent({
-            name: 'RequestPipeBodyAcceptCriteriaCallbackEvent',
-            extra: {
-                success: success,
-                data: ret
-            }
-        });
-
-    });
-}
+// function RequestPipeBodyAcceptCriteria(pipeno) {
+//
+//     //注册接收RequestPipeBodyAcceptCriteria回调
+//     api.addEventListener({
+//         name: 'RequestPipeBodyAcceptCriteriaCallbackEvent'
+//     }, function(ret, err) {
+//         if (ret.value.success) {
+//             //得到了钢管本体接收标准
+//             ////处理逻辑。。。
+//             GetPipeBodyAcceptCriteriaOK(ret.value.data);
+//         } else {
+//             //alert(JSON.stringify(ret.value.msg));
+//             //处理逻辑。。。
+//             GetPipeBodyAcceptCriteriaFail();
+//         }
+//     });
+//
+//     //发出请求
+//     var s = 'http://' + serverIP + '/AcceptanceCriteriaOperation/getPipeBodyAcceptanceCriteriaByPipeNo.action';
+//     api.ajax({
+//         url: s,
+//         method: 'post',
+//         timeout: 30,
+//         dataType: 'json',
+//         data: {
+//             values: {
+//                 pipe_no: pipeno
+//             }
+//         }
+//     }, function(ret, err) {
+//         api.hideProgress();
+//         var success = false;
+//         if (ret) {
+//             success = true;
+//         } else {
+//             api.alert({
+//                 msg: JSON.stringify(err)
+//             });
+//         }
+//         api.sendEvent({
+//             name: 'RequestPipeBodyAcceptCriteriaCallbackEvent',
+//             extra: {
+//                 success: success,
+//                 data: ret
+//             }
+//         });
+//
+//     });
+// }
 
 
 //根据pipeno  获取 2FBE lab实验接收标准
@@ -1356,42 +1433,42 @@ function Request3LPELabAcceptCriteria(pipeno) {
 
     });
 }
-//获取表单头部钢管信息
-function getPipeBasicInfoHeader(pipeno, millno) {
-    var s = 'http://' + serverIP + '/APPRequestTransfer/getCoatingInfoByPipeNo.action';
-    api.ajax({
-        url: s,
-        method: 'post',
-        timeout: 30,
-        dataType: 'json',
-        data: {
-            values: {
-                pipe_no: pipeno
-            }
-        }
-    }, function(ret, err) { //alert(ret);
-        if (ret) {
-            if (ret.success == false) {
-                api.alert({
-                    msg: JSON.stringify(ret.message)
-                });
-            } else {
-                pipeinfo = ret.pipeinfo;
-                $('.pipeinfo-table .pipe_no').text(pipeinfo.pipe_no);
-                $('.pipeinfo-table .status_name').text(pipeinfo.status_name);
-                $('.pipeinfo-table .od').text(pipeinfo.od);
-                $('.pipeinfo-table .wt').text(pipeinfo.wt);
-                $('.pipeinfo-table .millno').text(millno);
-                hlLanguage("../../i18n/");
-            }
-        } else {
-            //alert("err");
-            api.alert({
-                msg: JSON.stringify(err)
-            });
-        }
-    });
-}
+//获取表单头部钢管信息  不需要了，合并至OD接收标准
+// function getPipeBasicInfoHeader(pipeno, millno) {
+//     var s = 'http://' + serverIP + '/APPRequestTransfer/getCoatingInfoByPipeNo.action';
+//     api.ajax({
+//         url: s,
+//         method: 'post',
+//         timeout: 30,
+//         dataType: 'json',
+//         data: {
+//             values: {
+//                 pipe_no: pipeno
+//             }
+//         }
+//     }, function(ret, err) { //alert(ret);
+//         if (ret) {
+//             if (ret.success == false) {
+//                 api.alert({
+//                     msg: JSON.stringify(ret.message)
+//                 });
+//             } else {
+//                 pipeinfo = ret.pipeinfo;
+//                 $('.pipeinfo-table .pipe_no').text(pipeinfo.pipe_no);
+//                 $('.pipeinfo-table .status_name').text(pipeinfo.status_name);
+//                 $('.pipeinfo-table .od').text(pipeinfo.od);
+//                 $('.pipeinfo-table .wt').text(pipeinfo.wt);
+//                 $('.pipeinfo-table .millno').text(millno);
+//                 hlLanguage("../../i18n/");
+//             }
+//         } else {
+//             //alert("err");
+//             api.alert({
+//                 msg: JSON.stringify(err)
+//             });
+//         }
+//     });
+// }
 //初始化未填项目
 function initFormNumber() {
     var result = true;
