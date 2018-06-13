@@ -1,5 +1,5 @@
 var header, headerHeight = 0;
-var serverIP = '192.168.0.14:8080';
+var serverIP = '192.168.0.12:8080';
 
 function fnSettingHeader() {
 
@@ -810,8 +810,42 @@ function setControls() {
         }
     });
     //钢管温度
-    //if($(".mob-pipe-temperature")!=undefined)
     $(".mob-pipe-temperature").mobiscroll().temperature({
+        theme: 'auto',
+        lang: 'zh',
+        display: 'center',
+        min: 10,
+        max: 100,
+        defaultValue: 45,
+        units: ['c'],
+        unitNames: {
+            c: '°C'
+        },
+        onSet: function(event, inst) {
+            var selectedVal = inst.getVal();
+            $(this).val(selectedVal.replace('°C', ''));
+            var minVal = $(this).attr('data-min');
+            var maxVal = $(this).attr('data-max');
+            var flag = true;
+            if (selectedVal != undefined) {
+                if (maxVal != undefined) {
+                    if (parseFloat(maxVal) < parseFloat(selectedVal))
+                        flag = false;
+                }
+                if (minVal != undefined) {
+                    if (parseFloat(selectedVal) < parseFloat(minVal))
+                        flag = false;
+                }
+                if (flag)
+                    $(this).css('background', '#FFFFFF');
+                else
+                    $(this).css('background', '#F9A6A6');
+            }
+
+        }
+    });
+    //中频温度
+    $(".mob-application-temp").mobiscroll().temperature({
         theme: 'auto',
         lang: 'zh',
         display: 'center',
