@@ -1,5 +1,5 @@
 var header, headerHeight = 0;
-var serverIP = '192.168.0.12:8080';
+var serverIP = '192.168.0.14:8080';
 
 function fnSettingHeader() {
 
@@ -542,8 +542,8 @@ function RequestODAcceptCriteria(pipeno) {
         name: 'RequestODAcceptCriteriaCallbackEvent'
     }, function(ret, err) {
         if (ret.value.success) {
-            //得到了外防接收标准
-            //GetODAcceptCriteriaOK(ret.value.data);
+            //得到了外防接收标准  下一行代码不要注释！！
+            GetODAcceptCriteriaOK(ret.value.data);
             var data = ret.value.data[0];
             if (data != undefined) {
                 $.each(data, function(name, value) {

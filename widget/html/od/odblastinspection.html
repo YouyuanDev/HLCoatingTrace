@@ -288,7 +288,7 @@
     //得到外防接收标准失败
     function GetODAcceptCriteriaFail() {
         api.alert({
-            msg: 'GetODAcpromptMsgceptCriteriaFail'
+            msg: 'GetODAcceptCriteriaFail'
         });
     }
 
@@ -381,6 +381,8 @@
             });
         }
     }
+
+    //设置 钢管温度与露点温度差
     function setDeltaTemp(){
        if($('.dew_point').val()!=undefined&&$('.dew_point').val()!=""&&$('.pipe_temp_after_blast').val()!=undefined&&$('.pipe_temp_after_blast').val()!=""){
          var dew_point=$('.dew_point').val().replace('°C', '');
