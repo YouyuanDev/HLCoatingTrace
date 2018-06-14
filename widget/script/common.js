@@ -1486,11 +1486,23 @@ function initFormNumber() {
             api.alert({
                 msg: "请输入:" + name
             });
-
             result = false;
             return result;
         }
     });
+    if(result){
+      $('select[data-required=true]').each(function(a,b){
+         var selectContent=$(this).find("option:selected").text();
+         if(selectContent.indexOf("未测")>=0){
+           var name = $(this).parent().siblings('.form-item-lbl').children('label').text().replace("本次必填", "");
+           api.alert({
+               msg: "请输入:" + name
+           });
+           result = false;
+           return result;
+         }
+      });
+    }
     if (!result)
         return false;
     //设置默认值
@@ -1566,4 +1578,91 @@ function validateSelect() {
                $(this).css('background', '#FFFFFF');
         }
     });
+}
+
+//获取前一根合格管的涂层记录作为数据来源
+function RequestLastAcceptedRecordBeforePipeNo(pipeno,operation){
+      //注册接收Request3LPELabAcceptCriteria回调
+      api.addEventListener({
+          name: 'RequestLastAcceptedRecordBeforePipeNoEvent'
+      }, function(ret, err) {
+          if (ret.value.success) {
+              RequestLastAcceptedRecordBeforePipeNoOK(ret.value.data);
+          } else {
+              RequestLastAcceptedRecordBeforePipeNoFail();
+          }
+      });
+      //发出请求
+      var s = 'http://' + serverIP + '/'+operation+'/getLastAcceptedRecordBeforePipeNo.action';
+      api.ajax({
+          url: s,
+          method: 'post',
+          timeout: 30,
+          dataType: 'json',
+          data: {
+              values: {
+                  pipe_no: pipeno
+              }
+          }
+      }, function(ret, err) {
+          var success = false;
+          if (ret) {
+              success = true;
+          } else {
+              api.alert({
+                  msg: JSON.stringify(err)
+              });
+          }
+          api.sendEvent({
+              name: 'RequestLastAcceptedRecordBeforePipeNoEvent',
+              extra: {
+                  success: success,
+                  data: ret
+              }
+          });
+
+      });
+}
+//得到钢管后10根涂层记录管号，并且记录为待定状态 10
+function RequestNextTenPipesBeforePipeNo(pipeno,operation){
+      //注册接收Request3LPELabAcceptCriteria回调
+      api.addEventListener({
+          name: 'RequestNextTenPipesBeforePipeNoEvent'
+      }, function(ret, err) {
+          if (ret.value.success) {
+              RequestNextTenPipesBeforePipeNoEventOK(ret.value.data);
+          } else {
+              RequestNextTenPipesBeforePipeNoEventFail();
+          }
+      });
+      //发出请求
+      var s = 'http://' + serverIP + '/'+operation+'/getNextTenPipesBeforePipeNo.action';
+      api.ajax({
+          url: s,
+          method: 'post',
+          timeout: 30,
+          dataType: 'json',
+          data: {
+              values: {
+                  pipe_no: pipeno
+              }
+          }
+      }, function(ret, err) {
+          var success = false;
+          if (ret) {
+              success = true;
+          } else {
+              api.alert({
+                  msg: JSON.stringify(err)
+              });
+          }
+          api.sendEvent({
+              name: 'RequestNextTenPipesBeforePipeNoEvent',
+              extra: {
+                  success: success,
+                  data: ret
+              }
+          });
+
+      });
 }
