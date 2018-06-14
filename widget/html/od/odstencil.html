@@ -157,6 +157,7 @@ var g_loadingID = 0;
         var data = api.pageParam;
         g_pipeno = data.pipe_no;
         fnSettingHeader();
+        hlLanguage("../../i18n/");
         RequestAllProcessInfoByPipeNo(g_pipeno);
         //请求RequestMySesssion
         //RequestMySesssion();
@@ -207,13 +208,13 @@ var g_loadingID = 0;
         if(data.pipeinfo.status!="od4"){
             closeWindow();
         }
-        setTimeout(function() {
+        ///setTimeout(function() {
             //执行刷新
             initCriteria(data.odcriteria);
             initCriteria(data.pbcriteria);
             initInspectionFreq(data.inspectfreq);
             initPipeBasicHeader(data.pipeinfo, data.millno);
-        }, 200);
+        //}, 200);
           setControls();
           setSelectPictures();
 
@@ -222,7 +223,7 @@ var g_loadingID = 0;
           var str = data.odcriteria.stencil_content;
           $('#stencil_content').val(str);
         }
-        hlLanguage("../../i18n/");
+
         // api.alert({
         //     msg: JSON.stringify(ODacceptCriteriaMap)
         // });

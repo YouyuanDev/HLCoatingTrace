@@ -230,6 +230,7 @@
             g_pipeno = data.pipe_no;
             DoLoadingPicture();
             fnSettingHeader();
+            hlLanguage("../../i18n/");
             RequestAllProcessInfoByPipeNo(g_pipeno);
         }
         //继续方法
@@ -280,7 +281,6 @@
         if (data.pipeinfo.status != "od1") {
             closeWindow();
         }
-        hlLanguage("../../i18n/");
         //setTimeout(function() {
             //执行刷新
             initCriteria(data.odcriteria);

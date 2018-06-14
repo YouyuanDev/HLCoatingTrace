@@ -207,6 +207,7 @@
         var data = api.pageParam;
         g_pipeno = data.pipe_no;
         fnSettingHeader();
+        hlLanguage("../../i18n/");
         RequestAllProcessInfoByPipeNo(g_pipeno);
         //请求RequestMySesssion
         //RequestMySesssion();
@@ -241,7 +242,7 @@
             closeWindow();
         }
         setAllDefectInfo("steel");
-          hlLanguage("../../i18n/");
+
         //setTimeout(function() {
             //执行刷新
             initCriteria(data.odcriteria);
