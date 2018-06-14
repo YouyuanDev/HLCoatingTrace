@@ -71,26 +71,26 @@
         </div>
         <div class="form-item">
             <div class="form-item-lbl">
-                <label class="i18n1" name="holidays"></label>
+                <label class="i18n1 holidays_lbl" name="holidays"></label>
             </div>
             <div class="form-item-val">
-                <input type="number" name="holidays" />
+                <input type="number" data-number=true data-required=false class="holidays" name="holidays" />
             </div>
         </div>
         <div class="form-item">
             <div class="form-item-lbl">
-                <label class="i18n1" name="holidaytestervolts"></label>
+                <label class="i18n1 holiday_tester_volts_lbl" name="holidaytestervolts"></label>
             </div>
             <div class="form-item-val">
-                <input type="number" name="holiday_tester_volts" />
+                <input type="number" data-number=true data-required=false class="holiday_tester_volts" name="holiday_tester_volts" />
             </div>
         </div>
         <div class="form-item">
             <div class="form-item-lbl">
-                <label class="i18n1" name="repairs"></label>
+                <label class="i18n1 repairs_lbl" name="repairs"></label>
             </div>
             <div class="form-item-val">
-                <input type="number" name="repairs" />
+                <input type="number" data-number=true data-required=false class="repairs" name="repairs" />
             </div>
         </div>
         <div class="form-item">
@@ -230,7 +230,7 @@
         //alert(JSON.stringify(data));
         g_employeeno = data.employeeno;
         g_millno = data.millno;
-        if (data.pipeinfo.status != "od1") {
+        if (data.pipeinfo.status != "od3") {
             closeWindow();
         }
         initCriteria(data.odcriteria);

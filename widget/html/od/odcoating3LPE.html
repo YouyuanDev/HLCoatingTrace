@@ -17,39 +17,49 @@
     </header>
     <div class="form-content" id="content">
       <div class="form-item">
-          <table class="pipeinfo-table">
-              <thead>
-                  <tr>
-                      <th class="i18n1" name="pipebasicinfo" colspan="4" style="text-align:center;">钢管基础信息</th>
-                  </tr>
-              </thead>
-              <tr>
-                  <td class="i18n1" name="pipeno"></td>
-                  <td class="pipe_no"></td>
-                  <td class="i18n1" name="statusname"></td>
-                  <td class="status_name"></td>
-              </tr>
-              <tr>
-                  <td class="i18n1" name="od"></td>
-                  <td class="od"></td>
-                  <td class="i18n1" name="wt"></td>
-                  <td class="wt"></td>
-              </tr>
-              <tr>
-                  <td class="i18n1" name="millno"></td>
-                  <td class="millno"></td>
-              </tr>
-          </table>
+          <div class="form-item-lbl">
+              <label class="i18n1" name="selectcoatingpipe"></label>
+          </div>
+          <div class="form-item-val">
+              <select id="selectcoatingpipe" name="select-coating-pipe" onchange="loadPage()">
+
+            </select>
+          </div>
       </div>
-      <div class="form-item">
-          <input type="hidden" value="0" class="id" />
-      </div>
+        <div class="form-item">
+            <table class="pipeinfo-table">
+                <thead>
+                    <tr>
+                        <th class="i18n1" name="pipebasicinfo" colspan="4" style="text-align:center;">钢管基础信息</th>
+                    </tr>
+                </thead>
+                <tr>
+                    <td class="i18n1" name="pipeno"></td>
+                    <td class="pipe_no"></td>
+                    <td class="i18n1" name="statusname"></td>
+                    <td class="status_name"></td>
+                </tr>
+                <tr>
+                    <td class="i18n1" name="od"></td>
+                    <td class="od"></td>
+                    <td class="i18n1" name="wt"></td>
+                    <td class="wt"></td>
+                </tr>
+                <tr>
+                    <td class="i18n1" name="millno"></td>
+                    <td class="millno"></td>
+                </tr>
+            </table>
+        </div>
+        <div class="form-item">
+            <input type="hidden" value="0" class="id" />
+        </div>
         <div class="form-item">
             <div class="form-item-lbl">
                 <label class="i18n1 coating_line_speed_lbl" name="coatinglinespeed"></label>
             </div>
             <div class="form-item-val">
-                <input type="text" data-number=true data-required=false  class="coating_line_speed" name="coating_line_speed" value="" />
+                <input type="text" data-number=true data-required=false class="coating_line_speed" name="coating_line_speed" value="" />
             </div>
         </div>
         <div class="form-item">
@@ -235,7 +245,8 @@
         DoLoadingPicture();
         fnSettingHeader();
         hlLanguage("../../i18n/");
-        RequestAllProcessInfoByPipeNo(g_pipeno);
+        //获取后十条涂层记录
+        loadPage();
         //选择控件判断是否合格事件
         validateSelect();
     }
@@ -245,7 +256,7 @@
         //alert(JSON.stringify(data));
         g_employeeno = data.employeeno;
         g_millno = data.millno;
-        if (data.pipeinfo.status != "od1") {
+        if (data.pipeinfo.status != "od2") {
             closeWindow();
         }
         initCriteria(data.odcriteria);
@@ -254,7 +265,8 @@
         initPipeBasicHeader(data.pipeinfo, data.millno);
         setControls();
         setSelectPictures();
-        //getPendingRecordInfo("OdBlastInspectionOperation", g_pipeno);
+        getPendingRecordInfo("OdCoatOperation", g_pipeno);
+        //
     }
     //得到外防接收标准失败
     function GetAllProcessInfoByPipeNoFail() {
@@ -266,6 +278,55 @@
     }
     //获取待定数据成功事件
     function getPendingRecordInfoOK(data) {
+        if (data != undefined) {
+            $('.id').val(data.id);
+            if (data.remark != undefined && data.remark != "INIT") {
+              if (data.coating_line_speed != -99)
+                  $('input[name="coating_line_speed"]').val(data.coating_line_speed);
+              if (data.application_temp != -99)
+                  $('input[name="application_temp"]').val(data.application_temp);
+              $('input[name="base_coat_used"]').val(data.base_coat_used);
+              $('input[name="base_coat_lot_no"]').val(data.base_coat_lot_no);
+              $('input[name="middle_coat_used"]').val(data.middle_coat_used);
+              $('input[name="middle_coat_lot_no"]').val(data.middle_coat_lot_no);
+              $('input[name="top_coat_used"]').val(data.top_coat_used);
+              $('input[name="top_coat_lot_no"]').val(data.top_coat_lot_no);
+              if (data.base_coat_gun_count != -99)
+                  $('input[name="base_coat_gun_count"]').val(data.base_coat_gun_count);
+              if (data.application_temp != -99)
+                  $('input[name="application_temp"]').val(data.application_temp);
+              if (data.to_first_touch_duration != -99)
+                  $('input[name="to_first_touch_duration"]').val(data.to_first_touch_duration);
+              if (data.to_quench_duration != -99)
+                  $('input[name="to_quench_duration"]').val(data.to_quench_duration);
+              if (data.air_pressure != -99)
+                  $('input[name="air_pressure"]').val(data.air_pressure);
+              if (data.coating_voltage != -99)
+                  $('input[name="coating_voltage"]').val(data.coating_voltage);
+              if (data.gun_distance != -99)
+                  $('input[name="gun_distance"]').val(data.gun_distance);
+              if (data.spray_speed != -99)
+                  $('input[name="spray_speed"]').val();
+              if (data.application_voltage != -99)
+                  $('input[name="application_voltage"]').val(data.application_voltage);
+              $('#result').val(data.result);
+              var imgUrl = data.upload_files;
+              if (imgUrl.length > 0) {
+                  var imgArr = imgUrl.split(';');
+                  var s = 'http://' + serverIP + '/upload/pictures/';
+                  for (var i = 0; i < imgArr.length; i++) {
+                      if (imgArr[i] != undefined && imgArr[i].length > 0)
+                          $('.imgBox').append(pictureTemplate(imgArr[i], s + imgArr[i]));
+                  }
+              }
+              $('#remark').val(data.remark);
+            } else {
+                //此记录为计算机生成
+                RequestLastAcceptedRecordBeforePipeNo(data.pipe_no, "OdCoat3LpeOperation");
+            }
+        }
+    }
+    function RequestLastAcceptedRecordBeforePipeNoOK(data) {
         if (data != undefined) {
             $('.id').val(data.id);
             if (data.coating_line_speed != -99)
@@ -372,5 +433,32 @@
                 }
             });
         }
+    }
+    //
+    function RequestLastAcceptedRecordBeforePipeNoFail() {
+
+    }
+    //获取待定数据失败事件
+    function getPendingRecordInfoFail() {
+
+    }
+    //得到钢管后10根涂层记录管号，并且记录为待定状态 10,回调
+    function RequestNextTenPipesBeforePipeNoEventOK(data) {
+        if (data != undefined) {
+            $('#selectcoatingpipe').empty();
+            for (var i = 0; i < data.length; i++) {
+                var pipe_no = data[i].pipe_no;
+                $('#selectcoatingpipe').append("<option value=" + pipe_no + ">" + (i + 1) + ":" + pipe_no + "</option>");
+            }
+        }
+    }
+
+    function RequestNextTenPipesBeforePipeNoEventFail() {
+
+    }
+
+    function loadPage() {
+        RequestNextTenPipesBeforePipeNo(g_pipeno, "OdCoat3LpeOperation");
+        RequestAllProcessInfoByPipeNo(g_pipeno);
     }
 </script>

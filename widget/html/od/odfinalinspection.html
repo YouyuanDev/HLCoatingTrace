@@ -90,7 +90,7 @@
             </div>
             <div class="form-item-val">
                 <select id="cc" name="result">
-                           <option value="1">合格,进入外防成品入库工序</option>
+                          <option value="1">合格,进入外防成品入库工序</option>
                           <option value="0">不合格,进入外防待修补工序</option>
                           <option value="2">不合格,进入外防待扒皮工序</option>
                           <option value="4">不合格,进入外喷标工序</option>
@@ -135,25 +135,125 @@
 <script src="../../script/jquery.i18n.properties-1.0.9.js" type="text/javascript"></script>
 <script src="../../script/language.js" type="text/javascript"></script>
 <script type="text/javascript">
+    var g_pipeno;
+    var g_employeeno, g_millno;
+    //检验频次Map
+    var inspectFreqMap = [];
+    //OD接收标准
+    var ODacceptCriteriaMap;
+    //UILoading 的id
+    var g_loadingID = 0;
     apiready = function() {
-        //请求RequestMySesssion
-        RequestMySesssion();
-    }
-
-    //继续方法
-    function Go(employeeno, millno) {
-        //初始化表单业务逻辑
-        setSelectPictures();
+        var data = api.pageParam;
+        g_pipeno = data.pipe_no;
+        DoLoadingPicture();
+        fnSettingHeader();
         hlLanguage("../../i18n/");
+        RequestAllProcessInfoByPipeNo(g_pipeno);
+        //选择控件判断是否合格事件
+        validateSelect();
     }
 
-    //撤退方法
-    function Reverse(msg) {
-        alert(msg);
-        setTimeout("closeWindow()", 1000);
+    function GetAllProcessInfoByPipeNoOK(data) {
+        ClearLoadingPicture();
+        //alert(JSON.stringify(data));
+        g_employeeno = data.employeeno;
+        g_millno = data.millno;
+        if (data.pipeinfo.status != "od5") {
+            closeWindow();
+        }
+        initCriteria(data.odcriteria);
+        initCriteria(data.pbcriteria);
+        initInspectionFreq(data.inspectfreq);
+        initPipeBasicHeader(data.pipeinfo, data.millno);
+        setControls();
+        setSelectPictures();
+        //getPendingRecordInfo("OdBlastInspectionOperation", g_pipeno);
     }
+    //得到外防接收标准失败
+    function GetAllProcessInfoByPipeNoFail() {
+        ClearLoadingPicture();
+        api.alert({
+            msg: 'GetAllProcessInfoByPipeNoFail'
+        });
+        closeWindow();
+    }
+    //获取待定数据成功事件
+    function getPendingRecordInfoOK(data) {
+        if (data != undefined) {
+            $('.id').val(data.id);
+            $('#ir').val(data.inspection_result);
+            $('input[name="cutback_length"]').val(data.cutback_length);
+            $('#sv').val(data.stencil_verification);
+            $('#cs').val(data.cutback_surface);
+            $('input[name="magnetism_list"]').val(data.magnetism_list);
+            $('input[name="coating_bevel_angle_list"]').val(data.coating_bevel_angle_list);
+            $('input[name="epoxy_cutback_list"]').val(data.epoxy_cutback_list);
+            $('#result').val(data.result);
+            var imgUrl = data.upload_files;
+            if (imgUrl.length > 0) {
+                var imgArr = imgUrl.split(';');
+                var s = 'http://' + serverIP + '/upload/pictures/';
+                for (var i = 0; i < imgArr.length; i++) {
+                    if (imgArr[i] != undefined && imgArr[i].length > 0)
+                        $('.imgBox').append(pictureTemplate(imgArr[i], s + imgArr[i]));
+                }
+            }
+            $('#remark').val(data.remark);
+        }
+    }
+    //获取待定数据失败事件
+    function getPendingRecordInfoFail() {
 
-    function closeWindow() {
-        api.closeWin();
+    }
+    //表单提交
+    function submitForm() {
+        if (initFormNumber()) {
+            var s = 'http://' + serverIP + '/OdCoat3LpeInOperation/saveOdCoating3LpeInProcess.action';
+            var imgUrl = "";
+            $('.imgBox  .temp-container img').each(function() {
+                var temp = $(this).attr("data-url");
+                if (temp != undefined) {
+                    imgUrl += (temp + ";");
+                }
+            });
+            api.ajax({
+                url: s,
+                method: 'post',
+                timeout: 30,
+                dataType: 'json',
+                data: {
+                    values: {
+                        id: $('.id').val(),
+                        pipe_no: g_pipeno,
+                        mill_no: g_millno,
+                        operator_no: g_employeeno,
+                        inspection_result: $('#ir').val(),
+                        cutback_length: $('input[name="cutback_length"]').val(),
+                        stencil_verification: $('#sv').val(),
+                        cutback_surface: $('#cs').val(),
+                        magnetism_list: $('input[name="magnetism_list"]').val(),
+                        coating_bevel_angle_list: $('input[name="coating_bevel_angle_list"]').val(),
+                        epoxy_cutback_list: $('input[name="epoxy_cutback_list"]').val(),
+                        result: $('#result').val(),
+                        upload_files: imgUrl,
+                        remark: $('#remark').val(),
+                    }
+                }
+            }, function(ret, err) { //alert(ret);
+                if (ret) {
+                    api.alert({
+                        msg: ret.message
+                    });
+                    if (ret.success) {
+                        closeWindow();
+                    }
+                } else {
+                    api.alert({
+                        msg: JSON.stringify(err)
+                    });
+                }
+            });
+        }
     }
 </script>

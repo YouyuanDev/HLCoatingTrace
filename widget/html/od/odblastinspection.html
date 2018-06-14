@@ -152,8 +152,8 @@
                 <label class="i18n1 oil_water_in_air_compressor_lbl" name="oilwaterinaircompressor"></label>
             </div>
             <div class="form-item-val">
-                <select id="oilwater" data-required=false name="oil_water_in_air_compressor">
-                         <option value="0">否</option>
+                     <select id="oilwater" data-required=false name="oil_water_in_air_compressor">
+                         <option value="0" selected="selected">否</option>
                          <option value="1">是</option>
                      </select>
             </div>
@@ -174,7 +174,7 @@
                 <select id="result" name="result">
                         <option value="1">合格,进入外涂敷工序</option>
                         <option value="0">不合格,重新打砂处理</option>
-                        <option value="10">待定</option>
+                        <option value="10" selected="selected">待定</option>
                         <option value="3">隔离，进入修磨或切割工序</option>
                     </select>
             </div>
@@ -277,27 +277,19 @@
 
     function GetAllProcessInfoByPipeNoOK(data) {
         ClearLoadingPicture();
-        //alert(JSON.stringify(data));
         g_employeeno = data.employeeno;
         g_millno = data.millno;
         if (data.pipeinfo.status != "od1") {
             closeWindow();
         }
-        //setTimeout(function() {
-            //执行刷新
-            initCriteria(data.odcriteria);
-            initCriteria(data.pbcriteria);
-            initInspectionFreq(data.inspectfreq);
-            initPipeBasicHeader(data.pipeinfo, data.millno);
-        //}, 200);
+        setAllDefectInfo("steel");
+        initCriteria(data.odcriteria);
+        initCriteria(data.pbcriteria);
+        initInspectionFreq(data.inspectfreq);
+        initPipeBasicHeader(data.pipeinfo, data.millno);
         setControls();
         setSelectPictures();
-
         getPendingRecordInfo("OdBlastInspectionOperation", g_pipeno);
-
-        // api.alert({
-        //     msg: JSON.stringify(ODacceptCriteriaMap)
-        // });
     }
     //得到外防接收标准失败
     function GetAllProcessInfoByPipeNoFail() {

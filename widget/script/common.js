@@ -1283,6 +1283,72 @@ function setControls() {
             }
         }
     });
+    //底层、面层粉末喷枪数(外涂2fbe)
+    $('.mob-base-coat-gun-count,.mob-top-coat-gun-count').mobiscroll().number({
+        theme: 'auto',
+        lang: 'zh',
+        display: 'center',
+        min: 0,
+        max: 100,
+        defaultValue: 50,
+        step: 1,
+        scale: 0,
+        onSet: function(event, inst) {
+            var selectedVal = inst.getVal();
+            $(this).val(selectedVal);
+            var minVal = $(this).attr('data-min');
+            var maxVal = $(this).attr('data-max');
+            var flag = true;
+            if (selectedVal != undefined) {
+                if (maxVal != undefined) {
+                    if (parseFloat(maxVal) < parseFloat(selectedVal))
+                        flag = false;
+                }
+                if (minVal != undefined) {
+                    if (parseFloat(selectedVal) < parseFloat(minVal))
+                        flag = false;
+                }
+                if (flag)
+                    $(this).css('background', '#FFFFFF');
+                else
+                    $(this).css('background', '#F9A6A6');
+            }
+        }
+    });
+    //首次到达接触点时间、到达水淋处所用时间s
+    $('.mob-time-numpad').mobiscroll().numpad({
+        theme: 'auto',
+        lang: 'zh',
+        display: 'bottom',
+        min: 0,
+        max: 9999,
+        scale: 0,
+        fill: 'ltr',
+        defaultValue: 0,
+        rtl: false,
+        onSet: function(event, inst) {
+            var selectedVal = inst.getVal();
+            var minVal = $(this).attr('data-min');
+            var maxVal = $(this).attr('data-max');
+            var flag = true;
+            if (selectedVal != undefined) {
+                    if (maxVal != undefined) {
+                        if (parseFloat(maxVal) < parseFloat(selectedVal)) {
+                            flag = false;
+                        }
+                    }
+                    if (minVal != undefined) {
+                        if (parseFloat(selectedVal) < parseFloat(minVal)) {
+                            flag = false;
+                        }
+                    }
+            }
+            if (flag)
+                $(this).css('background', '#FFFFFF');
+            else
+                $(this).css('background', '#F9A6A6');
+        }
+    });
 }
 
 
@@ -1660,7 +1726,7 @@ function RequestNextTenPipesBeforePipeNo(pipeno,operation){
               name: 'RequestNextTenPipesBeforePipeNoEvent',
               extra: {
                   success: success,
-                  data: ret
+                  data: ret.data
               }
           });
 
