@@ -280,18 +280,19 @@
         if (data.pipeinfo.status != "od1") {
             closeWindow();
         }
-        setTimeout(function() {
+        hlLanguage("../../i18n/");
+        //setTimeout(function() {
             //执行刷新
             initCriteria(data.odcriteria);
             initCriteria(data.pbcriteria);
             initInspectionFreq(data.inspectfreq);
             initPipeBasicHeader(data.pipeinfo, data.millno);
-        }, 200);
+        //}, 200);
         setControls();
         setSelectPictures();
 
         getPendingRecordInfo("OdBlastInspectionOperation", g_pipeno);
-        hlLanguage("../../i18n/");
+
         // api.alert({
         //     msg: JSON.stringify(ODacceptCriteriaMap)
         // });
