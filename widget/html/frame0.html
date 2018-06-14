@@ -131,13 +131,13 @@
         }, function(ret, err) {
             doSearchPipeInfo(ret.value.pipeno, ret.value.pageStart, ret.value.flag);
         });
-        // api.openWin({
-        //     name: 'odstencil',
-        //     url: './od/odstencil.html',
-        //     pageParam: {
-        //         pipe_no: '1544790'
-        //     }
-        // });
+        api.openWin({
+            name: 'odfinalinspection',
+            url: './od/odfinalinspection.html',
+            pageParam: {
+                pipe_no: '1544790'
+            }
+        });
 
     }
 

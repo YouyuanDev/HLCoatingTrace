@@ -113,7 +113,7 @@
                 <label class="i18n1 blast_finish_sa25_lbl" name="blastfinishsa25"></label>
             </div>
             <div class="form-item-val">
-                <select id="bfs" data-required=false name="blast_finish_sa25">
+                <select id="bfs" class="validate-select blast_finish_sa25" data-required=false name="blast_finish_sa25">
                          <option value="2.0">Sa2.0</option>
                          <option value="2.5">Sa2.5</option>
                          <option value="3.0">Sa3.0</option>
@@ -126,7 +126,7 @@
                 <label class="i18n1 surface_dust_rating_lbl" name="surfacedustrating"></label>
             </div>
             <div class="form-item-val">
-                <select id="sdr" data-required=false name="surface_dust_rating">
+                <select id="sdr" class="validate-select surface_dust_rating" data-required=false name="surface_dust_rating">
                          <option value="-99" selected="selected">未测</option>
                          <option value="1" >1级</option>
                          <option value="2">2级</option>
@@ -232,6 +232,7 @@
             fnSettingHeader();
             hlLanguage("../../i18n/");
             RequestAllProcessInfoByPipeNo(g_pipeno);
+            validateSelect();
         }
         //继续方法
         // function Go(employeeno, millno) {

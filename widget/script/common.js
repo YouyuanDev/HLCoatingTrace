@@ -1,5 +1,5 @@
 var header, headerHeight = 0;
-var serverIP = '192.168.0.14:8080';
+var serverIP = '192.168.0.12:8080';
 
 function fnSettingHeader() {
 
@@ -596,15 +596,15 @@ function RequestAllProcessInfoByPipeNo(pipeno) {
 
 //关闭窗口并且更新piperoot页面
 function closeWindow() {
-  api.sendEvent({
-      name: 'refreshPipeRoot',
-      extra: {
-          pipe_no:g_pipeno
-      }
-  });
-  setTimeout(function() {
-    api.closeWin();
-  },100);
+    api.sendEvent({
+        name: 'refreshPipeRoot',
+        extra: {
+            pipe_no: g_pipeno
+        }
+    });
+    setTimeout(function() {
+        api.closeWin();
+    }, 100);
 }
 
 ///初始化钢管信息header
@@ -647,8 +647,9 @@ function initCriteria(criteria) {
             if (name != undefined) {
                 if (name.indexOf("_min") != -1) {
                     name = "." + name.replace("_min", "");
-                    if (value != undefined)
-                        $(name).attr('data-min', value);
+                    if (value != undefined){
+                          $(name).attr('data-min', value);
+                    }
                     name = name + "_lbl";
                     if ($(name).children('.range-span').length <= 0) {
                         $(name).append('<span class="range-span">' + value + '~</span>');
@@ -1541,15 +1542,28 @@ function getPendingRecordInfo(controller, pipe_no) {
 
     });
 }
-//alert
-// function alertMsg() {
-//     $.mobiscroll().widget({
-//             theme: 'auto',
-//             lang: 'zh'
-//             display: 'center',
-//             buttons: [{
-//                     text: 'OK',
-//                     handler: 'set'
-//                 }
-//             });
-//     }
+//选择控件判断是否合格事件
+function validateSelect() {
+    $('.validate-select').on('change', function() {
+        var max=$(this).attr('data-max');
+        var min=$(this).attr('data-min');
+        var thisVal=$(this).val();
+        var flag=false;
+        if (thisVal!=undefined&&thisVal.length>0&&thisVal!="-99") {
+            if(max!=undefined){
+               if (parseFloat(thisVal)>parseFloat(max))
+                  flag=true;
+            }
+            if(min!=undefined){
+              if (parseFloat(thisVal)<parseFloat(min))
+                 flag=true;
+            }
+            if(flag)
+               $(this).css('background', '#F9A6A6');
+            else
+               $(this).css('background', '#FFFFFF');
+        } else {
+               $(this).css('background', '#FFFFFF');
+        }
+    });
+}
