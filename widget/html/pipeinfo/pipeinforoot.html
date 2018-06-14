@@ -198,6 +198,7 @@
                 name: 'refreshPipeRoot'
             }, function(ret, err) {
                  pipeno=ret.value.pipe_no;
+                 $('.nav-pipeno').text(pipeno);
                  //alert(JSON.stringify(ret.value));
                  ShowPipeInfoFrame(pipeno);
                 //  api.closeWin();
