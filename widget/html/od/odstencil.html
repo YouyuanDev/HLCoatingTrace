@@ -229,11 +229,12 @@ var g_loadingID = 0;
         // });
     }
     //得到外防接收标准失败
-    function GetAllProcessInfoByPipeNoFail() {
-      ClearLoadingPicture();
+    function GetAllProcessInfoByPipeNoFail(message) {
+        ClearLoadingPicture();
         api.alert({
-            msg: 'GetAllProcessInfoByPipeNoFail'
+            msg: message
         });
+        closeWindow();
     }
 
 

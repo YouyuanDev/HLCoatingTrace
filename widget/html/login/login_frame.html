@@ -264,21 +264,24 @@
                 //关闭bMap
                 var map = api.require('bMap');
                 map.close();
+                api.alert({
+                    msg: JSON.stringify(ret.msg)
+                });
 
                 api.sendEvent({
                     name: 'reloadUserInfo'
                 });
                 api.closeWin();
 
-
-
-
                 // api.openWin({
                 //     name: 'index',
                 //     url: '../index.html'
                 // });
             } else {
-                alert("用户名或密码错误!");
+                // alert("用户名或密码错误!");
+                api.alert({
+                    msg: JSON.stringify(ret.msg)
+                });
             }
         });
     }

@@ -1,5 +1,5 @@
 var header, headerHeight = 0;
-var serverIP = '192.168.0.12:8080';
+var serverIP = '192.168.0.103:8080';
 
 function fnSettingHeader() {
 
@@ -557,7 +557,7 @@ function RequestAllProcessInfoByPipeNo(pipeno) {
         } else {
             //alert(JSON.stringify(ret.value.msg));
             //处理逻辑。。。
-            GetAllProcessInfoByPipeNoFail();
+            GetAllProcessInfoByPipeNoFail(ret.value.data.message);
         }
     });
 
@@ -575,9 +575,8 @@ function RequestAllProcessInfoByPipeNo(pipeno) {
         }
     }, function(ret, err) {
         api.hideProgress();
-        var success = false;
         if (ret) {
-            success = true;
+
         } else {
             api.alert({
                 msg: JSON.stringify(err)
@@ -586,7 +585,7 @@ function RequestAllProcessInfoByPipeNo(pipeno) {
         api.sendEvent({
             name: 'RequestAllProcessInfoByPipeNoCallbackEvent',
             extra: {
-                success: success,
+                success: ret.success,
                 data: ret
             }
         });

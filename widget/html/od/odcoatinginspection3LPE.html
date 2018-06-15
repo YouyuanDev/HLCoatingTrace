@@ -258,10 +258,10 @@
         getPendingRecordInfo("OdCoat3LpeInOperation", g_pipeno);
     }
     //得到外防接收标准失败
-    function GetAllProcessInfoByPipeNoFail() {
+    function GetAllProcessInfoByPipeNoFail(message) {
         ClearLoadingPicture();
         api.alert({
-            msg: 'GetAllProcessInfoByPipeNoFail'
+            msg: message
         });
         closeWindow();
     }
