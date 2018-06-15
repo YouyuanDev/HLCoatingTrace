@@ -74,15 +74,15 @@
                 <label class="i18n1 holiday_lbl" name="holidays"></label>
             </div>
             <div class="form-item-val">
-                <input type="number" data-number=true data-required=false class="mob-int-numpad holiday" name="holidays" />
+                <input type="text" data-number=true data-required=false class="mob-int-numpad holiday" name="holidays" />
             </div>
         </div>
         <div class="form-item">
             <div class="form-item-lbl">
-                <label class="i18n1 holiday_tester_voltage" name="holidaytestervolts"></label>
+                <label class="i18n1 holiday_tester_voltage_lbl" name="holidaytestervolts"></label>
             </div>
             <div class="form-item-val">
-                <input type="number" data-number=true data-required=false class="mob-floatone-numpad holiday_tester_voltage" name="holiday_tester_volts" />
+                <input type="text" data-number=true data-required=false class="mob-floatone-numpad holiday_tester_voltage" name="holiday_tester_volts" />
             </div>
         </div>
         <div class="form-item">
@@ -90,7 +90,7 @@
                 <label class="i18n1 repair_lbl" name="repairs"></label>
             </div>
             <div class="form-item-val">
-                <input type="number" data-number=true data-required=false class="mob-int-numpad repair" name="repairs" />
+                <input type="text" data-number=true data-required=false class="mob-int-numpad repair" name="repairs" />
             </div>
         </div>
         <div class="form-item">
@@ -110,7 +110,7 @@
             </div>
             <div class="form-item-val">
                 <select id="bevel" name="bevel">
-                         <option value="0" selected="selected">未检测</option>
+                         <option value="" selected="selected">未检测</option>
                          <option value="1">合格</option>
                          <option value="2">不合格</option>
                      </select>
@@ -121,8 +121,8 @@
                 <label class="i18n1 adhesion_rating_lbl" name="adhesionrating"></label>
             </div>
             <div class="form-item-val">
-                <select id="adhesionrating" class="adhesion_rating" name="adhesion_rating">
-                        <option value="0" selected="selected">未检测</option>
+                <select id="adhesionrating" data-required=false class="adhesion_rating validate-select" name="adhesion_rating">
+                        <option value="-99" selected="selected">未检测</option>
                         <option value="1">等级1</option>
                         <option value="2">等级2</option>
                         <option value="3">等级3</option>
@@ -208,10 +208,6 @@
 <script type="text/javascript">
     var g_pipeno;
     var g_employeeno, g_millno;
-    //检验频次Map
-    var inspectFreqMap = [];
-    //OD接收标准
-    var ODacceptCriteriaMap;
     //UILoading 的id
     var g_loadingID = 0;
     apiready = function() {
@@ -240,7 +236,7 @@
         setControls();
         setSelectPictures();
         setAllDefectInfo("coating");
-        //getPendingRecordInfo("OdBlastInspectionOperation", g_pipeno);
+        getPendingRecordInfo("OdCoatInOperation", g_pipeno);
     }
     //得到外防接收标准失败
     function GetAllProcessInfoByPipeNoFail() {
@@ -265,7 +261,7 @@
             if (data.repairs != -99)
                 $('input[name="to_first_touch_duration"]').val(data.repairs);
             $('#bevel').val(data.bevel);
-            $('.form-steel-select-val').text(data.surface_condition);
+            $('.form-coating-select-val').text(data.surface_condition);
             $('#issample').val(data.is_sample);
             $('#isdscsample').val(data.is_dscsample);
             $('#adhesionrating').val(data.adhesion_rating);
@@ -315,7 +311,7 @@
                         holiday_tester_volts: $('input[name="holiday_tester_volts"]').val(),
                         repairs: $('input[name="repairs"]').val(),
                         bevel: $('#bevel').val(),
-                        surface_condition:$('.form-steel-select-val').text(),
+                        surface_condition:$('.form-coating-select-val').text(),
                         is_sample: $('#issample').val(),
                         is_dsc_sample:$('#isdscsample').val(),
                         adhesion_rating: $('#adhesionrating').val(),

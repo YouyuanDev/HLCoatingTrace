@@ -1654,7 +1654,7 @@ function initFormNumber() {
     if (result) {
         $('select[data-required=true]').each(function(a, b) {
             var selectContent = $(this).find("option:selected").text();
-            if (selectContent.indexOf("未测") >= 0) {
+            if (selectContent.indexOf("未测") >= 0||selectContent.indexOf("未检测") >= 0) {
                 var name = $(this).parent().siblings('.form-item-lbl').children('label').text().replace("本次必填", "");
                 api.alert({
                     msg: "请输入:" + name

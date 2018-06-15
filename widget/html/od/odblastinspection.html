@@ -113,7 +113,7 @@
                 <label class="i18n1 blast_finish_sa25_lbl" name="blastfinishsa25"></label>
             </div>
             <div class="form-item-val">
-                <select id="bfs" data-required=false class="validate-select blast_finish_sa25" data-required=false name="blast_finish_sa25">
+                <select id="bfs" data-required=false class="validate-select blast_finish_sa25"  name="blast_finish_sa25">
                          <option value="2.0">Sa2.0</option>
                          <option value="2.5">Sa2.5</option>
                          <option value="3.0">Sa3.0</option>
@@ -219,10 +219,6 @@
 <script type="text/javascript">
     var g_pipeno;
     var g_employeeno, g_millno;
-    //检验频次Map
-    var inspectFreqMap = [];
-    //OD接收标准
-    var ODacceptCriteriaMap;
     //UILoading 的id
     var g_loadingID = 0;
     apiready = function() {
@@ -378,7 +374,6 @@
                     imgUrl += (temp + ";");
                 }
             });
-            alert(imgUrl);
             api.ajax({
                 url: s,
                 method: 'post',
