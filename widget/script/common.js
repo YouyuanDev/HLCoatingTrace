@@ -1249,6 +1249,7 @@ function setControls() {
         ],
         onBeforeShow: function(event, inst) {
             $nowObj = $(this);
+            inst.setVal(0);
         },
         onSet: function(event, inst) {
             // var selectedVal =$nowObj.val();
