@@ -8,6 +8,7 @@
     <title>外涂3LPE</title>
     <link rel="stylesheet" type="text/css" href="../../css/api.css" />
     <link rel="stylesheet" type="text/css" href="../../css/style.css" />
+      <link rel="stylesheet" type="text/css" href="../../css/mobiscroll.custom-3.0.0-beta6.min.css" />
 </head>
 
 <body>
@@ -59,7 +60,7 @@
                 <label class="i18n1 coating_line_speed_lbl" name="coatinglinespeed"></label>
             </div>
             <div class="form-item-val">
-                <input type="text" data-number=true data-required=false class="coating_line_speed" name="coating_line_speed" value="" />
+                <input type="text" data-number=true data-required=false class="mob-line-speed coating_line_speed" name="coating_line_speed" value="" />
             </div>
         </div>
         <div class="form-item">
@@ -67,7 +68,7 @@
                 <label class="i18n1 application_temp_lbl" name="applicationtemp"></label>
             </div>
             <div class="form-item-val">
-                <input type="text" data-number=true data-required=false class="application_temp" name="application_temp" value="" />
+                <input type="text" data-number=true data-required=false class="mob-int-numpad application_temp" name="application_temp" value="" />
             </div>
         </div>
         <div class="form-item">
@@ -75,7 +76,8 @@
                 <label class="i18n1" name="basecoatused"></label>
             </div>
             <div class="form-item-val">
-                <input type="text" class="base_coat_used" name="base_coat_used" />
+                <select class="model-select" id="base_coat_used" name="base_coat_used">
+                </select>
             </div>
         </div>
         <div class="form-item">
@@ -91,7 +93,8 @@
                 <label class="i18n1" name="middlecoatused"></label>
             </div>
             <div class="form-item-val">
-                <input type="text" name="middle_coat_used" />
+                <select class="model-select" id="middle_coat_used" name="middle_coat_used">
+                </select>
             </div>
         </div>
         <div class="form-item">
@@ -107,7 +110,8 @@
                 <label class="i18n1" name="topcoatused"></label>
             </div>
             <div class="form-item-val">
-                <input type="text" name="top_coat_used" />
+                <select class="model-select" id="top_coat_used" name="top_coat_used">
+                </select>
             </div>
         </div>
         <div class="form-item">
@@ -123,7 +127,7 @@
                 <label class="i18n1 base_coat_gun_count_lbl" name="basecoatguncount"></label>
             </div>
             <div class="form-item-val">
-                <input type="text" data-number=true data-required=false class="base_coat_gun_count" name="base_coat_gun_count" />
+                <input type="text" data-number=true data-required=false class="mob-int-numpad base_coat_gun_count" name="base_coat_gun_count" />
             </div>
         </div>
         <div class="form-item">
@@ -131,7 +135,7 @@
                 <label class="i18n1 to_first_touch_duration_lbl" name="tofirsttouchduration"></label>
             </div>
             <div class="form-item-val">
-                <input type="text" data-number=true data-required=false class="to_first_touch_duration" name="to_first_touch_duration" />
+                <input type="text" data-number=true data-required=false class="mob-int-numpad to_first_touch_duration" name="to_first_touch_duration" />
             </div>
         </div>
         <div class="form-item">
@@ -139,7 +143,7 @@
                 <label class="i18n1 to_quench_duration_lbl" name="toquenchduration"></label>
             </div>
             <div class="form-item-val">
-                <input type="text" data-number=true data-required=false class="to_quench_duration" name="to_quench_duration" />
+                <input type="text" data-number=true data-required=false class="mob-int-numpad to_quench_duration" name="to_quench_duration" />
             </div>
         </div>
         <div class="form-item">
@@ -147,15 +151,15 @@
                 <label class="i18n1 air_pressure_lbl" name="airpressure"></label>
             </div>
             <div class="form-item-val">
-                <input type="text" data-number=true data-required=false class="air_pressure" name="air_pressure" />
+                <input type="text" data-number=true data-required=false class="mob-int-numpad air_pressure" name="air_pressure" />
             </div>
         </div>
         <div class="form-item">
             <div class="form-item-lbl">
-                <label class="i18n1 air_pressure_lbl" name="coatingvoltage"></label>
+                <label class="i18n1 coating_voltage_lbl" name="coatingvoltage"></label>
             </div>
             <div class="form-item-val">
-                <input type="text" data-number=true data-required=false class="air_pressure" name="coating_voltage" />
+                <input type="text" data-number=true data-required=false class="mob-floatone-numpad coating_voltage" name="coating_voltage" />
             </div>
         </div>
         <div class="form-item">
@@ -163,7 +167,7 @@
                 <label class="i18n1 gun_distance_lbl" name="gundistance"></label>
             </div>
             <div class="form-item-val">
-                <input type="text" data-number=true data-required=false class="gun_distance" name="gun_distance" />
+                <input type="text" data-number=true data-required=false class="mob-int-numpad gun_distance" name="gun_distance" />
             </div>
         </div>
         <div class="form-item">
@@ -171,7 +175,7 @@
                 <label class="i18n1 spray_speed_lbl" name="sprayspeed"></label>
             </div>
             <div class="form-item-val">
-                <input type="text" data-number=true data-required=false class="spray_speed" name="spray_speed" />
+                <input type="text" data-number=true data-required=false class="mob-int-numpad spray_speed" name="spray_speed" />
             </div>
         </div>
         <div class="form-item">
@@ -179,7 +183,7 @@
                 <label class="i18n1 application_voltage_lbl" name="applicationvoltage"></label>
             </div>
             <div class="form-item-val">
-                <input type="text" data-number=true data-required=false class="application_voltage" name="application_voltage" />
+                <input type="text" data-number=true data-required=false class="mob-floatone-numpad application_voltage" name="application_voltage" />
             </div>
         </div>
         <div class="form-item">
@@ -187,7 +191,7 @@
                 <label class="i18n1" name="result"></label>
             </div>
             <div class="form-item-val">
-                <select id="cc" name="result">
+                <select id="result" name="result">
                       <option value="1">合格,进入外涂敷检验工序</option>
                       <option value="0">不合格,进入外喷砂工序</option>
                       <option value="10">待定</option>
@@ -199,7 +203,7 @@
                 <label class="i18n1" name="remark"></label>
             </div>
             <div class="form-item-val">
-                <textarea name="remark"></textarea>
+                <textarea id="remark" name="remark"></textarea>
             </div>
         </div>
         <div class="form-item">
@@ -219,7 +223,7 @@
     </div>
     <footer class="form-footer" id=footer>
         <div id="foot-container" style="width:100%;height:43px;display:flex;justify-content:center;align-items:center;" class="foot-container">
-            <div class="i18n1 form-process-button" name="submit" onclick="">提交</div>
+            <div class="i18n1 form-process-button" name="submit" onclick="submitForm()">提交</div>
         </div>
     </footer>
 </body>
@@ -230,6 +234,7 @@
 <script type="text/javascript" src="../../script/common.js"></script>
 <script src="../../script/jquery.i18n.properties-1.0.9.js" type="text/javascript"></script>
 <script src="../../script/language.js" type="text/javascript"></script>
+<script src="../../script/mobiscroll.custom-3.0.0-beta6.min.js" type="text/javascript"></script>
 <script type="text/javascript">
     var g_pipeno;
     var g_employeeno, g_millno;
@@ -265,7 +270,7 @@
         initPipeBasicHeader(data.pipeinfo, data.millno);
         setControls();
         setSelectPictures();
-        getPendingRecordInfo("OdCoatOperation", g_pipeno);
+        getPendingRecordInfo("OdCoat3LpeOperation", g_pipeno);
         //
     }
     //得到外防接收标准失败
@@ -280,16 +285,27 @@
     function getPendingRecordInfoOK(data) {
         if (data != undefined) {
             $('.id').val(data.id);
+            $('#result').val(data.result);
+            var imgUrl = data.upload_files;
+            if (imgUrl.length > 0) {
+                var imgArr = imgUrl.split(';');
+                var s = 'http://' + serverIP + '/upload/pictures/';
+                for (var i = 0; i < imgArr.length; i++) {
+                    if (imgArr[i] != undefined && imgArr[i].length > 0)
+                        $('.imgBox').append(pictureTemplate(imgArr[i], s + imgArr[i]));
+                }
+            }
+            $('#remark').val(data.remark);
             if (data.remark != undefined && data.remark != "INIT") {
               if (data.coating_line_speed != -99)
                   $('input[name="coating_line_speed"]').val(data.coating_line_speed);
               if (data.application_temp != -99)
                   $('input[name="application_temp"]').val(data.application_temp);
-              $('input[name="base_coat_used"]').val(data.base_coat_used);
+              $('#base_coat_used').val(data.base_coat_used);
               $('input[name="base_coat_lot_no"]').val(data.base_coat_lot_no);
-              $('input[name="middle_coat_used"]').val(data.middle_coat_used);
+              $('#middle_coat_used').val(data.middle_coat_used);
               $('input[name="middle_coat_lot_no"]').val(data.middle_coat_lot_no);
-              $('input[name="top_coat_used"]').val(data.top_coat_used);
+              $('#top_coat_used').val(data.top_coat_used);
               $('input[name="top_coat_lot_no"]').val(data.top_coat_lot_no);
               if (data.base_coat_gun_count != -99)
                   $('input[name="base_coat_gun_count"]').val(data.base_coat_gun_count);
@@ -309,18 +325,8 @@
                   $('input[name="spray_speed"]').val();
               if (data.application_voltage != -99)
                   $('input[name="application_voltage"]').val(data.application_voltage);
-              $('#result').val(data.result);
-              var imgUrl = data.upload_files;
-              if (imgUrl.length > 0) {
-                  var imgArr = imgUrl.split(';');
-                  var s = 'http://' + serverIP + '/upload/pictures/';
-                  for (var i = 0; i < imgArr.length; i++) {
-                      if (imgArr[i] != undefined && imgArr[i].length > 0)
-                          $('.imgBox').append(pictureTemplate(imgArr[i], s + imgArr[i]));
-                  }
-              }
-              $('#remark').val(data.remark);
             } else {
+                $('#remark').val('');
                 //此记录为计算机生成
                 RequestLastAcceptedRecordBeforePipeNo(data.pipe_no, "OdCoat3LpeOperation");
             }
@@ -328,16 +334,15 @@
     }
     function RequestLastAcceptedRecordBeforePipeNoOK(data) {
         if (data != undefined) {
-            $('.id').val(data.id);
             if (data.coating_line_speed != -99)
                 $('input[name="coating_line_speed"]').val(data.coating_line_speed);
             if (data.application_temp != -99)
                 $('input[name="application_temp"]').val(data.application_temp);
-            $('input[name="base_coat_used"]').val(data.base_coat_used);
+            $('#base_coat_used').val(data.base_coat_used);
             $('input[name="base_coat_lot_no"]').val(data.base_coat_lot_no);
-            $('input[name="middle_coat_used"]').val(data.middle_coat_used);
+            $('#middle_coat_used').val(data.middle_coat_used);
             $('input[name="middle_coat_lot_no"]').val(data.middle_coat_lot_no);
-            $('input[name="top_coat_used"]').val(data.top_coat_used);
+            $('#top_coat_used').val(data.top_coat_used);
             $('input[name="top_coat_lot_no"]').val(data.top_coat_lot_no);
             if (data.base_coat_gun_count != -99)
                 $('input[name="base_coat_gun_count"]').val(data.base_coat_gun_count);
@@ -357,18 +362,11 @@
                 $('input[name="spray_speed"]').val();
             if (data.application_voltage != -99)
                 $('input[name="application_voltage"]').val(data.application_voltage);
-            $('#result').val(data.result);
-            var imgUrl = data.upload_files;
-            if (imgUrl.length > 0) {
-                var imgArr = imgUrl.split(';');
-                var s = 'http://' + serverIP + '/upload/pictures/';
-                for (var i = 0; i < imgArr.length; i++) {
-                    if (imgArr[i] != undefined && imgArr[i].length > 0)
-                        $('.imgBox').append(pictureTemplate(imgArr[i], s + imgArr[i]));
-                }
-            }
-            $('#remark').val(data.remark);
         }
+    }
+    //
+    function RequestLastAcceptedRecordBeforePipeNoFail() {
+
     }
     //获取待定数据失败事件
     function getPendingRecordInfoFail() {
@@ -398,14 +396,13 @@
                         operator_no: g_employeeno,
                         coating_line_speed: $('input[name="coating_line_speed"]').val(),
                         application_temp: $('input[name="application_temp"]').val(),
-                        base_coat_used: $('input[name="base_coat_used"]').val(),
+                        base_coat_used: $('#base_coat_used').val(),
                         base_coat_lot_no: $('input[name="base_coat_lot_no"]').val(),
-                        middle_coat_used: $('input[name="middle_coat_used"]').val(),
+                        middle_coat_used: $('#middle_coat_used').val(),
                         middle_coat_lot_no: $('input[name="middle_coat_lot_no"]').val(),
-                        top_coat_used: $('input[name="top_coat_used"]').val(),
+                        top_coat_used: $('#top_coat_used').val(),
                         top_coat_lot_no: $('input[name="top_coat_lot_no"]').val(),
                         base_coat_gun_count: $('input[name="base_coat_gun_count"]').val(),
-                        application_temp: $('input[name="application_temp"]').val(),
                         to_first_touch_duration: $('input[name="to_first_touch_duration"]').val(),
                         to_quench_duration: $('input[name="to_quench_duration"]').val(),
                         air_pressure: $('input[name="air_pressure"]').val(),
@@ -418,7 +415,7 @@
                         remark: $('#remark').val(),
                     }
                 }
-            }, function(ret, err) { //alert(ret);
+            }, function(ret, err) {
                 if (ret) {
                     api.alert({
                         msg: ret.message
@@ -434,23 +431,19 @@
             });
         }
     }
-    //
-    function RequestLastAcceptedRecordBeforePipeNoFail() {
 
-    }
-    //获取待定数据失败事件
-    function getPendingRecordInfoFail() {
-
-    }
     //得到钢管后10根涂层记录管号，并且记录为待定状态 10,回调
     function RequestNextTenPipesBeforePipeNoEventOK(data) {
-        if (data != undefined) {
-            $('#selectcoatingpipe').empty();
-            for (var i = 0; i < data.length; i++) {
-                var pipe_no = data[i].pipe_no;
+      if (data != undefined) {
+          $('#selectcoatingpipe').empty();
+          for (var i = 0; i < data.length; i++) {
+              var pipe_no = data[i].pipe_no;
+              if(i==0)
+               $('#selectcoatingpipe').append("<option value=" + pipe_no + " selected='selected'>" + (i + 1) + ":" + pipe_no + "</option>");
+              else
                 $('#selectcoatingpipe').append("<option value=" + pipe_no + ">" + (i + 1) + ":" + pipe_no + "</option>");
-            }
-        }
+          }
+      }
     }
 
     function RequestNextTenPipesBeforePipeNoEventFail() {
@@ -458,6 +451,9 @@
     }
 
     function loadPage() {
+       if($('#selectcoatingpipe').val()!=undefined)
+         g_pipeno=$('#selectcoatingpipe').val();
+        clearLabelData();
         RequestNextTenPipesBeforePipeNo(g_pipeno, "OdCoat3LpeOperation");
         RequestAllProcessInfoByPipeNo(g_pipeno);
     }

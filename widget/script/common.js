@@ -647,8 +647,8 @@ function initCriteria(criteria) {
             if (name != undefined) {
                 if (name.indexOf("_min") != -1) {
                     name = "." + name.replace("_min", "");
-                    if (value != undefined){
-                          $(name).attr('data-min', value);
+                    if (value != undefined) {
+                        $(name).attr('data-min', value);
                     }
                     name = name + "_lbl";
                     if ($(name).children('.range-span').length <= 0) {
@@ -1185,9 +1185,8 @@ function setControls() {
     });
     var numList = "";
     var $nowObj;
-    //数字集合
-    //if($('.mob-number-thickness-list')!=undefined)
-    $('.mob-number-thickness-list').mobiscroll().numpad({
+    //设置数字集合
+    $('.mob-number-list').mobiscroll().numpad({
         theme: 'auto',
         lang: 'zh',
         display: 'bottom',
@@ -1196,9 +1195,10 @@ function setControls() {
         scale: 0,
         fill: 'ltr',
         defaultValue: 0,
-        decimalSeparator: '.',
-        rtl: false,
         preset: 'decimal',
+        decimalSeparator: '',
+        thousandsSeparator: '',
+        rtl: false,
         buttons: [
             'set', {
                 text: '删除',
@@ -1220,31 +1220,34 @@ function setControls() {
         },
         onSet: function(event, inst) {
             var selectedVal = inst.getVal();
-            $(this).val(numList + "" + selectedVal + ',');
-            var arr = selectedVal.split(',');
-            var minVal = $(this).attr('data-min');
-            var maxVal = $(this).attr('data-max');
-            var flag = true;
             if (selectedVal != undefined) {
+                selectedVal = (numList + "" + selectedVal + ",");
+                $(this).val(selectedVal);
+                var arr = selectedVal.split(",");
+                var minVal = $(this).attr('data-min');
+                var maxVal = $(this).attr('data-max');
+
+                var flag = true;
                 for (var i = 0; i < arr.length; i++) {
                     if (maxVal != undefined) {
-                        if (parseFloat(maxVal) < parseFloat(selectedVal)) {
+                        if (parseFloat(maxVal) < parseFloat(arr[i])) {
                             flag = false;
                             break;
                         }
                     }
                     if (minVal != undefined) {
-                        if (parseFloat(selectedVal) < parseFloat(minVal)) {
+                        if (parseFloat(arr[i]) < parseFloat(minVal)) {
                             flag = false;
                             break;
                         }
                     }
                 }
+                if (flag)
+                    $(this).css('background', '#FFFFFF');
+                else
+                    $(this).css('background', '#F9A6A6');
+                numList = "";
             }
-            if (flag)
-                $(this).css('background', '#FFFFFF');
-            else
-                $(this).css('background', '#F9A6A6');
         }
     });
     //锚纹深度
@@ -1315,12 +1318,15 @@ function setControls() {
             }
         }
     });
-    //首次到达接触点时间、到达水淋处所用时间s
-    $('.mob-time-numpad').mobiscroll().numpad({
+    //整数numpad
+    $('.mob-int-numpad').mobiscroll().numpad({
         theme: 'auto',
         lang: 'zh',
         display: 'bottom',
-        min: 0,
+        preset: 'decimal',
+        decimalSeparator: '',
+        thousandsSeparator: '',
+        min: -9999,
         max: 9999,
         scale: 0,
         fill: 'ltr',
@@ -1332,21 +1338,110 @@ function setControls() {
             var maxVal = $(this).attr('data-max');
             var flag = true;
             if (selectedVal != undefined) {
-                    if (maxVal != undefined) {
-                        if (parseFloat(maxVal) < parseFloat(selectedVal)) {
-                            flag = false;
-                        }
-                    }
-                    if (minVal != undefined) {
-                        if (parseFloat(selectedVal) < parseFloat(minVal)) {
-                            flag = false;
-                        }
-                    }
+                if (maxVal != undefined) {
+                    if (parseFloat(maxVal) < parseFloat(selectedVal))
+                        flag = false;
+                }
+                if (minVal != undefined) {
+                    if (parseFloat(selectedVal) < parseFloat(minVal))
+                        flag = false;
+                }
             }
             if (flag)
                 $(this).css('background', '#FFFFFF');
             else
                 $(this).css('background', '#F9A6A6');
+        }
+    });
+    //小数numpad精确度1
+    $('.mob-floatone-numpad').mobiscroll().numpad({
+        theme: 'auto',
+        lang: 'zh',
+        display: 'bottom',
+        preset: 'decimal',
+        decimalSeparator: '.',
+        min: -9999,
+        max: 9999,
+        scale: 1,
+        fill: 'ltr',
+        defaultValue: 0,
+        rtl: false,
+        onSet: function(event, inst) {
+            var selectedVal = inst.getVal();
+            var minVal = $(this).attr('data-min');
+            var maxVal = $(this).attr('data-max');
+            var flag = true;
+            if (selectedVal != undefined) {
+                if (maxVal != undefined) {
+                    if (parseFloat(maxVal) < parseFloat(selectedVal)) {
+                        flag = false;
+                    }
+                }
+                if (minVal != undefined) {
+                    if (parseFloat(selectedVal) < parseFloat(minVal)) {
+                        flag = false;
+                    }
+                }
+            }
+            if (flag)
+                $(this).css('background', '#FFFFFF');
+            else
+                $(this).css('background', '#F9A6A6');
+        }
+    });
+    //小数numpad精确度2
+    $('.mob-floattwo-numpad').mobiscroll().numpad({
+        theme: 'auto',
+        lang: 'zh',
+        display: 'bottom',
+        preset: 'decimal',
+        decimalSeparator: '.',
+        min: -9999,
+        max: 9999,
+        scale: 2,
+        fill: 'ltr',
+        defaultValue: 0,
+        rtl: false,
+        onSet: function(event, inst) {
+            var selectedVal = inst.getVal();
+            var minVal = $(this).attr('data-min');
+            var maxVal = $(this).attr('data-max');
+            var flag = true;
+            if (selectedVal != undefined) {
+                if (maxVal != undefined) {
+                    if (parseFloat(maxVal) < parseFloat(selectedVal)) {
+                        flag = false;
+                    }
+                }
+                if (minVal != undefined) {
+                    if (parseFloat(selectedVal) < parseFloat(minVal)) {
+                        flag = false;
+                    }
+                }
+            }
+            if (flag)
+                $(this).css('background', '#FFFFFF');
+            else
+                $(this).css('background', '#F9A6A6');
+        }
+    });
+    //设置底层、面层型号控件
+    var s = 'http://' + serverIP + '/APPRequestTransfer/getAllCoatingPowderInfo.action';
+    api.ajax({
+        url: s,
+        method: 'post',
+        timeout: 30,
+        dataType: 'json',
+        data: {}
+    }, function(ret, err) {
+        if (ret) {
+            for (var i = 0; i < ret.length; i++) {
+                $('.model-select').append('<option value=' + ret[i].text + '>' + ret[i].text + '</option>');
+            }
+        } else {
+            api.alert({
+                msg: JSON.stringify(err)
+            });
         }
     });
 }
@@ -1556,18 +1651,18 @@ function initFormNumber() {
             return result;
         }
     });
-    if(result){
-      $('select[data-required=true]').each(function(a,b){
-         var selectContent=$(this).find("option:selected").text();
-         if(selectContent.indexOf("未测")>=0){
-           var name = $(this).parent().siblings('.form-item-lbl').children('label').text().replace("本次必填", "");
-           api.alert({
-               msg: "请输入:" + name
-           });
-           result = false;
-           return result;
-         }
-      });
+    if (result) {
+        $('select[data-required=true]').each(function(a, b) {
+            var selectContent = $(this).find("option:selected").text();
+            if (selectContent.indexOf("未测") >= 0) {
+                var name = $(this).parent().siblings('.form-item-lbl').children('label').text().replace("本次必填", "");
+                api.alert({
+                    msg: "请输入:" + name
+                });
+                result = false;
+                return result;
+            }
+        });
     }
     if (!result)
         return false;
@@ -1623,112 +1718,118 @@ function getPendingRecordInfo(controller, pipe_no) {
 //选择控件判断是否合格事件
 function validateSelect() {
     $('.validate-select').on('change', function() {
-        var max=$(this).attr('data-max');
-        var min=$(this).attr('data-min');
-        var thisVal=$(this).val();
-        var flag=false;
-        if (thisVal!=undefined&&thisVal.length>0&&thisVal!="-99") {
-            if(max!=undefined){
-               if (parseFloat(thisVal)>parseFloat(max))
-                  flag=true;
+        var max = $(this).attr('data-max');
+        var min = $(this).attr('data-min');
+        var thisVal = $(this).val();
+        var flag = false;
+        if (thisVal != undefined && thisVal.length > 0 && thisVal != "-99") {
+            if (max != undefined) {
+                if (parseFloat(thisVal) > parseFloat(max))
+                    flag = true;
             }
-            if(min!=undefined){
-              if (parseFloat(thisVal)<parseFloat(min))
-                 flag=true;
+            if (min != undefined) {
+                if (parseFloat(thisVal) < parseFloat(min))
+                    flag = true;
             }
-            if(flag)
-               $(this).css('background', '#F9A6A6');
+            if (flag)
+                $(this).css('background', '#F9A6A6');
             else
-               $(this).css('background', '#FFFFFF');
+                $(this).css('background', '#FFFFFF');
         } else {
-               $(this).css('background', '#FFFFFF');
+            $(this).css('background', '#FFFFFF');
         }
     });
 }
 
 //获取前一根合格管的涂层记录作为数据来源
-function RequestLastAcceptedRecordBeforePipeNo(pipeno,operation){
-      //注册接收Request3LPELabAcceptCriteria回调
-      api.addEventListener({
-          name: 'RequestLastAcceptedRecordBeforePipeNoEvent'
-      }, function(ret, err) {
-          if (ret.value.success) {
-              RequestLastAcceptedRecordBeforePipeNoOK(ret.value.data);
-          } else {
-              RequestLastAcceptedRecordBeforePipeNoFail();
-          }
-      });
-      //发出请求
-      var s = 'http://' + serverIP + '/'+operation+'/getLastAcceptedRecordBeforePipeNo.action';
-      api.ajax({
-          url: s,
-          method: 'post',
-          timeout: 30,
-          dataType: 'json',
-          data: {
-              values: {
-                  pipe_no: pipeno
-              }
-          }
-      }, function(ret, err) {
-          var success = false;
-          if (ret) {
-              success = true;
-          } else {
-              api.alert({
-                  msg: JSON.stringify(err)
-              });
-          }
-          api.sendEvent({
-              name: 'RequestLastAcceptedRecordBeforePipeNoEvent',
-              extra: {
-                  success: success,
-                  data: ret
-              }
-          });
+function RequestLastAcceptedRecordBeforePipeNo(pipeno, operation) {
+    //注册接收Request3LPELabAcceptCriteria回调
+    api.addEventListener({
+        name: 'RequestLastAcceptedRecordBeforePipeNoEvent'
+    }, function(ret, err) {
+        if (ret.value.success) {
+            RequestLastAcceptedRecordBeforePipeNoOK(ret.value.data);
+        } else {
+            RequestLastAcceptedRecordBeforePipeNoFail();
+        }
+    });
+    //发出请求
+    var s = 'http://' + serverIP + '/' + operation + '/getLastAcceptedRecordBeforePipeNo.action';
+    api.ajax({
+        url: s,
+        method: 'post',
+        timeout: 30,
+        dataType: 'json',
+        data: {
+            values: {
+                pipe_no: pipeno
+            }
+        }
+    }, function(ret, err) {
+        var success = false;
+        if (ret) {
+            success = true;
+        } else {
+            api.alert({
+                msg: JSON.stringify(err)
+            });
+        }
+        api.sendEvent({
+            name: 'RequestLastAcceptedRecordBeforePipeNoEvent',
+            extra: {
+                success: success,
+                data: ret.record
+            }
+        });
 
-      });
+    });
 }
 //得到钢管后10根涂层记录管号，并且记录为待定状态 10
-function RequestNextTenPipesBeforePipeNo(pipeno,operation){
-      //注册接收Request3LPELabAcceptCriteria回调
-      api.addEventListener({
-          name: 'RequestNextTenPipesBeforePipeNoEvent'
-      }, function(ret, err) {
-          if (ret.value.success) {
-              RequestNextTenPipesBeforePipeNoEventOK(ret.value.data);
-          } else {
-              RequestNextTenPipesBeforePipeNoEventFail();
-          }
-      });
-      //发出请求
-      var s = 'http://' + serverIP + '/'+operation+'/getNextTenPipesBeforePipeNo.action';
-      api.ajax({
-          url: s,
-          method: 'post',
-          timeout: 30,
-          dataType: 'json',
-          data: {
-              values: {
-                  pipe_no: pipeno
-              }
-          }
-      }, function(ret, err) {
-          var success = false;
-          if (ret) {
-              success = true;
-          } else {
-              api.alert({
-                  msg: JSON.stringify(err)
-              });
-          }
-          api.sendEvent({
-              name: 'RequestNextTenPipesBeforePipeNoEvent',
-              extra: {
-                  success: success,
-                  data: ret.data
-              }
-          });
+function RequestNextTenPipesBeforePipeNo(pipeno, operation) {
+    //注册接收Request3LPELabAcceptCriteria回调
+    api.addEventListener({
+        name: 'RequestNextTenPipesBeforePipeNoEvent'
+    }, function(ret, err) {
+        if (ret.value.success) {
+            RequestNextTenPipesBeforePipeNoEventOK(ret.value.data);
+        } else {
+            RequestNextTenPipesBeforePipeNoEventFail();
+        }
+    });
+    //发出请求
+    var s = 'http://' + serverIP + '/' + operation + '/getNextTenPipesBeforePipeNo.action';
+    api.ajax({
+        url: s,
+        method: 'post',
+        timeout: 30,
+        dataType: 'json',
+        data: {
+            values: {
+                pipe_no: pipeno
+            }
+        }
+    }, function(ret, err) {
+        var success = false;
+        if (ret) {
+            success = true;
+        } else {
+            api.alert({
+                msg: JSON.stringify(err)
+            });
+        }
+        api.sendEvent({
+            name: 'RequestNextTenPipesBeforePipeNoEvent',
+            extra: {
+                success: success,
+                data: ret.data
+            }
+        });
 
-      });
+    });
+}
+//清空表单label数据
+function clearLabelData() {
+    $('label').each(function() {
+        $(this).find('span').remove();
+    });
 }

@@ -198,6 +198,7 @@
 <script type="text/javascript">
     //定义二维码全局变量
     var FNScanner;
+    var UIInputId;
     apiready = function() {
 
         //设置TitleBar位置(兼容IOS)
@@ -314,6 +315,7 @@
             keyboardType: 'search',
             fixedOn: api.frameName
         }, function(ret) {
+            UIInputId=ret.id;
             if (ret.eventType == 'change') {
                 //alert(JSON.stringify(ret));
             } else if (ret.eventType == 'search') {
@@ -359,7 +361,7 @@
         if (index==3||index == 4) {
           var UIInput = api.require('UIInput');
           UIInput.hide({
-              id: 1
+              id:UIInputId
           });
            if(index == 4){
              api.sendEvent({
@@ -369,7 +371,7 @@
         }else{
           var UIInput = api.require('UIInput');
           UIInput.show({
-              id: 1
+              id: UIInputId
           });
         }
         api.setFrameGroupIndex({

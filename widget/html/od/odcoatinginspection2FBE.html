@@ -47,26 +47,26 @@
       </div>
         <div class="form-item">
             <div class="form-item-lbl">
-                <label class="i18n1" name="basecoatthicknesslist"></label>
+                <label class="i18n1 base_2fbe_coat_thickness_lbl" name="basecoatthicknesslist"></label>
             </div>
             <div class="form-item-val">
-                <input class="mob-number-thickness-list" type="text" name="base_coat_thickness_list" value="" />
+                <input class="mob-number-list base_2fbe_coat_thickness" type="text" name="base_coat_thickness_list" value="" />
             </div>
         </div>
         <div class="form-item">
             <div class="form-item-lbl">
-                <label class="i18n1" name="topcoatthicknesslist"></label>
+                <label class="i18n1 top_2fbe_coat_thickness_lbl" name="topcoatthicknesslist"></label>
             </div>
             <div class="form-item-val">
-                <input type="text" name="top_coat_thickness_list" value="" />
+                <input type="text" class="mob-number-list top_2fbe_coat_thickness" name="top_coat_thickness_list" value="" />
             </div>
         </div>
         <div class="form-item">
             <div class="form-item-lbl">
-                <label class="i18n1" name="totalcoatingthicknesslist"></label>
+                <label class="i18n1 total_2fbe_coat_thickness_lbl" name="totalcoatingthicknesslist"></label>
             </div>
             <div class="form-item-val">
-                <input type="text" name="total_coating_thickness_list" />
+                <input type="text" class="mob-number-list total_2fbe_coat_thickness total_coating_thickness_list" name="total_coating_thickness_list" />
             </div>
         </div>
         <div class="form-item">
@@ -74,7 +74,7 @@
                 <label class="i18n1 holidays_lbl" name="holidays"></label>
             </div>
             <div class="form-item-val">
-                <input type="number" data-number=true data-required=false class="holidays" name="holidays" />
+                <input type="number" data-number=true data-required=false class="mob-int-numpad holidays" name="holidays" />
             </div>
         </div>
         <div class="form-item">
@@ -82,7 +82,7 @@
                 <label class="i18n1 holiday_tester_volts_lbl" name="holidaytestervolts"></label>
             </div>
             <div class="form-item-val">
-                <input type="number" data-number=true data-required=false class="holiday_tester_volts" name="holiday_tester_volts" />
+                <input type="number" data-number=true data-required=false class="mob-floatone-numpad holiday_tester_volts" name="holiday_tester_volts" />
             </div>
         </div>
         <div class="form-item">
@@ -90,7 +90,7 @@
                 <label class="i18n1 repairs_lbl" name="repairs"></label>
             </div>
             <div class="form-item-val">
-                <input type="number" data-number=true data-required=false class="repairs" name="repairs" />
+                <input type="number" data-number=true data-required=false class="mob-int-numpad repairs" name="repairs" />
             </div>
         </div>
         <div class="form-item">
@@ -162,7 +162,7 @@
                         <option value="1">合格,进入外喷标工序</option>
                         <option value="0">不合格,进入待修补工序</option>
                         <option value="2">不合格,进入待扒皮工序</option>
-                        <option value="3">待定</option>
+                        <option value="10">待定</option>
                         <option value="4">隔离,进入修磨或切割工序</option>
                     </select>
             </div>
@@ -173,7 +173,7 @@
                 <label class="i18n1" name="remark"></label>
             </div>
             <div class="form-item-val">
-                <textarea name="remark"></textarea>
+                <textarea id="remark" name="remark"></textarea>
             </div>
         </div>
         <div class="form-item">
@@ -193,7 +193,7 @@
     </div>
     <footer class="form-footer" id=footer>
         <div id="foot-container" style="width:100%;height:43px;display:flex;justify-content:center;align-items:center;" class="foot-container">
-            <div class="i18n1 form-process-button" name="submit" onclick="">提交</div>
+            <div class="i18n1 form-process-button" name="submit" onclick="submitForm()">提交</div>
         </div>
     </footer>
 </body>
@@ -239,6 +239,7 @@
         initPipeBasicHeader(data.pipeinfo, data.millno);
         setControls();
         setSelectPictures();
+        setAllDefectInfo("coating");
         //getPendingRecordInfo("OdBlastInspectionOperation", g_pipeno);
     }
     //得到外防接收标准失败
