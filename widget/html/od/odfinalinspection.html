@@ -17,6 +17,31 @@
         <span class="nav-pipeno i18n1" name="odfinalinspection" style="display:inline-block;margin-left:-43px;line-height:43px;"></span>
     </header>
     <div class="form-content" id="content">
+      <div class="form-item">
+          <table class="pipeinfo-table">
+              <thead>
+                  <tr>
+                      <th class="i18n1" name="pipebasicinfo" colspan="4" style="text-align:center;">钢管基础信息</th>
+                  </tr>
+              </thead>
+              <tr>
+                  <td class="i18n1" name="pipeno"></td>
+                  <td class="pipe_no"></td>
+                  <td class="i18n1" name="statusname"></td>
+                  <td class="status_name"></td>
+              </tr>
+              <tr>
+                  <td class="i18n1" name="od"></td>
+                  <td class="od"></td>
+                  <td class="i18n1" name="wt"></td>
+                  <td class="wt"></td>
+              </tr>
+              <tr>
+                  <td class="i18n1" name="millno"></td>
+                  <td class="millno"></td>
+              </tr>
+          </table>
+      </div>
         <div class="form-item">
             <div class="form-item-lbl">
                 <label class="i18n1 cutback_lbl" name="cutbacklength"></label>
@@ -31,9 +56,10 @@
             </div>
             <div class="form-item-val">
                 <select id="sv" class="stencil_verification" name="stencil_verification">
-                        <option value="1" selected="selected">合格</option>
+                        <option value="" selected="selected">未检测</option>
+                        <option value="1">合格</option>
                         <option value="2">不合格</option>
-                        <option value="">未检测</option>
+
                     </select>
             </div>
         </div>
@@ -78,9 +104,9 @@
             </div>
             <div class="form-item-val">
                 <select id="ir" name="inspection_result">
-                          <option value="1">合格</option>
-                            <option value="0">不合格</option>
-                          <option value="10">待定</option>
+                          <option value="1"  selected="selected">合格</option>
+                          <option value="0">不合格</option>
+                          <option value="">待定</option>
                       </select>
             </div>
         </div>
@@ -91,7 +117,7 @@
             </div>
             <div class="form-item-val">
                 <select id="result" name="result">
-                          <option value="1">合格,进入外防成品入库工序</option>
+                          <option value="1" selected="selected">合格,进入外防成品入库工序</option>
                           <option value="0">不合格,进入外防待修补工序</option>
                           <option value="2">不合格,进入外防待扒皮工序</option>
                           <option value="4">不合格,进入外喷标工序</option>
@@ -125,7 +151,7 @@
     </div>
     <footer class="form-footer" id=footer>
         <div id="foot-container" style="width:100%;height:43px;display:flex;justify-content:center;align-items:center;" class="foot-container">
-            <div class="i18n1 form-process-button" name="submit" onclick="">提交</div>
+            <div class="i18n1 form-process-button" name="submit" onclick="submitForm()">提交</div>
         </div>
     </footer>
 </body>
@@ -207,7 +233,7 @@
     //表单提交
     function submitForm() {
         if (initFormNumber()) {
-            var s = 'http://' + serverIP + '/OdCoat3LpeInOperation/saveOdCoating3LpeInProcess.action';
+            var s = 'http://' + serverIP + '/OdFinalInOperation/saveOdFinalInProcess.action';
             var imgUrl = "";
             $('.imgBox  .temp-container img').each(function() {
                 var temp = $(this).attr("data-url");

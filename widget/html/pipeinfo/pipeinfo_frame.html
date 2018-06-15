@@ -1114,6 +1114,11 @@
                dict[key]="";
             if (key == "uploadfiles"){
               template += '<td style="width:50%;text-align:center;padding:5px 0px;" class="pipeinfo-td" ><div style="color:#87CEEB;" onclick="setBrowsePicutre(this);" data-list="' + dict[key] +'" class="upload-pictures i18n1" name="viewpicture">图片</div></td>';
+            }else if(key == "stencilcontent"){
+               if(dict[key]!=undefined){
+                 dict[key]=dict[key].replace(/(\r\n)|(\n)/g,'<br>');
+               }
+               template += '</td></tr><tr style="width:100%;"><td colspan="2" style="text-align:left;padding:5px 0px;color:#000000;" class="pipeinfo-td">' + dict[key] + '</td>';
             }
             else{
               template += ' <td style="width:50%;text-align:center;padding:5px 0px;" class="pipeinfo-td">' + dict[key] + '</td>';

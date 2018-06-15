@@ -1211,43 +1211,80 @@ function setControls() {
                     numList = selectedVal;
                 }
             },
-            'cancel'
+            {
+              text: '添加',
+              icon: '',
+              handler: function(event, inst) {
+                var selectedVal = inst.getVal(true);
+                if (selectedVal != undefined) {
+                    selectedVal = ($nowObj.val()+ selectedVal + ",");
+                    $nowObj.val(selectedVal);
+                    numList=selectedVal;
+                    var arr = selectedVal.split(",");
+                    var minVal = $nowObj.attr('data-min');
+                    var maxVal = $nowObj.attr('data-max');
+                    var flag = true;
+                    for (var i = 0; i < arr.length; i++) {
+                        if (maxVal != undefined) {
+                            if (parseFloat(maxVal) < parseFloat(arr[i])) {
+                                flag = false;
+                                break;
+                            }
+                        }
+                        if (minVal != undefined) {
+                            if (parseFloat(arr[i]) < parseFloat(minVal)) {
+                                flag = false;
+                                break;
+                            }
+                        }
+                    }
+                    if (flag)
+                        $nowObj.css('background', '#FFFFFF');
+                    else
+                        $nowObj.css('background', '#F9A6A6');
+                    inst.setVal(0);
+                }
+              }
+            }
         ],
         onBeforeShow: function(event, inst) {
             $nowObj = $(this);
-            numList = $(this).val();
-            inst.setVal('0');
         },
         onSet: function(event, inst) {
-            var selectedVal = inst.getVal();
-            if (selectedVal != undefined) {
-                selectedVal = (numList + "" + selectedVal + ",");
-                $(this).val(selectedVal);
-                var arr = selectedVal.split(",");
-                var minVal = $(this).attr('data-min');
-                var maxVal = $(this).attr('data-max');
-
-                var flag = true;
-                for (var i = 0; i < arr.length; i++) {
-                    if (maxVal != undefined) {
-                        if (parseFloat(maxVal) < parseFloat(arr[i])) {
-                            flag = false;
-                            break;
-                        }
-                    }
-                    if (minVal != undefined) {
-                        if (parseFloat(arr[i]) < parseFloat(minVal)) {
-                            flag = false;
-                            break;
-                        }
-                    }
-                }
-                if (flag)
-                    $(this).css('background', '#FFFFFF');
-                else
-                    $(this).css('background', '#F9A6A6');
-                numList = "";
-            }
+            // var selectedVal =$nowObj.val();
+            // alert(selectedVal);
+            $nowObj.val(numList);
+            // selectedVal = ($nowObj.val()+ selectedVal + ",");
+            // $nowObj.val(selectedVal);
+            // var selectedVal = inst.getVal(true);
+            // if (selectedVal != undefined) {
+            //     selectedVal = (numList + "" + selectedVal + ",");
+            //     $(this).val(selectedVal);
+            //     var arr = selectedVal.split(",");
+            //     var minVal = $(this).attr('data-min');
+            //     var maxVal = $(this).attr('data-max');
+            //
+            //     var flag = true;
+            //     for (var i = 0; i < arr.length; i++) {
+            //         if (maxVal != undefined) {
+            //             if (parseFloat(maxVal) < parseFloat(arr[i])) {
+            //                 flag = false;
+            //                 break;
+            //             }
+            //         }
+            //         if (minVal != undefined) {
+            //             if (parseFloat(arr[i]) < parseFloat(minVal)) {
+            //                 flag = false;
+            //                 break;
+            //             }
+            //         }
+            //     }
+            //     if (flag)
+            //         $(this).css('background', '#FFFFFF');
+            //     else
+            //         $(this).css('background', '#F9A6A6');
+            //     numList = "";
+            // }
         }
     });
     //锚纹深度
