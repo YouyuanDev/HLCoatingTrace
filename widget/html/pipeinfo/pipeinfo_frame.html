@@ -336,7 +336,7 @@
 
             if (data) {
                 var flag = false;
-                if (data.odBlastProcessRecord != undefined && data.odBlastProcessRecord != null) {
+                if (data.odBlastProcessRecord != undefined) {
                     flag = true;
                     var obj = data.odBlastProcessRecord;
                     var result = "";
@@ -375,7 +375,7 @@
                     $('#pipe-process-info').append(recordTemplate("odblastprocess", "外打砂记录", dic));
                 }
                 //外打砂检验
-                if (data.odBlastInspectionProcessRecord != undefined && data.odBlastInspectionProcessRecord != null) {
+                if (data.odBlastInspectionProcessRecord != undefined) {
                     flag = true;
                     var obj = data.odBlastInspectionProcessRecord;
                     var result = "";
@@ -414,7 +414,7 @@
                     $('#pipe-process-info').append(recordTemplate("odblastinspectionprocess", "外打砂检验记录", dic));
                 }
                 //外涂2fbe
-                if (data.odCoatingProcessRecord != undefined && data.odCoatingProcessRecord != null) {
+                if (data.odCoatingProcessRecord != undefined) {
                     flag = true;
                     var obj = data.odCoatingProcessRecord;
                     var result = "";
@@ -451,7 +451,7 @@
                     $('#pipe-process-info').append(recordTemplate("odcoatingprocess", "外涂记录(2FBE)", dic));
                 }
                 //外涂检验2fbe
-                if (data.odCoatingInspectionProcessRecord != undefined && data.odCoatingInspectionProcessRecord != null) {
+                if (data.odCoatingInspectionProcessRecord != undefined) {
                     flag = true;
                     var obj = data.odCoatingInspectionProcessRecord;
                     var result = "";
@@ -487,7 +487,7 @@
                     $('#pipe-process-info').append(recordTemplate("odcoatinginspectionprocess", "外涂检验记录(2FBE)", dic));
                 }
                 //外涂3lpe
-                if (data.odCoating3LpeProcessRecord != undefined && data.odCoating3LpeProcessRecord != null) {
+                if (data.odCoating3LpeProcessRecord != undefined) {
                     flag = true;
                     var obj = data.odCoating3LpeProcessRecord;
                     var result = "";
@@ -524,7 +524,7 @@
                     $('#pipe-process-info').append(recordTemplate("odcoating3lpeprocess", "外涂记录(3LPE)", dic));
                 }
                 //外涂检验3lpe
-                if (data.odCoating3LpeInspectionProcessRecord != undefined && data.odCoating3LpeInspectionProcessRecord != null) {
+                if (data.odCoating3LpeInspectionProcessRecord != undefined) {
                     flag = true;
                     var obj = data.odCoating3LpeInspectionProcessRecord;
                     var result = "";
@@ -583,8 +583,9 @@
                     };
                     $('#pipe-process-info').append(recordTemplate("odcoating3lpeinspectionprocess", "外涂检验记录(3LPE)", dic));
                 }
-                //外喷标
-                if (data.odStencilProcessRecord != undefined && data.odStencilProcessRecord != null) {
+                //外喷标odStencilProcessRecord
+
+                if (data.odStencilProcessRecord != undefined ) {
                     flag = true;
                     var obj = data.odStencilProcessRecord;
                     var result = "";
@@ -605,10 +606,10 @@
                         "remark": obj.remark,
                         "uploadfiles": obj.upload_files
                     };
-                    $('#pipeRecord-container').append(recordTemplate("odstencilprocess", "外喷标记录", dic));
+                    $('#pipe-process-info').append(recordTemplate("odstencilprocess", "外喷标记录", dic));
                 }
                 //外防终检
-                if (data.odFinalInspectionProcessRecord != undefined && data.odFinalInspectionProcessRecord != null) {
+                if (data.odFinalInspectionProcessRecord != undefined) {
                     flag = true;
                     var obj = data.odFinalInspectionProcessRecord;
                     var result = "";
@@ -661,7 +662,7 @@
                     $('#pipe-process-info').append(recordTemplate("odfinalinspectionprocess", "外防终检记录", dic));
                 }
                 //内打砂
-                if (data.idBlastProcessRecord != undefined && data.idBlastProcessRecord != null) {
+                if (data.idBlastProcessRecord != undefined) {
                     flag = true;
                     var obj = data.idBlastProcessRecord;
                     var result = "";
@@ -703,7 +704,7 @@
                     $('#pipe-process-info').append(recordTemplate("idblastprocess", "内打砂记录", dic));
                 }
                 //内打砂检验
-                if (data.idBlastInspectionProcessRecord != undefined && data.idBlastInspectionProcessRecord != null) {
+                if (data.idBlastInspectionProcessRecord != undefined) {
                     flag = true;
                     var obj = data.idBlastInspectionProcessRecord;
                     var result = "";
@@ -737,7 +738,7 @@
                     $('#pipe-process-info').append(recordTemplate("idblastinspectionprocess", "内打砂检验记录", dic));
                 }
                 //内涂
-                if (data.idCoatingProcessRecord != undefined && data.idCoatingProcessRecord != null) {
+                if (data.idCoatingProcessRecord != undefined) {
                     flag = true;
                     var obj = data.idCoatingProcessRecord;
                     var result = "";
@@ -766,7 +767,7 @@
                     $('#pipe-process-info').append(recordTemplate("idcoatingprocess", "内涂记录", dic));
                 }
                 //内涂检验
-                if (data.idCoatingInspectionProcessRecord != undefined && data.idCoatingInspectionProcessRecord != null) {
+                if (data.idCoatingInspectionProcessRecord != undefined) {
                     flag = true;
                     var obj = data.idCoatingInspectionProcessRecord;
                     var result = "";
@@ -804,7 +805,7 @@
                     $('#pipe-process-info').append(recordTemplate("idcoatinginspectionprocess", "内涂检验记录", dic));
                 }
                 //内喷标
-                if (data.idStencilProcessRecord != undefined && data.idStencilProcessRecord != null) {
+                if (data.idStencilProcessRecord != undefined) {
                     flag = true;
                     var obj = data.idStencilProcessRecord;
                     var result = "";
@@ -826,7 +827,7 @@
                     $('#pipe-process-info').append(recordTemplate("idstencilprocess", "内喷标记录", dic));
                 }
                 //内防终检
-                if (data.idFinalInspectionProcess != undefined && data.idFinalInspectionProcess != null) {
+                if (data.idFinalInspectionProcess != undefined) {
                     flag = true;
                     var obj = data.idFinalInspectionProcess;
                     var result = "";
@@ -887,7 +888,7 @@
                     $('#pipe-process-info').append(recordTemplate("idfinalinspectionprocess", "内防终检记录", dic));
                 }
                 //扒皮
-                if (data.coatingStrips != undefined && data.coatingStrips != null && data.coatingStrips.length > 0) {
+                if (data.coatingStrips != undefined && data.coatingStrips.length > 0) {
                     flag = true;
                     var template = "";
                     template += '<table  title="" class="dataintable" style="width:100%;height:auto;"><thead><tr>';
@@ -924,7 +925,7 @@
                     $('#pipe-process-info').append(template);
                 }
                 //修补
-                if (data.coatingRepairs != undefined && data.coatingRepairs != null && data.coatingRepairs.length > 0) {
+                if (data.coatingRepairs != undefined && data.coatingRepairs.length > 0) {
                     flag = true;
                     var template = "";
                     template += '<table  title="" class="dataintable" style="width:100%;height:auto;"><thead><tr>';
@@ -990,7 +991,7 @@
                     $('#pipe-process-info').append(template);
                 }
                 //修磨切割
-                if (data.barePipeGrindingCutoffRecords != undefined && data.barePipeGrindingCutoffRecords != null && data.barePipeGrindingCutoffRecords.length > 0) {
+                if (data.barePipeGrindingCutoffRecords != undefined && data.barePipeGrindingCutoffRecords.length > 0) {
                     flag = true;
                     var template = "";
                     template += '<table  title="" class="dataintable" style="width:100%;height:auto;"><thead><tr>';
@@ -1038,7 +1039,7 @@
                     $('#pipe-process-info').append(template);
                 }
                 //倒棱
-                if (data.pipeRebevelRecords != undefined && data.pipeRebevelRecords != null && data.pipeRebevelRecords.length > 0) {
+                if (data.pipeRebevelRecords != undefined && data.pipeRebevelRecords.length > 0) {
                     flag = true;
                     var template = "";
                     template += '<table  title="" class="dataintable" style="width:100%;height:auto;"><thead><tr>';
