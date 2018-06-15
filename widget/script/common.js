@@ -1209,6 +1209,7 @@ function setControls() {
                     selectedVal = selectedVal.substring(0, (selectedVal.lastIndexOf(',') + 1));
                     $nowObj.val(selectedVal);
                     numList = selectedVal;
+                    inst.setVal(0);
                 }
             },
             {
@@ -1250,6 +1251,7 @@ function setControls() {
         onBeforeShow: function(event, inst) {
             $nowObj = $(this);
             inst.setVal(0);
+            numList=$nowObj.val();
         },
         onSet: function(event, inst) {
             // var selectedVal =$nowObj.val();
