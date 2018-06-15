@@ -18,10 +18,10 @@
     <div class="form-content" id="content">
         <div class="form-item">
             <div class="form-item-lbl">
-                <label class="i18n1 cutback_length_lbl" name="cutbacklength"></label>
+                <label class="i18n1 cutback_lbl" name="cutbacklength"></label>
             </div>
             <div class="form-item-val">
-                <input type="number" class="cutback_length" name="cutback_length" />
+                <input type="text" class="cutback" name="cutback_length" />
             </div>
         </div>
         <div class="form-item">
@@ -32,7 +32,7 @@
                 <select id="sv" class="stencil_verification" name="stencil_verification">
                         <option value="1" selected="selected">合格</option>
                         <option value="2">不合格</option>
-                        <option value="0">未检测</option>
+                        <option value="">未检测</option>
                     </select>
             </div>
         </div>
@@ -65,10 +65,10 @@
         </div>
         <div class="form-item">
             <div class="form-item-lbl">
-                <label class="i18n1 epoxy_cutback_lbl" name="epoxycutbacklist"></label>
+                <label class="i18n1 cutback_lbl" name="epoxycutbacklist"></label>
             </div>
             <div class="form-item-val">
-                <input type="number" class="epoxy_cutback" name="epoxy_cutback_list" />
+                <input type="text" class="epoxy_cutback cutback" name="epoxy_cutback_list" />
             </div>
         </div>
         <div class="form-item">
@@ -89,7 +89,7 @@
                 <label class="i18n1" name="result"></label>
             </div>
             <div class="form-item-val">
-                <select id="cc" name="result">
+                <select id="result" name="result">
                           <option value="1">合格,进入外防成品入库工序</option>
                           <option value="0">不合格,进入外防待修补工序</option>
                           <option value="2">不合格,进入外防待扒皮工序</option>
@@ -97,14 +97,6 @@
                           <option value="10">待定</option>
                           <option value="5">隔离,进入修磨或切割工序</option>
                       </select>
-            </div>
-        </div>
-        <div class="form-item">
-            <div class="form-item-lbl">
-                <label class="i18n1" name="remark"></label>
-            </div>
-            <div class="form-item-val">
-                <textarea name="remark"></textarea>
             </div>
         </div>
         <div class="form-item">
@@ -119,6 +111,15 @@
                 <button class="i18n1 form-pictures" name="selectpicture"></button>
             </div>
         </div>
+        <div class="form-item">
+            <div class="form-item-lbl">
+                <label class="i18n1" name="remark"></label>
+            </div>
+            <div class="form-item-val">
+                <textarea id="remark" name="remark"></textarea>
+            </div>
+        </div>
+
 
     </div>
     <footer class="form-footer" id=footer>
@@ -138,10 +139,6 @@
 <script type="text/javascript">
     var g_pipeno;
     var g_employeeno, g_millno;
-    //检验频次Map
-    var inspectFreqMap = [];
-    //OD接收标准
-    var ODacceptCriteriaMap;
     //UILoading 的id
     var g_loadingID = 0;
     apiready = function() {
@@ -157,7 +154,6 @@
 
     function GetAllProcessInfoByPipeNoOK(data) {
         ClearLoadingPicture();
-        //alert(JSON.stringify(data));
         g_employeeno = data.employeeno;
         g_millno = data.millno;
         if (data.pipeinfo.status != "od5") {
@@ -169,7 +165,7 @@
         initPipeBasicHeader(data.pipeinfo, data.millno);
         setControls();
         setSelectPictures();
-        //getPendingRecordInfo("OdBlastInspectionOperation", g_pipeno);
+        getPendingRecordInfo("OdFinalInOperation", g_pipeno);
     }
     //得到外防接收标准失败
     function GetAllProcessInfoByPipeNoFail() {

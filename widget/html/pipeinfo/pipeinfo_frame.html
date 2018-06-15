@@ -1108,7 +1108,7 @@
 
         for (var key in dict) {
             template += '<tr style="width:100%;">';
-            template += ' <td style="width:50%;color: #7A7A7A;padding:5px 0px;" class="i18n1 pipeinfo-td" name="' + key + '">' + key + '</td>';
+            template += ' <td style="width:50%;color: #7A7A7A;padding:5px 0px;word-break: break-all;word-wrap: break-word;" class="i18n1 pipeinfo-td" name="' + key + '">' + key + '</td>';
             if(dict[key]==undefined||dict[key]==-99)
                dict[key]="";
             if (key == "uploadfiles"){

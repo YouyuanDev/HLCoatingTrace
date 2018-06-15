@@ -155,7 +155,9 @@ select,button{
 .dataintable tr {
     width: 100%;
 }
-
+.dataintable tr td{
+  word-break: break-all;word-wrap: break-word;
+}
 .pipeinfo-table tr td:nth-child(odd) {
     text-align: left;
     color: #7A7A7A;
