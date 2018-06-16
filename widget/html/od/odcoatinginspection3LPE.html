@@ -236,8 +236,7 @@
         fnSettingHeader();
         hlLanguage("../../i18n/");
         RequestAllProcessInfoByPipeNo(g_pipeno);
-        //选择控件判断是否合格事件
-        validateSelect();
+
     }
 
     function GetAllProcessInfoByPipeNoOK(data) {
@@ -297,6 +296,7 @@
                 }
             }
             $('#remark').val(data.remark);
+            validateAllValue();
         }
     }
     //获取待定数据失败事件

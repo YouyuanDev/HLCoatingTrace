@@ -794,23 +794,7 @@ function setControls() {
         onSet: function(event, inst) {
             var selectedVal = inst.getVal();
             $(this).val(selectedVal.replace('%', ''));
-            var minVal = $(this).attr('data-min');
-            var maxVal = $(this).attr('data-max');
-            var flag = true;
-            if (selectedVal != undefined) {
-                if (maxVal != undefined) {
-                    if (parseFloat(maxVal) < parseFloat(selectedVal))
-                        flag = false;
-                }
-                if (minVal != undefined) {
-                    if (parseFloat(selectedVal) < parseFloat(minVal))
-                        flag = false;
-                }
-                if (flag)
-                    $(this).css('background', '#FFFFFF');
-                else
-                    $(this).css('background', '#F9A6A6');
-            }
+            validateSingleValue($(this));
         }
     });
 
@@ -833,24 +817,7 @@ function setControls() {
         onSet: function(event, inst) {
             var selectedVal = inst.getVal();
             $(this).val(selectedVal.replace('°C', ''));
-            var minVal = $(this).attr('data-min');
-            var maxVal = $(this).attr('data-max');
-
-            var flag = true;
-            if (selectedVal != undefined) {
-                if (maxVal != undefined) {
-                    if (parseFloat(maxVal) < parseFloat(selectedVal))
-                        flag = false;
-                }
-                if (minVal != undefined) {
-                    if (parseFloat(selectedVal) < parseFloat(minVal))
-                        flag = false;
-                }
-                if (flag)
-                    $(this).css('background', '#FFFFFF');
-                else
-                    $(this).css('background', '#F9A6A6');
-            }
+            validateSingleValue($(this));
         }
     });
     //空气温度
@@ -871,23 +838,7 @@ function setControls() {
         onSet: function(event, inst) {
             var selectedVal = inst.getVal();
             $(this).val(selectedVal.replace('°C', ''));
-            var minVal = $(this).attr('data-min');
-            var maxVal = $(this).attr('data-max');
-            var flag = true;
-            if (selectedVal != undefined) {
-                if (maxVal != undefined) {
-                    if (parseFloat(maxVal) < parseFloat(selectedVal))
-                        flag = false;
-                }
-                if (minVal != undefined) {
-                    if (parseFloat(selectedVal) < parseFloat(minVal))
-                        flag = false;
-                }
-                if (flag)
-                    $(this).css('background', '#FFFFFF');
-                else
-                    $(this).css('background', '#F9A6A6');
-            }
+            validateSingleValue($(this));
         }
     });
     //钢管温度
@@ -907,23 +858,7 @@ function setControls() {
         onSet: function(event, inst) {
             var selectedVal = inst.getVal();
             $(this).val(selectedVal.replace('°C', ''));
-            var minVal = $(this).attr('data-min');
-            var maxVal = $(this).attr('data-max');
-            var flag = true;
-            if (selectedVal != undefined) {
-                if (maxVal != undefined) {
-                    if (parseFloat(maxVal) < parseFloat(selectedVal))
-                        flag = false;
-                }
-                if (minVal != undefined) {
-                    if (parseFloat(selectedVal) < parseFloat(minVal))
-                        flag = false;
-                }
-                if (flag)
-                    $(this).css('background', '#FFFFFF');
-                else
-                    $(this).css('background', '#F9A6A6');
-            }
+            validateSingleValue($(this));
 
         }
     });
@@ -942,23 +877,7 @@ function setControls() {
         onSet: function(event, inst) {
             var selectedVal = inst.getVal();
             $(this).val(selectedVal.replace('°C', ''));
-            var minVal = $(this).attr('data-min');
-            var maxVal = $(this).attr('data-max');
-            var flag = true;
-            if (selectedVal != undefined) {
-                if (maxVal != undefined) {
-                    if (parseFloat(maxVal) < parseFloat(selectedVal))
-                        flag = false;
-                }
-                if (minVal != undefined) {
-                    if (parseFloat(selectedVal) < parseFloat(minVal))
-                        flag = false;
-                }
-                if (flag)
-                    $(this).css('background', '#FFFFFF');
-                else
-                    $(this).css('background', '#F9A6A6');
-            }
+            validateSingleValue($(this));
 
         }
     });
@@ -980,23 +899,7 @@ function setControls() {
         onSet: function(event, inst) {
             var selectedVal = inst.getVal();
             $(this).val(selectedVal.replace('mg/㎡', ''));
-            var minVal = $(this).attr('data-min');
-            var maxVal = $(this).attr('data-max');
-            var flag = true;
-            if (selectedVal != undefined) {
-                if (maxVal != undefined) {
-                    if (parseFloat(maxVal) < parseFloat(selectedVal))
-                        flag = false;
-                }
-                if (minVal != undefined) {
-                    if (parseFloat(selectedVal) < parseFloat(minVal))
-                        flag = false;
-                }
-                if (flag)
-                    $(this).css('background', '#FFFFFF');
-                else
-                    $(this).css('background', '#F9A6A6');
-            }
+            validateSingleValue($(this));
         }
     });
     //所用时间s
@@ -1017,23 +920,7 @@ function setControls() {
         onSet: function(event, inst) {
             var selectedVal = inst.getVal();
             $(this).val(selectedVal.replace('s', ''));
-            var minVal = $(this).attr('data-min');
-            var maxVal = $(this).attr('data-max');
-            var flag = true;
-            if (selectedVal != undefined) {
-                if (maxVal != undefined) {
-                    if (parseFloat(maxVal) < parseFloat(selectedVal))
-                        flag = false;
-                }
-                if (minVal != undefined) {
-                    if (parseFloat(selectedVal) < parseFloat(minVal))
-                        flag = false;
-                }
-                if (flag)
-                    $(this).css('background', '#FFFFFF');
-                else
-                    $(this).css('background', '#F9A6A6');
-            }
+            validateSingleValue($(this));
         }
     });
     //浓度
@@ -1054,23 +941,7 @@ function setControls() {
         onSet: function(event, inst) {
             var selectedVal = inst.getVal();
             $(this).val(selectedVal.replace('%', ''));
-            var minVal = $(this).attr('data-min');
-            var maxVal = $(this).attr('data-max');
-            var flag = true;
-            if (selectedVal != undefined) {
-                if (maxVal != undefined) {
-                    if (parseFloat(maxVal) < parseFloat(selectedVal))
-                        flag = false;
-                }
-                if (minVal != undefined) {
-                    if (parseFloat(selectedVal) < parseFloat(minVal))
-                        flag = false;
-                }
-                if (flag)
-                    $(this).css('background', '#FFFFFF');
-                else
-                    $(this).css('background', '#F9A6A6');
-            }
+            validateSingleValue($(this));
         }
     });
     //冲洗电导率
@@ -1090,23 +961,7 @@ function setControls() {
         onSet: function(event, inst) {
             var selectedVal = inst.getVal();
             $(this).val(selectedVal.replace('μS/cm', ''));
-            var minVal = $(this).attr('data-min');
-            var maxVal = $(this).attr('data-max');
-            var flag = true;
-            if (selectedVal != undefined) {
-                if (maxVal != undefined) {
-                    if (parseFloat(maxVal) < parseFloat(selectedVal))
-                        flag = false;
-                }
-                if (minVal != undefined) {
-                    if (parseFloat(selectedVal) < parseFloat(minVal))
-                        flag = false;
-                }
-                if (flag)
-                    $(this).css('background', '#FFFFFF');
-                else
-                    $(this).css('background', '#F9A6A6');
-            }
+            validateSingleValue($(this));
         }
     });
     //磨料电导率
@@ -1126,23 +981,7 @@ function setControls() {
         onSet: function(event, inst) {
             var selectedVal = inst.getVal();
             $(this).val(selectedVal.replace('μS/cm', ''));
-            var minVal = $(this).attr('data-min');
-            var maxVal = $(this).attr('data-max');
-            var flag = true;
-            if (selectedVal != undefined) {
-                if (maxVal != undefined) {
-                    if (parseFloat(maxVal) < parseFloat(selectedVal))
-                        flag = false;
-                }
-                if (minVal != undefined) {
-                    if (parseFloat(selectedVal) < parseFloat(minVal))
-                        flag = false;
-                }
-                if (flag)
-                    $(this).css('background', '#FFFFFF');
-                else
-                    $(this).css('background', '#F9A6A6');
-            }
+            validateSingleValue($(this));
         }
     });
     //速度
@@ -1163,23 +1002,7 @@ function setControls() {
         onSet: function(event, inst) {
             var selectedVal = inst.getVal();
             $(this).val(selectedVal.replace('m/s', ''));
-            var minVal = $(this).attr('data-min');
-            var maxVal = $(this).attr('data-max');
-            var flag = true;
-            if (selectedVal != undefined) {
-                if (maxVal != undefined) {
-                    if (parseFloat(maxVal) < parseFloat(selectedVal))
-                        flag = false;
-                }
-                if (minVal != undefined) {
-                    if (parseFloat(selectedVal) < parseFloat(minVal))
-                        flag = false;
-                }
-                if (flag)
-                    $(this).css('background', '#FFFFFF');
-                else
-                    $(this).css('background', '#F9A6A6');
-            }
+            validateSingleValue($(this));
         }
     });
     var numList = "";
@@ -1208,6 +1031,7 @@ function setControls() {
                     selectedVal = selectedVal.substring(0, (selectedVal.lastIndexOf(',') + 1));
                     $nowObj.val(selectedVal);
                     numList = selectedVal;
+                    validateSingleValue($nowObj);
                     inst.setVal(0);
                 }
             },
@@ -1220,28 +1044,7 @@ function setControls() {
                     selectedVal = ($nowObj.val()+ selectedVal + ",");
                     $nowObj.val(selectedVal);
                     numList=selectedVal;
-                    var arr = selectedVal.split(",");
-                    var minVal = $nowObj.attr('data-min');
-                    var maxVal = $nowObj.attr('data-max');
-                    var flag = true;
-                    for (var i = 0; i < arr.length; i++) {
-                        if (maxVal != undefined) {
-                            if (parseFloat(maxVal) < parseFloat(arr[i])) {
-                                flag = false;
-                                break;
-                            }
-                        }
-                        if (minVal != undefined) {
-                            if (parseFloat(arr[i]) < parseFloat(minVal)) {
-                                flag = false;
-                                break;
-                            }
-                        }
-                    }
-                    if (flag)
-                        $nowObj.css('background', '#FFFFFF');
-                    else
-                        $nowObj.css('background', '#F9A6A6');
+                    validateSingleValue($nowObj);
                     inst.setVal(0);
                 }
               }
@@ -1306,23 +1109,7 @@ function setControls() {
         onSet: function(event, inst) {
             var selectedVal = inst.getVal();
             $(this).val(selectedVal.replace('μm', ''));
-            var minVal = $(this).attr('data-min');
-            var maxVal = $(this).attr('data-max');
-            var flag = true;
-            if (selectedVal != undefined) {
-                if (maxVal != undefined) {
-                    if (parseFloat(maxVal) < parseFloat(selectedVal))
-                        flag = false;
-                }
-                if (minVal != undefined) {
-                    if (parseFloat(selectedVal) < parseFloat(minVal))
-                        flag = false;
-                }
-                if (flag)
-                    $(this).css('background', '#FFFFFF');
-                else
-                    $(this).css('background', '#F9A6A6');
-            }
+            validateSingleValue($(this));
         }
     });
     //底层、面层粉末喷枪数(外涂2fbe)
@@ -1338,23 +1125,7 @@ function setControls() {
         onSet: function(event, inst) {
             var selectedVal = inst.getVal();
             $(this).val(selectedVal);
-            var minVal = $(this).attr('data-min');
-            var maxVal = $(this).attr('data-max');
-            var flag = true;
-            if (selectedVal != undefined) {
-                if (maxVal != undefined) {
-                    if (parseFloat(maxVal) < parseFloat(selectedVal))
-                        flag = false;
-                }
-                if (minVal != undefined) {
-                    if (parseFloat(selectedVal) < parseFloat(minVal))
-                        flag = false;
-                }
-                if (flag)
-                    $(this).css('background', '#FFFFFF');
-                else
-                    $(this).css('background', '#F9A6A6');
-            }
+            validateSingleValue($(this));
         }
     });
     //整数numpad
@@ -1373,23 +1144,8 @@ function setControls() {
         rtl: false,
         onSet: function(event, inst) {
             var selectedVal = inst.getVal();
-            var minVal = $(this).attr('data-min');
-            var maxVal = $(this).attr('data-max');
-            var flag = true;
-            if (selectedVal != undefined) {
-                if (maxVal != undefined) {
-                    if (parseFloat(maxVal) < parseFloat(selectedVal))
-                        flag = false;
-                }
-                if (minVal != undefined) {
-                    if (parseFloat(selectedVal) < parseFloat(minVal))
-                        flag = false;
-                }
-            }
-            if (flag)
-                $(this).css('background', '#FFFFFF');
-            else
-                $(this).css('background', '#F9A6A6');
+            $(this).val(selectedVal);
+            validateSingleValue($(this));
         }
     });
     //小数numpad精确度1
@@ -1407,25 +1163,8 @@ function setControls() {
         rtl: false,
         onSet: function(event, inst) {
             var selectedVal = inst.getVal();
-            var minVal = $(this).attr('data-min');
-            var maxVal = $(this).attr('data-max');
-            var flag = true;
-            if (selectedVal != undefined) {
-                if (maxVal != undefined) {
-                    if (parseFloat(maxVal) < parseFloat(selectedVal)) {
-                        flag = false;
-                    }
-                }
-                if (minVal != undefined) {
-                    if (parseFloat(selectedVal) < parseFloat(minVal)) {
-                        flag = false;
-                    }
-                }
-            }
-            if (flag)
-                $(this).css('background', '#FFFFFF');
-            else
-                $(this).css('background', '#F9A6A6');
+            $(this).val(selectedVal);
+            validateSingleValue($(this));
         }
     });
     //小数numpad精确度2
@@ -1443,25 +1182,8 @@ function setControls() {
         rtl: false,
         onSet: function(event, inst) {
             var selectedVal = inst.getVal();
-            var minVal = $(this).attr('data-min');
-            var maxVal = $(this).attr('data-max');
-            var flag = true;
-            if (selectedVal != undefined) {
-                if (maxVal != undefined) {
-                    if (parseFloat(maxVal) < parseFloat(selectedVal)) {
-                        flag = false;
-                    }
-                }
-                if (minVal != undefined) {
-                    if (parseFloat(selectedVal) < parseFloat(minVal)) {
-                        flag = false;
-                    }
-                }
-            }
-            if (flag)
-                $(this).css('background', '#FFFFFF');
-            else
-                $(this).css('background', '#F9A6A6');
+            $(this).val(selectedVal);
+            validateSingleValue($(this));
         }
     });
     //设置底层、面层型号控件
@@ -1754,30 +1476,58 @@ function getPendingRecordInfo(controller, pipe_no) {
 
     });
 }
-//选择控件判断是否合格事件
-function validateSelect() {
+
+
+
+//验证单个控件的数据是否合格,此方法使用单值和多值列表
+function validateSingleValue(obj){
+  var minVal = obj.attr('data-min');
+  var maxVal = obj.attr('data-max');
+  var objvalue  = obj.val();
+  var flag = true;
+  if (objvalue != undefined&&objvalue!=-99&&objvalue!="") {
+    var valuelist = objvalue.split(",");
+    for (var i = 0; i < valuelist.length; i++) {
+        if (maxVal != undefined) {
+            if (parseFloat(maxVal) < parseFloat(valuelist[i])) {
+                flag = false;
+                break;
+            }
+        }
+        if (minVal != undefined) {
+            if (parseFloat(valuelist[i]) < parseFloat(minVal)) {
+                flag = false;
+                break;
+            }
+        }
+    }
+  }
+  if (flag)
+      obj.css('background', '#FFFFFF');
+  else
+      obj.css('background', '#F9A6A6');
+}
+
+//判断是否合格
+function validateAllValue() {
+    //选择控件的onchange后需要判断
     $('.validate-select').on('change', function() {
         var max = $(this).attr('data-max');
         var min = $(this).attr('data-min');
         var thisVal = $(this).val();
-        var flag = false;
-        if (thisVal != undefined && thisVal.length > 0 && thisVal != "-99") {
-            if (max != undefined) {
-                if (parseFloat(thisVal) > parseFloat(max))
-                    flag = true;
-            }
-            if (min != undefined) {
-                if (parseFloat(thisVal) < parseFloat(min))
-                    flag = true;
-            }
-            if (flag)
-                $(this).css('background', '#F9A6A6');
-            else
-                $(this).css('background', '#FFFFFF');
-        } else {
-            $(this).css('background', '#FFFFFF');
-        }
+        validateSingleValue($(this));
     });
+    //验证所有input类型的数据范围
+    $("input").each(function(){
+          validateSingleValue($(this));
+    });
+    //验证所有select类型的数据范围
+    $("select").each(function(){
+          validateSingleValue($(this));
+    });
+
+
+
 }
 
 //获取前一根合格管的涂层记录作为数据来源

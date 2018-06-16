@@ -262,6 +262,8 @@
             }
             $('#remark').val(data.remark);
         }
+
+        validateAllValue();
     }
 
     function getPendingRecordInfoFail() {
@@ -291,6 +293,9 @@
                         pipe_no: g_pipeno,
                         mill_no: g_millno,
                         operator_no: g_employeeno,
+                        original_pipe_no:g_pipeno,
+                        new_pipe_no:g_pipeno,
+                        pipe_no_update:g_pipeno,
                         marking: $('#mk').val(),
                         internal_surface_condition: $('.form-steel-select-val').text(),
                         external_coating_condition: $('.form-coating-select-val').text(),

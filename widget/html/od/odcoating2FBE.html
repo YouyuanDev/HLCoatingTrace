@@ -243,8 +243,6 @@
         hlLanguage("../../i18n/");
         //获取后十条涂层记录
         loadPage();
-        //选择控件判断是否合格事件
-        validateSelect();
     }
 
     function GetAllProcessInfoByPipeNoOK(data) {
@@ -316,7 +314,7 @@
                     $('input[name="spray_speed"]').val();
                 if (data.application_voltage != -99)
                     $('input[name="application_voltage"]').val(data.application_voltage);
-
+                validateAllValue();
             } else {
                 //此记录为计算机生成
                 $('#remark').val('');
@@ -355,7 +353,7 @@
                 $('input[name="spray_speed"]').val();
             if (data.application_voltage != -99)
                 $('input[name="application_voltage"]').val(data.application_voltage);
-
+            validateAllValue();
         }
     }
     //

@@ -94,10 +94,10 @@
         </div>
         <div class="form-item">
             <div class="form-item-lbl">
-                <label class="i18n1 profile_lbl" name="profile"></label>
+                <label class="i18n1 od_profile_lbl" name="profile"></label>
             </div>
             <div class="form-item-val">
-                <input type="text" data-number=true data-required=false class="mob-profile" name="profile" />
+                <input type="text" data-number=true data-required=false class="mob-profile od_profile" name="profile" />
             </div>
         </div>
         <div class="form-item">
@@ -229,8 +229,7 @@
             fnSettingHeader();
             hlLanguage("../../i18n/");
             RequestAllProcessInfoByPipeNo(g_pipeno);
-            //选择控件判断是否合格事件
-            validateSelect();
+
         }
         //继续方法
         // function Go(employeeno, millno) {
@@ -357,6 +356,7 @@
 
             $('#remark').val(data.remark);
             setDeltaTemp(); //设置露点温度差
+            validateAllValue();
         }
     }
 
@@ -427,23 +427,24 @@
             var pipe_temp = $('.pipe_temp_after_blast').val().replace('°C', '');
             var delta = parseFloat(pipe_temp) - parseFloat(dew_point);
             $('.delta_temp').val(delta);
-            var minVal = $('.delta_temp').attr('data-min');
-            var maxVal = $('.delta_temp').attr('data-max');
-            var flag = true;
-            if (delta != undefined) {
-                if (maxVal != undefined) {
-                    if (parseFloat(maxVal) < parseFloat(delta))
-                        flag = false;
-                }
-                if (minVal != undefined) {
-                    if (parseFloat(delta) < parseFloat(minVal))
-                        flag = false;
-                }
-                if (flag)
-                    $('.delta_temp').css('background', '#FFFFFF');
-                else
-                    $('.delta_temp').css('background', '#F9A6A6');
-            }
+            validateSingleValue($('.delta_temp'));
+            // var minVal = $('.delta_temp').attr('data-min');
+            // var maxVal = $('.delta_temp').attr('data-max');
+            // var flag = true;
+            // if (delta != undefined) {
+            //     if (maxVal != undefined) {
+            //         if (parseFloat(maxVal) < parseFloat(delta))
+            //             flag = false;
+            //     }
+            //     if (minVal != undefined) {
+            //         if (parseFloat(delta) < parseFloat(minVal))
+            //             flag = false;
+            //     }
+            //     if (flag)
+            //         $('.delta_temp').css('background', '#FFFFFF');
+            //     else
+            //         $('.delta_temp').css('background', '#F9A6A6');
+            //}
         }
 
     }
