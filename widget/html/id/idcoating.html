@@ -8,6 +8,7 @@
     <title>内涂</title>
     <link rel="stylesheet" type="text/css" href="../../css/api.css" />
     <link rel="stylesheet" type="text/css" href="../../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/mobiscroll.custom-3.0.0-beta6.min.css" />
 </head>
 
 <body>
@@ -17,19 +18,51 @@
     </header>
     <div class="form-content" id="content">
         <div class="form-item">
+            <table class="pipeinfo-table">
+                <thead>
+                    <tr>
+                        <th class="i18n1" name="pipebasicinfo" colspan="4" style="text-align:center;">钢管基础信息</th>
+                    </tr>
+                </thead>
+                <tr>
+                    <td class="i18n1" name="pipeno"></td>
+                    <td class="pipe_no"></td>
+                    <td class="i18n1" name="statusname"></td>
+                    <td class="status_name"></td>
+                </tr>
+                <tr>
+                    <td class="i18n1" name="od"></td>
+                    <td class="od"></td>
+                    <td class="i18n1" name="wt"></td>
+                    <td class="wt"></td>
+                </tr>
+                <tr>
+                    <td class="i18n1" name="millno"></td>
+                    <td class="millno"></td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="form-item">
+            <input type="hidden" value="0" id="id" class="id" />
+        </div>
+        <div class="form-item">
             <div class="form-item-lbl">
-                <label class="i18n1" name="coatingspeed"></label>
+                <label class="i18n1 coating_speed_lbl" name="coatingspeed"></label>
             </div>
             <div class="form-item-val">
-                <input type="number" name="coating_speed" value="" />
+                <input type="text" data-number=true data-required=false class="mob-line-speed coating_speed" name="coating_speed" value="" />
             </div>
         </div>
+
         <div class="form-item">
             <div class="form-item-lbl">
                 <label class="i18n1" name="baseused"></label>
             </div>
             <div class="form-item-val">
-                <input type="text" name="base_used" value="" />
+                <select class="model-select" id="base_used" name="base_used">
+
+              </select>
             </div>
         </div>
         <div class="form-item">
@@ -37,7 +70,7 @@
                 <label class="i18n1" name="basebatch"></label>
             </div>
             <div class="form-item-val">
-                <input type="text" name="base_batch" />
+                <input type="text" data-number=false data-required=false class="base_batch" name="base_batch" />
             </div>
         </div>
         <div class="form-item">
@@ -45,7 +78,8 @@
                 <label class="i18n1" name="curingagentused"></label>
             </div>
             <div class="form-item-val">
-                <input type="text" name="curing_agent_used" />
+                <select class="model-select" id="curing_agent_used" name="curing_agent_used">
+              </select>
             </div>
         </div>
         <div class="form-item">
@@ -53,7 +87,7 @@
                 <label class="i18n1" name="curingagentbatch"></label>
             </div>
             <div class="form-item-val">
-                <input type="text" name="curing_agent_batch" />
+                <input type="text" data-number=false data-required=false class="curing_agent_batch" name="curing_agent_batch" />
             </div>
         </div>
         <div class="form-item">
@@ -61,8 +95,9 @@
                 <label class="i18n1" name="curingstarttime"></label>
             </div>
             <div class="form-item-val">
-                 <input type="text" id="date" data-options="{'type':'YYYY-MM-DD hh:mm:ss','beginyear':2018,'endyear':2088,'location':'before'}">
-                 <!-- <button class="i18n1 form-begintime" name="select"></button> -->
+                <input type="text" data-number=false data-required=false class="mob-datetime curing_start_time" name="curing_start_time">
+                <!-- <input type="text" id="date" data-options="{'type':'YYYY-MM-DD hh:mm:ss','beginyear':2018,'endyear':2088,'location':'before'}"> -->
+                <!-- <button class="i18n1 form-begintime" name="select"></button> -->
             </div>
             <!-- <div class="form-select-val">
 
@@ -70,10 +105,10 @@
         </div>
         <div class="form-item">
             <div class="form-item-lbl">
-                <label class="i18n1" name="curingfinishtime"></label>
+                <label class="i18n1 curing_finish_time_lbl" name="curingfinishtime"></label>
             </div>
             <div class="form-item-val">
-                <input type="text" id="date1" data-options="{'type':'YYYY-MM-DD hh:mm:ss','beginyear':2018,'endyear':2088,'location':'before'}">
+                <input type="text" data-number=false data-required=false class="mob-datetime curing_finish_time" name="curing_finish_time">
                 <!-- <button class="i18n1 form-endtime" name="select"></button> -->
             </div>
             <!-- <div class="form-select-val1">
@@ -82,10 +117,10 @@
         </div>
         <div class="form-item">
             <div class="form-item-lbl">
-                <label class="i18n1" name="curingtemp"></label>
+                <label class="i18n1 curing_temp_lbl" name="curingtemp"></label>
             </div>
             <div class="form-item-val">
-                <input type="number" name="curing_temp" />
+                <input type="text" data-number=true data-required=false class="mob-curing-temp curing_temp" name="curing_temp" />
             </div>
         </div>
         <div class="form-item">
@@ -93,21 +128,15 @@
                 <label class="i18n1" name="result"></label>
             </div>
             <div class="form-item-val">
-                <select id="cc" name="result">
+                <select id="result" name="result">
                       <option value="1">合格,进入内涂敷检验工序</option>
                       <option value="0">不合格,进入内防喷砂工序</option>
                       <option value="10">待定</option>
                   </select>
             </div>
         </div>
-        <div class="form-item">
-            <div class="form-item-lbl">
-                <label class="i18n1" name="remark"></label>
-            </div>
-            <div class="form-item-val">
-                <textarea name="remark"></textarea>
-            </div>
-        </div>
+
+
         <div class="form-item">
             <div class="imgBox"></div>
             <!-- <div style=""></div> -->
@@ -122,10 +151,20 @@
 
         </div>
 
+        <div class="form-item">
+            <div class="form-item-lbl">
+                <label class="i18n1" name="remark"></label>
+            </div>
+            <div class="form-item-val">
+                <textarea id="remark" name="remark"></textarea>
+            </div>
+        </div>
+
+
     </div>
     <footer class="form-footer" id=footer>
         <div id="foot-container" style="width:100%;height:43px;display:flex;justify-content:center;align-items:center;" class="foot-container">
-            <div class="i18n1 form-process-button" name="submit" onclick="">提交</div>
+            <div class="i18n1 form-process-button" name="submit" onclick="submitForm();">提交</div>
         </div>
     </footer>
 </body>
@@ -137,32 +176,156 @@
 <script src="../../script/jquery.i18n.properties-1.0.9.js" type="text/javascript"></script>
 <script src="../../script/language.js" type="text/javascript"></script>
 <script src="../../script/jquery.date.js" type="text/javascript"></script>
+<script src="../../script/mobiscroll.custom-3.0.0-beta6.min.js" type="text/javascript"></script>
 <script type="text/javascript">
-apiready = function() {
-     RequestMySesssion();
- }
- //继续方法
-  function Go(employeeno,millno){
-    //初始化表单业务逻辑
-    setSelectPictures();
-    $.date('#date');
-    $.date('#date1');
-    hlLanguage("../../i18n/");
-  }
+    var g_pipeno;
+    var g_employeeno, g_millno;
+    //UILoading 的id
+    var g_loadingID = 0;
+    apiready = function() {
+        var data = api.pageParam;
+        g_pipeno = data.pipe_no;
+        DoLoadingPicture();
+        fnSettingHeader();
+        hlLanguage("../../i18n/");
+        //获取后十条涂层记录
+        RequestAllProcessInfoByPipeNo(g_pipeno);
+    }
 
-  //撤退方法
-  function Reverse(msg){
-      alert(msg);
-      setTimeout("closeWindow()",1000);
-  }
-   
 
-    //设置固化开始时间和结束时间
-    function setCuringTime(type) {
-        if(type==0)
-          $.date('#date');
-        else
-          $.date('#date1');
+    function GetAllProcessInfoByPipeNoOK(data) {
+        ClearLoadingPicture();
+        //alert(JSON.stringify(data));
+        g_employeeno = data.employeeno;
+        g_millno = data.millno;
+        if (data.pipeinfo.status != "id2") {
+            closeWindow();
+        }
+        initCriteria(data.idcriteria);
+        initCriteria(data.pbcriteria);
+        initInspectionFreq(data.inspectfreq);
+        initPipeBasicHeader(data.pipeinfo, data.millno);
+        setControls();
+        setSelectPictures();
+        getPendingRecordInfo("IdCoatOperation", g_pipeno);
+        //
+    }
+    //得到数据失败
+    function GetAllProcessInfoByPipeNoFail(message) {
+        ClearLoadingPicture();
+        api.alert({
+            msg: message
+        });
+        closeWindow();
+    }
 
+    // //设置固化开始时间和结束时间
+    // function setCuringTime(type) {
+    //     if(type==0)
+    //       $.date('#date');
+    //     else
+    //       $.date('#date1');
+    //
+    // }
+
+    //获取待定数据成功事件
+    function getPendingRecordInfoOK(data) {
+        if (data != undefined) {
+            $('.id').val(data.id);
+            $('#result').val(data.result);
+            var imgUrl = data.upload_files;
+            if (imgUrl.length > 0) {
+                var imgArr = imgUrl.split(';');
+                var s = 'http://' + serverIP + '/upload/pictures/';
+                for (var i = 0; i < imgArr.length; i++) {
+                    if (imgArr[i] != undefined && imgArr[i].length > 0)
+                        $('.imgBox').append(pictureTemplate(imgArr[i], s + imgArr[i]));
+                }
+            }
+            $('#remark').val(data.remark);
+            if (data.coating_speed != -99)
+                $('input[name="coating_speed"]').val(data.coating_speed);
+            if (data.base_used != undefined)
+                $('#base_used').val(data.base_used);
+            if (data.base_batch != undefined)
+                $('input[name="base_batch"]').val(data.base_batch);
+            if (data.curing_agent_used != undefined)
+                $('#curing_agent_used').val(data.curing_agent_used);
+            if (data.curing_agent_batch != undefined)
+                $('input[name="curing_agent_batch"]').val(data.curing_agent_batch);
+            if (data.curing_start_time != undefined){
+                $('input[name="curing_start_time"]').val(getDateMobi(data.curing_start_time));
+            }
+            if (data.curing_finish_time != undefined){
+              $('input[name="curing_finish_time"]').val(getDateMobi(data.curing_finish_time));
+            }
+
+            if (data.curing_temp != -99)
+                $('input[name="curing_temp"]').val(data.curing_temp);
+            validateAllValue();
+
+        } else {
+            //此记录为计算机生成
+            //RequestLastAcceptedRecordBeforePipeNo(data.pipe_no, "IdCoatOperation");
+        }
+    }
+
+    //获取待定数据失败事件
+    function getPendingRecordInfoFail() {
+
+    }
+
+
+
+    //表单提交
+    function submitForm() {
+        if (initFormNumber()) {
+            var s = 'http://' + serverIP + '/IdCoatOperation/saveIdCoatingProcess.action';
+            var imgUrl = "";
+            $('.imgBox  .temp-container img').each(function() {
+                var temp = $(this).attr("data-url");
+                if (temp != undefined) {
+                    imgUrl += (temp + ";");
+                }
+            });
+            api.ajax({
+                url: s,
+                method: 'post',
+                timeout: 30,
+                dataType: 'json',
+                data: {
+                    values: {
+                        id: $('.id').val(),
+                        pipe_no: g_pipeno,
+                        mill_no: g_millno,
+                        operator_no: g_employeeno,
+                        coating_speed: $('input[name="coating_speed"]').val(),
+                        base_used: $('#base_used').val(),
+                        base_batch: $('input[name="base_batch"]').val(),
+                        curing_agent_used: $('#curing_agent_used').val(),
+                        curing_agent_batch: $('input[name="curing_agent_batch"]').val(),
+                        curing_start_time:  $('input[name="curing_start_time"]').val(),
+                        curing_finish_time:  $('input[name="curing_finish_time"]').val(),
+                        curing_temp: $('input[name="curing_temp"]').val(),
+                        result: $('#result').val(),
+                        upload_files: imgUrl,
+                        remark: $('#remark').val(),
+                    }
+                }
+            }, function(ret, err) { //alert(ret);
+                if (ret) {
+                    api.alert({
+                        msg: ret.message
+                    });
+                    if (ret.success) {
+                        closeWindow();
+                    }
+                } else {
+                    api.alert({
+                        msg: JSON.stringify(err)
+                    });
+                }
+            });
+        }
     }
 </script>

@@ -76,6 +76,34 @@ function getDate1(str) {
 }
 
 
+function getDateMobi(str) {
+    var oDate = new Date(str);
+    y = oDate.getFullYear();
+    m = oDate.getMonth() + 1;
+    d = oDate.getDate();
+    h = oDate.getHours();
+    mins = oDate.getMinutes();
+    s = oDate.getSeconds();
+    return y + '/' + (m < 10 ? ('0' + m) : m) + '/' + (d < 10 ? ('0' + d) : d) + ' ' + (h < 10 ? ('0' + h) : h) + ':' + (mins < 10 ? ('0' + mins) : mins) + ':' + (s < 10 ? ('0' + s) : s);
+}
+
+//-转为/
+function formatterDateMobi(str) {
+    if (str != undefined)
+        return str.replace(/-/g, '/');
+    else
+        return ""
+}
+
+//字符串转date
+function parseMobiDate(str) {
+    if (str != undefined)
+        return new Date(Date.parse(str));
+    else
+        return new Date();
+
+}
+
 
 //绑定Push推送
 function bindPush() {
@@ -777,6 +805,29 @@ function initCriteria(criteria) {
 //设置控件
 function setControls() {
 
+
+    $('.mob-datetime').mobiscroll().datetime({
+        dateWheels: 'yymmdd',
+        timeWheels: 'hhii',
+        dateFormat: 'yy/mm/dd',
+        timeFormat: 'hh:ii:ss',
+        headerText: '日期格式 yyyy/mm/dd hh:mm',
+        yearSuffix: '  /',
+        monthSuffix: '  /',
+        onSet: function(event, inst) {
+            // Your custom event handler goes here
+            // var selectedVal = inst.getVal();
+            //$(this).val(selectedVal);
+        },
+        onShow: function(event, inst) {
+            inst.setVal($(this).val());
+        }
+    });
+
+    // $('#exp').mobiscroll().datetime();
+
+
+
     //湿度
     $(".mob-humidity").mobiscroll().temperature({
         theme: 'auto',
@@ -822,13 +873,13 @@ function setControls() {
     });
     //空气温度
     //if($(".mob-air-temperature")!=undefined)
-    $(".mob-air-temperature").mobiscroll().temperature({
+    $(".mob-air-temperature,.mob-curing-temp").mobiscroll().temperature({
         theme: 'auto',
         lang: 'zh',
         display: 'center',
         min: -5,
         defaultValue: 30,
-        max: 60,
+        max: 80,
         step: 0.1,
         scale: 1,
         units: ['c'],
@@ -1034,26 +1085,25 @@ function setControls() {
                     validateSingleValue($nowObj);
                     inst.setVal(0);
                 }
-            },
-            {
-              text: '添加',
-              icon: '',
-              handler: function(event, inst) {
-                var selectedVal = inst.getVal(true);
-                if (selectedVal != undefined) {
-                    selectedVal = ($nowObj.val()+ selectedVal + ",");
-                    $nowObj.val(selectedVal);
-                    numList=selectedVal;
-                    validateSingleValue($nowObj);
-                    inst.setVal(0);
+            }, {
+                text: '添加',
+                icon: '',
+                handler: function(event, inst) {
+                    var selectedVal = inst.getVal(true);
+                    if (selectedVal != undefined) {
+                        selectedVal = ($nowObj.val() + selectedVal + ",");
+                        $nowObj.val(selectedVal);
+                        numList = selectedVal;
+                        validateSingleValue($nowObj);
+                        inst.setVal(0);
+                    }
                 }
-              }
             }
         ],
         onBeforeShow: function(event, inst) {
             $nowObj = $(this);
             inst.setVal(0);
-            numList=$nowObj.val();
+            numList = $nowObj.val();
         },
         onSet: function(event, inst) {
             // var selectedVal =$nowObj.val();
@@ -1415,7 +1465,7 @@ function initFormNumber() {
     if (result) {
         $('select[data-required=true]').each(function(a, b) {
             var selectContent = $(this).find("option:selected").text();
-            if (selectContent.indexOf("未测") >= 0||selectContent.indexOf("未检测") >= 0) {
+            if (selectContent.indexOf("未测") >= 0 || selectContent.indexOf("未检测") >= 0) {
                 var name = $(this).parent().siblings('.form-item-lbl').children('label').text().replace("本次必填", "");
                 api.alert({
                     msg: "请输入:" + name
@@ -1433,6 +1483,11 @@ function initFormNumber() {
             $(this).val(-99);
         }
     });
+    // $("input[data-number=false]").each(function(a, b) {
+    //     if ($(this).val().length <= 0) {
+    //         $(this).val('');
+    //     }
+    // });
     return true;
 }
 
@@ -1480,32 +1535,32 @@ function getPendingRecordInfo(controller, pipe_no) {
 
 
 //验证单个控件的数据是否合格,此方法使用单值和多值列表,下拉单选
-function validateSingleValue(obj){
-  var minVal = obj.attr('data-min');
-  var maxVal = obj.attr('data-max');
-  var objvalue  = obj.val();
-  var flag = true;
-  if (objvalue != undefined&&objvalue!=-99&&objvalue!="") {
-    var valuelist = objvalue.split(",");
-    for (var i = 0; i < valuelist.length; i++) {
-        if (maxVal != undefined) {
-            if (parseFloat(maxVal) < parseFloat(valuelist[i])) {
-                flag = false;
-                break;
+function validateSingleValue(obj) {
+    var minVal = obj.attr('data-min');
+    var maxVal = obj.attr('data-max');
+    var objvalue = obj.val();
+    var flag = true;
+    if (objvalue != undefined && objvalue != -99 && objvalue != "") {
+        var valuelist = objvalue.split(",");
+        for (var i = 0; i < valuelist.length; i++) {
+            if (maxVal != undefined) {
+                if (parseFloat(maxVal) < parseFloat(valuelist[i])) {
+                    flag = false;
+                    break;
+                }
             }
-        }
-        if (minVal != undefined) {
-            if (parseFloat(valuelist[i]) < parseFloat(minVal)) {
-                flag = false;
-                break;
+            if (minVal != undefined) {
+                if (parseFloat(valuelist[i]) < parseFloat(minVal)) {
+                    flag = false;
+                    break;
+                }
             }
         }
     }
-  }
-  if (flag)
-      obj.css('background', '#FFFFFF');
-  else
-      obj.css('background', '#F9A6A6');
+    if (flag)
+        obj.css('background', '#FFFFFF');
+    else
+        obj.css('background', '#F9A6A6');
 }
 
 //判断是否合格
@@ -1518,12 +1573,12 @@ function validateAllValue() {
         validateSingleValue($(this));
     });
     //验证所有input类型的数据范围
-    $("input").each(function(){
-          validateSingleValue($(this));
+    $("input").each(function() {
+        validateSingleValue($(this));
     });
     //验证所有select类型的数据范围
-    $("select").each(function(){
-          validateSingleValue($(this));
+    $("select").each(function() {
+        validateSingleValue($(this));
     });
 
 
