@@ -1479,7 +1479,7 @@ function getPendingRecordInfo(controller, pipe_no) {
 
 
 
-//验证单个控件的数据是否合格,此方法使用单值和多值列表
+//验证单个控件的数据是否合格,此方法使用单值和多值列表,下拉单选
 function validateSingleValue(obj){
   var minVal = obj.attr('data-min');
   var maxVal = obj.attr('data-max');
