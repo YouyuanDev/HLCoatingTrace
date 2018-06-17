@@ -76,24 +76,28 @@ function getDate1(str) {
 }
 
 
-function getDateMobi(str) {
-    var oDate = new Date(str);
-    y = oDate.getFullYear();
-    m = oDate.getMonth() + 1;
-    d = oDate.getDate();
-    h = oDate.getHours();
-    mins = oDate.getMinutes();
-    s = oDate.getSeconds();
-    return y + '/' + (m < 10 ? ('0' + m) : m) + '/' + (d < 10 ? ('0' + d) : d) + ' ' + (h < 10 ? ('0' + h) : h) + ':' + (mins < 10 ? ('0' + mins) : mins) + ':' + (s < 10 ? ('0' + s) : s);
-}
+// function getDateMobi(str) {
+//     var oDate = new Date(str);
+//     y = oDate.getFullYear();
+//     m = oDate.getMonth() + 1;
+//     d = oDate.getDate();
+//     h = oDate.getHours();
+//     mins = oDate.getMinutes();
+//     s = oDate.getSeconds();
+//     return y + '/' + (m < 10 ? ('0' + m) : m) + '/' + (d < 10 ? ('0' + d) : d) + ' ' + (h < 10 ? ('0' + h) : h) + ':' + (mins < 10 ? ('0' + mins) : mins) + ':' + (s < 10 ? ('0' + s) : s);
+// }
 
-//-转为/
-function formatterDateMobi(str) {
-    if (str != undefined)
-        return str.replace(/-/g, '/');
-    else
-        return ""
-}
+// //-转为/
+// function formatterDateMobi(str) {
+//     if (str != undefined)
+//         return str.replace(/-/g, '/');
+//     else
+//         return ""
+// }
+
+
+
+
 
 //字符串转date
 function parseMobiDate(str) {
@@ -814,11 +818,6 @@ function setControls() {
         headerText: '日期格式 yyyy/mm/dd hh:mm',
         yearSuffix: '  /',
         monthSuffix: '  /',
-        onSet: function(event, inst) {
-            // Your custom event handler goes here
-            // var selectedVal = inst.getVal();
-            //$(this).val(selectedVal);
-        },
         onShow: function(event, inst) {
             inst.setVal($(this).val());
         }
