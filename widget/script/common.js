@@ -1141,6 +1141,45 @@ function setControls() {
             // }
         }
     });
+    //检漏仪器电压
+    $('.mob-holiday-tester-volts').mobiscroll().number({
+        theme: 'auto',
+        lang: 'zh',
+        display: 'center',
+        min: 0,
+        max: 30,
+        defaultValue: 16,
+        step: 0.1,
+        scale: 1,
+        units: ['c'],
+        unitNames: {
+            c: 'kv'
+        },
+        onSet: function(event, inst) {
+            var selectedVal = inst.getVal();
+            $(this).val(selectedVal.replace('kv', ''));
+            validateSingleValue($(this));
+        }
+    });
+
+
+    //漏点数量
+    $('.mob-holidays').mobiscroll().number({
+        theme: 'auto',
+        lang: 'zh',
+        display: 'center',
+        min: 0,
+        max: 30,
+        defaultValue: 0,
+        step: 1,
+        scale: 0,
+        onSet: function(event, inst) {
+            //var selectedVal = inst.getVal();
+            validateSingleValue($(this));
+        }
+    });
+
+
     //锚纹深度
     $('.mob-profile').mobiscroll().number({
         theme: 'auto',
