@@ -265,17 +265,45 @@
             validateAllValue();
 
         } else {
-            //此记录为计算机生成
-            //RequestLastAcceptedRecordBeforePipeNo(data.pipe_no, "IdCoatOperation");
+
         }
     }
 
     //获取待定数据失败事件
     function getPendingRecordInfoFail() {
-
+      //获取上一根合格记录信息
+      RequestLastAcceptedRecordBeforePipeNo(undefined, "IdCoatOperation");
     }
 
+    //获取上一根合格的数据
+    function RequestLastAcceptedRecordBeforePipeNoOK(data) {
+        if (data != undefined) {
+          if (data.coating_speed != -99)
+              $('input[name="coating_speed"]').val(data.coating_speed);
+          if (data.base_used != undefined)
+              $('#base_used').val(data.base_used);
+          if (data.base_batch != undefined)
+              $('input[name="base_batch"]').val(data.base_batch);
+          if (data.curing_agent_used != undefined)
+              $('#curing_agent_used').val(data.curing_agent_used);
+          if (data.curing_agent_batch != undefined)
+              $('input[name="curing_agent_batch"]').val(data.curing_agent_batch);
+          if (data.curing_start_time != undefined){
+              $('input[name="curing_start_time"]').val(getDate1(data.curing_start_time));
+          }
+          if (data.curing_finish_time != undefined){
+            $('input[name="curing_finish_time"]').val(getDate1(data.curing_finish_time));
+          }
 
+          if (data.curing_temp != -99)
+              $('input[name="curing_temp"]').val(data.curing_temp);
+          validateAllValue();
+        }
+    }
+    //
+    function RequestLastAcceptedRecordBeforePipeNoFail() {
+
+    }
 
     //表单提交
     function submitForm() {
