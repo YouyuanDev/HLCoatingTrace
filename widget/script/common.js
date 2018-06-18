@@ -651,6 +651,7 @@ function initPipeBasicHeader(pipeinfo, millno) {
 
 //初始化检测频率标签
 function initInspectionFreq(freq) {
+
     if (freq != undefined) {
         $.each(freq, function(name, value) {
             var needInspectNow = value.needInspectNow;
@@ -668,6 +669,8 @@ function initInspectionFreq(freq) {
             }
         });
     }
+
+
 }
 
 
@@ -848,7 +851,25 @@ function setControls() {
         }
     });
 
-
+    $(".mob-strip-temperature").mobiscroll().temperature({
+        theme: 'auto',
+        lang: 'zh',
+        display: 'center',
+        min: 100,
+        max: 400,
+        defaultValue: 230,
+        step: 1,
+        scale: 0,
+        units: ['c'],
+        unitNames: {
+            c: '°C'
+        },
+        onSet: function(event, inst) {
+            var selectedVal = inst.getVal();
+            $(this).val(selectedVal.replace('°C', ''));
+            validateSingleValue($(this));
+        }
+    });
     //设置温度相关的控件
     //if($(".mob-preheat-temperature")!=undefined)
     $(".mob-preheat-temperature").mobiscroll().temperature({
