@@ -234,7 +234,7 @@
         } else {
             $('#language').text("中文");
         }
-          if (!ret.success){
+          if (ret==undefined||!ret.success){
               $('#userid').text('');
               $('#userno').text('');
               $('#userrolenamelist').text('');

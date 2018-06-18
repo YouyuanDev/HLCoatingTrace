@@ -813,11 +813,11 @@ function setControls() {
     $('.mob-datetime').mobiscroll().datetime({
         dateWheels: 'yymmdd',
         timeWheels: 'hhii',
-        dateFormat: 'yy/mm/dd',
+        dateFormat: 'yy-mm-dd',
         timeFormat: 'hh:ii:ss',
-        headerText: '日期格式 yyyy/mm/dd hh:mm',
-        yearSuffix: '  /',
-        monthSuffix: '  /',
+        headerText: '日期格式 yyyy-mm-dd hh:mm',
+        yearSuffix: '  -',
+        monthSuffix: '  -',
         onShow: function(event, inst) {
             inst.setVal($(this).val());
         }
