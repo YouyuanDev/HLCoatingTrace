@@ -1272,7 +1272,6 @@ function setControls() {
         step: 1,
         scale: 0,
         onSet: function(event, inst) {
-            //var selectedVal = inst.getVal();
             validateSingleValue($(this));
         }
     });
@@ -1372,7 +1371,6 @@ function setControls() {
         }
     });
     //剩余壁厚记录控件
-    //小数numpad精确度2
     $('.mob-thickness-list').mobiscroll().numpad({
         theme: 'auto',
         lang: 'zh',
@@ -1520,61 +1518,7 @@ function setControls() {
         }
     });
 }
-
-
-
-//根据pipeno  获取 钢管本体接收标准
-// function RequestPipeBodyAcceptCriteria(pipeno) {
-//
-//     //注册接收RequestPipeBodyAcceptCriteria回调
-//     api.addEventListener({
-//         name: 'RequestPipeBodyAcceptCriteriaCallbackEvent'
-//     }, function(ret, err) {
-//         if (ret.value.success) {
-//             //得到了钢管本体接收标准
-//             ////处理逻辑。。。
-//             GetPipeBodyAcceptCriteriaOK(ret.value.data);
-//         } else {
-//             //alert(JSON.stringify(ret.value.msg));
-//             //处理逻辑。。。
-//             GetPipeBodyAcceptCriteriaFail();
-//         }
-//     });
-//
-//     //发出请求
-//     var s = 'http://' + serverIP + '/AcceptanceCriteriaOperation/getPipeBodyAcceptanceCriteriaByPipeNo.action';
-//     api.ajax({
-//         url: s,
-//         method: 'post',
-//         timeout: 30,
-//         dataType: 'json',
-//         data: {
-//             values: {
-//                 pipe_no: pipeno
-//             }
-//         }
-//     }, function(ret, err) {
-//         api.hideProgress();
-//         var success = false;
-//         if (ret) {
-//             success = true;
-//         } else {
-//             api.alert({
-//                 msg: JSON.stringify(err)
-//             });
-//         }
-//         api.sendEvent({
-//             name: 'RequestPipeBodyAcceptCriteriaCallbackEvent',
-//             extra: {
-//                 success: success,
-//                 data: ret
-//             }
-//         });
-//
-//     });
-// }
-
-
+ 
 //根据pipeno  获取 2FBE lab实验接收标准
 function Request2FBELabAcceptCriteria(pipeno) {
 
