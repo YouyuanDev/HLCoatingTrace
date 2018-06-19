@@ -40,6 +40,9 @@
             margin:0 auto;
             outline: none;
         }
+        .pipeinfo-table tr td:nth-child(even){
+          text-align: center;
+        }
         /*.dataintable,.dataintable tr {
            width:100%;
          }
@@ -127,6 +130,12 @@
                     <td class="rebevel_mark"></td>
                     <td class="i18n1" name="clientspec"></td>
                     <td class="client_spec"></td>
+                </tr>
+                <tr>
+                    <td class="i18n1" name="odsamplingmark"></td>
+                    <td class="odsampling_mark"></td>
+                    <td class="i18n1" name="idsamplingmark"></td>
+                    <td class="idsampling_mark"></td>
                 </tr>
                 <tr>
                     <td class="i18n1" name="odcoatingdate"></td>
@@ -304,6 +313,8 @@
         $('.center_line_color').text(pipeinfo.center_line_color);
         $('.pipe_end_color').text(pipeinfo.pipe_end_color);
         $('.rebevel_mark').text(pipeinfo.rebevel_mark);
+        $('.odsampling_mark').text(pipeinfo.odsampling_mark);
+        $('.idsampling_mark').text(pipeinfo.idsampling_mark);
         $('.shipment_date').text(formatterdate(pipeinfo.shipment_date));
         $('.od_coating_date').text(formatterdate(pipeinfo.od_coating_date));
         $('.id_coating_date').text(formatterdate(pipeinfo.id_coating_date));
