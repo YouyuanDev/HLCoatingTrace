@@ -165,7 +165,13 @@
 
         //setTimeout(function() {
         //执行刷新
-        initCriteria(data.odcriteria);
+        //判断是外防修补还是内防修补
+        if(data.pipeinfo.status.indexOf("idrepair1")>0){
+            initCriteria(data.idcriteria);
+        }else if(data.pipeinfo.status.indexOf("odrepair1")>0){
+           initCriteria(data.odcriteria);
+        }
+        //initCriteria(data.odcriteria);
         initCriteria(data.pbcriteria);
         initInspectionFreq(data.inspectfreq);
         initPipeBasicHeader(data.pipeinfo, data.millno);

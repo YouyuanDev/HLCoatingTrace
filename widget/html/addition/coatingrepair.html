@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>涂层修补</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/mobiscroll.custom-3.0.0-beta6.min.css" />
+</head>
+
+<body>
+    <header class="form-nav" id="header">
+        <div class="arrow" tapmode onclick="closeWindow();"></div>
+        <span class="nav-pipeno i18n1" name="coatingrepair" style="display:inline-block;margin-left:-43px;line-height:43px;"></span>
+    </header>
+    <div class="form-content" id="content">
+        <div class="form-item">
+            <table class="pipeinfo-table">
+                <thead>
+                    <tr>
+                        <th class="i18n1" name="pipebasicinfo" colspan="4" style="text-align:center;">钢管基础信息</th>
+                    </tr>
+                </thead>
+                <tr>
+                    <td class="i18n1" name="pipeno"></td>
+                    <td class="pipe_no"></td>
+                    <td class="i18n1" name="statusname"></td>
+                    <td class="status_name"></td>
+                </tr>
+                <tr>
+                    <td class="i18n1" name="od"></td>
+                    <td class="od"></td>
+                    <td class="i18n1" name="wt"></td>
+                    <td class="wt"></td>
+                </tr>
+                <tr>
+                    <td class="i18n1" name="millno"></td>
+                    <td class="millno"></td>
+                </tr>
+            </table>
+        </div>
+        <div class="form-item">
+            <input type="hidden" value="0" class="id" />
+        </div>
+        <div class="form-item">
+            <div class="form-item-lbl">
+                <label class="i18n1" name="odid"></label>
+            </div>
+            <div class="form-item-val">
+                <select id="odid" name="odid" style="">
+                 <option value="od" selected="selected">外涂层</option>
+                 <option value="id">内涂层</option>
+             </select>
+            </div>
+        </div>
+        <div class="form-item">
+            <div class="form-item-lbl">
+                <label class="i18n1 coating_type_lbl" name="coatingtype"></label>
+            </div>
+            <div class="form-item-val">
+                 <select id="coating_type" data-required=true class="coating_type"  name="coating_type">
+                           <option value="2FBE">2FBE</option>
+                           <option value="3LPE">3LPE</option>
+                           <option value="Liquid Epoxy">Liquid Epoxy</option>
+                           <option value="Other">Other</option>
+                 </select>
+            </div>
+        </div>
+        <div class="form-item">
+            <div class="form-item-lbl">
+                <label class="i18n1 repair_size_lbl" name="repairsize"></label>
+            </div>
+            <div class="form-item-val">
+                   <input data-number=true data-required=false class="mob-int-numpad repair_size" type="text" name="repair_size" />
+            </div>
+        </div>
+        <div class="form-item">
+            <div class="form-item-lbl">
+                <label class="i18n1 holiday_lbl" name="holidaynumber"></label>
+            </div>
+            <div class="form-item-val">
+                   <input data-number=true data-required=true class="mob-holidays holiday" type="text" name="holiday_number" />
+            </div>
+        </div>
+        <div class="form-item">
+            <div class="form-item-lbl">
+                <label class="i18n1 repair_lbl" name="repairnumber"></label>
+            </div>
+            <div class="form-item-val">
+                   <input data-number=false data-required=true class="mob-repair repair" type="text" name="repair_number" />
+            </div>
+        </div>
+        <div class="form-item">
+            <div class="form-item-lbl">
+                <label class="i18n1 unqualified_reason_lbl" name="unqualifiedreason"></label>
+            </div>
+            <div class="form-item-val">
+                 <select id="unqualified_reason" data-required=true class="unqualified_reason"  name="unqualified_reason">
+                       <option value="1">漏点</option>
+                       <option value="2">碰伤</option>
+                       <option value="3">厚度不合</option>
+                       <option value="4">附着力不合</option>
+                       <option value="5">有杂质</option>
+                 </select>
+            </div>
+        </div>
+        <div class="form-item">
+            <div class="form-item-lbl">
+                <label class="i18n1 repair_method_lbl" name="repairmethod"></label>
+            </div>
+            <div class="form-item-val">
+                 <select id="repair_method" data-required=true class="repair_method REPAIR"  name="repair_method">
+
+                 </select>
+            </div>
+        </div>
+        <div class="form-item">
+            <div class="form-item-lbl">
+                <label class="i18n1 inspection_time_lbl" name="inspectiontime"></label>
+            </div>
+            <div class="form-item-val">
+                   <input  data-required=false class="mob-datetime-input inspection_time" type="text" name="inspection_time" />
+            </div>
+        </div>
+        <div class="form-item">
+            <div class="form-item-lbl">
+                <label class="i18n1 inspector_no_lbl" name="inspectorno"></label>
+            </div>
+            <div class="form-item-val">
+                 <input  data-required=true class="inspector_no" type="text" name="inspector_no" />
+                 <!-- <select id="inspector_no" data-required=true class="inspector_no"  name="inspector_no">
+
+                 </select> -->
+            </div>
+        </div>
+        <div class="form-item">
+            <div class="form-item-lbl">
+                <label class="i18n1" name="repairthickness"></label>
+            </div>
+            <div class="form-item-val">
+                   <input  data-required=true class="mob-number-list" type="text" name="repair_thickness" />
+            </div>
+        </div>
+        <div class="form-item">
+            <div class="form-item-lbl">
+                <label class="i18n1 surface_condition_lbl" name="surfacecondition"></label>
+            </div>
+            <div class="form-item-val">
+                 <select id="surface_condition" data-required=true class="surface_condition"  name="surface_condition">
+                          <option value="OK">OK</option>
+                          <option value="Not OK">Not OK</option>
+                 </select>
+            </div>
+        </div>
+        <div class="form-item">
+            <div class="form-item-lbl">
+                <label class="i18n1 adhesion_lbl" name="adhesion"></label>
+            </div>
+            <div class="form-item-val">
+                 <select id="adhesion" data-required=true class="adhesion"  name="adhesion">
+                          <option value="OK">OK</option>
+                          <option value="Not OK">Not OK</option>
+                 </select>
+            </div>
+        </div>
+        <div class="form-item">
+            <div class="form-item-lbl">
+                <label class="i18n1 holiday_testing_lbl" name="holidaytesting"></label>
+            </div>
+            <div class="form-item-val">
+                 <select id="holiday_testing" data-required=true class="holiday_testing"  name="holiday_testing">
+                          <option value="OK">OK</option>
+                          <option value="Not OK">Not OK</option>
+                 </select>
+            </div>
+        </div>
+        <div class="form-item">
+            <div class="form-item-lbl">
+                <label class="i18n1" name="result"></label>
+            </div>
+            <div class="form-item-val">
+                <select id="result" name="result">
+                      <option value="0">不合格,重新修补</option>
+                      <option value="1" selected="selected">修补完成,检验合格</option>
+                      <option value="2">修补完成,待检验</option>
+                      <option value="3">不合格,外防扒皮处理</option>
+                      <option value="4">不合格,内防扒皮处理</option>
+                      <option value="10">待定</option>
+                 </select>
+            </div>
+        </div>
+        <div class="form-item">
+            <div class="imgBox"></div>
+            <!-- <div style=""></div> -->
+        </div>
+        <div class="form-item">
+            <div class="form-item-lbl">
+                <label class="i18n1" name="selectpicture"></label>
+            </div>
+            <div class="form-item-val">
+                <button class="i18n1 form-pictures" name="selectpicture"></button>
+            </div>
+        </div>
+        <div class="form-item">
+            <div class="form-item-lbl">
+                <label class="i18n1" name="remark"></label>
+            </div>
+            <div class="form-item-val">
+                <textarea id="remark" name="remark"></textarea>
+            </div>
+        </div>
+    </div>
+    <footer class="form-footer" id=footer>
+        <div id="foot-container" style="width:100%;height:43px;display:flex;justify-content:center;align-items:center;" class="foot-container">
+            <div class="i18n1 form-process-button" name="submit" onclick="submitForm();">提交</div>
+        </div>
+    </footer>
+</body>
+
+</html>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script src="../../script/jquery.i18n.properties-1.0.9.js" type="text/javascript"></script>
+<script src="../../script/language.js" type="text/javascript"></script>
+<script src="../../script/mobiscroll.custom-3.0.0-beta6.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+    var g_pipeno;
+    var g_employeeno, g_millno;
+
+    //UILoading 的id
+    var g_loadingID = 0;
+
+    apiready = function() {
+        DoLoadingPicture();
+        var data = api.pageParam;
+        g_pipeno = data.pipe_no;
+        fnSettingHeader();
+        hlLanguage("../../i18n/");
+        RequestAllProcessInfoByPipeNo(g_pipeno);
+
+    }
+
+    //得到钢管数据汇总成功
+    function GetAllProcessInfoByPipeNoOK(data) {
+        ClearLoadingPicture();
+        g_employeeno = data.employeeno;
+        g_millno = data.millno;
+        if (data.pipeinfo.status != "odrepair1" && data.pipeinfo.status != "idrepair1") {
+            //alert("status not right");
+            closeWindow();
+        }
+        //判断是外防修补还是内防修补
+        if(data.pipeinfo.status!=undefined&&data.pipeinfo.status.indexOf("idrepair1")!=-1){
+            $('input[name="repair_thickness"]').addClass('dry_film_thickness');
+            $('label[name="repairthickness"]').addClass('dry_film_thickness_lbl');
+            initCriteria(data.idcriteria);
+        }else if(data.pipeinfo.status!=undefined&&data.pipeinfo.status.indexOf("odrepair1")!=-1){
+           if(data.pipeinfo.external_coating!=undefined&&data.pipeinfo.external_coating.indexOf("2FBE")!=-1){
+              $('input[name="repair_thickness"]').addClass('total_2fbe_coat_thickness');
+              $('label[name="repairthickness"]').addClass('total_2fbe_coat_thickness_lbl');
+           }else if(data.pipeinfo.external_coating!=undefined&&data.pipeinfo.external_coating.indexOf("3LPE")!=-1){
+              $('input[name="repair_thickness"]').addClass('total_3lpe_coat_thickness');
+              $('label[name="repairthickness"]').addClass('total_3lpe_coat_thickness_lbl');
+           }
+           initCriteria(data.odcriteria);
+        }
+        //执行刷新
+        //initCriteria(data.odcriteria);
+        initCriteria(data.pbcriteria);
+        initInspectionFreq(data.inspectfreq);
+        initPipeBasicHeader(data.pipeinfo, data.millno);
+
+        setControls();
+        setSelectPictures();
+        //alert(JSON.stringify(data));
+        getPendingRecordInfo("coatingRepairOperation", g_pipeno);
+
+        // api.alert({
+        //     msg: JSON.stringify(ODacceptCriteriaMap)
+        // });
+    }
+    //得到外防接收标准失败
+    function GetAllProcessInfoByPipeNoFail(message) {
+        ClearLoadingPicture();
+        api.alert({
+            msg: message
+        });
+        closeWindow();
+    }
+
+    function getPendingRecordInfoOK(data) {
+        if (data != undefined) {
+            $('.id').val(data.id);
+            $('#coating_type').val(data.coating_type);
+            $('#odid').val(data.odid);
+            $('input[name="repair_size"]').val(data.repair_size);
+            if (data.repair_number != -99)
+              $('input[name="repair_number"]').val(data.repair_number);
+            if (data.holiday_number != -99)
+            $('input[name="holiday_number"]').val(data.holiday_number);
+            $('#repair_method').val(data.repair_method);
+            $('#unqualified_reason').val(data.unqualified_reason);
+            $('input[name="inspector_no"]').val(data.inspector_no);
+            $('input[name="inspection_time"]').val(data.inspection_time);
+            $('#surface_condition').val(data.surface_condition);
+            $('input[name="repair_thickness"]').val(data.repair_thickness);
+            $('#holiday_testing').val(data.holiday_testing);
+            $('#adhesion').val(data.adhesion);
+            $('#result').val(data.result);
+            var imgUrl = data.upload_files;
+            if (imgUrl.length > 0) {
+                var imgArr = imgUrl.split(';');
+                var s = 'http://' + serverIP + '/upload/pictures/';
+                for (var i = 0; i < imgArr.length; i++) {
+                    if (imgArr[i] != undefined && imgArr[i].length > 0)
+                        $('.imgBox').append(pictureTemplate(imgArr[i], s + imgArr[i]));
+                }
+            }
+            $('#remark').val(data.remark);
+        }
+
+        validateAllValue();
+    }
+
+    function getPendingRecordInfoFail() {
+
+    }
+
+
+    function submitForm() {
+        if (initFormNumber()) {
+            var s = 'http://' + serverIP + '/coatingRepairOperation/saveCoatingRepair.action';
+            var imgUrl = "";
+            $('.imgBox  .temp-container img').each(function() {
+                var temp = $(this).attr("data-url");
+                if (temp != undefined) {
+                    imgUrl += (temp + ";");
+                }
+            });
+            var inspection_time;
+            if($('input[name="inspection_time"]').val()==undefined||$('input[name="inspection_time"]').val().length<=0){
+                  inspection_time=getNowDate();
+            }
+            api.ajax({
+                url: s,
+                method: 'post',
+                timeout: 30,
+                dataType: 'json',
+                data: {
+                    values: {
+                        id: $('.id').val(),
+                        pipe_no: g_pipeno,
+                        mill_no: g_millno,
+                        operator_no: g_employeeno,
+                        coating_type: $('#coating_type').val(),
+                        odid: $('#odid').val(),
+                        repair_size: $('input[name="repair_size"]').val(),
+                        repair_number: $('input[name="repair_number"]').val(),
+                        holiday_number: $('input[name="holiday_number"]').val(),
+                        repair_method:$('#repair_method').val(),
+                        unqualified_reason:$('#unqualified_reason').val(),
+                        inspector_no:$('input[name="inspector_no"]').val(),
+                        inspection_time:inspection_time,
+                        surface_condition:$('#surface_condition').val(),
+                        repair_thickness:$('input[name="repair_thickness"]').val(),
+                        holiday_testing:$('#holiday_testing').val(),
+                        adhesion:$('#adhesion').val(),
+                        result: $('#result').val(),
+                        upload_files: imgUrl,
+                        remark: $('#remark').val(),
+                    }
+                }
+            }, function(ret, err) { //alert(ret);
+                if (ret) {
+                    api.alert({
+                        msg: ret.message
+                    });
+                    if (ret.success) {
+                        closeWindow();
+                    }
+                } else {
+                    api.alert({
+                        msg: JSON.stringify(err)
+                    });
+                }
+            });
+        }
+    }
+    function getInspectorNo(){
+          var s = 'http://' + serverIP + '/person/getPersonNoByName.action';
+          api.ajax({
+              url: s,
+              method: 'post',
+              timeout: 30,
+              dataType: 'json',
+              data: {
+                  values: {
+                  }
+              }
+          }, function(ret, err) { //alert(ret);
+              if (ret) {
+                 alert(JSON.stringify(ret));
+              } else {
+                  api.alert({
+                      msg: JSON.stringify(err)
+                  });
+              }
+          });
+    }
+    function getMillNo(){
+          var s = 'http://' + serverIP + '/millInfo/getAllMills.action';
+          api.ajax({
+              url: s,
+              method: 'post',
+              timeout: 30,
+              dataType: 'json',
+              data: {
+                  values: {
+                  }
+              }
+          }, function(ret, err) { //alert(ret);
+              if (ret) {
+                 alert(JSON.stringify(ret));
+              } else {
+                  api.alert({
+                      msg: JSON.stringify(err)
+                  });
+              }
+          });
+    }
+</script>

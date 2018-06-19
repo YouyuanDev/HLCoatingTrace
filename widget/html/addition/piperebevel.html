@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>涂层倒棱</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/mobiscroll.custom-3.0.0-beta6.min.css" />
+</head>
+
+<body>
+    <header class="form-nav" id="header">
+        <div class="arrow" tapmode onclick="closeWindow();"></div>
+        <span class="nav-pipeno i18n1" name="pipeRebevelProcess" style="display:inline-block;margin-left:-43px;line-height:43px;"></span>
+    </header>
+    <div class="form-content" id="content">
+        <div class="form-item">
+            <table class="pipeinfo-table">
+                <thead>
+                    <tr>
+                        <th class="i18n1" name="pipebasicinfo" colspan="4" style="text-align:center;">钢管基础信息</th>
+                    </tr>
+                </thead>
+                <tr>
+                    <td class="i18n1" name="pipeno"></td>
+                    <td class="pipe_no"></td>
+                    <td class="i18n1" name="statusname"></td>
+                    <td class="status_name"></td>
+                </tr>
+                <tr>
+                    <td class="i18n1" name="od"></td>
+                    <td class="od"></td>
+                    <td class="i18n1" name="wt"></td>
+                    <td class="wt"></td>
+                </tr>
+                <tr>
+                    <td class="i18n1" name="millno"></td>
+                    <td class="millno"></td>
+                </tr>
+            </table>
+        </div>
+        <div class="form-item">
+            <input type="hidden" value="0" class="id" />
+        </div>
+        <div class="form-item">
+            <div class="form-item-lbl">
+                <label class="i18n1 pipe_squareness_lbl" name="squareness"></label>
+            </div>
+            <div class="form-item-val">
+                <input data-number=true data-required=false class="mob-squareness pipe_squareness" type="text" name="squareness" />
+            </div>
+        </div>
+        <div class="form-item">
+            <div class="form-item-lbl">
+                <label class="i18n1 pipe_end_ovality_factor_lbl" name="ovality"></label>
+            </div>
+            <div class="form-item-val">
+                <input data-number=true data-required=false class="mob-ovality pipe_end_ovality_factor" type="text" name="ovality" />
+            </div>
+        </div>
+        <div class="form-item">
+            <div class="form-item-lbl">
+                <label class="i18n1 pipe_bevel_angle_lbl" name="bevelangle"></label>
+            </div>
+            <div class="form-item-val">
+                <input data-number=true data-required=false class="mob-bevelangle pipe_bevel_angle" type="text" name="bevel_angle" />
+            </div>
+        </div>
+        <div class="form-item">
+            <div class="form-item-lbl">
+                <label class="i18n1 pipe_rootface_lbl" name="rootface"></label>
+            </div>
+            <div class="form-item-val">
+                <input data-number=true data-required=false class="mob-rootface pipe_rootface" type="text" name="rootface" />
+            </div>
+        </div>
+        <div class="form-item">
+            <div class="form-item-lbl">
+                <label class="i18n1" name="result"></label>
+            </div>
+            <div class="form-item-val">
+                <select id="result" name="result">
+                    <option value="0">不合格,重新倒棱处理</option>
+                    <option value="1">合格</option>
+                    <option value="10">待定</option>
+                 </select>
+            </div>
+        </div>
+        <div class="form-item">
+            <div class="imgBox"></div>
+            <!-- <div style=""></div> -->
+        </div>
+        <div class="form-item">
+            <div class="form-item-lbl">
+                <label class="i18n1" name="selectpicture"></label>
+            </div>
+            <div class="form-item-val">
+                <button class="i18n1 form-pictures" name="selectpicture"></button>
+            </div>
+        </div>
+        <div class="form-item">
+            <div class="form-item-lbl">
+                <label class="i18n1" name="remark"></label>
+            </div>
+            <div class="form-item-val">
+                <textarea id="remark" name="remark"></textarea>
+            </div>
+        </div>
+
+
+    </div>
+    <footer class="form-footer" id=footer>
+        <div id="foot-container" style="width:100%;height:43px;display:flex;justify-content:center;align-items:center;" class="foot-container">
+            <div class="i18n1 form-process-button" name="submit" onclick="submitForm();">提交</div>
+        </div>
+    </footer>
+</body>
+
+</html>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script src="../../script/jquery.i18n.properties-1.0.9.js" type="text/javascript"></script>
+<script src="../../script/language.js" type="text/javascript"></script>
+<script src="../../script/mobiscroll.custom-3.0.0-beta6.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+    var g_pipeno;
+    var g_employeeno, g_millno;
+
+    //UILoading 的id
+    var g_loadingID = 0;
+
+    apiready = function() {
+        DoLoadingPicture();
+        var data = api.pageParam;
+        g_pipeno = data.pipe_no;
+        fnSettingHeader();
+        hlLanguage("../../i18n/");
+        RequestAllProcessInfoByPipeNo(g_pipeno);
+
+    }
+
+    //得到钢管数据汇总成功
+    function GetAllProcessInfoByPipeNoOK(data) {
+        ClearLoadingPicture();
+        g_employeeno = data.employeeno;
+        g_millno = data.millno;
+        if (data.pipeinfo.rebevel_mark != "1") {
+            //alert("status not right");
+            closeWindow();
+        }
+
+        //setTimeout(function() {
+        //执行刷新
+        initCriteria(data.odcriteria);
+        initCriteria(data.pbcriteria);
+        initInspectionFreq(data.inspectfreq);
+        initPipeBasicHeader(data.pipeinfo, data.millno);
+        //}, 200);
+
+        setControls();
+        setSelectPictures();
+        //alert(JSON.stringify(data));
+        getPendingRecordInfo("PipeRebevelOperation", g_pipeno);
+
+        // api.alert({
+        //     msg: JSON.stringify(ODacceptCriteriaMap)
+        // });
+    }
+    //得到外防接收标准失败
+    function GetAllProcessInfoByPipeNoFail(message) {
+        ClearLoadingPicture();
+        api.alert({
+            msg: message
+        });
+        closeWindow();
+    }
+
+    function getPendingRecordInfoOK(data) {
+        if (data != undefined) {
+            $('.id').val(data.id);
+            if (data.squareness != -99) {
+                $('input[name="squareness"]').val(data.squareness);
+            }
+            if (data.ovality != -99) {
+                $('input[name="ovality"]').val(data.ovality);
+            }
+            if (data.bevel_angle != -99) {
+                $('input[name="bevel_angle"]').val(data.bevel_angle);
+            }
+            if (data.rootface != -99) {
+                $('input[name="rootface"]').val(data.rootface);
+            }
+            $('#result').val(data.result);
+            var imgUrl = data.upload_files;
+            if (imgUrl.length > 0) {
+                var imgArr = imgUrl.split(';');
+                var s = 'http://' + serverIP + '/upload/pictures/';
+                for (var i = 0; i < imgArr.length; i++) {
+                    if (imgArr[i] != undefined && imgArr[i].length > 0)
+                        $('.imgBox').append(pictureTemplate(imgArr[i], s + imgArr[i]));
+                }
+            }
+            $('#remark').val(data.remark);
+        }
+
+        validateAllValue();
+    }
+
+    function getPendingRecordInfoFail() {
+
+    }
+
+
+    function submitForm() {
+        if (initFormNumber()) {
+            var s = 'http://' + serverIP + '/PipeRebevelOperation/savePipeRebevelProcess.action';
+            var imgUrl = "";
+            $('.imgBox  .temp-container img').each(function() {
+                var temp = $(this).attr("data-url");
+                if (temp != undefined) {
+                    imgUrl += (temp + ";");
+                }
+            });
+            //alert(imgUrl);
+            api.ajax({
+                url: s,
+                method: 'post',
+                timeout: 30,
+                dataType: 'json',
+                data: {
+                    values: {
+                        id: $('.id').val(),
+                        pipe_no: g_pipeno,
+                        mill_no: g_millno,
+                        operator_no: g_employeeno,
+                        squareness: $('input[name="squareness"]').val(),
+                        ovality: $('input[name="ovality"]').val(),
+                        bevel_angle: $('input[name="bevel_angle"]').val(),
+                        rootface: $('input[name="rootface"]').val(),
+                        result: $('#result').val(),
+                        upload_files: imgUrl,
+                        remark: $('#remark').val(),
+                    }
+                }
+            }, function(ret, err) { //alert(ret);
+                if (ret) {
+                    api.alert({
+                        msg: ret.message
+                    });
+                    if (ret.success) {
+                        closeWindow();
+                    }
+                } else {
+                    api.alert({
+                        msg: JSON.stringify(err)
+                    });
+                }
+            });
+        }
+    }
+</script>

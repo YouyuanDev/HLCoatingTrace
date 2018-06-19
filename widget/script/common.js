@@ -1,5 +1,5 @@
 var header, headerHeight = 0;
-var serverIP = '192.168.3.14:8080';
+var serverIP = '192.168.0.12:8080';
 
 function fnSettingHeader() {
 
@@ -682,28 +682,37 @@ function initCriteria(criteria) {
                 if (name.indexOf("_min") != -1) {
                     name = "." + name.replace("_min", "");
                     if (value != undefined) {
-                        $(name).attr('data-min', value);
+                        $(name).each(function(){
+                           $(this).attr('data-min', value);
+                        });
                     }
                     name = name + "_lbl";
-                    if ($(name).children('.range-span').length <= 0) {
-                        $(name).append('<span class="range-span">' + value + '~</span>');
-                    } else {
-                        //alert("name=" + name);
-                        var txt = $(name).children('.range-span').text();
-                        //判断是否已经设置了min 因为  存在检测项  od_xx_min  id_xx_min
-                        $(name).children('.range-span').text(value + "~" + txt);
-                    }
+                    $(name).each(function(){
+                      if ($(this).children('.range-span').length <= 0) {
+                          $(this).append('<span class="range-span">' + value + '~</span>');
+                      } else {
+                          var txt = $(this).children('.range-span').text();
+                          //判断是否已经设置了min 因为  存在检测项  od_xx_min  id_xx_min
+                          $(this).children('.range-span').text(value + "~" + txt);
+                      }
+                    });
                 } else if (name.indexOf("_max") != -1) {
                     name = "." + name.replace("_max", "");
                     if (value != undefined)
-                        $(name).attr('data-max', value);
-                    name = name + "_lbl";
-                    if ($(name).children('.range-span').length <= 0) {
-                        $(name).append('<span class="range-span">' + value + '</span>');
-                    } else {
-                        var txt = $(name).children('.range-span').text();
-                        $(name).children('.range-span').text(txt + "" + value);
+                    {
+                      $(name).each(function(){
+                        $(this).attr('data-max', value);
+                      });
                     }
+                    name = name + "_lbl";
+                    $(name).each(function(){
+                      if ($(this).children('.range-span').length <= 0) {
+                          $(this).append('<span class="range-span">' + value + '</span>');
+                      } else {
+                          var txt = $(this).children('.range-span').text();
+                          $(this).children('.range-span').text(txt + "" + value);
+                      }
+                    });
                 }
             }
         });
@@ -1078,7 +1087,7 @@ function setControls() {
     });
     var numList = "";
     var $nowObj;
-    //设置数字集合
+    //设置整数数字集合
     $('.mob-number-list').mobiscroll().numpad({
         theme: 'auto',
         lang: 'zh',
@@ -1162,6 +1171,59 @@ function setControls() {
             // }
         }
     });
+    var numList1 = "";
+    var $nowObj1;
+    //设置浮点数数字集合
+    $('.mob-number-float-list').mobiscroll().numpad({
+        theme: 'auto',
+        lang: 'zh',
+        display: 'bottom',
+        min: 0,
+        max: 9999,
+        scale: 2,
+        fill: 'ltr',
+        defaultValue: 0,
+        preset: 'decimal',
+        decimalSeparator: '',
+        thousandsSeparator: '.',
+        rtl: false,
+        buttons: [
+            'set', {
+                text: '删除',
+                icon: '',
+                handler: function(event, inst) {
+                    var selectedVal = $nowObj1.val();
+                    selectedVal = selectedVal.substring(0, selectedVal.lastIndexOf(','));
+                    selectedVal = selectedVal.substring(0, (selectedVal.lastIndexOf(',') + 1));
+                    $nowObj1.val(selectedVal);
+                    numList1 = selectedVal;
+                    validateSingleValue($nowObj1);
+                    inst.setVal(0);
+                }
+            }, {
+                text: '添加',
+                icon: '',
+                handler: function(event, inst) {
+                    var selectedVal = inst.getVal(true);
+                    if (selectedVal != undefined) {
+                        selectedVal = ($nowObj1.val() + selectedVal + ",");
+                        $nowObj1.val(selectedVal);
+                        numList1 = selectedVal;
+                        validateSingleValue($nowObj1);
+                        inst.setVal(0);
+                    }
+                }
+            }
+        ],
+        onBeforeShow: function(event, inst) {
+            $nowObj1 = $(this);
+            inst.setVal(0);
+            numList1 = $nowObj1.val();
+        },
+        onSet: function(event, inst) {
+            $nowObj1.val(numList1);
+        }
+    });
     //检漏仪器电压
     $('.mob-holiday-tester-volts').mobiscroll().number({
         theme: 'auto',
@@ -1199,7 +1261,21 @@ function setControls() {
             validateSingleValue($(this));
         }
     });
-
+    //修补数
+    $('.mob-repair').mobiscroll().number({
+        theme: 'auto',
+        lang: 'zh',
+        display: 'center',
+        min: 0,
+        max: 30,
+        defaultValue: 0,
+        step: 1,
+        scale: 0,
+        onSet: function(event, inst) {
+            //var selectedVal = inst.getVal();
+            validateSingleValue($(this));
+        }
+    });
 
     //锚纹深度
     $('.mob-profile').mobiscroll().number({
@@ -1295,8 +1371,134 @@ function setControls() {
             validateSingleValue($(this));
         }
     });
+    //剩余壁厚记录控件
+    //小数numpad精确度2
+    $('.mob-thickness-list').mobiscroll().numpad({
+        theme: 'auto',
+        lang: 'zh',
+        display: 'bottom',
+        preset: 'decimal',
+        decimalSeparator: '.',
+        min: -9999,
+        max: 9999,
+        scale: 2,
+        fill: 'ltr',
+        defaultValue: 0,
+        rtl: false,
+        onSet: function(event, inst) {
+            var selectedVal = inst.getVal();
+            $(this).val(selectedVal);
+            var minVal = $(this).attr('data-min');
+            var maxVal = $(this).attr('data-max');
+            var wt=$('#wt').val();
+            if(wt!=undefined){
+              var maximumwt=(maxVal+1)*wt;
+              var minimumwt=(minVal+1)*wt;
+              var thisVal=$(this).val();var flag = true;
+              if (thisVal != undefined && thisVal != -99 && thisVal != "") {
+                  var valuelist = thisVal.split(",");
+                  for (var i = 0; i < valuelist.length; i++) {
+                      if (maximumwt != undefined) {
+                          if (parseFloat(maximumwt) < parseFloat(valuelist[i])) {
+                              flag = false;
+                              break;
+                          }
+                      }
+                      if (minimumwt != undefined) {
+                          if (parseFloat(valuelist[i]) < parseFloat(minimumwt)) {
+                              flag = false;
+                              break;
+                          }
+                      }
+                  }
+              }
+              if (flag)
+                  $(this).css('background', '#FFFFFF');
+              else
+                  $(this).css('background', '#F9A6A6');
+            }
+        }
+    });
+    //设置日期控件
+    $('.mob-datetime-input').mobiscroll().datetime({
+        theme: 'auto',
+        lang: 'zh',
+        display: 'bottom',
+        dateFormat:'yyyy-mm-dd',
+        timeFormat: 'HH:ii:ss'
+    });
+    //切斜
+    $('.mob-squareness').mobiscroll().number({
+        theme: 'auto',
+        lang: 'zh',
+        display: 'center',
+        min: 0,
+        max: 5,
+        step:0.1,
+        defaultValue:1,
+        units: ['c'],
+        unitNames: {
+            c: 'mm'
+        },
+        onSet: function(event, inst) {
+            var selectedVal = inst.getVal();
+            $(this).val(selectedVal.replace('mm', ''));
+            validateSingleValue($(this));
+        }
+    });
+    //椭圆度
+    $('.mob-ovality').mobiscroll().number({
+        theme: 'auto',
+        lang: 'zh',
+        display: 'center',
+        min: 0,
+        max:0.1,
+        step:0.001,
+        defaultValue:0.01,
+        onSet: function(event, inst) {
+            validateSingleValue($(this));
+        }
+    });
+    //坡口角度
+    $('.mob-bevelangle').mobiscroll().number({
+        theme: 'auto',
+        lang: 'zh',
+        display: 'center',
+        min: 0,
+        max:50,
+        step:1,
+        defaultValue:30,
+        units: ['c'],
+        unitNames: {
+            c:'°'
+        },
+        onSet: function(event, inst) {
+            var selectedVal = inst.getVal();
+            $(this).val(selectedVal.replace('°', ''));
+            validateSingleValue($(this));
+        }
+    });
+    //钝边
+    $('.mob-rootface').mobiscroll().number({
+        theme: 'auto',
+        lang: 'zh',
+        display: 'center',
+        min: 0,
+        max: 3,
+        step:0.1,
+        defaultValue:1.6,
+        units: ['c'],
+        unitNames: {
+            c: 'mm'
+        },
+        onSet: function(event, inst) {
+            var selectedVal = inst.getVal();
+            $(this).val(selectedVal.replace('mm', ''));
+            validateSingleValue($(this));
+        }
+    });
     //设置底层、面层型号控件
-    var s = 'http://' + serverIP + '/APPRequestTransfer/getAllCoatingPowderInfo.action';
+    var s = 'http://' + serverIP + '/CoatingPowderOperation/getAllCoatingPowderInfo.action';
     api.ajax({
         url: s,
         method: 'post',
@@ -1305,9 +1507,12 @@ function setControls() {
         data: {}
     }, function(ret, err) {
         if (ret) {
-            for (var i = 0; i < ret.length; i++) {
-                $('.model-select').append('<option value=' + ret[i].text + '>' + ret[i].text + '</option>');
-            }
+            $.each(ret,function(k,v){
+                 var name="."+k;
+                 for (var i = 0; i < v.length; i++) {
+                      $(name).append('<option value=' +v[i].text + '>' +v[i].text  + '</option>');
+                 }
+            })
         } else {
             api.alert({
                 msg: JSON.stringify(err)
@@ -1735,4 +1940,15 @@ function clearLabelData() {
     $('label').each(function() {
         $(this).find('span').remove();
     });
+}
+//获取当前时间
+function getNowDate(){
+  var d=new Date();
+  var year=d.getFullYear();
+  var month=(d.getMonth()+1)<10?"0"+(d.getMonth()+1):(d.getMonth()+1);
+  var day=d.getDate()<10?"0"+d.getDate():d.getDate();
+  var hours=d.getHours()<10?"0"+d.getHours():d.getHours();
+  var minute=d.getMinutes()<10?"0"+d.getMinutes():d.getMinutes();
+  var second=d.getSeconds()<10?"0"+d.getSeconds():d.getSeconds();
+  return year+"-"+month+"-"+day+" "+hours+":"+minute+":"+second;
 }
