@@ -61,7 +61,7 @@
                 <label class="i18n1" name="grinding_cutoff"></label>
             </div>
             <div class="form-item-val">
-                <select id="grinding_cutoff"  style="">
+                <select id="grinding_cutoff" style="">
                    <option value="G">修磨</option>
                   <option value="C">切割</option>
                   <option value="GC">修磨并切割</option>
@@ -73,7 +73,7 @@
                 <label class="i18n1 pipe_thickness_tolerance_lbl" name="remainingwallthicknesslist"></label>
             </div>
             <div class="form-item-val">
-                <input  data-required=false class="mob-thickness-list pipe_thickness_tolerance" type="text" name="remaining_wall_thickness_list" />
+                <input data-required=false class="mob-thickness-list pipe_thickness_tolerance" type="text" name="remaining_wall_thickness_list" />
             </div>
         </div>
         <div class="form-item">
@@ -89,7 +89,7 @@
                 <label class="i18n1 cut_off_length_lbl" name="cutofflength"></label>
             </div>
             <div class="form-item-val">
-                <input data-number=true data-required=false class="mob-floattwo-numpad cut_off_length" type="text" name="cut_off_length"  onchange="setLengthAfterCut()"/>
+                <input data-number=true data-required=false class="mob-floattwo-numpad cut_off_length" type="text" name="cut_off_length" onchange="setLengthAfterCut()" />
             </div>
         </div>
         <div class="form-item">
@@ -206,7 +206,7 @@
             $('.id').val(data.id);
             $('#odid').val(data.odid);
             $('#grinding_cutoff').val(data.grinding_cutoff);
-            if (data.remaining_wall_thickness_list !=undefined) {
+            if (data.remaining_wall_thickness_list != undefined) {
                 $('input[name="remaining_wall_thickness_list"]').val(data.remaining_wall_thickness_list);
             }
             if (data.cut_off_length != -99) {
@@ -240,62 +240,69 @@
 
 
     function submitForm() {
-        if (initFormNumber()) {
-            var s = 'http://' + serverIP + '/BarePipeGrindingOperation/saveBarePipeGrindingProcess.action';
-            var imgUrl = "";
-            $('.imgBox  .temp-container img').each(function() {
-                var temp = $(this).attr("data-url");
-                if (temp != undefined) {
-                    imgUrl += (temp + ";");
-                }
-            });
-            //alert(imgUrl);
-            api.ajax({
-                url: s,
-                method: 'post',
-                timeout: 30,
-                dataType: 'json',
-                data: {
-                    values: {
-                        id: $('.id').val(),
-                        pipe_no: g_pipeno,
-                        mill_no: g_millno,
-                        operator_no: g_employeeno,
-                        odid: $('#odid').val(),
-                        grinding_cutoff:$('#grinding_cutoff').val(),
-                        remaining_wall_thickness_list: $('input[name="remaining_wall_thickness_list"]').val(),
-                        cut_off_length: $('input[name="cut_off_length"]').val(),
-                        original_pipe_length: $('input[name="original_pipe_length"]').val(),
-                        pipe_length_after_cut: $('input[name="pipe_length_after_cut"]').val(),
-                        result: $('#result').val(),
-                        upload_files: imgUrl,
-                        remark: $('#remark').val(),
+        api.confirm({
+            title: '提示',
+            msg: '确定提交吗?',
+            buttons: ['确定', '取消']
+        }, function(ret, err) {
+            if (ret.buttonIndex == 1 && initFormNumber()) {
+                var s = 'http://' + serverIP + '/BarePipeGrindingOperation/saveBarePipeGrindingProcess.action';
+                var imgUrl = "";
+                $('.imgBox  .temp-container img').each(function() {
+                    var temp = $(this).attr("data-url");
+                    if (temp != undefined) {
+                        imgUrl += (temp + ";");
                     }
-                }
-            }, function(ret, err) { //alert(ret);
-                if (ret) {
-                    api.alert({
-                        msg: ret.message
-                    });
-                    if (ret.success) {
-                        closeWindow();
+                });
+                //alert(imgUrl);
+                api.ajax({
+                    url: s,
+                    method: 'post',
+                    timeout: 30,
+                    dataType: 'json',
+                    data: {
+                        values: {
+                            id: $('.id').val(),
+                            pipe_no: g_pipeno,
+                            mill_no: g_millno,
+                            operator_no: g_employeeno,
+                            odid: $('#odid').val(),
+                            grinding_cutoff: $('#grinding_cutoff').val(),
+                            remaining_wall_thickness_list: $('input[name="remaining_wall_thickness_list"]').val(),
+                            cut_off_length: $('input[name="cut_off_length"]').val(),
+                            original_pipe_length: $('input[name="original_pipe_length"]').val(),
+                            pipe_length_after_cut: $('input[name="pipe_length_after_cut"]').val(),
+                            result: $('#result').val(),
+                            upload_files: imgUrl,
+                            remark: $('#remark').val(),
+                        }
                     }
-                } else {
-                    api.alert({
-                        msg: JSON.stringify(err)
-                    });
-                }
-            });
-        }
+                }, function(ret, err) { //alert(ret);
+                    if (ret) {
+                        api.alert({
+                            msg: ret.message
+                        });
+                        if (ret.success) {
+                            closeWindow();
+                        }
+                    } else {
+                        api.alert({
+                            msg: JSON.stringify(err)
+                        });
+                    }
+                });
+            }
+        });
     }
-    function setLengthAfterCut(){
-       var  originalpipelength=$('input[name="original_pipe_length"]').val();
-       var cutofflength=$('input[name="cut_off_length"]').val();
-       if(originalpipelength!=undefined&&originalpipelength!=""&&cutofflength!=undefined&&cutofflength!=""){
-             var pipe_length_after_cut=(parseFloat(originalpipelength)-parseFloat(cutofflength));
-             if(pipe_length_after_cut<0)
-               pipe_length_after_cut=0;
+
+    function setLengthAfterCut() {
+        var originalpipelength = $('input[name="original_pipe_length"]').val();
+        var cutofflength = $('input[name="cut_off_length"]').val();
+        if (originalpipelength != undefined && originalpipelength != "" && cutofflength != undefined && cutofflength != "") {
+            var pipe_length_after_cut = (parseFloat(originalpipelength) - parseFloat(cutofflength));
+            if (pipe_length_after_cut < 0)
+                pipe_length_after_cut = 0;
             $('input[name="pipe_length_after_cut"]').val(pipe_length_after_cut);
-       }
+        }
     }
 </script>

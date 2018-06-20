@@ -17,40 +17,40 @@
         <span class="nav-pipeno i18n1" name="odstencil" style="display:inline-block;margin-left:-43px;line-height:43px;"></span>
     </header>
     <div class="form-content" id="content">
-      <div class="form-item">
-          <table class="pipeinfo-table">
-              <thead>
-                  <tr>
-                      <th class="i18n1" name="pipebasicinfo" colspan="4" style="text-align:center;">钢管基础信息</th>
-                  </tr>
-              </thead>
-              <tr>
-                  <td class="i18n1" name="pipeno"></td>
-                  <td class="pipe_no"></td>
-                  <td class="i18n1" name="statusname"></td>
-                  <td class="status_name"></td>
-              </tr>
-              <tr>
-                  <td class="i18n1" name="od"></td>
-                  <td class="od"></td>
-                  <td class="i18n1" name="wt"></td>
-                  <td class="wt"></td>
-              </tr>
-              <tr>
-                  <td class="i18n1" name="millno"></td>
-                  <td class="millno"></td>
-              </tr>
-          </table>
-      </div>
-      <div class="form-item">
-          <input type="hidden" value="0" class="id"/>
-          <!-- <div class="form-item-lbl">
+        <div class="form-item">
+            <table class="pipeinfo-table">
+                <thead>
+                    <tr>
+                        <th class="i18n1" name="pipebasicinfo" colspan="4" style="text-align:center;">钢管基础信息</th>
+                    </tr>
+                </thead>
+                <tr>
+                    <td class="i18n1" name="pipeno"></td>
+                    <td class="pipe_no"></td>
+                    <td class="i18n1" name="statusname"></td>
+                    <td class="status_name"></td>
+                </tr>
+                <tr>
+                    <td class="i18n1" name="od"></td>
+                    <td class="od"></td>
+                    <td class="i18n1" name="wt"></td>
+                    <td class="wt"></td>
+                </tr>
+                <tr>
+                    <td class="i18n1" name="millno"></td>
+                    <td class="millno"></td>
+                </tr>
+            </table>
+        </div>
+        <div class="form-item">
+            <input type="hidden" value="0" class="id" />
+            <!-- <div class="form-item-lbl">
               <label class="i18n1 air_temp_lbl" name="airtemp"></label>
           </div>
           <div class="form-item-val">
               <input type="text" data-number=true data-required=false  class="mob-air-temperature air_temp" name="air_temp" value="" />
           </div> -->
-      </div>
+        </div>
 
         <div class="form-item">
             <div class="form-item-lbl">
@@ -89,7 +89,7 @@
                 <label class="i18n1 stencil_content_lbl" name="stencilcontent"></label>
             </div>
             <div class="form-item-val">
-                 <textarea  type="text" id="stencil_content" data-number=false data-required=false  maxlength="800" name="stencil_content" style="min-height:200px;"></textarea>
+                <textarea type="text" id="stencil_content" data-number=false data-required=false maxlength="800" name="stencil_content" style="min-height:200px;"></textarea>
             </div>
         </div>
 
@@ -144,11 +144,11 @@
 <script src="../../script/language.js" type="text/javascript"></script>
 <script src="../../script/mobiscroll.custom-3.0.0-beta6.min.js" type="text/javascript"></script>
 <script type="text/javascript">
-var g_pipeno;
-var g_employeeno, g_millno;
+    var g_pipeno;
+    var g_employeeno, g_millno;
 
-//UILoading 的id
-var g_loadingID = 0;
+    //UILoading 的id
+    var g_loadingID = 0;
     apiready = function() {
         DoLoadingPicture();
         var data = api.pageParam;
@@ -201,24 +201,24 @@ var g_loadingID = 0;
     function GetAllProcessInfoByPipeNoOK(data) {
         ClearLoadingPicture();
         g_employeeno = data.employeeno;
-        g_millno=data.millno;
-        if(data.pipeinfo.status!="od4"){
+        g_millno = data.millno;
+        if (data.pipeinfo.status != "od4") {
             closeWindow();
         }
         ///setTimeout(function() {
-            //执行刷新
-            initCriteria(data.odcriteria);
-            initCriteria(data.pbcriteria);
-            initInspectionFreq(data.inspectfreq);
-            initPipeBasicHeader(data.pipeinfo, data.millno);
+        //执行刷新
+        initCriteria(data.odcriteria);
+        initCriteria(data.pbcriteria);
+        initInspectionFreq(data.inspectfreq);
+        initPipeBasicHeader(data.pipeinfo, data.millno);
         //}, 200);
-          setControls();
-          setSelectPictures();
+        setControls();
+        setSelectPictures();
 
         getPendingRecordInfo("OdStencilOperation", g_pipeno);
-        if(data&&$('#stencil_content').val()==""){
-          var str = data.odcriteria.stencil_content;
-          $('#stencil_content').val(str);
+        if (data && $('#stencil_content').val() == "") {
+            var str = data.odcriteria.stencil_content;
+            $('#stencil_content').val(str);
         }
 
         // api.alert({
@@ -240,7 +240,7 @@ var g_loadingID = 0;
             $('.id').val(data.id);
             $('#center_line_color').val(data.center_line_color);
             $('#pipe_end_color').val(data.pipe_end_color);
-            if(data.stencil_content!=undefined&&data.stencil_content!=""){
+            if (data.stencil_content != undefined && data.stencil_content != "") {
                 $('#stencil_content').val(data.stencil_content);
             }
             $('#result').val(data.result);
@@ -263,50 +263,54 @@ var g_loadingID = 0;
     }
 
     function submitForm() {
-        if (initFormNumber()) {
-            var s = 'http://' + serverIP + '/OdStencilOperation/saveOdStencilProcess.action';
-            var imgUrl = "";
-            $('.imgBox  .temp-container img').each(function() {
-              var temp = $(this).attr("data-url");
-              if(temp!=undefined){
-                  imgUrl += (temp + ";");
-              }
-            });
-            api.ajax({
-                url: s,
-                method: 'post',
-                timeout: 30,
-                dataType: 'json',
-                data: {
-                    values: {
-                        id:$('.id').val(),
-                        pipe_no: g_pipeno,
-                        mill_no: g_millno,
-                        operator_no: g_employeeno,
-                        center_line_color:$('#center_line_color').val(),
-                        pipe_end_color:$('#pipe_end_color').val(),
-                        stencil_content:$('#stencil_content').val(),
-                        result:$('#result').val(),
-                        upload_files: imgUrl,
-                        remark: $('#remark').val(),
-                    }
-                }
-            }, function(ret, err) { //alert(ret);
-                if (ret) {
-                    api.alert({
-                        msg: ret.message
+        api.confirm({
+                title: '提示',
+                msg: '确定提交吗?',
+                buttons: ['确定', '取消']
+            }, function(ret, err) {
+                if (ret.buttonIndex==1&&initFormNumber()) {
+                    var s = 'http://' + serverIP + '/OdStencilOperation/saveOdStencilProcess.action';
+                    var imgUrl = "";
+                    $('.imgBox  .temp-container img').each(function() {
+                        var temp = $(this).attr("data-url");
+                        if (temp != undefined) {
+                            imgUrl += (temp + ";");
+                        }
                     });
-                    if (ret.success) {
-                        closeWindow();
-                    }
-                } else {
-                    api.alert({
-                        msg: JSON.stringify(err)
+                    api.ajax({
+                        url: s,
+                        method: 'post',
+                        timeout: 30,
+                        dataType: 'json',
+                        data: {
+                            values: {
+                                id: $('.id').val(),
+                                pipe_no: g_pipeno,
+                                mill_no: g_millno,
+                                operator_no: g_employeeno,
+                                center_line_color: $('#center_line_color').val(),
+                                pipe_end_color: $('#pipe_end_color').val(),
+                                stencil_content: $('#stencil_content').val(),
+                                result: $('#result').val(),
+                                upload_files: imgUrl,
+                                remark: $('#remark').val(),
+                            }
+                        }
+                    }, function(ret, err) { //alert(ret);
+                        if (ret) {
+                            api.alert({
+                                msg: ret.message
+                            });
+                            if (ret.success) {
+                                closeWindow();
+                            }
+                        } else {
+                            api.alert({
+                                msg: JSON.stringify(err)
+                            });
+                        }
                     });
                 }
             });
         }
-    }
-
-
 </script>

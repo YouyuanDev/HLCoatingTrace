@@ -61,7 +61,7 @@
                 <label class="i18n1 coating_type_lbl" name="coatingtype"></label>
             </div>
             <div class="form-item-val">
-                 <select id="coating_type" data-required=true class="coating_type"  name="coating_type">
+                <select id="coating_type" data-required=true class="coating_type" name="coating_type">
                            <option value="2FBE">2FBE</option>
                            <option value="3LPE">3LPE</option>
                            <option value="Liquid Epoxy">Liquid Epoxy</option>
@@ -74,7 +74,7 @@
                 <label class="i18n1 repair_size_lbl" name="repairsize"></label>
             </div>
             <div class="form-item-val">
-                   <input data-number=true data-required=false class="mob-int-numpad repair_size" type="text" name="repair_size" />
+                <input data-number=true data-required=false class="mob-int-numpad repair_size" type="text" name="repair_size" />
             </div>
         </div>
         <div class="form-item">
@@ -82,7 +82,7 @@
                 <label class="i18n1 holiday_lbl" name="holidaynumber"></label>
             </div>
             <div class="form-item-val">
-                   <input data-number=true data-required=true class="mob-holidays holiday" type="text" name="holiday_number" />
+                <input data-number=true data-required=true class="mob-holidays holiday" type="text" name="holiday_number" />
             </div>
         </div>
         <div class="form-item">
@@ -90,7 +90,7 @@
                 <label class="i18n1 repair_lbl" name="repairnumber"></label>
             </div>
             <div class="form-item-val">
-                   <input data-number=false data-required=true class="mob-repair repair" type="text" name="repair_number" />
+                <input data-number=false data-required=true class="mob-repair repair" type="text" name="repair_number" />
             </div>
         </div>
         <div class="form-item">
@@ -98,7 +98,7 @@
                 <label class="i18n1 unqualified_reason_lbl" name="unqualifiedreason"></label>
             </div>
             <div class="form-item-val">
-                 <select id="unqualified_reason" data-required=true class="unqualified_reason"  name="unqualified_reason">
+                <select id="unqualified_reason" data-required=true class="unqualified_reason" name="unqualified_reason">
                        <option value="1">漏点</option>
                        <option value="2">碰伤</option>
                        <option value="3">厚度不合</option>
@@ -112,7 +112,7 @@
                 <label class="i18n1 repair_method_lbl" name="repairmethod"></label>
             </div>
             <div class="form-item-val">
-                 <select id="repair_method" data-required=true class="repair_method REPAIR"  name="repair_method">
+                <select id="repair_method" data-required=true class="repair_method REPAIR" name="repair_method">
 
                  </select>
             </div>
@@ -122,7 +122,7 @@
                 <label class="i18n1 inspection_time_lbl" name="inspectiontime"></label>
             </div>
             <div class="form-item-val">
-                   <input  data-required=false class="mob-datetime-input inspection_time" type="text" name="inspection_time" />
+                <input data-required=false class="mob-datetime-input inspection_time" type="text" name="inspection_time" />
             </div>
         </div>
         <div class="form-item">
@@ -130,8 +130,8 @@
                 <label class="i18n1 inspector_no_lbl" name="inspectorno"></label>
             </div>
             <div class="form-item-val">
-                 <input  data-required=true class="inspector_no" type="text" name="inspector_no" />
-                 <!-- <select id="inspector_no" data-required=true class="inspector_no"  name="inspector_no">
+                <input data-required=true class="inspector_no" type="text" name="inspector_no" />
+                <!-- <select id="inspector_no" data-required=true class="inspector_no"  name="inspector_no">
 
                  </select> -->
             </div>
@@ -141,7 +141,7 @@
                 <label class="i18n1" name="repairthickness"></label>
             </div>
             <div class="form-item-val">
-                   <input  data-required=true class="mob-number-list" type="text" name="repair_thickness" />
+                <input data-required=true class="mob-number-list" type="text" name="repair_thickness" />
             </div>
         </div>
         <div class="form-item">
@@ -149,7 +149,7 @@
                 <label class="i18n1 surface_condition_lbl" name="surfacecondition"></label>
             </div>
             <div class="form-item-val">
-                 <select id="surface_condition" data-required=true class="surface_condition"  name="surface_condition">
+                <select id="surface_condition" data-required=true class="surface_condition" name="surface_condition">
                           <option value="OK">OK</option>
                           <option value="Not OK">Not OK</option>
                  </select>
@@ -160,7 +160,7 @@
                 <label class="i18n1 adhesion_lbl" name="adhesion"></label>
             </div>
             <div class="form-item-val">
-                 <select id="adhesion" data-required=true class="adhesion"  name="adhesion">
+                <select id="adhesion" data-required=true class="adhesion" name="adhesion">
                           <option value="OK">OK</option>
                           <option value="Not OK">Not OK</option>
                  </select>
@@ -171,7 +171,7 @@
                 <label class="i18n1 holiday_testing_lbl" name="holidaytesting"></label>
             </div>
             <div class="form-item-val">
-                 <select id="holiday_testing" data-required=true class="holiday_testing"  name="holiday_testing">
+                <select id="holiday_testing" data-required=true class="holiday_testing" name="holiday_testing">
                           <option value="OK">OK</option>
                           <option value="Not OK">Not OK</option>
                  </select>
@@ -254,19 +254,19 @@
             closeWindow();
         }
         //判断是外防修补还是内防修补
-        if(data.pipeinfo.status!=undefined&&data.pipeinfo.status.indexOf("idrepair1")!=-1){
+        if (data.pipeinfo.status != undefined && data.pipeinfo.status.indexOf("idrepair1") != -1) {
             $('input[name="repair_thickness"]').addClass('dry_film_thickness');
             $('label[name="repairthickness"]').addClass('dry_film_thickness_lbl');
             initCriteria(data.idcriteria);
-        }else if(data.pipeinfo.status!=undefined&&data.pipeinfo.status.indexOf("odrepair1")!=-1){
-           if(data.pipeinfo.external_coating!=undefined&&data.pipeinfo.external_coating.indexOf("2FBE")!=-1){
-              $('input[name="repair_thickness"]').addClass('total_2fbe_coat_thickness');
-              $('label[name="repairthickness"]').addClass('total_2fbe_coat_thickness_lbl');
-           }else if(data.pipeinfo.external_coating!=undefined&&data.pipeinfo.external_coating.indexOf("3LPE")!=-1){
-              $('input[name="repair_thickness"]').addClass('total_3lpe_coat_thickness');
-              $('label[name="repairthickness"]').addClass('total_3lpe_coat_thickness_lbl');
-           }
-           initCriteria(data.odcriteria);
+        } else if (data.pipeinfo.status != undefined && data.pipeinfo.status.indexOf("odrepair1") != -1) {
+            if (data.pipeinfo.external_coating != undefined && data.pipeinfo.external_coating.indexOf("2FBE") != -1) {
+                $('input[name="repair_thickness"]').addClass('total_2fbe_coat_thickness');
+                $('label[name="repairthickness"]').addClass('total_2fbe_coat_thickness_lbl');
+            } else if (data.pipeinfo.external_coating != undefined && data.pipeinfo.external_coating.indexOf("3LPE") != -1) {
+                $('input[name="repair_thickness"]').addClass('total_3lpe_coat_thickness');
+                $('label[name="repairthickness"]').addClass('total_3lpe_coat_thickness_lbl');
+            }
+            initCriteria(data.odcriteria);
         }
         //执行刷新
         //initCriteria(data.odcriteria);
@@ -299,9 +299,9 @@
             $('#odid').val(data.odid);
             $('input[name="repair_size"]').val(data.repair_size);
             if (data.repair_number != -99)
-              $('input[name="repair_number"]').val(data.repair_number);
+                $('input[name="repair_number"]').val(data.repair_number);
             if (data.holiday_number != -99)
-            $('input[name="holiday_number"]').val(data.holiday_number);
+                $('input[name="holiday_number"]').val(data.holiday_number);
             $('#repair_method').val(data.repair_method);
             $('#unqualified_reason').val(data.unqualified_reason);
             $('input[name="inspector_no"]').val(data.inspector_no);
@@ -332,104 +332,110 @@
 
 
     function submitForm() {
-        if (initFormNumber()) {
-            var s = 'http://' + serverIP + '/coatingRepairOperation/saveCoatingRepair.action';
-            var imgUrl = "";
-            $('.imgBox  .temp-container img').each(function() {
-                var temp = $(this).attr("data-url");
-                if (temp != undefined) {
-                    imgUrl += (temp + ";");
+        api.confirm({
+            title: '提示',
+            msg: '确定提交吗?',
+            buttons: ['确定', '取消']
+        }, function(ret, err) {
+            if (ret.buttonIndex == 1 && initFormNumber()) {
+                var s = 'http://' + serverIP + '/coatingRepairOperation/saveCoatingRepair.action';
+                var imgUrl = "";
+                $('.imgBox  .temp-container img').each(function() {
+                    var temp = $(this).attr("data-url");
+                    if (temp != undefined) {
+                        imgUrl += (temp + ";");
+                    }
+                });
+                var inspection_time;
+                if ($('input[name="inspection_time"]').val() == undefined || $('input[name="inspection_time"]').val().length <= 0) {
+                    inspection_time = getNowDate();
                 }
-            });
-            var inspection_time;
-            if($('input[name="inspection_time"]').val()==undefined||$('input[name="inspection_time"]').val().length<=0){
-                  inspection_time=getNowDate();
+                api.ajax({
+                    url: s,
+                    method: 'post',
+                    timeout: 30,
+                    dataType: 'json',
+                    data: {
+                        values: {
+                            id: $('.id').val(),
+                            pipe_no: g_pipeno,
+                            mill_no: g_millno,
+                            operator_no: g_employeeno,
+                            coating_type: $('#coating_type').val(),
+                            odid: $('#odid').val(),
+                            repair_size: $('input[name="repair_size"]').val(),
+                            repair_number: $('input[name="repair_number"]').val(),
+                            holiday_number: $('input[name="holiday_number"]').val(),
+                            repair_method: $('#repair_method').val(),
+                            unqualified_reason: $('#unqualified_reason').val(),
+                            inspector_no: $('input[name="inspector_no"]').val(),
+                            inspection_time: inspection_time,
+                            surface_condition: $('#surface_condition').val(),
+                            repair_thickness: $('input[name="repair_thickness"]').val(),
+                            holiday_testing: $('#holiday_testing').val(),
+                            adhesion: $('#adhesion').val(),
+                            result: $('#result').val(),
+                            upload_files: imgUrl,
+                            remark: $('#remark').val(),
+                        }
+                    }
+                }, function(ret, err) { //alert(ret);
+                    if (ret) {
+                        api.alert({
+                            msg: ret.message
+                        });
+                        if (ret.success) {
+                            closeWindow();
+                        }
+                    } else {
+                        api.alert({
+                            msg: JSON.stringify(err)
+                        });
+                    }
+                });
             }
-            api.ajax({
-                url: s,
-                method: 'post',
-                timeout: 30,
-                dataType: 'json',
-                data: {
-                    values: {
-                        id: $('.id').val(),
-                        pipe_no: g_pipeno,
-                        mill_no: g_millno,
-                        operator_no: g_employeeno,
-                        coating_type: $('#coating_type').val(),
-                        odid: $('#odid').val(),
-                        repair_size: $('input[name="repair_size"]').val(),
-                        repair_number: $('input[name="repair_number"]').val(),
-                        holiday_number: $('input[name="holiday_number"]').val(),
-                        repair_method:$('#repair_method').val(),
-                        unqualified_reason:$('#unqualified_reason').val(),
-                        inspector_no:$('input[name="inspector_no"]').val(),
-                        inspection_time:inspection_time,
-                        surface_condition:$('#surface_condition').val(),
-                        repair_thickness:$('input[name="repair_thickness"]').val(),
-                        holiday_testing:$('#holiday_testing').val(),
-                        adhesion:$('#adhesion').val(),
-                        result: $('#result').val(),
-                        upload_files: imgUrl,
-                        remark: $('#remark').val(),
-                    }
-                }
-            }, function(ret, err) { //alert(ret);
-                if (ret) {
-                    api.alert({
-                        msg: ret.message
-                    });
-                    if (ret.success) {
-                        closeWindow();
-                    }
-                } else {
-                    api.alert({
-                        msg: JSON.stringify(err)
-                    });
-                }
-            });
-        }
+        });
     }
-    function getInspectorNo(){
-          var s = 'http://' + serverIP + '/person/getPersonNoByName.action';
-          api.ajax({
-              url: s,
-              method: 'post',
-              timeout: 30,
-              dataType: 'json',
-              data: {
-                  values: {
-                  }
-              }
-          }, function(ret, err) { //alert(ret);
-              if (ret) {
-                 alert(JSON.stringify(ret));
-              } else {
-                  api.alert({
-                      msg: JSON.stringify(err)
-                  });
-              }
-          });
+
+    function getInspectorNo() {
+        var s = 'http://' + serverIP + '/person/getPersonNoByName.action';
+        api.ajax({
+            url: s,
+            method: 'post',
+            timeout: 30,
+            dataType: 'json',
+            data: {
+                values: {}
+            }
+        }, function(ret, err) { //alert(ret);
+            if (ret) {
+                alert(JSON.stringify(ret));
+            } else {
+                api.alert({
+                    msg: JSON.stringify(err)
+                });
+            }
+        });
     }
-    function getMillNo(){
-          var s = 'http://' + serverIP + '/millInfo/getAllMills.action';
-          api.ajax({
-              url: s,
-              method: 'post',
-              timeout: 30,
-              dataType: 'json',
-              data: {
-                  values: {
-                  }
-              }
-          }, function(ret, err) { //alert(ret);
-              if (ret) {
-                 alert(JSON.stringify(ret));
-              } else {
-                  api.alert({
-                      msg: JSON.stringify(err)
-                  });
-              }
-          });
+
+    function getMillNo() {
+        var s = 'http://' + serverIP + '/millInfo/getAllMills.action';
+        api.ajax({
+            url: s,
+            method: 'post',
+            timeout: 30,
+            dataType: 'json',
+            data: {
+                values: {}
+            }
+        }, function(ret, err) { //alert(ret);
+            if (ret) {
+                alert(JSON.stringify(ret));
+            } else {
+                api.alert({
+                    msg: JSON.stringify(err)
+                });
+            }
+        });
     }
 </script>

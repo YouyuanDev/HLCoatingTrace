@@ -312,7 +312,12 @@
     }
 
     function submitForm() {
-        if (initFormNumber()) {
+      api.confirm({
+              title: '提示',
+              msg: '确定提交吗?',
+              buttons: ['确定', '取消']
+          }, function(ret, err) {
+        if (ret.buttonIndex==1&&initFormNumber()) {
             var s = 'http://' + serverIP + '/IdBlastInspectionOperation/saveIdBlastInspectionProcess.action';
             var imgUrl = "";
             $('.imgBox  .temp-container img').each(function() {
@@ -363,6 +368,7 @@
                 }
             });
         }
+      });
     }
 
 

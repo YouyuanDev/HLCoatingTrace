@@ -272,54 +272,60 @@
 
 
     function submitForm() {
-        if (initFormNumber()) {
-            var s = 'http://' + serverIP + '/IdOperation/saveIdBlastProcess.action';
-            var imgUrl = "";
-            $('.imgBox  .temp-container img').each(function() {
-                var temp = $(this).attr("data-url");
-                if (temp != undefined) {
-                    imgUrl += (temp + ";");
-                }
-            });
-            //alert(imgUrl);
-            api.ajax({
-                url: s,
-                method: 'post',
-                timeout: 30,
-                dataType: 'json',
-                data: {
-                    values: {
-                        id: $('.id').val(),
-                        pipe_no: g_pipeno,
-                        mill_no: g_millno,
-                        operator_no: g_employeeno,
-                        original_pipe_no:g_pipeno,
-                        new_pipe_no:g_pipeno,
-                        pipe_no_update:g_pipeno,
-                        marking: $('#mk').val(),
-                        internal_surface_condition: $('.form-steel-select-val').text(),
-                        external_coating_condition: $('.form-coating-select-val').text(),
-                        salt_contamination_before_blasting: $('input[name="salt_contamination_before_blasting"]').val(),
-                        abrasive_conductivity: $('input[name="abrasive_conductivity"]').val(),
-                        result: $('#result').val(),
-                        upload_files: imgUrl,
-                        remark: $('#remark').val(),
+        api.confirm({
+            title: '提示',
+            msg: '确定提交吗?',
+            buttons: ['确定', '取消']
+        }, function(ret, err) {
+            if (ret.buttonIndex == 1 && initFormNumber()) {
+                var s = 'http://' + serverIP + '/IdOperation/saveIdBlastProcess.action';
+                var imgUrl = "";
+                $('.imgBox  .temp-container img').each(function() {
+                    var temp = $(this).attr("data-url");
+                    if (temp != undefined) {
+                        imgUrl += (temp + ";");
                     }
-                }
-            }, function(ret, err) { //alert(ret);
-                if (ret) {
-                    api.alert({
-                        msg: ret.message
-                    });
-                    if (ret.success) {
-                        closeWindow();
+                });
+                //alert(imgUrl);
+                api.ajax({
+                    url: s,
+                    method: 'post',
+                    timeout: 30,
+                    dataType: 'json',
+                    data: {
+                        values: {
+                            id: $('.id').val(),
+                            pipe_no: g_pipeno,
+                            mill_no: g_millno,
+                            operator_no: g_employeeno,
+                            original_pipe_no: g_pipeno,
+                            new_pipe_no: g_pipeno,
+                            pipe_no_update: g_pipeno,
+                            marking: $('#mk').val(),
+                            internal_surface_condition: $('.form-steel-select-val').text(),
+                            external_coating_condition: $('.form-coating-select-val').text(),
+                            salt_contamination_before_blasting: $('input[name="salt_contamination_before_blasting"]').val(),
+                            abrasive_conductivity: $('input[name="abrasive_conductivity"]').val(),
+                            result: $('#result').val(),
+                            upload_files: imgUrl,
+                            remark: $('#remark').val(),
+                        }
                     }
-                } else {
-                    api.alert({
-                        msg: JSON.stringify(err)
-                    });
-                }
-            });
-        }
+                }, function(ret, err) { //alert(ret);
+                    if (ret) {
+                        api.alert({
+                            msg: ret.message
+                        });
+                        if (ret.success) {
+                            closeWindow();
+                        }
+                    } else {
+                        api.alert({
+                            msg: JSON.stringify(err)
+                        });
+                    }
+                });
+            }
+        });
     }
 </script>

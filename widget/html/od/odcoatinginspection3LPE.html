@@ -305,58 +305,64 @@
     }
     //表单提交
     function submitForm() {
-        if (initFormNumber()) {
-            var s = 'http://' + serverIP + '/OdCoat3LpeInOperation/saveOdCoating3LpeInProcess.action';
-            var imgUrl = "";
-            $('.imgBox  .temp-container img').each(function() {
-                var temp = $(this).attr("data-url");
-                if (temp != undefined) {
-                    imgUrl += (temp + ";");
-                }
-            });
-            api.ajax({
-                url: s,
-                method: 'post',
-                timeout: 30,
-                dataType: 'json',
-                data: {
-                    values: {
-                        id: $('.id').val(),
-                        pipe_no: g_pipeno,
-                        mill_no: g_millno,
-                        operator_no: g_employeeno,
-                        base_coat_thickness_list: $('input[name="base_coat_thickness_list"]').val(),
-                        middle_coat_thickness_list:$('input[name="middle_coat_thickness_list"]').val(),
-                        top_coat_thickness_list: $('input[name="top_coat_thickness_list"]').val(),
-                        total_coating_thickness_list: $('input[name="total_coating_thickness_list"]').val(),
-                        holidays: $('input[name="holidays"]').val(),
-                        holiday_tester_volts: $('input[name="holiday_tester_volts"]').val(),
-                        repairs: $('input[name="repairs"]').val(),
-                        bevel: $('#bevel').val(),
-                        surface_condition: $('.form-coating-select-val').text(),
-                        is_sample: $('#issample').val(),
-                        is_dsc_sample: $('#isdscsample').val(),
-                        is_pe_sample:$('#ispesample').val(),
-                        adhesion_rating: $('#adhesionrating').val(),
-                        result: $('#result').val(),
-                        upload_files: imgUrl,
-                        remark: $('#remark').val(),
-                    }
-                }
-            }, function(ret, err) { //alert(ret);
-                if (ret) {
-                    api.alert({
-                        msg: ret.message
+        api.confirm({
+                title: '提示',
+                msg: '确定提交吗?',
+                buttons: ['确定', '取消']
+            }, function(ret, err) {
+                if (ret.buttonIndex==1&&initFormNumber()) {
+                    var s = 'http://' + serverIP + '/OdCoat3LpeInOperation/saveOdCoating3LpeInProcess.action';
+                    var imgUrl = "";
+                    $('.imgBox  .temp-container img').each(function() {
+                        var temp = $(this).attr("data-url");
+                        if (temp != undefined) {
+                            imgUrl += (temp + ";");
+                        }
                     });
-                    if (ret.success) {
-                        closeWindow();
-                    }
-                } else {
-                    api.alert({
-                        msg: JSON.stringify(err)
+                    api.ajax({
+                        url: s,
+                        method: 'post',
+                        timeout: 30,
+                        dataType: 'json',
+                        data: {
+                            values: {
+                                id: $('.id').val(),
+                                pipe_no: g_pipeno,
+                                mill_no: g_millno,
+                                operator_no: g_employeeno,
+                                base_coat_thickness_list: $('input[name="base_coat_thickness_list"]').val(),
+                                middle_coat_thickness_list: $('input[name="middle_coat_thickness_list"]').val(),
+                                top_coat_thickness_list: $('input[name="top_coat_thickness_list"]').val(),
+                                total_coating_thickness_list: $('input[name="total_coating_thickness_list"]').val(),
+                                holidays: $('input[name="holidays"]').val(),
+                                holiday_tester_volts: $('input[name="holiday_tester_volts"]').val(),
+                                repairs: $('input[name="repairs"]').val(),
+                                bevel: $('#bevel').val(),
+                                surface_condition: $('.form-coating-select-val').text(),
+                                is_sample: $('#issample').val(),
+                                is_dsc_sample: $('#isdscsample').val(),
+                                is_pe_sample: $('#ispesample').val(),
+                                adhesion_rating: $('#adhesionrating').val(),
+                                result: $('#result').val(),
+                                upload_files: imgUrl,
+                                remark: $('#remark').val(),
+                            }
+                        }
+                    }, function(ret, err) { //alert(ret);
+                        if (ret) {
+                            api.alert({
+                                msg: ret.message
+                            });
+                            if (ret.success) {
+                                closeWindow();
+                            }
+                        } else {
+                            api.alert({
+                                msg: JSON.stringify(err)
+                            });
+                        }
                     });
                 }
             });
         }
-    }
 </script>

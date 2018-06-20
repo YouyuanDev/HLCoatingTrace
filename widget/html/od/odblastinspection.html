@@ -113,7 +113,7 @@
                 <label class="i18n1 blast_finish_sa25_lbl" name="blastfinishsa25"></label>
             </div>
             <div class="form-item-val">
-                <select id="bfs" data-required=false class="validate-select blast_finish_sa25"  name="blast_finish_sa25">
+                <select id="bfs" data-required=false class="validate-select blast_finish_sa25" name="blast_finish_sa25">
                          <option value="2.0">Sa2.0</option>
                          <option value="2.5">Sa2.5</option>
                          <option value="3.0">Sa3.0</option>
@@ -152,7 +152,7 @@
                 <label class="i18n1 oil_water_in_air_compressor_lbl" name="oilwaterinaircompressor"></label>
             </div>
             <div class="form-item-val">
-                     <select id="oilwater" data-required=false name="oil_water_in_air_compressor">
+                <select id="oilwater" data-required=false name="oil_water_in_air_compressor">
                          <option value="0" selected="selected">否</option>
                          <option value="1">是</option>
                      </select>
@@ -366,57 +366,63 @@
 
 
     function submitForm() {
-        if (initFormNumber()) {
-            var s = 'http://' + serverIP + '/OdBlastInspectionOperation/saveOdBlastInspectionProcess.action';
-            var imgUrl = "";
-            $('.imgBox  .temp-container img').each(function() {
-                var temp = $(this).attr("data-url");
-                if (temp != undefined) {
-                    imgUrl += (temp + ";");
-                }
-            });
-            api.ajax({
-                url: s,
-                method: 'post',
-                timeout: 30,
-                dataType: 'json',
-                data: {
-                    values: {
-                        id: $('.id').val(),
-                        pipe_no: g_pipeno,
-                        mill_no: g_millno,
-                        operator_no: g_employeeno,
-                        air_temp: $('input[name="air_temp"]').val(),
-                        blast_finish_sa25: $('#bfs').val(),
-                        surface_dust_rating: $('#sdr').val(),
-                        relative_humidity: $('input[name="relative_humidity"]').val(),
-                        dew_point: $('input[name="dew_point"]').val(),
-                        pipe_temp: $('input[name="pipe_temp_after_blast"]').val(),
-                        profile: $('input[name="profile"]').val(),
-                        surface_condition: $('.form-steel-select-val').text(),
-                        oil_water_in_air_compressor: $('#oilwater').val(),
-                        // elapsed_time:$('input[name="elapsed_time"]').val(),
-                        salt_contamination_after_blasting: $('input[name="salt_contamination_after_blasting"]').val(),
-                        result: $('#result').val(),
-                        upload_files: imgUrl,
-                        remark: $('#remark').val(),
+        api.confirm({
+            title: '提示',
+            msg: '确定提交吗?',
+            buttons: ['确定', '取消']
+        }, function(ret, err) {
+            if (ret.buttonIndex==1&&initFormNumber()) {
+                var s = 'http://' + serverIP + '/OdBlastInspectionOperation/saveOdBlastInspectionProcess.action';
+                var imgUrl = "";
+                $('.imgBox  .temp-container img').each(function() {
+                    var temp = $(this).attr("data-url");
+                    if (temp != undefined) {
+                        imgUrl += (temp + ";");
                     }
-                }
-            }, function(ret, err) { //alert(ret);
-                if (ret) {
-                    api.alert({
-                        msg: ret.message
-                    });
-                    if (ret.success) {
-                        closeWindow();
+                });
+                api.ajax({
+                    url: s,
+                    method: 'post',
+                    timeout: 30,
+                    dataType: 'json',
+                    data: {
+                        values: {
+                            id: $('.id').val(),
+                            pipe_no: g_pipeno,
+                            mill_no: g_millno,
+                            operator_no: g_employeeno,
+                            air_temp: $('input[name="air_temp"]').val(),
+                            blast_finish_sa25: $('#bfs').val(),
+                            surface_dust_rating: $('#sdr').val(),
+                            relative_humidity: $('input[name="relative_humidity"]').val(),
+                            dew_point: $('input[name="dew_point"]').val(),
+                            pipe_temp: $('input[name="pipe_temp_after_blast"]').val(),
+                            profile: $('input[name="profile"]').val(),
+                            surface_condition: $('.form-steel-select-val').text(),
+                            oil_water_in_air_compressor: $('#oilwater').val(),
+                            // elapsed_time:$('input[name="elapsed_time"]').val(),
+                            salt_contamination_after_blasting: $('input[name="salt_contamination_after_blasting"]').val(),
+                            result: $('#result').val(),
+                            upload_files: imgUrl,
+                            remark: $('#remark').val(),
+                        }
                     }
-                } else {
-                    api.alert({
-                        msg: JSON.stringify(err)
-                    });
-                }
-            });
-        }
+                }, function(ret, err) { //alert(ret);
+                    if (ret) {
+                        api.alert({
+                            msg: ret.message
+                        });
+                        if (ret.success) {
+                            closeWindow();
+                        }
+                    } else {
+                        api.alert({
+                            msg: JSON.stringify(err)
+                        });
+                    }
+                });
+            }
+        });
     }
 
     //设置 钢管温度与露点温度差

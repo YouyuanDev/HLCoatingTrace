@@ -244,11 +244,11 @@
         setAllDefectInfo("steel");
 
         //setTimeout(function() {
-            //执行刷新
-            initCriteria(data.odcriteria);
-            initCriteria(data.pbcriteria);
-            initInspectionFreq(data.inspectfreq);
-            initPipeBasicHeader(data.pipeinfo, data.millno);
+        //执行刷新
+        initCriteria(data.odcriteria);
+        initCriteria(data.pbcriteria);
+        initInspectionFreq(data.inspectfreq);
+        initPipeBasicHeader(data.pipeinfo, data.millno);
         //}, 200);
 
         setControls();
@@ -273,59 +273,66 @@
 
 
     function submitForm() {
-        if (initFormNumber()) {
-            var s = 'http://' + serverIP + '/OdOperation/saveOdBlastProcess.action';
-            var imgUrl = "";
-            $('.imgBox  .temp-container img').each(function() {
-                var temp = $(this).attr("data-url");
-                if (temp != undefined) {
-                    imgUrl += (temp + ";");
-                }
-            });
-            //alert(imgUrl);
-            api.ajax({
-                url: s,
-                method: 'post',
-                timeout: 30,
-                dataType: 'json',
-                data: {
-                    values: {
-                        id: $('.id').val(),
-                        pipe_no: g_pipeno,
-                        mill_no: g_millno,
-                        operator_no: g_employeeno,
-                        marking: $('#mk').val(),
-                        surface_condition: $('.form-steel-select-val').text(),
-                        preheat_temp: $('input[name="preheat_temp"]').val(),
-                        salt_contamination_before_blasting: $('input[name="salt_contamination_before_blasting"]').val(),
-                        alkaline_dwell_time: $('input[name="alkaline_dwell_time"]').val(),
-                        alkaline_concentration: $('input[name="alkaline_concentration"]').val(),
-                        acid_wash_time: $('input[name="acid_wash_time"]').val(),
-                        acid_concentration: $('input[name="acid_concentration"]').val(),
-                        rinse_water_conductivity: $('input[name="rinse_water_conductivity"]').val(),
-                        abrasive_conductivity: $('input[name="abrasive_conductivity"]').val(),
-                        blast_line_speed: $('input[name="blast_line_speed"]').val(),
-                        result: $('#result').val(),
-                        blast_line_speed: $('input[name="blast_line_speed"]').val(),
-                        upload_files: imgUrl,
-                        remark: $('#remark').val(),
+        api.confirm({
+            title: '提示',
+            msg: '确定提交吗?',
+            buttons: ['确定', '取消']
+        }, function(ret, err) {
+
+            if (ret.buttonIndex == 1 && initFormNumber()) {
+                var s = 'http://' + serverIP + '/OdOperation/saveOdBlastProcess.action';
+                var imgUrl = "";
+                $('.imgBox  .temp-container img').each(function() {
+                    var temp = $(this).attr("data-url");
+                    if (temp != undefined) {
+                        imgUrl += (temp + ";");
                     }
-                }
-            }, function(ret, err) { //alert(ret);
-                if (ret) {
-                    api.alert({
-                        msg: ret.message
-                    });
-                    if (ret.success) {
-                        closeWindow();
+                });
+                //alert(imgUrl);
+                api.ajax({
+                    url: s,
+                    method: 'post',
+                    timeout: 30,
+                    dataType: 'json',
+                    data: {
+                        values: {
+                            id: $('.id').val(),
+                            pipe_no: g_pipeno,
+                            mill_no: g_millno,
+                            operator_no: g_employeeno,
+                            marking: $('#mk').val(),
+                            surface_condition: $('.form-steel-select-val').text(),
+                            preheat_temp: $('input[name="preheat_temp"]').val(),
+                            salt_contamination_before_blasting: $('input[name="salt_contamination_before_blasting"]').val(),
+                            alkaline_dwell_time: $('input[name="alkaline_dwell_time"]').val(),
+                            alkaline_concentration: $('input[name="alkaline_concentration"]').val(),
+                            acid_wash_time: $('input[name="acid_wash_time"]').val(),
+                            acid_concentration: $('input[name="acid_concentration"]').val(),
+                            rinse_water_conductivity: $('input[name="rinse_water_conductivity"]').val(),
+                            abrasive_conductivity: $('input[name="abrasive_conductivity"]').val(),
+                            blast_line_speed: $('input[name="blast_line_speed"]').val(),
+                            result: $('#result').val(),
+                            blast_line_speed: $('input[name="blast_line_speed"]').val(),
+                            upload_files: imgUrl,
+                            remark: $('#remark').val(),
+                        }
                     }
-                } else {
-                    api.alert({
-                        msg: JSON.stringify(err)
-                    });
-                }
-            });
-        }
+                }, function(ret, err) { //alert(ret);
+                    if (ret) {
+                        api.alert({
+                            msg: ret.message
+                        });
+                        if (ret.success) {
+                            closeWindow();
+                        }
+                    } else {
+                        api.alert({
+                            msg: JSON.stringify(err)
+                        });
+                    }
+                });
+            }
+        });
     }
 
     function getPendingRecordInfoOK(data) {

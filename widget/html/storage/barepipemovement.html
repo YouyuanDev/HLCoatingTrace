@@ -80,14 +80,14 @@
     var g_loadingID = 0;
 
     apiready = function() {
-        DoLoadingPicture();
-        var data = api.pageParam;
-        g_pipeno = data.pipe_no;
-        fnSettingHeader();
-        hlLanguage("../../i18n/");
-        RequestAllProcessInfoByPipeNo(g_pipeno);
-    }
-    //得到钢管数据汇总成功
+            DoLoadingPicture();
+            var data = api.pageParam;
+            g_pipeno = data.pipe_no;
+            fnSettingHeader();
+            hlLanguage("../../i18n/");
+            RequestAllProcessInfoByPipeNo(g_pipeno);
+        }
+        //得到钢管数据汇总成功
     function GetAllProcessInfoByPipeNoOK(data) {
         ClearLoadingPicture();
         g_employeeno = data.employeeno;
@@ -96,10 +96,10 @@
             closeWindow();
         }
         $('.id').val(data.pipeinfo.id);
-        if(data.pipeinfo.status == "bare1")
-           $('#selectedTransferType').val(0);
-         else
-          $('#selectedTransferType').val(1);
+        if (data.pipeinfo.status == "bare1")
+            $('#selectedTransferType').val(0);
+        else
+            $('#selectedTransferType').val(1);
         initPipeBasicHeader(data.pipeinfo, data.millno);
 
     }
@@ -111,39 +111,46 @@
         });
         closeWindow();
     }
+
     function submitForm() {
-        if (initFormNumber()) {
-            var s;
-            if($('.id').val()==undefined)return false;
-            var idArr=$('.id').val()+",";
-            if($('#selectedTransferType').val()=="0")
-               s = 'http://' + serverIP + '/pipeinfo/SetPipeTOIDBare.action';
-            else
-               s = 'http://' + serverIP + '/pipeinfo/SetPipeTOODBare.action';
-            api.ajax({
-                url: s,
-                method: 'post',
-                timeout: 30,
-                dataType: 'json',
-                data: {
-                    values: {
-                        hlparam:idArr
+        api.confirm({
+            title: '提示',
+            msg: '确定提交吗?',
+            buttons: ['确定', '取消']
+        }, function(ret, err) {
+            if (ret.buttonIndex == 1 && initFormNumber()) {
+                var s;
+                if ($('.id').val() == undefined) return false;
+                var idArr = $('.id').val() + ",";
+                if ($('#selectedTransferType').val() == "0")
+                    s = 'http://' + serverIP + '/pipeinfo/SetPipeTOIDBare.action';
+                else
+                    s = 'http://' + serverIP + '/pipeinfo/SetPipeTOODBare.action';
+                api.ajax({
+                    url: s,
+                    method: 'post',
+                    timeout: 30,
+                    dataType: 'json',
+                    data: {
+                        values: {
+                            hlparam: idArr
+                        }
                     }
-                }
-            }, function(ret, err) { //alert(ret);
-                if (ret) {
-                    api.alert({
-                        msg: ret.message
-                    });
-                    if (ret.success) {
-                        closeWindow();
+                }, function(ret, err) { //alert(ret);
+                    if (ret) {
+                        api.alert({
+                            msg: ret.message
+                        });
+                        if (ret.success) {
+                            closeWindow();
+                        }
+                    } else {
+                        api.alert({
+                            msg: JSON.stringify(err)
+                        });
                     }
-                } else {
-                    api.alert({
-                        msg: JSON.stringify(err)
-                    });
-                }
-            });
-        }
+                });
+            }
+        });
     }
 </script>

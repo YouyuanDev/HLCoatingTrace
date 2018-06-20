@@ -123,7 +123,7 @@
                 <label class="i18n1" name="levelsequence"></label>
             </div>
             <div class="form-item-val">
-                <input id="levelsequence" type="text" name="level_sequence" />
+                <input id="levelsequence" class="mob-int-numpad" type="text" name="level_sequence" />
             </div>
         </div>
     </div>
@@ -168,6 +168,7 @@
            status="od6";
         else
           status="id6";
+        setControls();
         initPipeBasicHeader(data.pipeinfo, data.millno);
     }
     //得到外防接收标准失败
@@ -179,7 +180,12 @@
         closeWindow();
     }
     function submitForm() {
-        if (initFormNumber()) {
+      api.confirm({
+          title: '提示',
+          msg: '确定提交吗?',
+          buttons: ['确定', '取消']
+      }, function(ret, err) {
+          if (ret.buttonIndex == 1 && initFormNumber()) {
             if($('.id').val()==undefined)return false;
             var idArr=$('.id').val()+",";
             var storage_stack=$('#storagestack').val();
@@ -220,5 +226,6 @@
                 }
             });
         }
+      });
     }
 </script>

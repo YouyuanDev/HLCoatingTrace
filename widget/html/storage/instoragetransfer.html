@@ -123,7 +123,7 @@
                 <label class="i18n1" name="levelsequence"></label>
             </div>
             <div class="form-item-val">
-                <input id="levelsequence" type="text" name="level_sequence" />
+                <input id="levelsequence" class="mob-int-numpad" type="text" name="level_sequence" />
             </div>
         </div>
     </div>
@@ -147,14 +147,14 @@
     //UILoading 的id
     var g_loadingID = 0;
     apiready = function() {
-        DoLoadingPicture();
-        var data = api.pageParam;
-        g_pipeno = data.pipe_no;
-        fnSettingHeader();
-        hlLanguage("../../i18n/");
-        RequestAllProcessInfoByPipeNo(g_pipeno);
-    }
-    //得到钢管数据汇总成功
+            DoLoadingPicture();
+            var data = api.pageParam;
+            g_pipeno = data.pipe_no;
+            fnSettingHeader();
+            hlLanguage("../../i18n/");
+            RequestAllProcessInfoByPipeNo(g_pipeno);
+        }
+        //得到钢管数据汇总成功
     function GetAllProcessInfoByPipeNoOK(data) {
         ClearLoadingPicture();
         g_employeeno = data.employeeno;
@@ -165,6 +165,7 @@
         $('#leveldirection').val(data.pipeinfo.level_direction);
         $('#levelsequence').val(data.pipeinfo.level_sequence);
         initPipeBasicHeader(data.pipeinfo, data.millno);
+        setControls();
     }
     //得到外防接收标准失败
     function GetAllProcessInfoByPipeNoFail(message) {
@@ -174,43 +175,50 @@
         });
         closeWindow();
     }
+
     function submitForm() {
-        if (initFormNumber()) {
-            if($('.id').val()==undefined)return false;
-            var idArr=$('.id').val()+",";
-            var storage_stack=$('#storagestack').val();
-            var stack_level=$('#stacklevel').val();
-            var level_direction=$('#leveldirection').val();
-            var level_sequence=$('#levelsequence').val();
-            var s= 'http://' + serverIP + '/pipeinfo/doInStoageTransfer.action';
-            api.ajax({
-                url: s,
-                method: 'post',
-                timeout: 30,
-                dataType: 'json',
-                data: {
-                    values: {
-                        hlparam:idArr,
-                        storage_stack:storage_stack,
-                        stack_level:stack_level,
-                        level_direction:level_direction,
-                        level_sequence:level_sequence
+        api.confirm({
+            title: '提示',
+            msg: '确定提交吗?',
+            buttons: ['确定', '取消']
+        }, function(ret, err) {
+            if (ret.buttonIndex == 1 && initFormNumber()) {
+                if ($('.id').val() == undefined) return false;
+                var idArr = $('.id').val() + ",";
+                var storage_stack = $('#storagestack').val();
+                var stack_level = $('#stacklevel').val();
+                var level_direction = $('#leveldirection').val();
+                var level_sequence = $('#levelsequence').val();
+                var s = 'http://' + serverIP + '/pipeinfo/doInStoageTransfer.action';
+                api.ajax({
+                    url: s,
+                    method: 'post',
+                    timeout: 30,
+                    dataType: 'json',
+                    data: {
+                        values: {
+                            hlparam: idArr,
+                            storage_stack: storage_stack,
+                            stack_level: stack_level,
+                            level_direction: level_direction,
+                            level_sequence: level_sequence
+                        }
                     }
-                }
-            }, function(ret, err) { //alert(ret);
-                if (ret) {
-                    api.alert({
-                        msg: ret.message
-                    });
-                    if (ret.success) {
-                        closeWindow();
+                }, function(ret, err) { //alert(ret);
+                    if (ret) {
+                        api.alert({
+                            msg: ret.message
+                        });
+                        if (ret.success) {
+                            closeWindow();
+                        }
+                    } else {
+                        api.alert({
+                            msg: JSON.stringify(err)
+                        });
                     }
-                } else {
-                    api.alert({
-                        msg: JSON.stringify(err)
-                    });
-                }
-            });
-        }
+                });
+            }
+        });
     }
 </script>

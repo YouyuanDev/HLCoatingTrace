@@ -166,10 +166,10 @@
         //setTimeout(function() {
         //执行刷新
         //判断是外防修补还是内防修补
-        if(data.pipeinfo.status.indexOf("idrepair1")>0){
+        if (data.pipeinfo.status.indexOf("idrepair1") > 0) {
             initCriteria(data.idcriteria);
-        }else if(data.pipeinfo.status.indexOf("odrepair1")>0){
-           initCriteria(data.odcriteria);
+        } else if (data.pipeinfo.status.indexOf("odrepair1") > 0) {
+            initCriteria(data.odcriteria);
         }
         //initCriteria(data.odcriteria);
         initCriteria(data.pbcriteria);
@@ -226,48 +226,55 @@
 
 
     function submitForm() {
-        if (initFormNumber()) {
-            var s = 'http://' + serverIP + '/coatingStripOperation/saveCoatingStrip.action';
-            var imgUrl = "";
-            $('.imgBox  .temp-container img').each(function() {
-                var temp = $(this).attr("data-url");
-                if (temp != undefined) {
-                    imgUrl += (temp + ";");
-                }
-            });
-            //alert(imgUrl);
-            api.ajax({
-                url: s,
-                method: 'post',
-                timeout: 30,
-                dataType: 'json',
-                data: {
-                    values: {
-                        id: $('.id').val(),
-                        pipe_no: g_pipeno,
-                        mill_no: g_millno,
-                        operator_no: g_employeeno,
-                        odid: $('#odid').val(),
-                        strip_temperature: $('input[name="strip_temperature"]').val(),
-                        result: $('#result').val(),
-                        upload_files: imgUrl,
-                        remark: $('#remark').val(),
+
+        api.confirm({
+            title: '提示',
+            msg: '确定提交吗?',
+            buttons: ['确定', '取消']
+        }, function(ret, err) {
+            if (ret.buttonIndex == 1 && initFormNumber()) {
+                var s = 'http://' + serverIP + '/coatingStripOperation/saveCoatingStrip.action';
+                var imgUrl = "";
+                $('.imgBox  .temp-container img').each(function() {
+                    var temp = $(this).attr("data-url");
+                    if (temp != undefined) {
+                        imgUrl += (temp + ";");
                     }
-                }
-            }, function(ret, err) { //alert(ret);
-                if (ret) {
-                    api.alert({
-                        msg: ret.message
-                    });
-                    if (ret.success) {
-                        closeWindow();
+                });
+                //alert(imgUrl);
+                api.ajax({
+                    url: s,
+                    method: 'post',
+                    timeout: 30,
+                    dataType: 'json',
+                    data: {
+                        values: {
+                            id: $('.id').val(),
+                            pipe_no: g_pipeno,
+                            mill_no: g_millno,
+                            operator_no: g_employeeno,
+                            odid: $('#odid').val(),
+                            strip_temperature: $('input[name="strip_temperature"]').val(),
+                            result: $('#result').val(),
+                            upload_files: imgUrl,
+                            remark: $('#remark').val(),
+                        }
                     }
-                } else {
-                    api.alert({
-                        msg: JSON.stringify(err)
-                    });
-                }
-            });
-        }
+                }, function(ret, err) { //alert(ret);
+                    if (ret) {
+                        api.alert({
+                            msg: ret.message
+                        });
+                        if (ret.success) {
+                            closeWindow();
+                        }
+                    } else {
+                        api.alert({
+                            msg: JSON.stringify(err)
+                        });
+                    }
+                });
+            }
+        });
     }
 </script>
