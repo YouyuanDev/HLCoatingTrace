@@ -188,3 +188,12 @@ select,button{
 .range-span{
   padding-left:4px;
 }
+.split-div{
+  padding:5px 0px;
+}
+.split-div .split-title{
+  width:100%;
+  text-align: center;
+  line-height:30px;
+  color: #555;
+}

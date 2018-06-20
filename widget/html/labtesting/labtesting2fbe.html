@@ -17,7 +17,7 @@
         <span class="nav-pipeno i18n1" name="labtesting2fbe" style="display:inline-block;margin-left:-43px;line-height:43px;"></span>
     </header>
     <div class="form-content" id="content">
-        <div class="form-item">
+        <!-- <div class="form-item">
             <table class="pipeinfo-table">
                 <thead>
                     <tr>
@@ -41,176 +41,202 @@
                     <td class="millno"></td>
                 </tr>
             </table>
-        </div>
+        </div> -->
         <div class="form-item">
             <input type="hidden" value="0" class="id" />
         </div>
-        <div class="form-item">
-            <div class="form-item-lbl">
-                <label class="i18n1 sample_no_lbl" name="sampleno"></label>
+        <!--外防实验(2FBE)信息(Dsc取样)-->
+        <div class="dsc-div split-div">
+          <div class="form-item" style="text-align:center;">
+                  <span class="i18n1" name="coatingdate" style="display:inline-block;"></span>&nbsp;&nbsp;&nbsp;&nbsp;<span id="coatingdate" name="coating_date" style="display:inline-block;"></span>
+          </div>
+            <div class="split-title i18n1" name="labtesting2fbedesc"></div>
+            <div class="form-item">
+                <div class="form-item-lbl">
+                    <label class="i18n1 dsc_pipe_no_lbl" name="dscpipeno"></label>
+                </div>
+                <div class="form-item-val">
+                    <input class="dsc_pipe_no" type="text" name="dsc_pipe_no" />
+                </div>
             </div>
-            <div class="form-item-val">
-                <input class="sample_no" type="text" name="sample_no" />
+            <div class="form-item">
+                <div class="form-item-lbl">
+                    <label class="i18n1 dsc_sample_no_lbl" name="dscsampleno"></label>
+                </div>
+                <div class="form-item-val">
+                    <input class="dsc_sample_no" type="text" name="dsc_sample_no" />
+                </div>
+            </div>
+            <div class="form-item">
+                <div class="form-item-lbl">
+                    <label class="i18n1 dsc_lbl" name="dsc"></label>
+                </div>
+                <div class="form-item-val">
+                    <input data-required=false class="dsc" type="text" name="dsc" />
+                </div>
             </div>
         </div>
+        <!--外防实验(2FBE)信息(常规取样)-->
+        <div class="routine-div split-div">
+            <div class="split-title i18n1" name="labtesting2fbe"></div>
+            <div class="form-item">
+                <div class="form-item-lbl">
+                    <label class="i18n1 sample_no_lbl" name="sampleno"></label>
+                </div>
+                <div class="form-item-val">
+                    <input class="sample_no" type="text" name="sample_no" />
+                </div>
+            </div>
 
-        <div class="form-item">
-            <div class="form-item-lbl">
-                <label class="i18n1 coating_date" name="coatingdate"></label>
+            <div class="form-item">
+                <div class="form-item-lbl">
+                    <label class="i18n1 coating_date" name="coatingdate"></label>
+                </div>
+                <div class="form-item-val">
+                    <input class="mob-datetime-input coating_date" type="text" name="coating_date" />
+                </div>
             </div>
-            <div class="form-item-val">
-                <input class="mob-datetime-input coating_date" type="text" name="coating_date" />
+            <div class="form-item">
+                <div class="form-item-lbl">
+                    <label class="i18n1 foaming_cross_sectional_lbl" name="foamingcrosssectional"></label>
+                </div>
+                <div class="form-item-val">
+                    <select id="foaming_cross_sectional" class="foaming_cross_sectional" name="foaming_cross_sectional">
+                        <option value="1">1级</option>
+                        <option value="2">2级</option>
+                        <option value="3">3级</option>
+                        <option value="4">4级</option>
+                </select>
+                </div>
             </div>
-        </div>
-        <div class="form-item">
-            <div class="form-item-lbl">
-                <label class="i18n1 foaming_cross_sectional_lbl" name="foamingcrosssectional"></label>
+            <div class="form-item">
+                <div class="form-item-lbl">
+                    <label class="i18n1 foaming_interfacial_lbl" name="foaminginterfacial"></label>
+                </div>
+                <div class="form-item-val">
+                    <select id="foaming_interfacial" class="foaming_interfacial" name="foaming_interfacial">
+                        <option value="1">1级</option>
+                        <option value="2">2级</option>
+                        <option value="3">3级</option>
+                        <option value="4">4级</option>
+                </select>
+                </div>
             </div>
-            <div class="form-item-val">
-              <select id="foaming_cross_sectional" class="foaming_cross_sectional" name="foaming_cross_sectional">
-                      <option value="1">1级</option>
-                      <option value="2">2级</option>
-                      <option value="3">3级</option>
-                      <option value="4">4级</option>
-              </select>
+            <div class="form-item">
+                <div class="form-item-lbl">
+                    <label class="i18n1 interfacial_contamination_lbl" name="interfacialcontamination"></label>
+                </div>
+                <div class="form-item-val">
+                    <input data-number=true data-required=false class="mob-floattwo-numpad interfacial_contamination" type="text" name="interfacial_contamination" />
+                </div>
             </div>
-        </div>
-        <div class="form-item">
-            <div class="form-item-lbl">
-                <label class="i18n1 foaming_interfacial_lbl" name="foaminginterfacial"></label>
-            </div>
-            <div class="form-item-val">
-              <select id="foaming_interfacial" class="foaming_interfacial" name="foaming_interfacial">
-                      <option value="1">1级</option>
-                      <option value="2">2级</option>
-                      <option value="3">3级</option>
-                      <option value="4">4级</option>
-              </select>
-            </div>
-        </div>
-        <div class="form-item">
-            <div class="form-item-lbl">
-                <label class="i18n1 interfacial_contamination_lbl" name="interfacialcontamination"></label>
-            </div>
-            <div class="form-item-val">
-                <input data-number=true data-required=false class="mob-floattwo-numpad interfacial_contamination" type="text" name="interfacial_contamination" />
-            </div>
-        </div>
-        <div class="form-item">
-            <div class="form-item-lbl">
-                <label class="i18n1 dsc_lbl" name="dsc"></label>
-            </div>
-            <div class="form-item-val">
-                <input data-required=false class="dsc" type="text" name="dsc" />
-            </div>
-        </div>
-        <div class="form-item">
-            <div class="form-item-lbl">
-                <label class="i18n1 flexibility_lbl" name="flexibility"></label>
-            </div>
-            <div class="form-item-val">
-              <select id="flexibility" class="flexibility" name="flexibility">
-                 <option value="OK">合格（无裂纹）</option>
-                 <option value="Not OK">不合格（有裂纹）</option>
-                 <option value="Pending">待定</option>
-              </select>
-            </div>
-        </div>
-        <div class="form-item">
-            <div class="form-item-lbl">
-                <label class="i18n1 impact_lbl" name="impact"></label>
-            </div>
-            <div class="form-item-val">
-              <select id="impact" class="impact" name="impact">
-                      <option value="OK">合格（无漏点）</option>
-                      <option value="Not OK">不合格（有漏点）</option>
-                      <option value="Pending">待定</option>
-              </select>
-            </div>
-        </div>
-        <div class="form-item">
-            <div class="form-item-lbl">
-                <label class="i18n1 resistance_to_hot_water_98_24h_lbl" name="resistancetohotwater9824h"></label>
-            </div>
-            <div class="form-item-val">
-              <select id="resistance_to_hot_water_98_24h" data-required=false class="resistance_to_hot_water_98_24h" name="resistance_to_hot_water_98_24h">
-                   <option value="1">1级</option>
-                   <option value="2">2级</option>
-                   <option value="3">3级</option>
-                   <option value="4">4级</option>
-              </select>
-            </div>
-        </div>
-        <div class="form-item">
-            <div class="form-item-lbl">
-                <label class="i18n1 resistance_to_hot_water_98_28d_lbl" name="resistancetohotwater9828d"></label>
-            </div>
-            <div class="form-item-val">
-              <select id="resistance_to_hot_water_98_28d" data-required=false class="resistance_to_hot_water_98_28d" name="resistance_to_hot_water_98_28d">
-                   <option value="1">1级</option>
-                   <option value="2">2级</option>
-                   <option value="3">3级</option>
-                   <option value="4">4级</option>
-              </select>
-            </div>
-        </div>
-        <div class="form-item">
-            <div class="form-item-lbl">
-                <label class="i18n1 resistance_to_cd_65_24h_lbl" name="resistancetocd6524h"></label>
-            </div>
-            <div class="form-item-val">
-                <input data-number=true data-required=false class="mob-floattwo-numpad resistance_to_cd_65_24h" type="text" name="resistance_to_cd_65_24h" />
-            </div>
-        </div>
-        <div class="form-item">
-            <div class="form-item-lbl">
-                <label class="i18n1 rresistance_to_cd_22_28d_lbl" name="resistancetocd2228d"></label>
-            </div>
-            <div class="form-item-val">
-                <input data-number=true data-required=false class="mob-floattwo-numpad resistance_to_cd_22_28d" type="text" name="resistance_to_cd_22_28d" />
-            </div>
-        </div>
-        <div class="form-item">
-            <div class="form-item-lbl">
-                <label class="i18n1 resistance_to_cd_65_28d_lbl" name="resistancetocd6528d"></label>
-            </div>
-            <div class="form-item-val">
-                <input data-number=true data-required=false class="mob-floattwo-numpad resistance_to_cd_65_28d" type="text" name="resistance_to_cd_65_28d" />
-            </div>
-        </div>
-        <div class="form-item">
-            <div class="form-item-lbl">
-                <label class="i18n1" name="result"></label>
-            </div>
-            <div class="form-item-val">
-                <select id="result" name="result">
-                      <option value="0">不合格,复验</option>
-                      <option value="1">合格</option>
-                      <option value="10">待定</option>
-            </select>
-            </div>
-        </div>
-        <div class="form-item">
-            <div class="imgBox"></div>
-        </div>
-        <div class="form-item">
-            <div class="form-item-lbl">
-                <label class="i18n1" name="uploadpicture"></label>
-            </div>
-            <div class="form-item-val">
-                <button class="i18n1 form-pictures" name="selectpicture"></button>
-            </div>
-        </div>
-        <div class="form-item">
-            <div class="form-item-lbl">
-                <label class="i18n1" name="remark"></label>
-            </div>
-            <div class="form-item-val">
-                <textarea id="remark" name="remark"></textarea>
-            </div>
-        </div>
 
-
+            <div class="form-item">
+                <div class="form-item-lbl">
+                    <label class="i18n1 flexibility_lbl" name="flexibility"></label>
+                </div>
+                <div class="form-item-val">
+                    <select id="flexibility" class="flexibility" name="flexibility">
+                   <option value="OK">合格（无裂纹）</option>
+                   <option value="Not OK">不合格（有裂纹）</option>
+                   <option value="Pending">待定</option>
+                </select>
+                </div>
+            </div>
+            <div class="form-item">
+                <div class="form-item-lbl">
+                    <label class="i18n1 impact_lbl" name="impact"></label>
+                </div>
+                <div class="form-item-val">
+                    <select id="impact" class="impact" name="impact">
+                        <option value="OK">合格（无漏点）</option>
+                        <option value="Not OK">不合格（有漏点）</option>
+                        <option value="Pending">待定</option>
+                </select>
+                </div>
+            </div>
+            <div class="form-item">
+                <div class="form-item-lbl">
+                    <label class="i18n1 resistance_to_hot_water_98_24h_lbl" name="resistancetohotwater9824h"></label>
+                </div>
+                <div class="form-item-val">
+                    <select id="resistance_to_hot_water_98_24h" data-required=false class="resistance_to_hot_water_98_24h" name="resistance_to_hot_water_98_24h">
+                     <option value="1">1级</option>
+                     <option value="2">2级</option>
+                     <option value="3">3级</option>
+                     <option value="4">4级</option>
+                </select>
+                </div>
+            </div>
+            <div class="form-item">
+                <div class="form-item-lbl">
+                    <label class="i18n1 resistance_to_hot_water_98_28d_lbl" name="resistancetohotwater9828d"></label>
+                </div>
+                <div class="form-item-val">
+                    <select id="resistance_to_hot_water_98_28d" data-required=false class="resistance_to_hot_water_98_28d" name="resistance_to_hot_water_98_28d">
+                     <option value="1">1级</option>
+                     <option value="2">2级</option>
+                     <option value="3">3级</option>
+                     <option value="4">4级</option>
+                </select>
+                </div>
+            </div>
+            <div class="form-item">
+                <div class="form-item-lbl">
+                    <label class="i18n1 resistance_to_cd_65_24h_lbl" name="resistancetocd6524h"></label>
+                </div>
+                <div class="form-item-val">
+                    <input data-number=true data-required=false class="mob-floattwo-numpad resistance_to_cd_65_24h" type="text" name="resistance_to_cd_65_24h" />
+                </div>
+            </div>
+            <div class="form-item">
+                <div class="form-item-lbl">
+                    <label class="i18n1 rresistance_to_cd_22_28d_lbl" name="resistancetocd2228d"></label>
+                </div>
+                <div class="form-item-val">
+                    <input data-number=true data-required=false class="mob-floattwo-numpad resistance_to_cd_22_28d" type="text" name="resistance_to_cd_22_28d" />
+                </div>
+            </div>
+            <div class="form-item">
+                <div class="form-item-lbl">
+                    <label class="i18n1 resistance_to_cd_65_28d_lbl" name="resistancetocd6528d"></label>
+                </div>
+                <div class="form-item-val">
+                    <input data-number=true data-required=false class="mob-floattwo-numpad resistance_to_cd_65_28d" type="text" name="resistance_to_cd_65_28d" />
+                </div>
+            </div>
+            <div class="form-item">
+                <div class="form-item-lbl">
+                    <label class="i18n1" name="result"></label>
+                </div>
+                <div class="form-item-val">
+                    <select id="result" name="result">
+                        <option value="0">不合格,复验</option>
+                        <option value="1">合格</option>
+                        <option value="10">待定</option>
+              </select>
+                </div>
+            </div>
+            <div class="form-item">
+                <div class="imgBox"></div>
+            </div>
+            <div class="form-item">
+                <div class="form-item-lbl">
+                    <label class="i18n1" name="uploadpicture"></label>
+                </div>
+                <div class="form-item-val">
+                    <button class="i18n1 form-pictures" name="selectpicture"></button>
+                </div>
+            </div>
+            <div class="form-item">
+                <div class="form-item-lbl">
+                    <label class="i18n1" name="remark"></label>
+                </div>
+                <div class="form-item-val">
+                    <textarea id="remark" name="remark"></textarea>
+                </div>
+            </div>
+        </div>
     </div>
     <footer class="form-footer" id=footer>
         <div id="foot-container" style="width:100%;height:43px;display:flex;justify-content:center;align-items:center;" class="foot-container">
@@ -243,14 +269,10 @@
         ClearLoadingPicture();
         g_employeeno = data.employeeno;
         g_millno = data.millno;
-        // if (data.pipeinfo.status != "bare1") {
-        //     closeWindow();
-        // }
-        //setAllDefectInfo("steel");
-        initCriteria(data.odcriteria);
-        initCriteria(data.pbcriteria);
-        initInspectionFreq(data.inspectfreq);
-        initPipeBasicHeader(data.pipeinfo, data.millno);
+
+        initCriteria(data.lab2fbecriteria);
+          $('#coatingdate').text(formatterdate(data.pipeinfo.od_coating_date));
+        //initPipeBasicHeader(data.pipeinfo, data.millno);
         setControls();
         setSelectPictures();
         getPendingRecordInfo("LabTest2FbeOperation", g_pipeno);
@@ -286,7 +308,7 @@
                         pipe_no: g_pipeno,
                         mill_no: g_millno,
                         operator_no: g_employeeno,
-                        sample_no:$('input[name="sample_no"]').val(),
+                        sample_no: $('input[name="sample_no"]').val(),
                         coating_date: $('input[name="coating_date"]').val(),
                         dsc: $('input[name="dsc"]').val(),
                         foaming_cross_sectional: $('#foaming_cross_sectional').val(),
@@ -299,6 +321,8 @@
                         resistance_to_cd_65_24h: $('input[name="resistance_to_cd_65_24h"]').val(),
                         resistance_to_cd_22_28d: $('input[name="resistance_to_cd_22_28d"]').val(),
                         resistance_to_cd_65_28d: $('input[name="resistance_to_cd_65_28d"]').val(),
+                        dsc_pipe_no: $('input[name="dsc_pipe_no"]').val(),
+                        dsc_sample_no: $('input[name="dsc_sample_no"]').val(),
                         result: $('#result').val(),
                         upload_files: imgUrl,
                         remark: $('#remark').val(),
@@ -320,26 +344,35 @@
             });
         }
     }
+
     function getPendingRecordInfoOK(data) {
         if (data != undefined) {
             $('.id').val(data.id);
             $('input[name="sample_no"]').val(data.sample_no);
-            $('input[name="coating_date"]').val(data.coating_date);
-            $('input[name="dsc"]').val(data.dsc);
-            $('#foaming_cross_sectional').val(data.foaming_cross_sectional);
-            $('#foaming_interfacial').val(data.foaming_interfacial);
+            if (data.coating_date != undefined)
+               $('input[name="coating_date"]').val(data.coating_date);
+            if (data.dsc != undefined)
+               $('input[name="dsc"]').val(data.dsc);
+            if (data.foaming_cross_sectional != undefined)
+                $('#foaming_cross_sectional').val(data.foaming_cross_sectional);
+            if (data.foaming_interfacial != undefined)
+               $('#foaming_interfacial').val(data.foaming_interfacial);
             if (data.interfacial_contamination != -99)
-               $('input[name="interfacial_contamination"]').val(data.interfacial_contamination);
+                $('input[name="interfacial_contamination"]').val(data.interfacial_contamination);
             $('#flexibility').val(data.flexibility);
             $('#impact').val(data.impact);
             $('#resistance_to_hot_water_98_24h').val(data.resistance_to_hot_water_98_24h);
             $('#resistance_to_hot_water_98_28d').val(data.resistance_to_hot_water_98_28d);
             if (data.resistance_to_cd_65_24h != -99)
-               $('input[name="resistance_to_cd_65_24h"]').val(data.data.resistance_to_cd_65_24h);
+                $('input[name="resistance_to_cd_65_24h"]').val(data.data.resistance_to_cd_65_24h);
             if (data.resistance_to_cd_22_28d != -99)
-               $('input[name="resistance_to_cd_22_28d"]').val(data.resistance_to_cd_22_28d);
+                $('input[name="resistance_to_cd_22_28d"]').val(data.resistance_to_cd_22_28d);
             if (data.resistance_to_cd_65_28d != -99)
-               $('input[name="resistance_to_cd_65_28d"]').val(data.resistance_to_cd_65_28d);
+                $('input[name="resistance_to_cd_65_28d"]').val(data.resistance_to_cd_65_28d);
+            if (data.dsc_sample_no != undefined)
+                $('input[name="dsc_sample_no"]').val(data.dsc_sample_no);
+            if (data.dsc_pipe_no != undefined)
+                $('input[name="dsc_pipe_no"]').val(data.dsc_pipe_no);
             $('#result').val(data.result);
             var imgUrl = data.upload_files;
             if (imgUrl.length > 0) {
