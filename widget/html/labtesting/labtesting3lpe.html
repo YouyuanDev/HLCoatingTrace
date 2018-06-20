@@ -233,6 +233,7 @@
     var g_employeeno, g_millno;
     var g_loadingID = 0;
     var coating_date;
+    var g_pipeinfo;
     apiready = function() {
             DoLoadingPicture();
             var data = api.pageParam;
@@ -250,28 +251,14 @@
         //     closeWindow();
         // }
         //setAllDefectInfo("steel");
-        $('#coatingdate').text(getDateOnly(data.pipeinfo.od_coating_date));
+        $('#coatingdate').text(formatterdate(data.pipeinfo.od_coating_date));
         coating_date=getDate1(data.pipeinfo.od_coating_date);
         initCriteria(data.lab3lpecriteria);
+        g_pipeinfo=data.pipeinfo;
         // initCriteria(data.pbcriteria);
         // initInspectionFreq(data.inspectfreq);
-        if (data.pipeinfo.odsampling_mark != undefined && data.pipeinfo.odsampling_mark == "1") {
-            getSamplePipeNo('.SAMPLE', g_pipeno, getDate1(data.pipeinfo.od_coating_date), "get3LPESamplePipeNo", 1)
-        } else {
-            getSamplePipeNo('.SAMPLE', g_pipeno, getDate1(data.pipeinfo.od_coating_date), "get3LPESamplePipeNo", 0)
-        }
-        if (data.pipeinfo.od_dsc_sample_mark != undefined && data.pipeinfo.od_dsc_sample_mark == "1") {
-            getSamplePipeNo('.DSCSAMPLE', g_pipeno, getDate1(data.pipeinfo.od_coating_date), "get3LPEDSCSamplePipeNo", 1)
-        } else {
-            getSamplePipeNo('.DSCSAMPLE', g_pipeno, getDate1(data.pipeinfo.od_coating_date), "get3LPEDSCSamplePipeNo", 0)
-        }
-        if (data.pipeinfo.od_pe_sample_mark != undefined && data.pipeinfo.od_pe_sample_mark == "1") {
-            getSamplePipeNo('.PESAMPLE', g_pipeno, getDate1(data.pipeinfo.od_coating_date), "get3LPEPESamplePipeNo", 1)
-        } else {
-            getSamplePipeNo('.PESAMPLE', g_pipeno, getDate1(data.pipeinfo.od_coating_date), "get3LPEPESamplePipeNo", 0)
-        }
 
-        initPipeBasicHeader(data.pipeinfo, data.millno);
+        //initPipeBasicHeader(data.pipeinfo, data.millno);
         setControls();
         setSelectPictures();
         getPendingRecordInfo("LabTest3LpeOperation", g_pipeno);
@@ -304,7 +291,7 @@
                 data: {
                     values: {
                         id: $('.id').val(),
-                        pipe_no: g_pipeno,
+                        pipe_no:$('#pipe_no').val(),
                         mill_no: g_millno,
                         operator_no: g_employeeno,
                         sample_no: $('input[name="sample_no"]').val(),
@@ -347,6 +334,7 @@
     }
 
     function getPendingRecordInfoOK(data) {
+        var testing_id=-1;
         if (data != undefined) {
             $('.id').val(data.id);
             $('input[name="sample_no"]').val(data.sample_no);
@@ -388,10 +376,33 @@
             }
             $('#remark').val(data.remark);
             validateAllValue();
+            testing_id=data.id;
         }
+        if (g_pipeinfo.odsampling_mark != undefined && g_pipeinfo.odsampling_mark == "1") {
+            getSamplePipeNo('.SAMPLE', g_pipeno, getDate1(g_pipeinfo.od_coating_date), "get3LPESamplePipeNo", 1,testing_id)
+        } else {
+            getSamplePipeNo('.SAMPLE', g_pipeno, getDate1(g_pipeinfo.od_coating_date), "get3LPESamplePipeNo", 0,testing_id)
+        }
+        if (g_pipeinfo.od_dsc_sample_mark != undefined && g_pipeinfo.od_dsc_sample_mark == "1") {
+            getSamplePipeNo('.DSCSAMPLE', g_pipeno, getDate1(g_pipeinfo.od_coating_date), "get3LPEDSCSamplePipeNo", 1,testing_id)
+        } else {
+            getSamplePipeNo('.DSCSAMPLE', g_pipeno, getDate1(g_pipeinfo.od_coating_date), "get3LPEDSCSamplePipeNo", 0,testing_id)
+        }
+        if (g_pipeinfo.od_pe_sample_mark != undefined && g_pipeinfo.od_pe_sample_mark == "1") {
+            getSamplePipeNo('.PESAMPLE', g_pipeno, getDate1(g_pipeinfo.od_coating_date), "get3LPEPESamplePipeNo", 1,testing_id)
+        } else {
+            getSamplePipeNo('.PESAMPLE', g_pipeno, getDate1(g_pipeinfo.od_coating_date), "get3LPEPESamplePipeNo", 0,testing_id)
+        }
+
+
     }
 
     function getPendingRecordInfoFail() {
-
+      if($('#pipe_no').find("option").length==0&&$('#dsc_pipe_no').find("option").length==0&&$('#pe_pipe_no').find("option").length==0){
+          api.alert({
+               msg: "没有要做的实验!"
+           });
+         closeWindow();
+      }
     }
 </script>

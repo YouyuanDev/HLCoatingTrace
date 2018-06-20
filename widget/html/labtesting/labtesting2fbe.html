@@ -56,7 +56,10 @@
                     <label class="i18n1 dsc_pipe_no_lbl" name="dscpipeno"></label>
                 </div>
                 <div class="form-item-val">
-                    <input class="dsc_pipe_no" type="text" name="dsc_pipe_no" />
+                    <!-- <input class="dsc_pipe_no" type="text" name="dsc_pipe_no" /> -->
+                    <select class="model-select DSCSAMPLE" id="dsc_pipe_no" name="dsc_pipe_no">
+
+                     </select>
                 </div>
             </div>
             <div class="form-item">
@@ -79,6 +82,16 @@
         <!--外防实验(2FBE)信息(常规取样)-->
         <div class="routine-div split-div">
             <div class="split-title i18n1" name="labtesting2fbe"></div>
+            <div class="form-item">
+                <div class="form-item-lbl">
+                    <label class="i18n1 pipe_no_lbl" name="pipeno"></label>
+                </div>
+                <div class="form-item-val">
+                    <select class="model-select SAMPLE" id="pipe_no" name="pipe_no">
+
+                  </select>
+                </div>
+            </div>
             <div class="form-item">
                 <div class="form-item-lbl">
                     <label class="i18n1 sample_no_lbl" name="sampleno"></label>
@@ -256,6 +269,7 @@
     var g_pipeno;
     var g_employeeno, g_millno;
     var g_loadingID = 0;
+    var coating_date;
     apiready = function() {
             DoLoadingPicture();
             var data = api.pageParam;
@@ -269,9 +283,21 @@
         ClearLoadingPicture();
         g_employeeno = data.employeeno;
         g_millno = data.millno;
-
+        $('#coatingdate').text(formatterdate(data.pipeinfo.od_coating_date));
+        coating_date=getDate1(data.pipeinfo.od_coating_date);
         initCriteria(data.lab2fbecriteria);
-          $('#coatingdate').text(formatterdate(data.pipeinfo.od_coating_date));
+        if (data.pipeinfo.odsampling_mark != undefined && data.pipeinfo.odsampling_mark == "1") {
+            getSamplePipeNo('.SAMPLE', g_pipeno, getDate1(data.pipeinfo.od_coating_date), "get2FBESamplePipeNo", 1)
+        } else {
+            getSamplePipeNo('.SAMPLE', g_pipeno, getDate1(data.pipeinfo.od_coating_date), "get2FBESamplePipeNo", 0)
+        }
+        if (data.pipeinfo.od_dsc_sample_mark != undefined && data.pipeinfo.od_dsc_sample_mark == "1") {
+            getSamplePipeNo('.DSCSAMPLE', g_pipeno, getDate1(data.pipeinfo.od_coating_date), "get2FBEDSCSamplePipeNo", 1)
+        } else {
+            getSamplePipeNo('.DSCSAMPLE', g_pipeno, getDate1(data.pipeinfo.od_coating_date), "get2FBEDSCSamplePipeNo", 0)
+        }
+
+
         //initPipeBasicHeader(data.pipeinfo, data.millno);
         setControls();
         setSelectPictures();
@@ -305,11 +331,11 @@
                 data: {
                     values: {
                         id: $('.id').val(),
-                        pipe_no: g_pipeno,
+                        pipe_no: $('#pipe_no').val(),
                         mill_no: g_millno,
                         operator_no: g_employeeno,
                         sample_no: $('input[name="sample_no"]').val(),
-                        coating_date: $('input[name="coating_date"]').val(),
+                        coating_date: coating_date,
                         dsc: $('input[name="dsc"]').val(),
                         foaming_cross_sectional: $('#foaming_cross_sectional').val(),
                         foaming_interfacial: $('#foaming_interfacial').val(),
@@ -321,7 +347,7 @@
                         resistance_to_cd_65_24h: $('input[name="resistance_to_cd_65_24h"]').val(),
                         resistance_to_cd_22_28d: $('input[name="resistance_to_cd_22_28d"]').val(),
                         resistance_to_cd_65_28d: $('input[name="resistance_to_cd_65_28d"]').val(),
-                        dsc_pipe_no: $('input[name="dsc_pipe_no"]').val(),
+                        dsc_pipe_no: $('#dsc_pipe_no').val(),
                         dsc_sample_no: $('input[name="dsc_sample_no"]').val(),
                         result: $('#result').val(),
                         upload_files: imgUrl,

@@ -1897,7 +1897,7 @@ function getNowDate(){
   return year+"-"+month+"-"+day+" "+hours+":"+minute+":"+second;
 }
 //获取实验管管号
-function getSamplePipeNo(className,pipeno,coating_date,url,flag){
+function getSamplePipeNo(className,pipeno,coating_date,url,flag,testing_id){
     var s = 'http://' + serverIP + '/pipeinfo/'+url+'.action';
     api.ajax({
         url: s,
@@ -1907,7 +1907,8 @@ function getSamplePipeNo(className,pipeno,coating_date,url,flag){
         data: {
             values: {
                 pipe_no: pipeno,
-                coating_date:coating_date
+                coating_date:coating_date,
+                testing_id:testing_id
             }
         }
     }, function(ret, err) {
