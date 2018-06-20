@@ -1,5 +1,5 @@
 var header, headerHeight = 0;
-var serverIP = '192.168.0.12:8080';
+var serverIP = '192.168.0.11:8080';
 
 function fnSettingHeader() {
 
@@ -1518,7 +1518,7 @@ function setControls() {
         }
     });
 }
- 
+
 //根据pipeno  获取 2FBE lab实验接收标准
 function Request2FBELabAcceptCriteria(pipeno) {
 

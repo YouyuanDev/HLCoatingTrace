@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>垛内转运</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/mobiscroll.custom-3.0.0-beta6.min.css" />
+</head>
+
+<body>
+    <header class="form-nav" id="header">
+        <div class="arrow" tapmode onclick="closeWindow();"></div>
+        <span class="nav-pipeno i18n1" name="instoragetransfer" style="display:inline-block;margin-left:-43px;line-height:43px;"></span>
+    </header>
+    <div class="form-content" id="content">
+        <div class="form-item">
+            <table class="pipeinfo-table">
+                <thead>
+                    <tr>
+                        <th class="i18n1" name="pipebasicinfo" colspan="4" style="text-align:center;">钢管基础信息</th>
+                    </tr>
+                </thead>
+                <tr>
+                    <td class="i18n1" name="pipeno"></td>
+                    <td class="pipe_no"></td>
+                    <td class="i18n1" name="statusname"></td>
+                    <td class="status_name"></td>
+                </tr>
+                <tr>
+                    <td class="i18n1" name="od"></td>
+                    <td class="od"></td>
+                    <td class="i18n1" name="wt"></td>
+                    <td class="wt"></td>
+                </tr>
+                <tr>
+                    <td class="i18n1" name="millno"></td>
+                    <td class="millno"></td>
+                </tr>
+            </table>
+        </div>
+        <div class="form-item">
+            <input type="hidden" value="0" class="id" />
+        </div>
+
+        <div class="form-item">
+            <div class="form-item-lbl">
+                <label class="i18n1" name="storagestack"></label>
+            </div>
+            <div class="form-item-val">
+                <select id="storagestack">
+                  <option value="stack0">光管垛</option>
+                          <option value="stack1">1号垛</option>
+                          <option value="stack2">2号垛</option>
+                          <option value="stack3">3号垛</option>
+                          <option value="stack4">4号垛</option>
+                          <option value="stack5">5号垛</option>
+                          <option value="stack6">6号垛</option>
+                          <option value="stack7">7号垛</option>
+                          <option value="stack8">8号垛</option>
+                          <option value="stack9">9号垛</option>
+                          <option value="stack10">10号垛</option>
+                          <option value="stack11">11号垛</option>
+                          <option value="stack12">12号垛</option>
+                          <option value="stack13">13号垛</option>
+                          <option value="stack14">14号垛</option>
+                          <option value="stack15">15号垛</option>
+                          <option value="stack16">16号垛</option>
+                          <option value="stack17">17号垛</option>
+                          <option value="stack18">18号垛</option>
+                          <option value="stack19">19号垛</option>
+                          <option value="stack20">20号垛</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-item">
+            <div class="form-item-lbl">
+                <label class="i18n1" name="stacklevel"></label>
+            </div>
+            <div class="form-item-val">
+                <select id="stacklevel">
+                         <option value="l1">1层</option>
+                         <option value="l2">2层</option>
+                         <option value="l3">3层</option>
+                         <option value="l4">4层</option>
+                         <option value="l5">5层</option>
+                         <option value="l6">6层</option>
+                         <option value="l7">7层</option>
+                         <option value="l8">8层</option>
+                         <option value="l9">9层</option>
+                         <option value="l10">10层</option>
+                         <option value="l11">11层</option>
+                         <option value="l12">12层</option>
+                         <option value="l13">13层</option>
+                         <option value="l14">14层</option>
+                         <option value="l15">15层</option>
+                         <option value="l16">16层</option>
+                         <option value="l17">17层</option>
+                         <option value="l18">18层</option>
+                         <option value="l19">19层</option>
+                         <option value="l20">20层</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-item">
+            <div class="form-item-lbl">
+                <label class="i18n1" name="leveldirection"></label>
+            </div>
+            <div class="form-item-val">
+                <select id="leveldirection">
+                      <option value="East">东</option>
+                      <option value="South">南</option>
+                      <option value="West">西</option>
+                      <option value="North">北</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-item">
+            <div class="form-item-lbl">
+                <label class="i18n1" name="levelsequence"></label>
+            </div>
+            <div class="form-item-val">
+                <input id="levelsequence" type="text" name="level_sequence" />
+            </div>
+        </div>
+    </div>
+    <footer class="form-footer" id=footer>
+        <div id="foot-container" style="width:100%;height:43px;display:flex;justify-content:center;align-items:center;" class="foot-container">
+            <div class="i18n1 form-process-button" name="submit" onclick="submitForm();">提交</div>
+        </div>
+    </footer>
+</body>
+
+</html>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script src="../../script/jquery.i18n.properties-1.0.9.js" type="text/javascript"></script>
+<script src="../../script/language.js" type="text/javascript"></script>
+<script src="../../script/mobiscroll.custom-3.0.0-beta6.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+    var g_pipeno;
+    var g_employeeno, g_millno;
+    //UILoading 的id
+    var g_loadingID = 0;
+    apiready = function() {
+        DoLoadingPicture();
+        var data = api.pageParam;
+        g_pipeno = data.pipe_no;
+        fnSettingHeader();
+        hlLanguage("../../i18n/");
+        RequestAllProcessInfoByPipeNo(g_pipeno);
+    }
+    //得到钢管数据汇总成功
+    function GetAllProcessInfoByPipeNoOK(data) {
+        ClearLoadingPicture();
+        g_employeeno = data.employeeno;
+        g_millno = data.millno;
+        $('.id').val(data.pipeinfo.id);
+        $('#storagestack').val(data.pipeinfo.storage_stack);
+        $('#stacklevel').val(data.pipeinfo.stack_level);
+        $('#leveldirection').val(data.pipeinfo.level_direction);
+        $('#levelsequence').val(data.pipeinfo.level_sequence);
+        initPipeBasicHeader(data.pipeinfo, data.millno);
+    }
+    //得到外防接收标准失败
+    function GetAllProcessInfoByPipeNoFail(message) {
+        ClearLoadingPicture();
+        api.alert({
+            msg: message
+        });
+        closeWindow();
+    }
+    function submitForm() {
+        if (initFormNumber()) {
+            if($('.id').val()==undefined)return false;
+            var idArr=$('.id').val()+",";
+            var storage_stack=$('#storagestack').val();
+            var stack_level=$('#stacklevel').val();
+            var level_direction=$('#leveldirection').val();
+            var level_sequence=$('#levelsequence').val();
+            var s= 'http://' + serverIP + '/pipeinfo/doInStoageTransfer.action';
+            api.ajax({
+                url: s,
+                method: 'post',
+                timeout: 30,
+                dataType: 'json',
+                data: {
+                    values: {
+                        hlparam:idArr,
+                        storage_stack:storage_stack,
+                        stack_level:stack_level,
+                        level_direction:level_direction,
+                        level_sequence:level_sequence
+                    }
+                }
+            }, function(ret, err) { //alert(ret);
+                if (ret) {
+                    api.alert({
+                        msg: ret.message
+                    });
+                    if (ret.success) {
+                        closeWindow();
+                    }
+                } else {
+                    api.alert({
+                        msg: JSON.stringify(err)
+                    });
+                }
+            });
+        }
+    }
+</script>
