@@ -18,164 +18,201 @@
     </header>
     <div class="form-content" id="content">
         <div class="form-item">
-            <table class="pipeinfo-table">
-                <thead>
-                    <tr>
-                        <th class="i18n1" name="pipebasicinfo" colspan="4" style="text-align:center;">钢管基础信息</th>
-                    </tr>
-                </thead>
-                <tr>
-                    <td class="i18n1" name="pipeno"></td>
-                    <td class="pipe_no"></td>
-                    <td class="i18n1" name="statusname"></td>
-                    <td class="status_name"></td>
-                </tr>
-                <tr>
-                    <td class="i18n1" name="od"></td>
-                    <td class="od"></td>
-                    <td class="i18n1" name="wt"></td>
-                    <td class="wt"></td>
-                </tr>
-                <tr>
-                    <td class="i18n1" name="millno"></td>
-                    <td class="millno"></td>
-                </tr>
-            </table>
-        </div>
-        <div class="form-item">
             <input type="hidden" value="0" class="id" />
         </div>
-        <div class="form-item">
-            <div class="form-item-lbl">
-                <label class="i18n1 sample_no_lbl" name="sampleno"></label>
+        <!--外防实验(slpe)信息(Dsc取样)-->
+        <div class="dsc-div split-div">
+            <div class="form-item" style="text-align:center;">
+                <span class="i18n1" name="coatingdate" style="display:inline-block;"></span>&nbsp;&nbsp;&nbsp;&nbsp;<span id="coatingdate" name="coating_date" style="display:inline-block;"></span>
             </div>
-            <div class="form-item-val">
-                <input class="sample_no" type="text" name="sample_no" />
-            </div>
-        </div>
+            <div class="split-title i18n1" name="labtesting3lpedsc"></div>
+            <div class="form-item">
+                <div class="form-item-lbl">
+                    <label class="i18n1 dsc_pipe_no_lbl" name="dscpipeno"></label>
+                </div>
+                <div class="form-item-val">
+                    <!-- <input class="dsc_pipe_no" type="text" name="dsc_pipe_no" /> -->
+                    <select class="model-select DSCSAMPLE" id="dsc_pipe_no" name="dsc_pipe_no">
 
-        <div class="form-item">
-            <div class="form-item-lbl">
-                <label class="i18n1 coating_date" name="coatingdate"></label>
+                  </select>
+                </div>
             </div>
-            <div class="form-item-val">
-                <input class="mob-datetime-input coating_date" type="text" name="coating_date" />
+            <div class="form-item">
+                <div class="form-item-lbl">
+                    <label class="i18n1 dsc_sample_no_lbl" name="dscsampleno"></label>
+                </div>
+                <div class="form-item-val">
+                    <input class="dsc_sample_no" type="text" name="dsc_sample_no" />
+                </div>
+            </div>
+            <div class="form-item">
+                <div class="form-item-lbl">
+                    <label class="i18n1 dsc_lbl" name="dsc"></label>
+                </div>
+                <div class="form-item-val">
+                    <input data-required=false class="dsc" type="text" name="dsc" />
+                </div>
             </div>
         </div>
-        <div class="form-item">
-            <div class="form-item-lbl">
-                <label class="i18n1 resistance_to_cd_20_28d_lbl" name="resistancetocd2028d"></label>
-            </div>
-            <div class="form-item-val">
-                <input data-number=true data-required=false class="mob-floattwo-numpad resistance_to_cd_20_28d" type="text" name="resistance_to_cd_20_28d" />
-            </div>
-        </div>
+        <!--外防实验(slpe)信息(pe取样)-->
+        <div class="dsc-div split-div">
+            <div class="split-title i18n1" name="labtesting3lpepe"></div>
+            <div class="form-item">
+                <div class="form-item-lbl">
+                    <label class="i18n1 pe_pipe_no_lbl" name="pepipeno"></label>
+                </div>
+                <div class="form-item-val">
+                    <!-- <input class="pe_pipe_no" type="text" name="pe_pipe_no" /> -->
+                    <select class="model-select PESAMPLE" id="pe_pipe_no" name="pe_pipe_no">
 
-        <div class="form-item">
-            <div class="form-item-lbl">
-                <label class="i18n1 resistance_to_cd_max_28d_lbl" name="resistancetocdmax28d"></label>
+                  </select>
+                </div>
             </div>
-            <div class="form-item-val">
-                <input data-number=true data-required=false class="mob-floattwo-numpad resistance_to_cd_max_28d" type="text" name="resistance_to_cd_max_28d" />
+            <div class="form-item">
+                <div class="form-item-lbl">
+                    <label class="i18n1 pe_sample_no_lbl" name="pesampleno"></label>
+                </div>
+                <div class="form-item-val">
+                    <input class="pe_sample_no" type="text" name="pe_sample_no" />
+                </div>
             </div>
-        </div>
-        <div class="form-item">
-            <div class="form-item-lbl">
-                <label class="i18n1 resistance_to_cd_65_24h_lbl" name="resistancetocd6524h"></label>
+            <div class="form-item">
+                <div class="form-item-lbl">
+                    <label class="i18n1 indentation_hardness_23_lbl" name="indentationhardness23"></label>
+                </div>
+                <div class="form-item-val">
+                    <input data-number=true data-required=false class="mob-floattwo-numpad indentation_hardness_23" type="text" name="indentation_hardness_23" />
+                </div>
             </div>
-            <div class="form-item-val">
-                <input data-number=true data-required=false class="mob-floattwo-numpad resistance_to_cd_65_24h" type="text" name="resistance_to_cd_65_24h" />
+            <div class="form-item">
+                <div class="form-item-lbl">
+                    <label class="i18n1 indentation_hardness_70_lbl" name="indentationhardness70"></label>
+                </div>
+                <div class="form-item-val">
+                    <input data-number=true data-required=false class="mob-floattwo-numpad indentation_hardness_70" type="text" name="indentation_hardness_70" />
+                </div>
             </div>
-        </div>
-        <div class="form-item">
-            <div class="form-item-lbl">
-                <label class="i18n1 rthermal_degradation_lbl" name="thermaldegradation"></label>
+            <div class="form-item">
+                <div class="form-item-lbl">
+                    <label class="i18n1 elongation_at_break_lbl" name="elongationatbreak"></label>
+                </div>
+                <div class="form-item-val">
+                    <input data-number=true data-required=false class="mob-floattwo-numpad elongation_at_break" type="text" name="elongation_at_break" />
+                </div>
             </div>
-            <div class="form-item-val">
-                <input data-number=true data-required=false class="mob-floattwo-numpad thermal_degradation" type="text" name="thermal_degradation" />
-            </div>
-        </div>
-        <div class="form-item">
-            <div class="form-item-lbl">
-                <label class="i18n1 impact_resistance_23_lbl" name="impactresistance23"></label>
-            </div>
-            <div class="form-item-val">
-                <input data-number=true data-required=false class="mob-floattwo-numpad impact_resistance_23" type="text" name="impact_resistance_23" />
-            </div>
-        </div>
-        <div class="form-item">
-            <div class="form-item-lbl">
-                <label class="i18n1 impact_resistance_m40_lbl" name="impactresistancem40"></label>
-            </div>
-            <div class="form-item-val">
-                <input data-number=true data-required=false class="mob-floattwo-numpad impact_resistance_m40" type="text" name="impact_resistance_m40" />
-            </div>
-        </div>
-        <div class="form-item">
-            <div class="form-item-lbl">
-                <label class="i18n1 indentation_hardness_23_lbl" name="indentationhardness23"></label>
-            </div>
-            <div class="form-item-val">
-                <input data-number=true data-required=false class="mob-floattwo-numpad indentation_hardness_23" type="text" name="indentation_hardness_23" />
+            <div class="form-item">
+                <div class="form-item-lbl">
+                    <label class="i18n1 coating_resistivity_lbl" name="coatingresistivity"></label>
+                </div>
+                <div class="form-item-val">
+                    <input data-number=true data-required=false class="mob-floattwo-numpad coating_resistivity" type="text" name="coating_resistivity" />
+                </div>
             </div>
         </div>
-        <div class="form-item">
-            <div class="form-item-lbl">
-                <label class="i18n1 indentation_hardness_70_lbl" name="indentationhardness70"></label>
+        <!--外防实验(3lpe)信息(常规取样)-->
+        <div class="routine-div split-div">
+
+            <div class="split-title i18n1" name="labtesting3lpe"></div>
+            <div class="form-item">
+                <div class="form-item-lbl">
+                    <label class="i18n1 pipe_no_lbl" name="pipeno"></label>
+                </div>
+                <div class="form-item-val">
+                    <!-- <input class="pe_pipe_no" type="text" name="pe_pipe_no" /> -->
+                    <select class="model-select SAMPLE" id="pipe_no" name="pipe_no">
+
+                  </select>
+                </div>
             </div>
-            <div class="form-item-val">
-                <input data-number=true data-required=false class="mob-floattwo-numpad indentation_hardness_70" type="text" name="indentation_hardness_70" />
+            <div class="form-item">
+                <div class="form-item-lbl">
+                    <label class="i18n1 sample_no_lbl" name="sampleno"></label>
+                </div>
+                <div class="form-item-val">
+                    <input class="sample_no" type="text" name="sample_no" />
+                </div>
             </div>
-        </div>
-        <div class="form-item">
-            <div class="form-item-lbl">
-                <label class="i18n1 indentation_hardness_23_lbl" name="elongationatbreak"></label>
+            <div class="form-item">
+                <div class="form-item-lbl">
+                    <label class="i18n1 resistance_to_cd_20_28d_lbl" name="resistancetocd2028d"></label>
+                </div>
+                <div class="form-item-val">
+                    <input data-number=true data-required=false class="mob-floattwo-numpad resistance_to_cd_20_28d" type="text" name="resistance_to_cd_20_28d" />
+                </div>
             </div>
-            <div class="form-item-val">
-                <input data-number=true data-required=false class="mob-floattwo-numpad elongation_at_break" type="text" name="elongation_at_break" />
+            <div class="form-item">
+                <div class="form-item-lbl">
+                    <label class="i18n1 resistance_to_cd_max_28d_lbl" name="resistancetocdmax28d"></label>
+                </div>
+                <div class="form-item-val">
+                    <input data-number=true data-required=false class="mob-floattwo-numpad resistance_to_cd_max_28d" type="text" name="resistance_to_cd_max_28d" />
+                </div>
             </div>
-        </div>
-        <div class="form-item">
-            <div class="form-item-lbl">
-                <label class="i18n1 coating_resistivity_lbl" name="coatingresistivity"></label>
+            <div class="form-item">
+                <div class="form-item-lbl">
+                    <label class="i18n1 resistance_to_cd_65_24h_lbl" name="resistancetocd6524h"></label>
+                </div>
+                <div class="form-item-val">
+                    <input data-number=true data-required=false class="mob-floattwo-numpad resistance_to_cd_65_24h" type="text" name="resistance_to_cd_65_24h" />
+                </div>
             </div>
-            <div class="form-item-val">
-                <input data-number=true data-required=false class="mob-floattwo-numpad coating_resistivity" type="text" name="coating_resistivity" />
+            <div class="form-item">
+                <div class="form-item-lbl">
+                    <label class="i18n1 thermal_degradation_lbl" name="thermaldegradation"></label>
+                </div>
+                <div class="form-item-val">
+                    <input data-number=true data-required=false class="mob-floattwo-numpad thermal_degradation" type="text" name="thermal_degradation" />
+                </div>
             </div>
-        </div>
-        <div class="form-item">
-            <div class="form-item-lbl">
-                <label class="i18n1" name="result"></label>
+            <div class="form-item">
+                <div class="form-item-lbl">
+                    <label class="i18n1 impact_resistance_23_lbl" name="impactresistance23"></label>
+                </div>
+                <div class="form-item-val">
+                    <input data-number=true data-required=false class="mob-floattwo-numpad impact_resistance_23" type="text" name="impact_resistance_23" />
+                </div>
             </div>
-            <div class="form-item-val">
-                <select id="result" name="result">
+            <div class="form-item">
+                <div class="form-item-lbl">
+                    <label class="i18n1 impact_resistance_m40_lbl" name="impactresistancem40"></label>
+                </div>
+                <div class="form-item-val">
+                    <input data-number=true data-required=false class="mob-floattwo-numpad impact_resistance_m40" type="text" name="impact_resistance_m40" />
+                </div>
+            </div>
+            <div class="form-item">
+                <div class="form-item-lbl">
+                    <label class="i18n1" name="result"></label>
+                </div>
+                <div class="form-item-val">
+                    <select id="result" name="result">
                       <option value="0">不合格,复验</option>
                       <option value="1">合格</option>
                       <option value="10">待定</option>
             </select>
+                </div>
             </div>
-        </div>
-        <div class="form-item">
-            <div class="imgBox"></div>
-        </div>
-        <div class="form-item">
-            <div class="form-item-lbl">
-                <label class="i18n1" name="uploadpicture"></label>
+            <div class="form-item">
+                <div class="imgBox"></div>
             </div>
-            <div class="form-item-val">
-                <button class="i18n1 form-pictures" name="selectpicture"></button>
+            <div class="form-item">
+                <div class="form-item-lbl">
+                    <label class="i18n1" name="uploadpicture"></label>
+                </div>
+                <div class="form-item-val">
+                    <button class="i18n1 form-pictures" name="selectpicture"></button>
+                </div>
             </div>
-        </div>
-        <div class="form-item">
-            <div class="form-item-lbl">
-                <label class="i18n1" name="remark"></label>
+            <div class="form-item">
+                <div class="form-item-lbl">
+                    <label class="i18n1" name="remark"></label>
+                </div>
+                <div class="form-item-val">
+                    <textarea id="remark" name="remark"></textarea>
+                </div>
             </div>
-            <div class="form-item-val">
-                <textarea id="remark" name="remark"></textarea>
-            </div>
-        </div>
 
-
+        </div>
     </div>
     <footer class="form-footer" id=footer>
         <div id="foot-container" style="width:100%;height:43px;display:flex;justify-content:center;align-items:center;" class="foot-container">
@@ -212,9 +249,25 @@
         //     closeWindow();
         // }
         //setAllDefectInfo("steel");
-        initCriteria(data.odcriteria);
-        initCriteria(data.pbcriteria);
-        initInspectionFreq(data.inspectfreq);
+        initCriteria(data.lab3lpecriteria);
+        // initCriteria(data.pbcriteria);
+        // initInspectionFreq(data.inspectfreq);
+        if (data.pipeinfo.odsampling_mark != undefined && data.pipeinfo.odsampling_mark == "1") {
+            getSamplePipeNo('.SAMPLE', g_pipeno, getDate1(data.pipeinfo.od_coating_date), "get3LPESamplePipeNo", 1)
+        } else {
+            getSamplePipeNo('.SAMPLE', g_pipeno, getDate1(data.pipeinfo.od_coating_date), "get3LPESamplePipeNo", 0)
+        }
+        if (data.pipeinfo.od_dsc_sample_mark != undefined && data.pipeinfo.od_dsc_sample_mark == "1") {
+            getSamplePipeNo('.DSCSAMPLE', g_pipeno, getDate1(data.pipeinfo.od_coating_date), "get3LPEDSCSamplePipeNo", 1)
+        } else {
+            getSamplePipeNo('.DSCSAMPLE', g_pipeno, getDate1(data.pipeinfo.od_coating_date), "get3LPEDSCSamplePipeNo", 0)
+        }
+        if (data.pipeinfo.od_pe_sample_mark != undefined && data.pipeinfo.od_pe_sample_mark == "1") {
+            getSamplePipeNo('.PESAMPLE', g_pipeno, getDate1(data.pipeinfo.od_coating_date), "get3LPEPESamplePipeNo", 1)
+        } else {
+            getSamplePipeNo('.PESAMPLE', g_pipeno, getDate1(data.pipeinfo.od_coating_date), "get3LPEPESamplePipeNo", 0)
+        }
+
         initPipeBasicHeader(data.pipeinfo, data.millno);
         setControls();
         setSelectPictures();
@@ -251,10 +304,11 @@
                         pipe_no: g_pipeno,
                         mill_no: g_millno,
                         operator_no: g_employeeno,
-                        sample_no:$('input[name="sample_no"]').val(),
-                        coating_date: $('input[name="coating_date"]').val(),
+                        sample_no: $('input[name="sample_no"]').val(),
+                        coating_date: $('#coatingdate').text(),
+
                         resistance_to_cd_20_28d: $('input[name="resistance_to_cd_20_28d"]').val(),
-                        resistance_to_cd_max_28d:$('input[name="resistance_to_cd_max_28d"]').val(),
+                        resistance_to_cd_max_28d: $('input[name="resistance_to_cd_max_28d"]').val(),
                         resistance_to_cd_65_24h: $('input[name="resistance_to_cd_65_24h"]').val(),
                         impact_resistance_23: $('input[name="impact_resistance_23"]').val(),
                         impact_resistance_m40: $('input[name="impact_resistance_m40"]').val(),
@@ -263,6 +317,11 @@
                         elongation_at_break: $('input[name="elongation_at_break"]').val(),
                         coating_resistivity: $('input[name="coating_resistivity"]').val(),
                         thermal_degradation: $('input[name="thermal_degradation"]').val(),
+                        dsc: $('input[name="thermal_degradation"]').val(),
+                        dsc_pipe_no: $('#dsc_pipe_no').val(),
+                        dsc_sample_no: $('input[name="dsc_sample_no"]').val(),
+                        pe_pipe_no: $('#pe_pipe_no').val(),
+                        pe_sample_no: $('input[name="pe_sample_no"]').val(),
                         result: $('#result').val(),
                         upload_files: imgUrl,
                         remark: $('#remark').val(),
@@ -284,32 +343,38 @@
             });
         }
     }
+
     function getPendingRecordInfoOK(data) {
         if (data != undefined) {
             $('.id').val(data.id);
             $('input[name="sample_no"]').val(data.sample_no);
-            $('input[name="coating_date"]').val(data.coating_date);
+            $('input[name="dsc_sample_no"]').val(data.dsc_sample_no);
+            $('input[name="pe_sample_no"]').val(data.pe_sample_no);
+            $('input[name="coating_date"]').val(getDate(data.coating_date));
+            $('#pipe_no').val(data.pipe_no);
+            $('#dsc_pipe_no').val(data.dsc_pipe_no);
+            $('#pe_pipe_no').val(data.pe_pipe_no);
             if (data.resistance_to_cd_20_28d != -99)
-              $('input[name="resistance_to_cd_20_28d"]').val(data.resistance_to_cd_20_28d);
+                $('input[name="resistance_to_cd_20_28d"]').val(data.resistance_to_cd_20_28d);
             if (data.resistance_to_cd_max_28d != -99)
-              $('input[name="resistance_to_cd_max_28d"]').val(data.resistance_to_cd_max_28d);
+                $('input[name="resistance_to_cd_max_28d"]').val(data.resistance_to_cd_max_28d);
             if (data.resistance_to_cd_65_24h != -99)
-              $('input[name="resistance_to_cd_65_24h"]').val(data.resistance_to_cd_65_24h);
+                $('input[name="resistance_to_cd_65_24h"]').val(data.resistance_to_cd_65_24h);
             if (data.impact_resistance_23 != -99)
-              $('input[name="impact_resistance_23"]').val(data.impact_resistance_23);
+                $('input[name="impact_resistance_23"]').val(data.impact_resistance_23);
             if (data.impact_resistance_m40 != -99)
-              $('input[name="impact_resistance_m40"]').val(data.impact_resistance_m40);
+                $('input[name="impact_resistance_m40"]').val(data.impact_resistance_m40);
             if (data.indentation_hardness_23 != -99)
-              $('input[name="indentation_hardness_23"]').val(data.indentation_hardness_23);
+                $('input[name="indentation_hardness_23"]').val(data.indentation_hardness_23);
             if (data.indentation_hardness_70 != -99)
-              $('input[name="indentation_hardness_70"]').val(data.indentation_hardness_70);
+                $('input[name="indentation_hardness_70"]').val(data.indentation_hardness_70);
             if (data.elongation_at_break != -99)
-              $('input[name="elongation_at_break"]').val(data.elongation_at_break);
+                $('input[name="elongation_at_break"]').val(data.elongation_at_break);
             if (data.coating_resistivity != -99)
-              $('input[name="coating_resistivity"]').val(data.coating_resistivity);
+                $('input[name="coating_resistivity"]').val(data.coating_resistivity);
             if (data.thermal_degradation != -99)
-              $('input[name="thermal_degradation"]').val(data.thermal_degradation),
-            $('#result').val(data.result);
+                $('input[name="thermal_degradation"]').val(data.thermal_degradation),
+                $('#result').val(data.result);
             var imgUrl = data.upload_files;
             if (imgUrl.length > 0) {
                 var imgArr = imgUrl.split(';');

@@ -1896,3 +1896,32 @@ function getNowDate(){
   var second=d.getSeconds()<10?"0"+d.getSeconds():d.getSeconds();
   return year+"-"+month+"-"+day+" "+hours+":"+minute+":"+second;
 }
+//获取实验管管号
+function getSamplePipeNo(className,pipeno,coating_date,url,flag){
+    var s = 'http://' + serverIP + '/pipeinfo/'+url+'.action';
+    api.ajax({
+        url: s,
+        method: 'post',
+        timeout: 30,
+        dataType: 'json',
+        data: {
+            values: {
+                pipe_no: pipeno,
+                coating_date:coating_date
+            }
+        }
+    }, function(ret, err) {
+        if (ret) {
+             for (var i = 0; i < ret.length; i++) {
+                if(flag==1)
+                  $(className).append('<option value=' +ret[i].pipe_no + ' selected="selected">' +ret[i].pipe_no  + '</option>');
+                else
+                  $(className).append('<option value=' +ret[i].pipe_no + '>' +ret[i].pipe_no  + '</option>');
+             }
+        } else {
+            api.alert({
+                msg: JSON.stringify(err)
+            });
+        }
+    });
+}

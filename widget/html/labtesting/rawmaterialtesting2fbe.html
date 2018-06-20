@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>原材料试验(2FBE)</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/mobiscroll.custom-3.0.0-beta6.min.css" />
+</head>
+
+<body>
+    <header class="form-nav" id="header">
+        <div class="arrow" tapmode onclick="closeWindow();"></div>
+        <span class="nav-pipeno i18n1" name="rawmaterialtesting2fbe" style="display:inline-block;margin-left:-43px;line-height:43px;"></span>
+    </header>
+    <div class="form-content" id="content">
+        <div class="form-item">
+            <table class="pipeinfo-table">
+                <thead>
+                    <tr>
+                        <th class="i18n1" name="pipebasicinfo" colspan="4" style="text-align:center;">钢管基础信息</th>
+                    </tr>
+                </thead>
+                <tr>
+                    <td class="i18n1" name="pipeno"></td>
+                    <td class="pipe_no"></td>
+                    <td class="i18n1" name="statusname"></td>
+                    <td class="status_name"></td>
+                </tr>
+                <tr>
+                    <td class="i18n1" name="od"></td>
+                    <td class="od"></td>
+                    <td class="i18n1" name="wt"></td>
+                    <td class="wt"></td>
+                </tr>
+                <tr>
+                    <td class="i18n1" name="millno"></td>
+                    <td class="millno"></td>
+                </tr>
+            </table>
+        </div>
+        <div class="form-item">
+            <input type="hidden" value="0" class="id" />
+        </div>
+
+        <div class="form-item">
+            <div class="form-item-lbl">
+                <label class="i18n1 sample_no_lbl" name="sampleno"></label>
+            </div>
+            <div class="form-item-val">
+                <input class="sample_no" type="text" name="sample_no" />
+            </div>
+        </div>
+        <div class="form-item">
+            <div class="form-item-lbl">
+                <label class="i18n1 raw_material_lbl" name="rawmaterial"></label>
+            </div>
+            <div class="form-item-val">
+              <select class="model-select FBE" id="raw_material" name="raw_material">
+
+              </select>
+            </div>
+        </div>
+        <div class="form-item">
+            <div class="form-item-lbl">
+                <label class="i18n1 batch_no_lbl" name="batchno"></label>
+            </div>
+            <div class="form-item-val">
+                <input data-required=false class="batch_no" type="text" name="batch_no" />
+            </div>
+        </div>
+        <div class="form-item">
+            <div class="form-item-lbl">
+                <label class="i18n1 density_lbl" name="density"></label>
+            </div>
+            <div class="form-item-val">
+                <input  data-number=true data-required=false class="mob-floattwo-numpad density" type="text" name="density" />
+            </div>
+        </div>
+
+        <div class="form-item">
+            <div class="form-item-lbl">
+                <label class="i18n1 particle_size_32um_lbl" name="particlesize32um"></label>
+            </div>
+            <div class="form-item-val">
+                <input  data-number=true data-required=false class="mob-floattwo-numpad particle_size_32um" type="text" name="particle_size_32um" />
+            </div>
+        </div>
+        <div class="form-item">
+            <div class="form-item-lbl">
+                <label class="i18n1 particle_size_150um_lbl" name="particlesize150um"></label>
+            </div>
+            <div class="form-item-val">
+                <input  data-number=true data-required=false class="mob-floattwo-numpad particle_size_150um" type="text" name="particle_size_150um" />
+            </div>
+        </div>
+        <div class="form-item">
+            <div class="form-item-lbl">
+                <label class="i18n1 particle_size_150um_lbl" name="particlesize150um"></label>
+            </div>
+            <div class="form-item-val">
+                <input  data-number=true data-required=false class="mob-floattwo-numpad particle_size_150um" type="text" name="particle_size_150um" />
+            </div>
+        </div>
+        <div class="form-item">
+            <div class="form-item-lbl">
+                <label class="i18n1 dsc_tgi_lbl" name="dsctgi"></label>
+            </div>
+            <div class="form-item-val">
+                <input data-number=true data-required=false class="mob-floattwo-numpad dsc_tgi" type="text" name="dsc_tgi" />
+            </div>
+        </div>
+        <div class="form-item">
+            <div class="form-item-lbl">
+                <label class="i18n1 dsc_tgf_lbl" name="dsctgf"></label>
+            </div>
+            <div class="form-item-val">
+                <input data-number=true data-required=false class="mob-floattwo-numpad dsc_tgf" type="text" name="dsc_tgf" />
+            </div>
+        </div>
+        <div class="form-item">
+            <div class="form-item-lbl">
+                <label class="i18n1 dsc_delta_h_lbl" name="dscdeltah"></label>
+            </div>
+            <div class="form-item-val">
+                <input data-number=true data-required=false class="mob-floattwo-numpad dsc_delta_h" type="text" name="dsc_delta_h" />
+            </div>
+        </div>
+        <div class="form-item">
+            <div class="form-item-lbl">
+                <label class="i18n1 gel_time_lt_20s_lbl" name="geltimelt20s"></label>
+            </div>
+            <div class="form-item-val">
+                <input data-number=true data-required=false class="mob-floattwo-numpad gel_time_lt_20s" type="text" name="gel_time_lt_20s" />
+            </div>
+        </div>
+        <div class="form-item">
+            <div class="form-item-lbl">
+                <label class="i18n1 gel_time_gt_20s_lbl" name="geltimegt20s"></label>
+            </div>
+            <div class="form-item-val">
+                <input data-number=true data-required=false class="mob-floattwo-numpad gel_time_gt_20s" type="text" name="gel_time_gt_20s" />
+            </div>
+        </div>
+        <div class="form-item">
+            <div class="form-item-lbl">
+                <label class="i18n1 powder_volatile_lbl" name="powdervolatile"></label>
+            </div>
+            <div class="form-item-val">
+                <input data-number=true data-required=false class="mob-floattwo-numpad powder_volatile" type="text" name="powder_volatile" />
+            </div>
+        </div>
+        <div class="form-item">
+            <div class="form-item-lbl">
+                <label class="i18n1 foaming_cross_sectional_lbl" name="foamingcrosssectional"></label>
+            </div>
+            <div class="form-item-val">
+              <select id="foaming_cross_sectional" class="foaming_cross_sectional" name="foaming_cross_sectional">
+                <option value="1">1级</option>
+                      <option value="2">2级</option>
+                      <option value="3">3级</option>
+                      <option value="4">4级</option>
+            </select>
+            </div>
+        </div>
+        <div class="form-item">
+            <div class="form-item-lbl">
+                <label class="i18n1 impact_lbl" name="impact"></label>
+            </div>
+            <div class="form-item-val">
+              <select id="impact" class="impact" name="impact">
+                        <option value="OK">合格（无漏点）</option>
+                        <option value="Not OK">不合格（有漏点）</option>
+                        <option value="Pending">待定</option>
+            </select>
+            </div>
+        </div>
+        <div class="form-item">
+            <div class="form-item-lbl">
+                <label class="i18n1 flexibility_lbl" name="flexibility"></label>
+            </div>
+            <div class="form-item-val">
+              <select id="flexibility" class="flexibility" name="flexibility">
+                <option value="OK">合格（无裂纹）</option>
+                      <option value="Not OK">不合格（有裂纹）</option>
+                      <option value="Pending">待定</option>
+            </select>
+            </div>
+        </div>
+        <div class="form-item">
+            <div class="form-item-lbl">
+                <label class="i18n1 hot_water_lbl" name="hotwater"></label>
+            </div>
+            <div class="form-item-val">
+              <select id="hot_water" class="hot_water" name="hot_water">
+                <option value="1">1级</option>
+                      <option value="2">2级</option>
+                      <option value="3">3级</option>
+                      <option value="4">4级</option>
+            </select>
+            </div>
+        </div>
+        <div class="form-item">
+            <div class="form-item-lbl">
+                <label class="i18n1 cd_65_24h_lbl" name="cd6524h"></label>
+            </div>
+            <div class="form-item-val">
+                <input data-number=true data-required=false class="mob-floattwo-numpad cd_65_24h" type="text" name="cd_65_24h" />
+            </div>
+        </div>
+        <div class="form-item">
+            <div class="form-item-lbl">
+                <label class="i18n1 project_no_lbl" name="projectno"></label>
+            </div>
+            <div class="form-item-val">
+                <input class="project_no" type="text" name="project_no" />
+            </div>
+        </div>
+        <div class="form-item">
+            <div class="form-item-lbl">
+                <label class="i18n1" name="result"></label>
+            </div>
+            <div class="form-item-val">
+                <select id="result" name="result">
+                        <option value="0">不合格,复验</option>
+                        <option value="1">合格</option>
+                        <option value="10">待定</option>
+              </select>
+            </div>
+        </div>
+        <div class="form-item">
+            <div class="imgBox"></div>
+        </div>
+        <div class="form-item">
+            <div class="form-item-lbl">
+                <label class="i18n1" name="uploadpicture"></label>
+            </div>
+            <div class="form-item-val">
+                <button class="i18n1 form-pictures" name="selectpicture"></button>
+            </div>
+        </div>
+        <div class="form-item">
+            <div class="form-item-lbl">
+                <label class="i18n1" name="remark"></label>
+            </div>
+            <div class="form-item-val">
+                <textarea id="remark" name="remark"></textarea>
+            </div>
+        </div>
+    </div>
+    <footer class="form-footer" id=footer>
+        <div id="foot-container" style="width:100%;height:43px;display:flex;justify-content:center;align-items:center;" class="foot-container">
+            <div class="i18n1 form-process-button" name="submit" onclick="submitForm()">提交</div>
+        </div>
+    </footer>
+</body>
+
+</html>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script src="../../script/jquery.i18n.properties-1.0.9.js" type="text/javascript"></script>
+<script src="../../script/language.js" type="text/javascript"></script>
+<script src="../../script/mobiscroll.custom-3.0.0-beta6.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+    var g_pipeno;
+    var g_employeeno, g_millno;
+    var g_loadingID = 0;
+    apiready = function() {
+            DoLoadingPicture();
+            var data = api.pageParam;
+            g_pipeno = data.pipe_no;
+            fnSettingHeader();
+            hlLanguage("../../i18n/");
+            RequestAllProcessInfoByPipeNo(g_pipeno);
+        }
+        //得到钢管数据汇总成功
+    function GetAllProcessInfoByPipeNoOK(data) {
+        ClearLoadingPicture();
+        g_employeeno = data.employeeno;
+        g_millno = data.millno;
+        // if (data.pipeinfo.status != "bare1") {
+        //     closeWindow();
+        // }
+        //setAllDefectInfo("steel");
+        initCriteria(data.odcriteria);
+        initCriteria(data.pbcriteria);
+        initInspectionFreq(data.inspectfreq);
+        initPipeBasicHeader(data.pipeinfo, data.millno);
+        setControls();
+        setSelectPictures();
+        getPendingRecordInfo("RawMaterialTesting2FbeOperation", g_pipeno);
+    }
+    //得到实验接收标准失败
+    function GetAllProcessInfoByPipeNoFail(message) {
+        ClearLoadingPicture();
+        api.alert({
+            msg: message
+        });
+        closeWindow();
+    }
+
+    function submitForm() {
+        if (initFormNumber()) {
+            var s = 'http://' + serverIP + '/RawMaterialTesting2FbeOperation/saveRawMaterialTest2Fbe.action';
+            var imgUrl = "";
+            $('.imgBox  .temp-container img').each(function() {
+                var temp = $(this).attr("data-url");
+                if (temp != undefined) {
+                    imgUrl += (temp + ";");
+                }
+            });
+            api.ajax({
+                url: s,
+                method: 'post',
+                timeout: 30,
+                dataType: 'json',
+                data: {
+                    values: {
+                        id: $('.id').val(),
+                        pipe_no: g_pipeno,
+                        mill_no: g_millno,
+                        operator_no: g_employeeno,
+                        sample_no: $('input[name="sample_no"]').val(),
+                        raw_material: $('#raw_material').val(),
+                        batch_no: $('input[name="batch_no"]').val(),
+                        density: $('input[name="density"]').val(),
+                        particle_size_32um: $('input[name="particle_size_32um"]').val(),
+                        particle_size_150um: $('input[name="particle_size_150um"]').val(),
+                        dsc_tgi: $('input[name="dsc_tgi"]').val(),
+                        dsc_tgf: $('input[name="dsc_tgf"]').val(),
+                        dsc_delta_h: $('input[name="dsc_delta_h"]').val(),
+                        gel_time_lt_20s: $('input[name="gel_time_lt_20s"]').val(),
+                        gel_time_gt_20s: $('input[name="gel_time_gt_20s"]').val(),
+                        powder_volatile:$('input[name="powder_volatile"]').val(),
+                        foaming_cross_sectional: $('#foaming_cross_sectional').val(),
+                        foaming_interfacial: $('#foaming_interfacial').val(),
+                        impact: $('#impact').val(),
+                        flexibility: $('#flexibility').val(),
+                        hot_water: $('#hot_water').val(),
+                        cd_65_24h: $('input[name="cd_65_24h"]').val(),
+                        project_no:$('input[name="project_no"]').val(),
+                        result: $('#result').val(),
+                        upload_files: imgUrl,
+                        remark: $('#remark').val(),
+                    }
+                }
+            }, function(ret, err) { //alert(ret);
+                if (ret) {
+                    api.alert({
+                        msg: ret.message
+                    });
+                    if (ret.success) {
+                        closeWindow();
+                    }
+                } else {
+                    api.alert({
+                        msg: JSON.stringify(err)
+                    });
+                }
+            });
+        }
+    }
+
+    function getPendingRecordInfoOK(data) {
+        if (data != undefined) {
+            $('.id').val(data.id);
+            $('input[name="sample_no"]').val(data.sample_no);
+            $('#raw_material').val(data.raw_material);
+            $('input[name="batch_no"]').val(data.batch_no);
+            if (data.density != -99)
+               $('input[name="density"]').val(data.density);
+            if (data.particle_size_32um != -99)
+                $('input[name="particle_size_32um"]').val(data.particle_size_32um);
+            if (data.particle_size_150um != -99)
+                $('input[name="particle_size_150um"]').val(data.particle_size_150um);
+            if (data.dsc_tgi != -99)
+               $('input[name="dsc_tgi"]').val(data.dsc_tgi);
+            if (data.dsc_tgf != -99)
+               $('input[name="dsc_tgf"]').val(data.dsc_tgf);
+            if (data.dsc_delta_h != -99)
+               $('input[name="dsc_delta_h"]').val(data.dsc_delta_h);
+            if (data.gel_time_lt_20s != -99)
+               $('input[name="gel_time_lt_20s"]').val(data.gel_time_lt_20s);
+            if (data.gel_time_gt_20s != -99)
+               $('input[name="gel_time_gt_20s"]').val(data.gel_time_gt_20s);
+            if (data.powder_volatile != -99)
+               $('input[name="powder_volatile"]').val(data.powder_volatile);
+            $('#foaming_cross_sectional').val(data.foaming_cross_sectional);
+            $('#foaming_interfacial').val(data.foaming_interfacial);
+            $('#impact').val(data.impact);
+            $('#flexibility').val(data.flexibility);
+            $('#hot_water').val(data.hot_water);
+            $('input[name="cd_65_24h"]').val(data.cd_65_24h);
+            $('input[name="project_no"]').val(data.project_no);
+            $('#result').val(data.result);
+            var imgUrl = data.upload_files;
+            if (imgUrl.length > 0) {
+                var imgArr = imgUrl.split(';');
+                var s = 'http://' + serverIP + '/upload/pictures/';
+                for (var i = 0; i < imgArr.length; i++) {
+                    if (imgArr[i] != undefined && imgArr[i].length > 0)
+                        $('.imgBox').append(pictureTemplate(imgArr[i], s + imgArr[i]));
+                }
+            }
+            $('#remark').val(data.remark);
+            validateAllValue();
+        }
+    }
+
+    function getPendingRecordInfoFail() {
+
+    }
+</script>
