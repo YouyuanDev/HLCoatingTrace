@@ -1926,3 +1926,87 @@ function getSamplePipeNo(className,pipeno,coating_date,url,flag,testing_id){
         }
     });
 }
+
+
+
+//根据id获取原材料试验数据
+function RequestRawMaterialTestingInfoById(id,url) {
+    api.addEventListener({
+        name: 'RequestRawMaterialTestingInfoByIdCallbackEvent'
+    }, function(ret, err) {
+        if (ret.value.success) {
+            GetRawMaterialTestingInfoByIdOK(ret.value.data);
+        } else {
+            GetRawMaterialTestingInfoByIdFail();
+        }
+    });
+    var s = 'http://' + serverIP +'/'+url;
+    api.ajax({
+        url: s,
+        method: 'post',
+        timeout: 30,
+        dataType: 'json',
+        data: {
+            values: {
+                id:id
+            }
+        }
+    }, function(ret, err) {
+        api.hideProgress();
+        if (ret) {
+        } else {
+            api.alert({
+                msg: JSON.stringify(err)
+            });
+        }
+        api.sendEvent({
+            name: 'RequestRawMaterialTestingInfoByIdCallbackEvent',
+            extra: {
+                success: ret.success,
+                data: ret.record
+            }
+        });
+
+    });
+}
+//根据project_no获取实验标准
+function RequestRawMaterialCriteriaByProjecteNo(project_no) {
+    api.addEventListener({
+        name: 'RequestRawMaterialCriteriaByProjecteNoCallbackEvent'
+    }, function(ret, err) {
+        if (ret.value.success) {
+            GetRawMaterialCriteriaByProjectNoOK(ret.value.data);
+        } else {
+            GetRawMaterialCriteriaByProjectNoFail(ret.value.data.message);
+        }
+    });
+    var s = 'http://' + serverIP + '/APPRequestTransfer/getRawMaterialCriteriaByProjecteNo.action';
+    api.ajax({
+        url: s,
+        method: 'post',
+        timeout: 30,
+        dataType: 'json',
+        data: {
+            values: {
+                project_no: project_no
+            }
+        }
+    }, function(ret, err) {
+        api.hideProgress();
+        if (ret) {
+
+        } else {
+            api.alert({
+                msg: JSON.stringify(err)
+            });
+        }
+        api.sendEvent({
+            name: 'RequestRawMaterialCriteriaByProjecteNoCallbackEvent',
+            extra: {
+                success: ret.success,
+                data: ret
+            }
+        });
+
+    });
+}

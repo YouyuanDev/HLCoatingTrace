@@ -25,7 +25,9 @@
                 <label class="i18n1 project_no_lbl" name="projectno"></label>
             </div>
             <div class="form-item-val">
-                <input class="project_no" type="text" name="project_no" />
+                <!-- <input class="project_no" type="text" name="project_no" /> -->
+                <select class="model-select" id="project_no" class="project_no" onchange="reloadLabTestingCriteria()">
+                </select>
             </div>
         </div>
         <div class="form-item">
@@ -195,14 +197,6 @@
         </div>
         <div class="form-item">
             <div class="form-item-lbl">
-                <label class="i18n1 project_no_lbl" name="projectno"></label>
-            </div>
-            <div class="form-item-val">
-                <input class="project_no" type="text" name="project_no" />
-            </div>
-        </div>
-        <div class="form-item">
-            <div class="form-item-lbl">
                 <label class="i18n1" name="result"></label>
             </div>
             <div class="form-item-val">
@@ -248,35 +242,132 @@
 <script src="../../script/language.js" type="text/javascript"></script>
 <script src="../../script/mobiscroll.custom-3.0.0-beta6.min.js" type="text/javascript"></script>
 <script type="text/javascript">
-    var g_pipeno;
+    var g_id;
     var g_employeeno, g_millno;
     var g_loadingID = 0;
     apiready = function() {
             DoLoadingPicture();
             var data = api.pageParam;
-            g_pipeno = data.pipe_no;
+            g_id = data.id;
             fnSettingHeader();
             hlLanguage("../../i18n/");
-            RequestAllProcessInfoByPipeNo(g_pipeno);
-        }
-        //得到钢管数据汇总成功
-    function GetAllProcessInfoByPipeNoOK(data) {
-        ClearLoadingPicture();
+            RequireProjectNo();
+            setSelectPictures();
+    }
+    //获取项目集合
+    function RequireProjectNo() {
+        $('#project_no').empty();
+        var s = 'http://' + serverIP + '/ProjectOperation/getProjectInfoByNoOrName.action';
+        api.ajax({
+            url: s,
+            method: 'post',
+            timeout: 30,
+            dataType: 'json',
+            data: {
+                values: {}
+            }
+        }, function(ret, err) {
+            if (ret) {
+                for (var i = 0; i < ret.length; i++) {
+                    $('#project_no').append('<option value=' + ret[i].project_no + '>' + ret[i].project_name + '</option>');
+                }
+
+            } else {
+                api.alert({
+                    msg: JSON.stringify(err)
+                });
+            }
+            //开始根据id获取实验记录
+            if(g_id!=undefined){
+              RequestRawMaterialTestingInfoById(g_id,"RawMaterialTesting2FbeOperation/getRawMaterialTesting2FbeById.action");
+            }
+
+        });
+    }
+    //根据id获取实验数据成功
+    function GetRawMaterialTestingInfoByIdOK(data){
+      if (data != undefined) {
+          $('.id').val(data.id);
+          $('input[name="sample_no"]').val(data.sample_no);
+          $('#raw_material').val(data.raw_material);
+          $('input[name="batch_no"]').val(data.batch_no);
+          if (data.density != -99)
+             $('input[name="density"]').val(data.density);
+          if (data.particle_size_32um != -99)
+              $('input[name="particle_size_32um"]').val(data.particle_size_32um);
+          if (data.particle_size_150um != -99)
+              $('input[name="particle_size_150um"]').val(data.particle_size_150um);
+          if (data.dsc_tgi != -99)
+             $('input[name="dsc_tgi"]').val(data.dsc_tgi);
+          if (data.dsc_tgf != -99)
+             $('input[name="dsc_tgf"]').val(data.dsc_tgf);
+          if (data.dsc_delta_h != -99)
+             $('input[name="dsc_delta_h"]').val(data.dsc_delta_h);
+          if (data.gel_time_lt_20s != -99)
+             $('input[name="gel_time_lt_20s"]').val(data.gel_time_lt_20s);
+          if (data.gel_time_gt_20s != -99)
+             $('input[name="gel_time_gt_20s"]').val(data.gel_time_gt_20s);
+          if (data.powder_volatile != -99)
+             $('input[name="powder_volatile"]').val(data.powder_volatile);
+          $('#foaming_cross_sectional').val(data.foaming_cross_sectional);
+          $('#foaming_interfacial').val(data.foaming_interfacial);
+          $('#impact').val(data.impact);
+          $('#flexibility').val(data.flexibility);
+          $('#hot_water').val(data.hot_water);
+          $('input[name="cd_65_24h"]').val(data.cd_65_24h);
+          $('#project_no').val(data.project_no);
+          $('#result').val(data.result);
+          var imgUrl = data.upload_files;
+          if (imgUrl.length > 0) {
+              var imgArr = imgUrl.split(';');
+              var s = 'http://' + serverIP + '/upload/pictures/';
+              for (var i = 0; i < imgArr.length; i++) {
+                  if (imgArr[i] != undefined && imgArr[i].length > 0)
+                      $('.imgBox').append(pictureTemplate(imgArr[i], s + imgArr[i]));
+              }
+          }
+          $('#remark').val(data.remark);
+          validateAllValue();
+      }
+      //然后根据project_no获取实验标准
+      RequestRawMaterialCriteriaByProjecteNo(data.project_no);
+    }
+    //根据id获取实验数据失败
+    function GetRawMaterialTestingInfoByIdFail(){
+
+    }
+    //根据project_no获取实验标准成功
+    function GetRawMaterialCriteriaByProjectNoOK(data){
         g_employeeno = data.employeeno;
-        g_millno = data.millno;
         initCriteria(data.raw2fbecriteria);
         setControls();
-        setSelectPictures();
-        getPendingRecordInfo("RawMaterialTesting2FbeOperation", g_pipeno);
-    }
-    //得到实验接收标准失败
-    function GetAllProcessInfoByPipeNoFail(message) {
         ClearLoadingPicture();
-        api.alert({
-            msg: message
-        });
-        closeWindow();
     }
+    //根据project_no获取实验标准失败
+    function GetRawMaterialCriteriaByProjectNoFail(message){
+         api.alert({
+             msg: message
+         });
+         closeWindow();
+    }
+    //     //得到钢管数据汇总成功
+    // function GetAllProcessInfoByPipeNoOK(data) {
+    //     ClearLoadingPicture();
+    //     g_employeeno = data.employeeno;
+    //     g_millno = data.millno;
+    //     initCriteria(data.raw2fbecriteria);
+    //     setControls();
+    //     setSelectPictures();
+    //     getPendingRecordInfo("RawMaterialTesting2FbeOperation/getRawMaterialTestingLiquidEpoxyById.action", g_sampleno);
+    // }
+    // //得到实验接收标准失败
+    // function GetAllProcessInfoByPipeNoFail(message) {
+    //     ClearLoadingPicture();
+    //     api.alert({
+    //         msg: message
+    //     });
+    //     closeWindow();
+    // }
 
     function submitForm() {
         if (initFormNumber()) {
@@ -315,7 +406,7 @@
                         flexibility: $('#flexibility').val(),
                         hot_water: $('#hot_water').val(),
                         cd_65_24h: $('input[name="cd_65_24h"]').val(),
-                        project_no:$('input[name="project_no"]').val(),
+                        project_no:$('#project_no').val(),
                         result: $('#result').val(),
                         upload_files: imgUrl,
                         remark: $('#remark').val(),
@@ -338,53 +429,58 @@
         }
     }
 
-    function getPendingRecordInfoOK(data) {
-        if (data != undefined) {
-            $('.id').val(data.id);
-            $('input[name="sample_no"]').val(data.sample_no);
-            $('#raw_material').val(data.raw_material);
-            $('input[name="batch_no"]').val(data.batch_no);
-            if (data.density != -99)
-               $('input[name="density"]').val(data.density);
-            if (data.particle_size_32um != -99)
-                $('input[name="particle_size_32um"]').val(data.particle_size_32um);
-            if (data.particle_size_150um != -99)
-                $('input[name="particle_size_150um"]').val(data.particle_size_150um);
-            if (data.dsc_tgi != -99)
-               $('input[name="dsc_tgi"]').val(data.dsc_tgi);
-            if (data.dsc_tgf != -99)
-               $('input[name="dsc_tgf"]').val(data.dsc_tgf);
-            if (data.dsc_delta_h != -99)
-               $('input[name="dsc_delta_h"]').val(data.dsc_delta_h);
-            if (data.gel_time_lt_20s != -99)
-               $('input[name="gel_time_lt_20s"]').val(data.gel_time_lt_20s);
-            if (data.gel_time_gt_20s != -99)
-               $('input[name="gel_time_gt_20s"]').val(data.gel_time_gt_20s);
-            if (data.powder_volatile != -99)
-               $('input[name="powder_volatile"]').val(data.powder_volatile);
-            $('#foaming_cross_sectional').val(data.foaming_cross_sectional);
-            $('#foaming_interfacial').val(data.foaming_interfacial);
-            $('#impact').val(data.impact);
-            $('#flexibility').val(data.flexibility);
-            $('#hot_water').val(data.hot_water);
-            $('input[name="cd_65_24h"]').val(data.cd_65_24h);
-            $('input[name="project_no"]').val(data.project_no);
-            $('#result').val(data.result);
-            var imgUrl = data.upload_files;
-            if (imgUrl.length > 0) {
-                var imgArr = imgUrl.split(';');
-                var s = 'http://' + serverIP + '/upload/pictures/';
-                for (var i = 0; i < imgArr.length; i++) {
-                    if (imgArr[i] != undefined && imgArr[i].length > 0)
-                        $('.imgBox').append(pictureTemplate(imgArr[i], s + imgArr[i]));
-                }
-            }
-            $('#remark').val(data.remark);
-            validateAllValue();
-        }
+    function reloadLabTestingCriteria(){
+         alert($('#project_no').val());
+         clearLabelData();
+         RequestRawMaterialCriteriaByProjecteNo($('#project_no').val());
     }
-
-    function getPendingRecordInfoFail() {
-
-    }
+    // function getPendingRecordInfoOK(data) {
+    //     if (data != undefined) {
+    //         $('.id').val(data.id);
+    //         $('input[name="sample_no"]').val(data.sample_no);
+    //         $('#raw_material').val(data.raw_material);
+    //         $('input[name="batch_no"]').val(data.batch_no);
+    //         if (data.density != -99)
+    //            $('input[name="density"]').val(data.density);
+    //         if (data.particle_size_32um != -99)
+    //             $('input[name="particle_size_32um"]').val(data.particle_size_32um);
+    //         if (data.particle_size_150um != -99)
+    //             $('input[name="particle_size_150um"]').val(data.particle_size_150um);
+    //         if (data.dsc_tgi != -99)
+    //            $('input[name="dsc_tgi"]').val(data.dsc_tgi);
+    //         if (data.dsc_tgf != -99)
+    //            $('input[name="dsc_tgf"]').val(data.dsc_tgf);
+    //         if (data.dsc_delta_h != -99)
+    //            $('input[name="dsc_delta_h"]').val(data.dsc_delta_h);
+    //         if (data.gel_time_lt_20s != -99)
+    //            $('input[name="gel_time_lt_20s"]').val(data.gel_time_lt_20s);
+    //         if (data.gel_time_gt_20s != -99)
+    //            $('input[name="gel_time_gt_20s"]').val(data.gel_time_gt_20s);
+    //         if (data.powder_volatile != -99)
+    //            $('input[name="powder_volatile"]').val(data.powder_volatile);
+    //         $('#foaming_cross_sectional').val(data.foaming_cross_sectional);
+    //         $('#foaming_interfacial').val(data.foaming_interfacial);
+    //         $('#impact').val(data.impact);
+    //         $('#flexibility').val(data.flexibility);
+    //         $('#hot_water').val(data.hot_water);
+    //         $('input[name="cd_65_24h"]').val(data.cd_65_24h);
+    //         $('input[name="project_no"]').val(data.project_no);
+    //         $('#result').val(data.result);
+    //         var imgUrl = data.upload_files;
+    //         if (imgUrl.length > 0) {
+    //             var imgArr = imgUrl.split(';');
+    //             var s = 'http://' + serverIP + '/upload/pictures/';
+    //             for (var i = 0; i < imgArr.length; i++) {
+    //                 if (imgArr[i] != undefined && imgArr[i].length > 0)
+    //                     $('.imgBox').append(pictureTemplate(imgArr[i], s + imgArr[i]));
+    //             }
+    //         }
+    //         $('#remark').val(data.remark);
+    //         validateAllValue();
+    //     }
+    // }
+    //
+    // function getPendingRecordInfoFail() {
+    //
+    // }
 </script>
