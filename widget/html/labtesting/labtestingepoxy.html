@@ -56,7 +56,10 @@
                     <label class="i18n1 glass_pipe_no_lbl" name="glasspipeno"></label>
                 </div>
                 <div class="form-item-val">
-                    <input class="glass_pipe_no" type="text" name="glass_pipe_no" />
+                    <!-- <input class="glass_pipe_no" type="text" name="glass_pipe_no" /> -->
+                    <select class="model-select GLASSSAMPLE" id="glass_pipe_no" name="glass_pipe_no">
+
+                     </select>
                 </div>
             </div>
             <div class="form-item">
@@ -85,19 +88,20 @@
             <div class="split-title i18n1" name="labtestingepoxy"></div>
             <div class="form-item">
                 <div class="form-item-lbl">
+                    <label class="i18n1 pipe_no_lbl" name="pipeno"></label>
+                </div>
+                <div class="form-item-val">
+                    <select class="model-select SAMPLE" id="pipe_no" name="pipe_no">
+
+                  </select>
+                </div>
+            </div>
+            <div class="form-item">
+                <div class="form-item-lbl">
                     <label class="i18n1 sample_no_lbl" name="sampleno"></label>
                 </div>
                 <div class="form-item-val">
                     <input class="sample_no" type="text" name="sample_no" />
-                </div>
-            </div>
-
-            <div class="form-item">
-                <div class="form-item-lbl">
-                    <label class="i18n1 coating_date" name="coatingdate"></label>
-                </div>
-                <div class="form-item-val">
-                    <input class="mob-datetime-input coating_date" type="text" name="coating_date" />
                 </div>
             </div>
             <div class="form-item">
@@ -201,6 +205,8 @@
     var g_pipeno;
     var g_employeeno, g_millno;
     var g_loadingID = 0;
+    var coating_date;
+    var g_pipeinfo;
     apiready = function() {
             DoLoadingPicture();
             var data = api.pageParam;
@@ -214,8 +220,10 @@
         ClearLoadingPicture();
         g_employeeno = data.employeeno;
         g_millno = data.millno;
-        //initPipeBasicHeader(data.pipeinfo, data.millno);
         $('#coatingdate').text(formatterdate(data.pipeinfo.od_coating_date));
+        coating_date=getDate1(data.pipeinfo.od_coating_date);
+        g_pipeinfo=data.pipeinfo;
+       //  initCriteria(data.lab2fbecriteria);
         setControls();
         setSelectPictures();
         getPendingRecordInfo("LabTestEpoxyOperation", g_pipeno);
@@ -239,7 +247,6 @@
                     imgUrl += (temp + ";");
                 }
             });
-            //alert(imgUrl);
             api.ajax({
                 url: s,
                 method: 'post',
@@ -248,18 +255,18 @@
                 data: {
                     values: {
                         id: $('.id').val(),
-                        pipe_no: g_pipeno,
+                        pipe_no: $('#pipe_no').val(),
                         mill_no: g_millno,
                         operator_no: g_employeeno,
                         sample_no: $('input[name="sample_no"]').val(),
-                        coating_date: $('input[name="coating_date"]').val(),
+                        glass_pipe_no: $('#glass_pipe_no').val(),
+                        glass_sample_no: $('input[name="glass_sample_no"]').val(),
+                        coating_date: coating_date,
                         porosity: $('#porosity').val(),
                         bend: $('#bend').val(),
                         adhesion: $('#adhesion').val(),
                         curing: $('#curing').val(),
                         water_immersion: $('#water_immersion').val(),
-                        glass_sample_no: $('input[name="glass_sample_no"]').val(),
-                        glass_pipe_no: $('input[name="glass_pipe_no"]').val(),
                         result: $('#result').val(),
                         upload_files: imgUrl,
                         remark: $('#remark').val(),
@@ -283,15 +290,13 @@
     }
 
     function getPendingRecordInfoOK(data) {
+        var testing_id=-1;
         if (data != undefined) {
             $('.id').val(data.id);
             $('input[name="sample_no"]').val(data.sample_no);
-            if (data.coating_date != undefined)
-                $('input[name="coating_date"]').val(data.coating_date);
-            if (data.glass_sample_no != undefined)
-                $('input[name="glass_sample_no"]').val(data.glass_sample_no);
-            if (data.glass_pipe_no != undefined)
-                $('input[name="glass_pipe_no"]').val(data.glass_pipe_no);
+            $('input[name="glass_sample_no"]').val(data.glass_sample_no);
+            $('#pipe_no').val(data.pipe_no);
+            $('#glass_pipe_no').val(data.glass_pipe_no);
             $('#porosity').val(data.porosity);
             $('#bend').val(data.bend);
             $('#adhesion').val(data.adhesion);
@@ -309,10 +314,26 @@
             }
             $('#remark').val(data.remark);
             validateAllValue();
+            testing_id=data.id;
+        }
+        if (g_pipeinfo.idsampling_mark != undefined && g_pipeinfo.idsampling_mark == "1") {
+            getSamplePipeNo('.SAMPLE', g_pipeno, getDate1(g_pipeinfo.id_coating_date), "getLiquidEpoxySamplePipeNo", 1,testing_id)
+        } else {
+            getSamplePipeNo('.SAMPLE', g_pipeno, getDate1(g_pipeinfo.id_coating_date), "getLiquidEpoxySamplePipeNo", 0,testing_id)
+        }
+        if (g_pipeinfo.id_glass_sample_mark != undefined && g_pipeinfo.id_glass_sample_mark == "1") {
+            getSamplePipeNo('.GLASSSAMPLE', g_pipeno, getDate1(g_pipeinfo.id_coating_date), "getLiquidEpoxyGlassSamplePipeNo", 1,testing_id)
+        } else {
+            getSamplePipeNo('.GLASSSAMPLE', g_pipeno, getDate1(g_pipeinfo.id_coating_date), "getLiquidEpoxyGlassSamplePipeNo", 0,testing_id)
         }
     }
 
     function getPendingRecordInfoFail() {
-
+      if($('#pipe_no').find("option").length==0&&$('#glass_pipe_no').find("option").length==0){
+          api.alert({
+               msg: "没有要做的实验!"
+           });
+         closeWindow();
+      }
     }
 </script>
