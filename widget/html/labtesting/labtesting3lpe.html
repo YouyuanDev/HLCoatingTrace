@@ -344,6 +344,8 @@
             $('#pipe_no').val(data.pipe_no);
             $('#dsc_pipe_no').val(data.dsc_pipe_no);
             $('#pe_pipe_no').val(data.pe_pipe_no);
+            if (data.dsc != undefined)
+               $('input[name="dsc"]').val(data.dsc);
             if (data.resistance_to_cd_20_28d != -99)
                 $('input[name="resistance_to_cd_20_28d"]').val(data.resistance_to_cd_20_28d);
             if (data.resistance_to_cd_max_28d != -99)

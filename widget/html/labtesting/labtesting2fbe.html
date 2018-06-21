@@ -270,6 +270,7 @@
     var g_employeeno, g_millno;
     var g_loadingID = 0;
     var coating_date;
+    var g_pipeinfo;
     apiready = function() {
             DoLoadingPicture();
             var data = api.pageParam;
@@ -285,17 +286,10 @@
         g_millno = data.millno;
         $('#coatingdate').text(formatterdate(data.pipeinfo.od_coating_date));
         coating_date=getDate1(data.pipeinfo.od_coating_date);
+        g_pipeinfo=data.pipeinfo;
         initCriteria(data.lab2fbecriteria);
-        if (data.pipeinfo.odsampling_mark != undefined && data.pipeinfo.odsampling_mark == "1") {
-            getSamplePipeNo('.SAMPLE', g_pipeno, getDate1(data.pipeinfo.od_coating_date), "get2FBESamplePipeNo", 1)
-        } else {
-            getSamplePipeNo('.SAMPLE', g_pipeno, getDate1(data.pipeinfo.od_coating_date), "get2FBESamplePipeNo", 0)
-        }
-        if (data.pipeinfo.od_dsc_sample_mark != undefined && data.pipeinfo.od_dsc_sample_mark == "1") {
-            getSamplePipeNo('.DSCSAMPLE', g_pipeno, getDate1(data.pipeinfo.od_coating_date), "get2FBEDSCSamplePipeNo", 1)
-        } else {
-            getSamplePipeNo('.DSCSAMPLE', g_pipeno, getDate1(data.pipeinfo.od_coating_date), "get2FBEDSCSamplePipeNo", 0)
-        }
+
+
 
 
         //initPipeBasicHeader(data.pipeinfo, data.millno);
@@ -322,7 +316,6 @@
                     imgUrl += (temp + ";");
                 }
             });
-            //alert(imgUrl);
             api.ajax({
                 url: s,
                 method: 'post',
@@ -335,11 +328,12 @@
                         mill_no: g_millno,
                         operator_no: g_employeeno,
                         sample_no: $('input[name="sample_no"]').val(),
-                        coating_date: coating_date,
+                        dsc_pipe_no: $('#dsc_pipe_no').val(),
+                        dsc_sample_no: $('input[name="dsc_sample_no"]').val(),
                         dsc: $('input[name="dsc"]').val(),
+                        coating_date: coating_date,
                         foaming_cross_sectional: $('#foaming_cross_sectional').val(),
                         foaming_interfacial: $('#foaming_interfacial').val(),
-                        interfacial_contamination: $('input[name="interfacial_contamination"]').val(),
                         flexibility: $('#flexibility').val(),
                         impact: $('#impact').val(),
                         resistance_to_hot_water_98_24h: $('#resistance_to_hot_water_98_24h').val(),
@@ -347,8 +341,7 @@
                         resistance_to_cd_65_24h: $('input[name="resistance_to_cd_65_24h"]').val(),
                         resistance_to_cd_22_28d: $('input[name="resistance_to_cd_22_28d"]').val(),
                         resistance_to_cd_65_28d: $('input[name="resistance_to_cd_65_28d"]').val(),
-                        dsc_pipe_no: $('#dsc_pipe_no').val(),
-                        dsc_sample_no: $('input[name="dsc_sample_no"]').val(),
+                        interfacial_contamination: $('input[name="interfacial_contamination"]').val(),
                         result: $('#result').val(),
                         upload_files: imgUrl,
                         remark: $('#remark').val(),
@@ -372,19 +365,17 @@
     }
 
     function getPendingRecordInfoOK(data) {
+        var testing_id=-1;
         if (data != undefined) {
             $('.id').val(data.id);
             $('input[name="sample_no"]').val(data.sample_no);
-            if (data.coating_date != undefined)
-               $('input[name="coating_date"]').val(data.coating_date);
+            $('input[name="dsc_sample_no"]').val(data.dsc_sample_no);
+            $('#pipe_no').val(data.pipe_no);
+            $('#dsc_pipe_no').val(data.dsc_pipe_no);
             if (data.dsc != undefined)
                $('input[name="dsc"]').val(data.dsc);
-            if (data.foaming_cross_sectional != undefined)
-                $('#foaming_cross_sectional').val(data.foaming_cross_sectional);
-            if (data.foaming_interfacial != undefined)
-               $('#foaming_interfacial').val(data.foaming_interfacial);
-            if (data.interfacial_contamination != -99)
-                $('input[name="interfacial_contamination"]').val(data.interfacial_contamination);
+            $('#foaming_cross_sectional').val(data.foaming_cross_sectional);
+            $('#foaming_interfacial').val(data.foaming_interfacial);
             $('#flexibility').val(data.flexibility);
             $('#impact').val(data.impact);
             $('#resistance_to_hot_water_98_24h').val(data.resistance_to_hot_water_98_24h);
@@ -395,10 +386,8 @@
                 $('input[name="resistance_to_cd_22_28d"]').val(data.resistance_to_cd_22_28d);
             if (data.resistance_to_cd_65_28d != -99)
                 $('input[name="resistance_to_cd_65_28d"]').val(data.resistance_to_cd_65_28d);
-            if (data.dsc_sample_no != undefined)
-                $('input[name="dsc_sample_no"]').val(data.dsc_sample_no);
-            if (data.dsc_pipe_no != undefined)
-                $('input[name="dsc_pipe_no"]').val(data.dsc_pipe_no);
+            if (data.interfacial_contamination != -99)
+                $('input[name="interfacial_contamination"]').val(data.interfacial_contamination);
             $('#result').val(data.result);
             var imgUrl = data.upload_files;
             if (imgUrl.length > 0) {
@@ -411,10 +400,26 @@
             }
             $('#remark').val(data.remark);
             validateAllValue();
+            testing_id=data.id;
+        }
+        if (g_pipeinfo.odsampling_mark != undefined && g_pipeinfo.odsampling_mark == "1") {
+            getSamplePipeNo('.SAMPLE', g_pipeno, getDate1(g_pipeinfo.od_coating_date), "get2FBESamplePipeNo", 1,testing_id)
+        } else {
+            getSamplePipeNo('.SAMPLE', g_pipeno, getDate1(g_pipeinfo.od_coating_date), "get2FBESamplePipeNo", 0,testing_id)
+        }
+        if (g_pipeinfo.od_dsc_sample_mark != undefined && g_pipeinfo.od_dsc_sample_mark == "1") {
+            getSamplePipeNo('.DSCSAMPLE', g_pipeno, getDate1(g_pipeinfo.od_coating_date), "get2FBEDSCSamplePipeNo", 1,testing_id)
+        } else {
+            getSamplePipeNo('.DSCSAMPLE', g_pipeno, getDate1(g_pipeinfo.od_coating_date), "get2FBEDSCSamplePipeNo", 0,testing_id)
         }
     }
 
     function getPendingRecordInfoFail() {
-
+      if($('#pipe_no').find("option").length==0&&$('#dsc_pipe_no').find("option").length==0){
+          api.alert({
+               msg: "没有要做的实验!"
+           });
+         closeWindow();
+      }
     }
 </script>
