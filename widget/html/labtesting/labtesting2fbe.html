@@ -72,12 +72,28 @@
             </div>
             <div class="form-item">
                 <div class="form-item-lbl">
+                    <label class="i18n1 dsc_delta_tg_lbl" name="dscdeltatg"></label>
+                </div>
+                <div class="form-item-val">
+                    <input data-number=true data-required=false class="mob-floattwo-numpad dsc_delta_tg" type="text" name="dsc_delta_tg" />
+                </div>
+            </div>
+            <div class="form-item">
+                <div class="form-item-lbl">
+                    <label class="i18n1 dsc_c_lbl" name="dscc"></label>
+                </div>
+                <div class="form-item-val">
+                    <input data-number=true data-required=false class="mob-floattwo-numpad dsc_c" type="text" name="dsc_c" />
+                </div>
+            </div>
+            <!-- <div class="form-item">
+                <div class="form-item-lbl">
                     <label class="i18n1 dsc_lbl" name="dsc"></label>
                 </div>
                 <div class="form-item-val">
                     <input data-required=false class="dsc" type="text" name="dsc" />
                 </div>
-            </div>
+            </div> -->
         </div>
         <!--外防实验(2FBE)信息(常规取样)-->
         <div class="routine-div split-div">
@@ -321,7 +337,8 @@
                         sample_no: $('input[name="sample_no"]').val(),
                         dsc_pipe_no: $('#dsc_pipe_no').val(),
                         dsc_sample_no: $('input[name="dsc_sample_no"]').val(),
-                        dsc: $('input[name="dsc"]').val(),
+                        dsc_delta_tg: $('input[name="dsc_delta_tg"]').val(),
+                        dsc_c: $('input[name="dsc_c"]').val(),
                         coating_date: coating_date,
                         foaming_cross_sectional: $('#foaming_cross_sectional').val(),
                         foaming_interfacial: $('#foaming_interfacial').val(),
@@ -363,8 +380,10 @@
             $('input[name="dsc_sample_no"]').val(data.dsc_sample_no);
             $('#pipe_no').val(data.pipe_no);
             $('#dsc_pipe_no').val(data.dsc_pipe_no);
-            if (data.dsc != undefined)
-               $('input[name="dsc"]').val(data.dsc);
+            if (data.dsc_delta_tg !=-99)
+               $('input[name="dsc_delta_tg"]').val(data.dsc_delta_tg);
+            if (data.dsc_c !=-99)
+              $('input[name="dsc_c"]').val(data.dsc_c);
             $('#foaming_cross_sectional').val(data.foaming_cross_sectional);
             $('#foaming_interfacial').val(data.foaming_interfacial);
             $('#flexibility').val(data.flexibility);
