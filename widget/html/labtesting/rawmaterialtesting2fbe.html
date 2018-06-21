@@ -251,6 +251,7 @@
             g_id = data.id;
             fnSettingHeader();
             hlLanguage("../../i18n/");
+            setControls();
             RequireProjectNo();
             setSelectPictures();
     }
@@ -279,6 +280,7 @@
             }
             //开始根据id获取实验记录
             if(g_id!=undefined){
+
               RequestRawMaterialTestingInfoById(g_id,"RawMaterialTesting2FbeOperation/getRawMaterialTesting2FbeById.action");
             }
 
@@ -340,7 +342,7 @@
     function GetRawMaterialCriteriaByProjectNoOK(data){
         g_employeeno = data.employeeno;
         initCriteria(data.raw2fbecriteria);
-        setControls();
+
         ClearLoadingPicture();
     }
     //根据project_no获取实验标准失败
@@ -370,6 +372,8 @@
     // }
 
     function submitForm() {
+        alert($('.id').val());//return;
+          alert($('#raw_material').val());//return;
         if (initFormNumber()) {
             var s = 'http://' + serverIP + '/RawMaterialTesting2FbeOperation/saveRawMaterialTest2Fbe.action';
             var imgUrl = "";
@@ -417,9 +421,6 @@
                     api.alert({
                         msg: ret.message
                     });
-                    if (ret.success) {
-                        closeWindow();
-                    }
                 } else {
                     api.alert({
                         msg: JSON.stringify(err)
