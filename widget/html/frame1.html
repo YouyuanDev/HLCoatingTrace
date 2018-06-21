@@ -1,17 +1,309 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
     <title>实验</title>
-    <link rel="stylesheet" type="text/css" href="../css/api.css"/>
-    <link rel="stylesheet" type="text/css" href="../css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
     <style>
-        .empty{ text-align: center; padding: 120px 0; }
+        .empty {
+            text-align: center;
+            padding: 120px 0;
+        }
+        /* 条目总体样式 */
+
+        .item {
+            display: table;
+            height: 70px;
+            width: 100%;
+            padding: 5px 0px;
+        }
+
+        .item .itemlogo,
+        .item .itemshelf {
+            display: table-cell;
+            vertical-align: middle;
+        }
+
+        .style1 {
+            border-top: 1px solid #cdcdcd;
+        }
+
+        .item .itemlogo {
+            width: 70px;
+        }
+
+        .item .itemlogo img {
+            margin-left: 10px;
+            width: 40px;
+        }
+        /* 条目特例 */
+
+        .shelf2 .userlogo img {
+            width: 50px;
+        }
+
+        .status-span {
+            background-color: #ffffff;
+            color: #000000;
+            font-size: 14px;
+            border-radius: 3px;
+            opacity: 0.5;
+            padding: 2px;
+            float: right;
+            margin-right: 20px;
+        }
+
+        .pipeno-span {
+            color: #000000;
+            font-size:16px;
+            font-family: "Sans-serif";
+        }
+
+        .contractno-span,
+        .od-span,
+        .wt-span {
+            margin: 0px 2px;
+            font-family: "Sans-serif";
+        }
+
+        .od-span {
+            padding: 2px;
+            border-radius: 3px;
+            color: #AFAFAF;
+            font-family: "Sans-serif";
+        }
+
+        .wt-span {
+            padding: 2px;
+            border-radius: 3px;
+            color: #AFAFAF;
+            font-family: "Sans-serif";
+        }
+
+        .itemshelf .shelfinfo01 {
+            font-size: 16px;
+            color: #4CAD35;
+            text-align: left;
+        }
+
+        .itemshelf .shelfinfo02 {
+            font-size: 12px;
+            color: #AFAFAF;
+            margin-top: 5px;
+            text-align: left;
+        }
+
+        .form-btn-container {
+            width: 100%;
+            height: auto;
+            display: flex;
+            padding: 5px 0px;
+        }
+
+        .form-btn-container .form-selfbtn {
+            flex: 1;
+            margin: 0px 4px;
+            padding: 10px 0px;
+            text-align: center;
+        }
+
+        .form-btn-container .form-selfbtn:nth-child(1) {
+            background-color: #D1EEEE;
+        }
+
+        .form-btn-container .form-selfbtn:nth-child(2) {
+            background-color: #B0C4DE;
+        }
+
+        .form-btn-container .form-selfbtn:nth-child(3) {
+            background-color: #458B74;
+        }
     </style>
 </head>
+
 <body>
-    <div class="div-data">实验</div>
+    <div class="div-data" id="div-data" style="font-size: 16px;color:#000000;font-family:" Sans-serif ";">
+        <div class="form-btn-container">
+            <div class="form-selfbtn">
+                原材料实验(2FBE)
+            </div>
+            <div class="form-selfbtn">
+                原材料实验(3LPE)
+            </div>
+            <div class="form-selfbtn">
+                原材料实验(EPOXY)
+            </div>
+        </div>
+        <div class="form-item">
+            <div class="form-item-val">
+                <select class="model-select" id="projectInfoSelect">
+             </select>
+            </div>
+        </div>
+        <div class="form-item labinfo-div">
+
+        </div>
+    </div>
 </body>
+
 </html>
+<script type="text/javascript" src="script/api.js"></script>
+<script type="text/javascript" src="../script/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/common.js"></script>
+<script type="text/javascript">
+    var start = 1;
+    apiready = function() {
+            RequireProjectNo();
+            dropdownLoading();
+            isRollingToEnd();
+        }
+    //获取项目信息
+    function RequireProjectNo() {
+        $('#projectInfoSelect').empty();
+        var s = 'http://' + serverIP + '/ProjectOperation/getProjectInfoByNoOrName.action';
+        api.ajax({
+            url: s,
+            method: 'post',
+            timeout: 30,
+            dataType: 'json',
+            data: {
+                values: {}
+            }
+        }, function(ret, err) {
+            if (ret) {
+                for (var i = 0; i < ret.length; i++) {
+                    $('#projectInfoSelect').append('<option value=' + ret[i].project_no + '>' + ret[i].project_name + '</option>');
+                }
+                getLabTestingInfoByProjectNo($('#projectInfoSelect').val(), start);
+            } else {
+                api.alert({
+                    msg: JSON.stringify(err)
+                });
+            }
+        });
+    }
+    //APP根据项目编号获取试验信息
+    function getLabTestingInfoByProjectNo(project_no, start) {
+        //alert(project_no);
+        var s = 'http://' + serverIP + '/LabTest2FbeOperation/getLabTestingInfoByProjectNo.action';
+        api.ajax({
+            url: s,
+            method: 'post',
+            timeout: 30,
+            dataType: 'json',
+            data: {
+                values: {
+                    project_no: project_no,
+                    page: start,
+                    rows: 20
+                }
+            }
+        }, function(ret, err) {
+            if (ret) {
+                if (ret.success) {
+                    var data = ret.record;
+                    for (var i = 0; i < data.length; i++) {
+                        $('.labinfo-div').append(makeTemplate(data[i].id, data[i].sample_type, data[i].testing_type, data[i].result, data[i].operation_time));
+                    }
+                }
+            } else {
+                api.alert({
+                    msg: JSON.stringify(err)
+                });
+            }
+        });
+    }
+    //实验信息模板
+    function makeTemplate(id, sample_type, testing_type, result, operation_time) {
+        var template = "";
+        var title = "";
+        if (result == "0")
+            result = "不合格,复验";
+        else if (result == "1")
+            result = "合格";
+        else if (result == "10")
+            result = "待定";
+        if (testing_type.indexOf('LAB') != -1)
+            title = "成品";
+        else if (testing_type.indexOf('RAW') != -1)
+            title = "原材料";
+        if (testing_type.indexOf('2FBE') != -1)
+            title += " 2FBE";
+        else if (testing_type.indexOf('3LPE') != -1)
+            title += " 3LPE";
+        if (sample_type.indexOf('REGULAR') != -1)
+            title += " 常规实验";
+        else if (sample_type.indexOf('DSC') != -1)
+            title += " DSC实验";
+        else if (sample_type.indexOf('PE') != -1)
+            title += " PE实验";
+        else if (sample_type.indexOf('GLASS') != -1)
+            title += " GLASS实验";
+        template += '<div class="item style1" data-sample-type='+sample_type+'  data-testing-type='+testing_type+' onclick="goTestingBySampleType(this);">';
+        //lab实验
+        if (testing_type.indexOf('LAB2FBE') != -1 || testing_type.indexOf('LAB3LPE') != -1 || testing_type.indexOf('LABEPOXY') != -1) {
+            template += '<div class="itemlogo userlogo"><img src="../image/pipe2.png" alt=""></div>';
+        } else { //原材料实验
+            template += '<div class="itemlogo userlogo"><img src="../image/rawmaterial.png" alt=""></div>';
+        }
+        template += '<div class="itemshelf">' +
+            '<div class="shelfinfo01"><span class="pei pipeno-span">' + title + '</span></div>' +
+            '<div class="shelfinfo02"><span class="contractno-span">' + getDate1(operation_time) + '</span></div>' +
+            '</div>' +
+            '<div class="itemshelf"><span class="status-span">' + result + '</span></div>' +
+            '</div>';
+        return template;
+    }
+
+    function dropdownLoading() {
+        api.setRefreshHeaderInfo({
+            loadingImg: 'widget://image/loading_more.png',
+            bgColor: '#ccc',
+            textColor: '#fff',
+            textDown: '下拉刷新...',
+            textUp: '松开刷新...'
+        }, function(ret, err) {
+            $('.labinfo-div').empty();
+            getLabTestingInfoByProjectNo($('#projectInfoSelect').val(), 1);
+            setTimeout(function() {
+                //执行刷新
+                api.refreshHeaderLoadDone();
+            }, 50);
+        });
+    }
+    //判断是否滑动到底部
+    function isRollingToEnd() {
+        api.addEventListener({
+            name: 'scrolltobottom',
+            extra: {
+                threshold: 0 //设置距离底部多少距离时触发,默认值为0,数字类型
+            }
+        }, function(ret, err) {
+            start = start + 1;
+            getLabTestingInfoByProjectNo($('#projectInfoSelect').val(), start);
+        });
+    }
+    //实验点击事件
+    function goTestingBySampleType(obj){
+        var testing_type= $(obj).attr('data-testing-type');
+        var sample_type=$(obj).attr('data-sample-type');
+        if(testing_type.indexOf('LAB2FBE')!=-1){
+
+        }else if(testing_type.indexOf('LAB2FBE')!=-1){
+
+        }else if(testing_type.indexOf('LAB3LPE')!=-1){
+          
+        }else if(testing_type.indexOf('LABEPOXY')!=-1){
+
+        }else if(testing_type.indexOf('LAB2FBE')!=-1){
+
+        }else if(testing_type.indexOf('LAB2FBE')!=-1){
+
+        }
+        alert(testing_type+":"+sample_type);
+    }
+</script>
