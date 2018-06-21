@@ -264,10 +264,6 @@
         ClearLoadingPicture();
         g_employeeno = data.employeeno;
         g_millno = data.millno;
-        // if (data.pipeinfo.status != "bare1") {
-        //     closeWindow();
-        // }
-        //setAllDefectInfo("steel");
         initCriteria(data.odcriteria);
         initCriteria(data.pbcriteria);
         initInspectionFreq(data.inspectfreq);
@@ -303,8 +299,6 @@
                 data: {
                     values: {
                         id: $('.id').val(),
-                        pipe_no: g_pipeno,
-                        mill_no: g_millno,
                         operator_no: g_employeeno,
                         sample_no: $('input[name="sample_no"]').val(),
                         raw_material: $('#raw_material').val(),

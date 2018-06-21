@@ -141,10 +141,18 @@
         </div>
         <div class="form-item">
             <div class="form-item-lbl">
-                <label class="i18n1 epoxy_thermal_characteristics_lbl" name="epoxythermalcharacteristics"></label>
+                <label class="i18n1 epoxy_dsc_delta_h_lbl" name="epoxydscdeltah"></label>
             </div>
             <div class="form-item-val">
-                <input data-number=true data-required=false class="mob-floattwo-numpad epoxy_thermal_characteristics" type="text" name="epoxy_thermal_characteristics" />
+                <input data-number=true data-required=false class="mob-floattwo-numpad epoxy_dsc_delta_h" type="text" name="epoxy_dsc_delta_h" />
+            </div>
+        </div>
+        <div class="form-item">
+            <div class="form-item-lbl">
+                <label class="i18n1 epoxy_dsc_tg2_lbl" name="epoxydsctg2"></label>
+            </div>
+            <div class="form-item-val">
+                <input data-number=true data-required=false class="mob-floattwo-numpad epoxy_dsc_tg2" type="text" name="epoxy_dsc_tg2" />
             </div>
         </div>
         <div class="form-item">
@@ -226,10 +234,6 @@
         ClearLoadingPicture();
         g_employeeno = data.employeeno;
         g_millno = data.millno;
-        // if (data.pipeinfo.status != "bare1") {
-        //     closeWindow();
-        // }
-        //setAllDefectInfo("steel");
         initCriteria(data.odcriteria);
         initCriteria(data.pbcriteria);
         initInspectionFreq(data.inspectfreq);
@@ -279,7 +283,8 @@
                         epoxy_particle_size_150um: $('input[name="epoxy_particle_size_150um"]').val(),
                         epoxy_particle_size_250um: $('input[name="epoxy_particle_size_250um"]').val(),
                         epoxy_density: $('input[name="epoxy_density"]').val(),
-                        epoxy_thermal_characteristics: $('input[name="epoxy_thermal_characteristics"]').val(),
+                        epoxy_dsc_delta_h:$('input[name="epoxy_dsc_delta_h"]').val(),
+                        epoxy_dsc_tg2: $('input[name="epoxy_dsc_tg2"]').val(),
                         adhesion_flow_rate: $('input[name="adhesion_flow_rate"]').val(),
                         polyethylene_flow_rate:$('input[name="polyethylene_flow_rate"]').val(),
                         project_no:$('input[name="project_no"]').val(),
@@ -331,8 +336,10 @@
               $('input[name="epoxy_particle_size_250um"]').val(data.epoxy_particle_size_250um);
             if (data.epoxy_density != -99)
               $('input[name="epoxy_density"]').val(data.epoxy_density);
-            if (data.epoxy_thermal_characteristics!= -99)
-              $('input[name="epoxy_thermal_characteristics"]').val(data.epoxy_thermal_characteristics);
+            if (data.epoxy_dsc_delta_h!= -99)
+              $('input[name="epoxy_dsc_delta_h"]').val(data.epoxy_dsc_delta_h);
+            if (data.epoxy_dsc_tg2!= -99)
+              $('input[name="epoxy_dsc_tg2"]').val(data.epoxy_dsc_tg2);
             if (data.adhesion_flow_rate != -99)
               $('input[name="adhesion_flow_rate"]').val(data.adhesion_flow_rate);
             if (data.polyethylene_flow_rate != -99)
