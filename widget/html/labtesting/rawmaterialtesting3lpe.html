@@ -234,10 +234,7 @@
         ClearLoadingPicture();
         g_employeeno = data.employeeno;
         g_millno = data.millno;
-        initCriteria(data.odcriteria);
-        initCriteria(data.pbcriteria);
-        initInspectionFreq(data.inspectfreq);
-        initPipeBasicHeader(data.pipeinfo, data.millno);
+        initCriteria(data.raw3lpecriteria);
         setControls();
         setSelectPictures();
         getPendingRecordInfo("RawMaterialTesting3LpeOperation", g_pipeno);

@@ -134,14 +134,9 @@
         ClearLoadingPicture();
         g_employeeno = data.employeeno;
         g_millno = data.millno;
-       
-        initCriteria(data.odcriteria);
-        initCriteria(data.pbcriteria);
-        initInspectionFreq(data.inspectfreq);
-        initPipeBasicHeader(data.pipeinfo, data.millno);
         setControls();
         setSelectPictures();
-        getPendingRecordInfo("RawMaterialTesting2FbeOperation", g_pipeno);
+        getPendingRecordInfo("RawMaterialTestingLiquidEpoxyOperation", g_pipeno);
     }
     //得到实验接收标准失败
     function GetAllProcessInfoByPipeNoFail(message) {
@@ -154,7 +149,7 @@
 
     function submitForm() {
         if (initFormNumber()) {
-            var s = 'http://' + serverIP + '/RawMaterialTesting2FbeOperation/saveRawMaterialTest2Fbe.action';
+            var s = 'http://' + serverIP + '/RawMaterialTestingLiquidEpoxyOperation/saveRawMaterialTestEpoxy.action';
             var imgUrl = "";
             $('.imgBox  .temp-container img').each(function() {
                 var temp = $(this).attr("data-url");

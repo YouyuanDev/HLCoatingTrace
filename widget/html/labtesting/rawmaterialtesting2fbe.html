@@ -264,10 +264,7 @@
         ClearLoadingPicture();
         g_employeeno = data.employeeno;
         g_millno = data.millno;
-        initCriteria(data.odcriteria);
-        initCriteria(data.pbcriteria);
-        initInspectionFreq(data.inspectfreq);
-        initPipeBasicHeader(data.pipeinfo, data.millno);
+        initCriteria(data.raw2fbecriteria);
         setControls();
         setSelectPictures();
         getPendingRecordInfo("RawMaterialTesting2FbeOperation", g_pipeno);
