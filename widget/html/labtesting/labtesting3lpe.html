@@ -401,6 +401,9 @@
             $('#remark').val(data.remark);
             validateAllValue();
             testing_id=data.id;
+            if(data.result!="10"){
+              $('.form-process-button').hide();
+            }
         }
         if (g_pipeinfo.odsampling_mark != undefined && g_pipeinfo.odsampling_mark == "1") {
             getSamplePipeNo('.SAMPLE', g_pipeno, getDate1(g_pipeinfo.od_coating_date), "get3LPESamplePipeNo", 1,testing_id)
