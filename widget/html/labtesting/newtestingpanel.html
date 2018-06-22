@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>test</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/mobiscroll.custom-3.0.0-beta6.min.css" />
+    <style>
+        body {
+            background-color: #ADADAD;
+        }
+
+        .float-btn-container {
+            width: 100%;
+            height: auto;
+            padding-top: 80px;
+            z-index: 10000;
+        }
+
+        .float-btn {
+            position: relative;
+            display: flex;
+            padding: 5px;
+            background-color: #363636;
+            color: white;
+            margin-bottom: 5px;
+        }
+
+        .float-btn .float-btn-item {
+            flex: 1;
+            padding: 10px;
+        }
+
+        .close-float {
+            position: fixed;
+            top: 30px;
+            right: 10px;
+            background-color: red;
+            color: white;
+            width: 30px;
+            height: 30px;
+            background: url('../../image/close.png') no-repeat center center;
+            background-size: 25px 25px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="close-float" onclick="closePanel()"></div>
+    <div class="float-btn-container">
+
+        <div class="float-btn">
+            <div class="float-btn-item" id="ceshi" onclick="">
+                成品(2FBE)
+            </div>
+            <div class="float-btn-item" onclick="">
+                成品(3LPE)
+            </div>
+            <div class="float-btn-item" onclick="">
+                成品(EPOXY)
+            </div>
+        </div>
+        <div class="float-btn">
+            <div class="float-btn-item" onclick="">
+                原材料(2FBE)
+            </div>
+            <div class="float-btn-item" onclick="">
+                原材料(3LPE)
+            </div>
+            <div class="float-btn-item" onclick="">
+                原材料(EPOXY)
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/mobiscroll.custom-3.0.0-beta6.min.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+        //  alert($('#ceshi').text());
+    }
+
+    function closePanel() {
+        api.closeFrame({
+            name: 'newtestingpanel'
+        });
+    }
+</script>

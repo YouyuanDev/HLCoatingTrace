@@ -8,6 +8,7 @@
     <title>实验</title>
     <link rel="stylesheet" type="text/css" href="../css/api.css" />
     <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <link rel='stylesheet prefetch' href='../css/animate.min.css'>
     <style>
         .empty {
             text-align: center;
@@ -110,25 +111,27 @@
             padding: 10px 0px;
             text-align: center;
             border-radius:50%;
+            color:white;
         }
 
         .form-btn-container .form-selfbtn:nth-child(1) {
-            background-color: #D1EEEE;
+            background-color: #A8A8A8;
         }
 
         .form-btn-container .form-selfbtn:nth-child(2) {
-            background-color: #B0C4DE;
+            background-color: #3B3B3B;
         }
 
         .form-btn-container .form-selfbtn:nth-child(3) {
-            background-color: #458B74;
+            background-color: #CD3700;
         }
+         
     </style>
 </head>
 
 <body>
     <div class="div-data" id="div-data" style="font-size: 16px;color:#000000;font-family:" Sans-serif ";">
-        <div class="form-btn-container">
+        <!-- <div class="form-btn-container">
             <div class="form-selfbtn" onclick="RawMaterial2fbe()">
                 原材料实验(2FBE)
             </div>
@@ -138,7 +141,33 @@
             <div class="form-selfbtn" onclick="RawMaterialEpoxy()">
                 原材料实验(EPOXY)
             </div>
-        </div>
+        </div> -->
+
+
+        <!---->
+        <!-- <div class="float-btn-container" data-isshow="hide" id="float-btn-container" onclick="showNewTestingLink()">
+             新建
+             <div class="float-btn">
+               <div class="float-btn-item item1" onclick="">
+                   成品(2FBE)
+               </div>
+               <div class="float-btn-item" onclick="">
+                   成品(3LPE)
+               </div>
+               <div class="float-btn-item" onclick="">
+                   成品(EPOXY)
+               </div>
+               <div class="float-btn-item" onclick="">
+                   原材料(2FBE)
+               </div>
+               <div class="float-btn-item" onclick="">
+                   原材料(3LPE)
+               </div>
+               <div class="float-btn-item" onclick="">
+                   原材料(EPOXY)
+               </div>
+             </div>
+        </div> -->
         <div class="form-item">
             <div class="form-item-val">
                 <select class="model-select" id="projectInfoSelect" onchange="reloadLabTestingInfoByProjectNo()">
@@ -149,12 +178,14 @@
 
         </div>
     </div>
+
 </body>
 
 </html>
 <script type="text/javascript" src="script/api.js"></script>
 <script type="text/javascript" src="../script/jquery-3.3.1.min.js"></script>
 <script type="text/javascript" src="../script/common.js"></script>
+
 <script type="text/javascript">
     var start = 1;
     apiready = function() {
@@ -379,5 +410,16 @@
           }
       });
     }
-
+    // function showNewTestingLink(){
+    //     var flag=$('#float-btn-container').attr('data-isshow');
+    //     if(flag=="show"){
+    //        $('.float-btn-item').hide();
+    //       $('.float-btn-item').addClass('animated zoomOut')
+    //       $('#float-btn-container').attr('data-isshow','hide')
+    //     }else{
+    //       $('.float-btn-item').show();
+    //       $('#float-btn-container').attr('data-isshow','show');
+    //       $('.float-btn-item').addClass('animated slideInRight');
+    //     }
+    // }
 </script>
