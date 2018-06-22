@@ -275,8 +275,22 @@
     }
     //钢管信息的模版
     function pipeInfoTemplate(pipe) {
+        var url2fbe="../image/pipe_2fbe.png";
+        var url3lpe="../image/pipe_3lpe.png";
+        var urlepoxy="../image/pipe_epoxy.png";
+        var urldefault="../image/pipe2.png";
+        var url="";
+        alert(pipe.external_coating);
+        if(pipe.external_coating=="2FBE"){
+          url=url2fbe;
+        }else if(pipe.external_coating=="3LPE"){
+          url=url3lpe;
+        }else{
+          url=urldefault;
+        }
+        alert(url);
         var template = '<div class="item style1"  onclick="goPipeInfoRoot(' + pipe.pipe_no + ');">' +
-            '<div class="itemlogo userlogo"><img src="../image/pipe2.png" alt=""></div>' +
+            '<div class="itemlogo userlogo"><img src="'+url+'" alt=""></div>' +
             '<div class="itemshelf">' +
             '<div class="shelfinfo01"><span class="pei pipeno-span">' + pipe.pipe_no + '</span></div>' +
             '<div class="shelfinfo02"><span class="contractno-span">' + pipe.contract_no + '</span><span class="od-span">' + pipe.od + '</span><span class="wt-span">' + pipe.wt + '</span></div>' +
