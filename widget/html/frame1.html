@@ -100,7 +100,7 @@
         .form-btn-container {
             width: 100%;
             height: auto;
-            display: flex;
+            display:flex;
             padding: 5px 0px;
         }
 
@@ -109,6 +109,7 @@
             margin: 0px 4px;
             padding: 10px 0px;
             text-align: center;
+            border-radius:50%;
         }
 
         .form-btn-container .form-selfbtn:nth-child(1) {
@@ -128,13 +129,13 @@
 <body>
     <div class="div-data" id="div-data" style="font-size: 16px;color:#000000;font-family:" Sans-serif ";">
         <div class="form-btn-container">
-            <div class="form-selfbtn">
+            <div class="form-selfbtn" onclick="RawMaterial2fbe()">
                 原材料实验(2FBE)
             </div>
-            <div class="form-selfbtn">
+            <div class="form-selfbtn" onclick="RawMaterial3lpe()">
                 原材料实验(3LPE)
             </div>
-            <div class="form-selfbtn">
+            <div class="form-selfbtn" onclick="RawMaterialEpoxy()">
                 原材料实验(EPOXY)
             </div>
         </div>
@@ -351,4 +352,32 @@
        $('.labinfo-div').empty();
        getLabTestingInfoByProjectNo($('#projectInfoSelect').val(),start);
     }
+    function RawMaterial2fbe(){
+      api.openWin({
+          name: 'rawmaterialtesting2fbe',
+          url: './labtesting/rawmaterialtesting2fbe.html',
+          pageParam: {
+              id:undefined
+          }
+      });
+    }
+    function RawMaterial3lpe(){
+      api.openWin({
+          name: 'rawmaterialtesting3lpe',
+          url: './labtesting/rawmaterialtesting3lpe.html',
+          pageParam: {
+              id:undefined
+          }
+      });
+    }
+    function RawMaterialEpoxy(){
+      api.openWin({
+          name: 'rawmaterialtestingliquidepoxy',
+          url: './labtesting/rawmaterialtestingliquidepoxy.html',
+          pageParam: {
+              id:undefined
+          }
+      });
+    }
+
 </script>

@@ -242,7 +242,7 @@
         if (g_id != undefined) {
             RequestRawMaterialTestingInfoById(g_id, "RawMaterialTesting3LpeOperation/getRawMaterialTesting3LpeById.action");
         }else{
-            ClearLoadingPicture();
+            ClearLoadingPicture();RequestRawMaterialCriteriaByProjecteNo($('#project_no').val());
         }
     }
     function RequireProjectNoFail() {

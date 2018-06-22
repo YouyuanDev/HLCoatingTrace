@@ -264,6 +264,7 @@
           RequestRawMaterialTestingInfoById(g_id,"RawMaterialTesting2FbeOperation/getRawMaterialTesting2FbeById.action");
       }else{
           ClearLoadingPicture();
+           RequestRawMaterialCriteriaByProjecteNo($('#project_no').val());
       }
     }
     function RequireProjectNoFail(){
