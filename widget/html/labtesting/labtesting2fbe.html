@@ -391,7 +391,7 @@
             $('#resistance_to_hot_water_98_24h').val(data.resistance_to_hot_water_98_24h);
             $('#resistance_to_hot_water_98_28d').val(data.resistance_to_hot_water_98_28d);
             if (data.resistance_to_cd_65_24h != -99)
-                $('input[name="resistance_to_cd_65_24h"]').val(data.data.resistance_to_cd_65_24h);
+                $('input[name="resistance_to_cd_65_24h"]').val(data.resistance_to_cd_65_24h);
             if (data.resistance_to_cd_22_28d != -99)
                 $('input[name="resistance_to_cd_22_28d"]').val(data.resistance_to_cd_22_28d);
             if (data.resistance_to_cd_65_28d != -99)
@@ -413,6 +413,7 @@
             testing_id=data.id;
             if(data.result!="10"){
               $('.form-process-button').hide();
+              $('.form-pictures').hide();
             }
         }
         if (g_pipeinfo.odsampling_mark != undefined && g_pipeinfo.odsampling_mark == "1") {
