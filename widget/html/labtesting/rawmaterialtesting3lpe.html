@@ -25,7 +25,9 @@
                 <label class="i18n1 project_no_lbl" name="projectno"></label>
             </div>
             <div class="form-item-val">
-                <input class="project_no" type="text" name="project_no" />
+                <!-- <input class="project_no" type="text" name="project_no" /> -->
+                <select class="model-select" id="project_no" class="project_no" onchange="reloadLabTestingCriteria()">
+                </select>
             </div>
         </div>
         <div class="form-item">
@@ -41,7 +43,7 @@
                 <label class="i18n1 epoxy_raw_material_lbl" name="epoxyrawmaterial"></label>
             </div>
             <div class="form-item-val">
-              <select class="model-select FBE" id="epoxy_raw_material" name="epoxy_raw_material">
+                <select class="model-select FBE" id="epoxy_raw_material" name="epoxy_raw_material">
 
               </select>
             </div>
@@ -59,7 +61,7 @@
                 <label class="i18n1 adhesion_raw_material_lbl" name="adhesionrawmaterial"></label>
             </div>
             <div class="form-item-val">
-              <select class="model-select ADC" id="adhesion_raw_material" name="adhesion_raw_material">
+                <select class="model-select ADC" id="adhesion_raw_material" name="adhesion_raw_material">
 
               </select>
             </div>
@@ -77,7 +79,7 @@
                 <label class="i18n1 polyethylene_raw_material_lbl" name="polyethylenerawmaterial"></label>
             </div>
             <div class="form-item-val">
-              <select class="model-select PEC" id="polyethylene_raw_material" name="polyethylene_raw_material">
+                <select class="model-select PEC" id="polyethylene_raw_material" name="polyethylene_raw_material">
 
               </select>
             </div>
@@ -95,7 +97,7 @@
                 <label class="i18n1 epoxy_cure_time_lbl" name="epoxycuretime"></label>
             </div>
             <div class="form-item-val">
-                <input  data-number=true data-required=false class="mob-floattwo-numpad epoxy_cure_time" type="text" name="epoxy_cure_time" />
+                <input data-number=true data-required=false class="mob-floattwo-numpad epoxy_cure_time" type="text" name="epoxy_cure_time" />
             </div>
         </div>
 
@@ -104,7 +106,7 @@
                 <label class="i18n1 epoxy_gel_time_lbl" name="epoxygeltime"></label>
             </div>
             <div class="form-item-val">
-                <input  data-number=true data-required=false class="mob-floattwo-numpad epoxy_gel_time" type="text" name="epoxy_gel_time" />
+                <input data-number=true data-required=false class="mob-floattwo-numpad epoxy_gel_time" type="text" name="epoxy_gel_time" />
             </div>
         </div>
         <div class="form-item">
@@ -112,7 +114,7 @@
                 <label class="i18n1 epoxy_moisture_content_lbl" name="epoxymoisturecontent"></label>
             </div>
             <div class="form-item-val">
-                <input  data-number=true data-required=false class="mob-floattwo-numpad epoxy_moisture_content" type="text" name="epoxy_moisture_content" />
+                <input data-number=true data-required=false class="mob-floattwo-numpad epoxy_moisture_content" type="text" name="epoxy_moisture_content" />
             </div>
         </div>
         <div class="form-item">
@@ -120,7 +122,7 @@
                 <label class="i18n1 epoxy_particle_size_150um_lbl" name="epoxyparticlesize150um"></label>
             </div>
             <div class="form-item-val">
-                <input  data-number=true data-required=false class="mob-floattwo-numpad epoxy_particle_size_150um" type="text" name="epoxy_particle_size_150um" />
+                <input data-number=true data-required=false class="mob-floattwo-numpad epoxy_particle_size_150um" type="text" name="epoxy_particle_size_150um" />
             </div>
         </div>
         <div class="form-item">
@@ -218,36 +220,101 @@
 <script src="../../script/language.js" type="text/javascript"></script>
 <script src="../../script/mobiscroll.custom-3.0.0-beta6.min.js" type="text/javascript"></script>
 <script type="text/javascript">
-    var g_pipeno;
+    var g_id;
     var g_employeeno, g_millno;
     var g_loadingID = 0;
     apiready = function() {
-            DoLoadingPicture();
-            var data = api.pageParam;
-            g_pipeno = data.pipe_no;
-            fnSettingHeader();
-            hlLanguage("../../i18n/");
-            RequestAllProcessInfoByPipeNo(g_pipeno);
-        }
-        //得到钢管数据汇总成功
-    function GetAllProcessInfoByPipeNoOK(data) {
-        ClearLoadingPicture();
-        g_employeeno = data.employeeno;
-        g_millno = data.millno;
-        initCriteria(data.raw3lpecriteria);
+        DoLoadingPicture();
+        var data = api.pageParam;
+        g_pipeno = data.pipe_no;
+        fnSettingHeader();
+        hlLanguage("../../i18n/");
         setControls();
+        RequireProjectNo();
         setSelectPictures();
-        getPendingRecordInfo("RawMaterialTesting3LpeOperation", g_pipeno);
-    }
-    //得到实验接收标准失败
-    function GetAllProcessInfoByPipeNoFail(message) {
-        ClearLoadingPicture();
-        api.alert({
-            msg: message
-        });
-        closeWindow();
     }
 
+    function RequireProjectNoOK(data) {
+        $('#project_no').empty();
+        for (var i = 0; i < data.length; i++) {
+            $('#project_no').append('<option value=' + data[i].project_no + '>' + data[i].project_name + '</option>');
+        }
+        if (g_id != undefined) {
+            RequestRawMaterialTestingInfoById(g_id, "RawMaterialTesting3LpeOperation/getRawMaterialTesting3LpeById.action");
+        }
+    }
+    function RequireProjectNoFail() {
+
+    }
+    function GetRawMaterialTestingInfoByIdOK(data) {
+        if (data != undefined) {
+            $('.id').val(data.id);
+            if (data.sample_no != undefined)
+                $('input[name="sample_no"]').val(data.sample_no);
+            $('#epoxy_raw_material').val(data.epoxy_raw_material);
+            if (data.epoxy_batch_no != undefined)
+                $('input[name="epoxy_batch_no"]').val(data.epoxy_batch_no);
+            $('#adhesion_raw_material').val(data.adhesion_raw_material);
+            if (data.adhesion_batch_no != undefined)
+                $('input[name="adhesion_batch_no"]').val(data.adhesion_batch_no);
+            $('#polyethylene_raw_material').val(data.polyethylene_raw_material);
+            if (data.polyethylene_batch_no != undefined)
+                $('input[name="polyethylene_batch_no"]').val(data.polyethylene_batch_no);
+            if (data.epoxy_cure_time != -99)
+                $('input[name="epoxy_cure_time"]').val(data.epoxy_cure_time);
+            if (data.epoxy_gel_time != -99)
+                $('input[name="epoxy_gel_time"]').val(data.epoxy_gel_time);
+            if (data.epoxy_moisture_content != -99)
+                $('input[name="epoxy_moisture_content"]').val(data.epoxy_moisture_content);
+            if (data.epoxy_particle_size_150um != -99)
+                $('input[name="epoxy_particle_size_150um"]').val(data.epoxy_particle_size_150um);
+            if (data.epoxy_particle_size_250um != -99)
+                $('input[name="epoxy_particle_size_250um"]').val(data.epoxy_particle_size_250um);
+            if (data.epoxy_density != -99)
+                $('input[name="epoxy_density"]').val(data.epoxy_density);
+            if (data.epoxy_dsc_delta_h != -99)
+                $('input[name="epoxy_dsc_delta_h"]').val(data.epoxy_dsc_delta_h);
+            if (data.epoxy_dsc_tg2 != -99)
+                $('input[name="epoxy_dsc_tg2"]').val(data.epoxy_dsc_tg2);
+            if (data.adhesion_flow_rate != -99)
+                $('input[name="adhesion_flow_rate"]').val(data.adhesion_flow_rate);
+            if (data.polyethylene_flow_rate != -99)
+                $('input[name="polyethylene_flow_rate"]').val(data.polyethylene_flow_rate);
+            if (data.project_no != undefined)
+                $('input[name="project_no"]').val(data.project_no);
+            $('#result').val(data.result);
+            var imgUrl = data.upload_files;
+            if (imgUrl.length > 0) {
+                var imgArr = imgUrl.split(';');
+                var s = 'http://' + serverIP + '/upload/pictures/';
+                for (var i = 0; i < imgArr.length; i++) {
+                    if (imgArr[i] != undefined && imgArr[i].length > 0)
+                        $('.imgBox').append(pictureTemplate(imgArr[i], s + imgArr[i]));
+                }
+            }
+            $('#remark').val(data.remark);
+            validateAllValue();
+        }
+        //然后根据project_no获取实验标准
+        RequestRawMaterialCriteriaByProjecteNo(data.project_no);
+    }
+
+    function getPendingRecordInfoFail() {
+
+    }
+    //根据project_no获取实验标准成功
+    function GetRawMaterialCriteriaByProjectNoOK(data){
+        g_employeeno = data.employeeno;
+        initCriteria(data.raw2fbecriteria);
+        ClearLoadingPicture();
+    }
+    //根据project_no获取实验标准失败
+    function GetRawMaterialCriteriaByProjectNoFail(message){
+         api.alert({
+             msg: message
+         });
+         closeWindow();
+    }
     function submitForm() {
         if (initFormNumber()) {
             var s = 'http://' + serverIP + '/RawMaterialTesting3LpeOperation/saveRawMaterialTest3Lpe.action';
@@ -280,11 +347,11 @@
                         epoxy_particle_size_150um: $('input[name="epoxy_particle_size_150um"]').val(),
                         epoxy_particle_size_250um: $('input[name="epoxy_particle_size_250um"]').val(),
                         epoxy_density: $('input[name="epoxy_density"]').val(),
-                        epoxy_dsc_delta_h:$('input[name="epoxy_dsc_delta_h"]').val(),
+                        epoxy_dsc_delta_h: $('input[name="epoxy_dsc_delta_h"]').val(),
                         epoxy_dsc_tg2: $('input[name="epoxy_dsc_tg2"]').val(),
                         adhesion_flow_rate: $('input[name="adhesion_flow_rate"]').val(),
-                        polyethylene_flow_rate:$('input[name="polyethylene_flow_rate"]').val(),
-                        project_no:$('input[name="project_no"]').val(),
+                        polyethylene_flow_rate: $('input[name="polyethylene_flow_rate"]').val(),
+                        project_no: $('input[name="project_no"]').val(),
                         result: $('#result').val(),
                         upload_files: imgUrl,
                         remark: $('#remark').val(),
@@ -306,59 +373,9 @@
             });
         }
     }
-
-    function getPendingRecordInfoOK(data) {
-        if (data != undefined) {
-            $('.id').val(data.id);
-            if(data.sample_no!=undefined)
-            $('input[name="sample_no"]').val(data.sample_no);
-            $('#epoxy_raw_material').val(data.epoxy_raw_material);
-            if(data.epoxy_batch_no!=undefined)
-              $('input[name="epoxy_batch_no"]').val(data.epoxy_batch_no);
-            $('#adhesion_raw_material').val(data.adhesion_raw_material);
-            if(data.adhesion_batch_no!=undefined)
-              $('input[name="adhesion_batch_no"]').val(data.adhesion_batch_no);
-            $('#polyethylene_raw_material').val(data.polyethylene_raw_material);
-            if(data.polyethylene_batch_no!=undefined)
-              $('input[name="polyethylene_batch_no"]').val(data.polyethylene_batch_no);
-            if (data.epoxy_cure_time != -99)
-              $('input[name="epoxy_cure_time"]').val(data.epoxy_cure_time);
-            if (data.epoxy_gel_time != -99)
-              $('input[name="epoxy_gel_time"]').val(data.epoxy_gel_time);
-            if (data.epoxy_moisture_content != -99)
-              $('input[name="epoxy_moisture_content"]').val(data.epoxy_moisture_content);
-            if (data.epoxy_particle_size_150um != -99)
-              $('input[name="epoxy_particle_size_150um"]').val(data.epoxy_particle_size_150um);
-            if (data.epoxy_particle_size_250um != -99)
-              $('input[name="epoxy_particle_size_250um"]').val(data.epoxy_particle_size_250um);
-            if (data.epoxy_density != -99)
-              $('input[name="epoxy_density"]').val(data.epoxy_density);
-            if (data.epoxy_dsc_delta_h!= -99)
-              $('input[name="epoxy_dsc_delta_h"]').val(data.epoxy_dsc_delta_h);
-            if (data.epoxy_dsc_tg2!= -99)
-              $('input[name="epoxy_dsc_tg2"]').val(data.epoxy_dsc_tg2);
-            if (data.adhesion_flow_rate != -99)
-              $('input[name="adhesion_flow_rate"]').val(data.adhesion_flow_rate);
-            if (data.polyethylene_flow_rate != -99)
-              $('input[name="polyethylene_flow_rate"]').val(data.polyethylene_flow_rate);
-            if(data.project_no!=undefined)
-              $('input[name="project_no"]').val(data.project_no);
-            $('#result').val(data.result);
-            var imgUrl = data.upload_files;
-            if (imgUrl.length > 0) {
-                var imgArr = imgUrl.split(';');
-                var s = 'http://' + serverIP + '/upload/pictures/';
-                for (var i = 0; i < imgArr.length; i++) {
-                    if (imgArr[i] != undefined && imgArr[i].length > 0)
-                        $('.imgBox').append(pictureTemplate(imgArr[i], s + imgArr[i]));
-                }
-            }
-            $('#remark').val(data.remark);
-            validateAllValue();
-        }
+    function reloadLabTestingCriteria(){
+         clearLabelData();
+         RequestRawMaterialCriteriaByProjecteNo($('#project_no').val());
     }
 
-    function getPendingRecordInfoFail() {
-
-    }
 </script>

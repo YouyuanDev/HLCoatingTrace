@@ -1969,6 +1969,50 @@ function RequestRawMaterialTestingInfoById(id,url) {
 
     });
 }
+//获取项目编号和项目名集合
+function RequireProjectNo() {
+  api.addEventListener({
+      name: 'RequireProjectNoCallbackEvent'
+  }, function(ret, err) {
+      if (ret.value.success) {
+          RequireProjectNoOK(ret.value.data);
+      } else {
+          RequireProjectNoFail();
+      }
+  });
+    var s = 'http://' + serverIP + '/ProjectOperation/getProjectInfoByNoOrName.action';
+    api.ajax({
+        url: s,
+        method: 'post',
+        timeout: 30,
+        dataType: 'json',
+        data: {
+            values: {}
+        }
+    }, function(ret, err) {
+        if (ret) {
+            // for (var i = 0; i < ret.length; i++) {
+            //     $('#project_no').append('<option value=' + ret[i].project_no + '>' + ret[i].project_name + '</option>');
+            // }
+        } else {
+            api.alert({
+                msg: JSON.stringify(err)
+            });
+        }
+        api.sendEvent({
+            name: 'RequireProjectNoCallbackEvent',
+            extra: {
+                success: ret.success,
+                data: ret
+            }
+        });
+        //开始根据id获取实验记录
+        // if(g_id!=undefined){
+        //   RequestRawMaterialTestingInfoById(g_id,"RawMaterialTesting2FbeOperation/getRawMaterialTesting2FbeById.action");
+        // }
+    });
+}
+
 //根据project_no获取实验标准
 function RequestRawMaterialCriteriaByProjecteNo(project_no) {
     api.addEventListener({
