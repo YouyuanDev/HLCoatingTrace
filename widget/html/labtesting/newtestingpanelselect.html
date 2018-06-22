@@ -12,8 +12,8 @@
 
 <body>
     <header class="form-nav" id="header">
-        <div class="arrow" tapmode onclick="closeWindow();"></div>
-        <span class="nav-pipeno i18n1" name="pleaseselectpipeno" style="display:inline-block;margin-left:-43px;line-height:43px;">请选择管号</span>
+        <div class="arrow" tapmode onclick="closeWindowNoPipeNo();"></div>
+        <span class="nav-pipeno" name="pleaseselectpipeno" style="display:inline-block;margin-left:-43px;line-height:43px;"></span>
     </header>
     <div class="form-content" id="content">
       <div class="form-item">
@@ -27,7 +27,7 @@
       </div>
       <div class="form-item">
           <div class="form-item-lbl">
-              <label class="i18n1 pipe_no_lbl" name="pipeno"></label>
+              <label class="i18n1 pipe_no_lbl" name="testingpipeno"></label>
           </div>
           <div class="form-item-val">
               <select class="model-select" id="pipe_no" class="pipe_no">
@@ -37,7 +37,7 @@
     </div>
     <footer class="form-footer" id=footer>
         <div id="foot-container" style="width:100%;height:43px;display:flex;justify-content:center;align-items:center;" class="foot-container">
-            <div class="i18n1 form-process-button" name="confirm" onclick="submitForm()">确定</div>
+            <div class="i18n1 form-process-button" name="new" onclick="submitForm()">确定</div>
         </div>
     </footer>
 </body>
@@ -54,6 +54,8 @@
         DoLoadingPicture();
         var data = api.pageParam;
         testing_type = data.testing_type;
+        fnSettingHeader();
+        $('.nav-pipeno').text("新建成品"+testing_type+"实验");
         //获取所有的项目编号和名称
         RequireProjectNo();
         hlLanguage("../../i18n/");
@@ -61,8 +63,12 @@
     function RequireProjectNoOK(data){
       $('#project_no').empty();
       for (var i = 0; i < data.length; i++) {
-          $('#project_no').append('<option value=' + data[i].project_no + '>' + data[i].project_name + '</option>');
+          if(i==0)
+            $('#project_no').append('<option value=' + data[i].project_no + ' selected="selected">' + data[i].project_name + '</option>');
+          else
+           $('#project_no').append('<option value=' + data[i].project_no + '>' + data[i].project_name + '</option>');
       }
+       getPipeNoListByProjectNo($('#project_no').val());
     }
     function RequireProjectNoFail(){
       api.alert({
@@ -71,7 +77,7 @@
       closeWindowNoPipeNo();
     }
     function reloadPipeNoList(){
-
+          getPipeNoListByProjectNo($('#project_no').val());
     }
     function submitForm(){
         var pipe_no=$('#pipe_no').val();
@@ -93,7 +99,7 @@
               name: 'labtesting2fbe',
               url: './labtesting2fbe.html',
               pageParam: {
-                  pipe_no: undefined
+                  pipe_no: pipe_no
               }
           });
         }else if(testing_type=="3LPE"){
@@ -101,7 +107,7 @@
               name: 'labtesting3lpe',
               url: './labtesting3lpe.html',
               pageParam: {
-                  pipe_no: undefined
+                  pipe_no: pipe_no
               }
           });
         }else if(testing_type=="EPOXY"){
@@ -109,9 +115,46 @@
               name: 'labtestingepoxy',
               url: './labtestingepoxy.html',
               pageParam: {
-                  pipe_no: undefined
+                  pipe_no: pipe_no
               }
           });
         }
+    }
+    //根据项目编号获取要实验的钢管编号
+    function getPipeNoListByProjectNo(project_no){
+      $('#pipe_no').empty();
+      var s;
+      if(testing_type=="2FBE"){
+          s = 'http://' + serverIP + '/pipeinfo/getAll2FBESamplePipe.action';
+      }else if(testing_type=="3LPE"){
+          s = 'http://' + serverIP + '/pipeinfo/getAll3LPESamplePipe.action';
+      }else if(testing_type=="EPOXY"){
+          s = 'http://' + serverIP + '/pipeinfo/getAllEpoxySamplePipe.action';
+      }
+      api.ajax({
+          url: s,
+          method: 'post',
+          timeout: 30,
+          dataType: 'json',
+          data: {
+              values: {
+                  project_no: project_no
+              }
+          }
+      }, function(ret, err) {
+          ClearLoadingPicture();
+          if (ret) {
+            for (var i = 0; i < ret.length; i++) {
+                if(i==0)
+                  $('#pipe_no').append('<option value=' + ret[i].pipe_no + ' selected="selected">' + ret[i].pipe_no + '</option>');
+                else
+                 $('#pipe_no').append('<option value=' + ret[i].pipe_no + '>' + ret[i].pipe_no + '</option>');
+            }
+          } else {
+              api.alert({
+                  msg: JSON.stringify(err)
+              });
+          }
+      });
     }
 </script>

@@ -10,7 +10,6 @@
     <link rel="stylesheet" type="text/css" href="../css/style.css" />
     <link rel='stylesheet prefetch' href='../css/animate.min.css'>
     <style>
-
         .empty {
             text-align: center;
             padding: 120px 0;
@@ -102,7 +101,7 @@
         .form-btn-container {
             width: 100%;
             height: auto;
-            display:flex;
+            display: flex;
             padding: 5px 0px;
         }
 
@@ -111,8 +110,8 @@
             margin: 0px 4px;
             padding: 10px 0px;
             text-align: center;
-            border-radius:50%;
-            color:white;
+            border-radius: 50%;
+            color: white;
         }
 
         .form-btn-container .form-selfbtn:nth-child(1) {
@@ -126,7 +125,6 @@
         .form-btn-container .form-selfbtn:nth-child(3) {
             background-color: #CD3700;
         }
-
     </style>
 </head>
 
@@ -190,35 +188,53 @@
 <script type="text/javascript">
     var start = 1;
     apiready = function() {
-            RequireProjectNo();
-            dropdownLoading();
-            isRollingToEnd();
-        }
-        //获取项目信息
-    function RequireProjectNo() {
-        $('#projectInfoSelect').empty();
-        var s = 'http://' + serverIP + '/ProjectOperation/getProjectInfoByNoOrName.action';
-        api.ajax({
-            url: s,
-            method: 'post',
-            timeout: 30,
-            dataType: 'json',
-            data: {
-                values: {}
-            }
-        }, function(ret, err) {
-            if (ret) {
-                for (var i = 0; i < ret.length; i++) {
-                    $('#projectInfoSelect').append('<option value=' + ret[i].project_no + '>' + ret[i].project_name + '</option>');
-                }
-                getLabTestingInfoByProjectNo($('#projectInfoSelect').val(), start);
-            } else {
-                api.alert({
-                    msg: JSON.stringify(err)
-                });
-            }
-        });
+        RequireProjectNo();
+        dropdownLoading();
+        isRollingToEnd();
     }
+
+    function RequireProjectNoOK(data) {
+        $('#projectInfoSelect').empty();
+        for (var i = 0; i < data.length; i++) {
+            if (i == 0)
+                $('#projectInfoSelect').append('<option value=' + data[i].project_no + ' selected="selected">' + data[i].project_name + '</option>');
+            else
+                $('#projectInfoSelect').append('<option value=' + data[i].project_no + '>' + data[i].project_name + '</option>');
+        }
+        getLabTestingInfoByProjectNo($('#projectInfoSelect').val(), start);
+    }
+
+    function RequireProjectNoFail() {
+        api.alert({
+            msg: "获取项目编号时出错!"
+        });
+        closeWindowNoPipeNo();
+    }
+    //获取项目信息
+    // function RequireProjectNo() {
+    //     $('#projectInfoSelect').empty();
+    //     var s = 'http://' + serverIP + '/ProjectOperation/getProjectInfoByNoOrName.action';
+    //     api.ajax({
+    //         url: s,
+    //         method: 'post',
+    //         timeout: 30,
+    //         dataType: 'json',
+    //         data: {
+    //             values: {}
+    //         }
+    //     }, function(ret, err) {
+    //         if (ret) {
+    //             for (var i = 0; i < ret.length; i++) {
+    //                 $('#projectInfoSelect').append('<option value=' + ret[i].project_no + '>' + ret[i].project_name + '</option>');
+    //             }
+    //             getLabTestingInfoByProjectNo($('#projectInfoSelect').val(), start);
+    //         } else {
+    //             api.alert({
+    //                 msg: JSON.stringify(err)
+    //             });
+    //         }
+    //     });
+    // }
     //APP根据项目编号获取试验信息
     function getLabTestingInfoByProjectNo(project_no, start) {
         //alert(project_no);
@@ -268,7 +284,7 @@
             title += " 2FBE";
         else if (testing_type.indexOf('3LPE') != -1)
             title += " 3LPE";
-        else if(testing_type.indexOf('EPOXY')!=-1)
+        else if (testing_type.indexOf('EPOXY') != -1)
             title += " EPOXY";
         if (sample_type.indexOf('REGULAR') != -1)
             title += " 常规实验";
@@ -278,27 +294,26 @@
             title += " PE实验";
         else if (sample_type.indexOf('GLASS') != -1)
             title += " GLASS实验";
-        template += '<div class="item style1" data-id='+id+' data-pipe-no=' + pipe_no + ' data-sample-type=' + sample_type + '  data-testing-type=' + testing_type + ' onclick="goTestingBySampleType(this);">';
+        template += '<div class="item style1" data-id=' + id + ' data-pipe-no=' + pipe_no + ' data-sample-type=' + sample_type + '  data-testing-type=' + testing_type + ' onclick="goTestingBySampleType(this);">';
         //lab实验|| testing_type.indexOf('LAB3LPE') != -1 || testing_type.indexOf('LABEPOXY') != -1
-        if (testing_type.indexOf('LAB2FBE') != -1 ) {
+        if (testing_type.indexOf('LAB2FBE') != -1) {
             template += '<div class="itemlogo userlogo"><img src="../image/pipe_2fbe.png" alt=""></div>';
-        }else if(testing_type.indexOf('LAB3LPE') != -1){
+        } else if (testing_type.indexOf('LAB3LPE') != -1) {
             template += '<div class="itemlogo userlogo"><img src="../image/pipe_3lpe.png" alt=""></div>';
-        }else if(testing_type.indexOf('LABEPOXY') != -1){
+        } else if (testing_type.indexOf('LABEPOXY') != -1) {
             template += '<div class="itemlogo userlogo"><img src="../image/pipe_epoxy.png" alt=""></div>';
-        }else if(testing_type.indexOf('RAW2FBE') != -1){
+        } else if (testing_type.indexOf('RAW2FBE') != -1) {
             template += '<div class="itemlogo userlogo"><img src="../image/raw_2fbe.png" alt=""></div>';
-        }else if(testing_type.indexOf('RAW3LPE') != -1){
+        } else if (testing_type.indexOf('RAW3LPE') != -1) {
             template += '<div class="itemlogo userlogo"><img src="../image/raw_3lpe.png" alt=""></div>';
-        }
-         else if(testing_type.indexOf('RAWEPOXY') != -1){ //原材料实验
+        } else if (testing_type.indexOf('RAWEPOXY') != -1) { //原材料实验
             template += '<div class="itemlogo userlogo"><img src="../image/raw_epoxy.png" alt=""></div>';
         }
-        if(pipe_no==undefined)
-           pipe_no="";
+        if (pipe_no == undefined)
+            pipe_no = "";
         template += '<div class="itemshelf">' +
             '<div class="shelfinfo01"><span class="pei pipeno-span">' + title + '</span></div>' +
-            '<div class="shelfinfo02"><span class="contractno-span">' + getDate1(operation_time) +'</span><span>'+pipe_no+'<span></div>' +
+            '<div class="shelfinfo02"><span class="contractno-span">' + getDate1(operation_time) + '</span><span>' + pipe_no + '<span></div>' +
             '</div>' +
             '<div class="itemshelf"><span class="status-span">' + result + '</span></div>' +
             '</div>';
@@ -339,13 +354,13 @@
         var testing_type = $(obj).attr('data-testing-type');
         var sample_type = $(obj).attr('data-sample-type');
         var pipe_no = $(obj).attr('data-pipe-no');
-        var id=$(obj).attr('data-id');
+        var id = $(obj).attr('data-id');
         if (testing_type.indexOf('LAB2FBE') != -1) {
             api.openWin({
                 name: 'labtesting2fbe',
                 url: './labtesting/labtesting2fbe.html',
                 pageParam: {
-                    pipe_no:pipe_no
+                    pipe_no: pipe_no
                 }
             });
         } else if (testing_type.indexOf('LAB3LPE') != -1) {
@@ -353,7 +368,7 @@
                 name: 'labtesting3lpe',
                 url: './labtesting/labtesting3lpe.html',
                 pageParam: {
-                    pipe_no:pipe_no
+                    pipe_no: pipe_no
                 }
             });
         } else if (testing_type.indexOf('LABEPOXY') != -1) {
@@ -361,7 +376,7 @@
                 name: 'labtestingepoxy',
                 url: './labtesting/labtestingepoxy.html',
                 pageParam: {
-                    pipe_no:pipe_no
+                    pipe_no: pipe_no
                 }
             });
         } else if (testing_type.indexOf('RAW2FBE') != -1) {
@@ -369,7 +384,7 @@
                 name: 'rawmaterialtesting2fbe',
                 url: './labtesting/rawmaterialtesting2fbe.html',
                 pageParam: {
-                    id:id
+                    id: id
                 }
             });
         } else if (testing_type.indexOf('RAW3LPE') != -1) {
@@ -377,7 +392,7 @@
                 name: 'rawmaterialtesting3lpe',
                 url: './labtesting/rawmaterialtesting3lpe.html',
                 pageParam: {
-                    id:id
+                    id: id
                 }
             });
         } else if (testing_type.indexOf('RAWEPOXY') != -1) {
@@ -385,14 +400,15 @@
                 name: 'rawmaterialtestingliquidepoxy',
                 url: './labtesting/rawmaterialtestingliquidepoxy.html',
                 pageParam: {
-                    id:id
+                    id: id
                 }
             });
         }
     }
-    function reloadLabTestingInfoByProjectNo(){
-       start=1;
-       $('.labinfo-div').empty();
-       getLabTestingInfoByProjectNo($('#projectInfoSelect').val(),start);
+
+    function reloadLabTestingInfoByProjectNo() {
+        start = 1;
+        $('.labinfo-div').empty();
+        getLabTestingInfoByProjectNo($('#projectInfoSelect').val(), start);
     }
 </script>
