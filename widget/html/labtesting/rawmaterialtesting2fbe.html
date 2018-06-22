@@ -13,7 +13,7 @@
 
 <body>
     <header class="form-nav" id="header">
-        <div class="arrow" tapmode onclick="closeWindow();"></div>
+        <div class="arrow" tapmode onclick="closeWindowNoPipeNo();"></div>
         <span class="nav-pipeno i18n1" name="rawmaterialtesting2fbe" style="display:inline-block;margin-left:-43px;line-height:43px;"></span>
     </header>
     <div class="form-content" id="content">
@@ -262,40 +262,16 @@
       }
       if(g_id!=undefined){
           RequestRawMaterialTestingInfoById(g_id,"RawMaterialTesting2FbeOperation/getRawMaterialTesting2FbeById.action");
+      }else{
+          ClearLoadingPicture();
       }
     }
     function RequireProjectNoFail(){
-
+      api.alert({
+          msg:"获取项目编号时出错!"
+      });
+      closeWindow();
     }
-    //获取项目集合
-    // function RequireProjectNo() {
-    //     $('#project_no').empty();
-    //     var s = 'http://' + serverIP + '/ProjectOperation/getProjectInfoByNoOrName.action';
-    //     api.ajax({
-    //         url: s,
-    //         method: 'post',
-    //         timeout: 30,
-    //         dataType: 'json',
-    //         data: {
-    //             values: {}
-    //         }
-    //     }, function(ret, err) {
-    //         if (ret) {
-    //             for (var i = 0; i < ret.length; i++) {
-    //                 $('#project_no').append('<option value=' + ret[i].project_no + '>' + ret[i].project_name + '</option>');
-    //             }
-    //
-    //         } else {
-    //             api.alert({
-    //                 msg: JSON.stringify(err)
-    //             });
-    //         }
-    //         //开始根据id获取实验记录
-    //         if(g_id!=undefined){
-    //           RequestRawMaterialTestingInfoById(g_id,"RawMaterialTesting2FbeOperation/getRawMaterialTesting2FbeById.action");
-    //         }
-    //     });
-    // }
     //根据id获取实验数据成功
     function GetRawMaterialTestingInfoByIdOK(data){
       if (data != undefined) {
@@ -339,27 +315,27 @@
               }
           }
           $('#remark').val(data.remark);
-          validateAllValue();
+          if(data.result=="1"){
+             $('.form-process-button').hide();
+          }
       }
       //然后根据project_no获取实验标准
       RequestRawMaterialCriteriaByProjecteNo(data.project_no);
     }
     //根据id获取实验数据失败
     function GetRawMaterialTestingInfoByIdFail(){
-
+        ClearLoadingPicture();
     }
     //根据project_no获取实验标准成功
     function GetRawMaterialCriteriaByProjectNoOK(data){
         g_employeeno = data.employeeno;
         initCriteria(data.raw2fbecriteria);
         ClearLoadingPicture();
+        validateAllValue();
     }
     //根据project_no获取实验标准失败
     function GetRawMaterialCriteriaByProjectNoFail(message){
-         api.alert({
-             msg: message
-         });
-         closeWindow();
+        ClearLoadingPicture();
     }
     function submitForm() {
         if (initFormNumber()) {
@@ -371,6 +347,8 @@
                     imgUrl += (temp + ";");
                 }
             });
+            // alert($('#project_no').val());
+            // return;
             api.ajax({
                 url: s,
                 method: 'post',
@@ -409,6 +387,7 @@
                     api.alert({
                         msg: ret.message
                     });
+                    closeWindowNoPipeNo();
                 } else {
                     api.alert({
                         msg: JSON.stringify(err)

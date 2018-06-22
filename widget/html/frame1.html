@@ -235,6 +235,8 @@
             title += " 2FBE";
         else if (testing_type.indexOf('3LPE') != -1)
             title += " 3LPE";
+        else if(testing_type.indexOf('EPOXY')!=-1)
+            title += " EPOXY";
         if (sample_type.indexOf('REGULAR') != -1)
             title += " 常规实验";
         else if (sample_type.indexOf('DSC') != -1)
@@ -252,11 +254,12 @@
         }
         template += '<div class="itemshelf">' +
             '<div class="shelfinfo01"><span class="pei pipeno-span">' + title + '</span></div>' +
-            '<div class="shelfinfo02"><span class="contractno-span">' + getDate1(operation_time) + '</span></div>' +
+            '<div class="shelfinfo02"><span class="contractno-span">' + getDate1(operation_time) +'</span></div>' +
             '</div>' +
             '<div class="itemshelf"><span class="status-span">' + result + '</span></div>' +
             '</div>';
         return template;
+
     }
 
     function dropdownLoading() {

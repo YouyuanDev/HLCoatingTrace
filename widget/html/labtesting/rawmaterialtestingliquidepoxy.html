@@ -25,7 +25,9 @@
                 <label class="i18n1 project_no_lbl" name="projectno"></label>
             </div>
             <div class="form-item-val">
-                <input class="project_no" type="text" name="project_no" />
+                <!-- <input class="project_no" type="text" name="project_no" /> -->
+                <select class="model-select" id="project_no" class="project_no" onchange="reloadLabTestingCriteria()">
+                </select>
             </div>
         </div>
         <div class="form-item">
@@ -41,7 +43,7 @@
                 <label class="i18n1 raw_material_lbl" name="rawmaterial"></label>
             </div>
             <div class="form-item-val">
-              <select class="model-select FBE" id="raw_material" name="raw_material">
+                <select class="model-select EPOXY" id="raw_material" name="raw_material">
 
               </select>
             </div>
@@ -59,7 +61,7 @@
                 <label class="i18n1 pot_life_lbl" name="potlife"></label>
             </div>
             <div class="form-item-val">
-                <input  class="pot_life" type="text" name="pot_life" />
+                <input class="pot_life" type="text" name="pot_life" />
             </div>
         </div>
 
@@ -118,35 +120,77 @@
 <script src="../../script/language.js" type="text/javascript"></script>
 <script src="../../script/mobiscroll.custom-3.0.0-beta6.min.js" type="text/javascript"></script>
 <script type="text/javascript">
-    var g_pipeno;
+    var g_id;
     var g_employeeno, g_millno;
     var g_loadingID = 0;
     apiready = function() {
-            DoLoadingPicture();
-            var data = api.pageParam;
-            g_pipeno = data.pipe_no;
-            fnSettingHeader();
-            hlLanguage("../../i18n/");
-            RequestAllProcessInfoByPipeNo(g_pipeno);
-        }
-        //得到钢管数据汇总成功
-    function GetAllProcessInfoByPipeNoOK(data) {
-        ClearLoadingPicture();
-        g_employeeno = data.employeeno;
-        g_millno = data.millno;
+        DoLoadingPicture();
+        var data = api.pageParam;
+        g_id = data.id;
+        fnSettingHeader();
+        hlLanguage("../../i18n/");
         setControls();
+        RequireProjectNo();
         setSelectPictures();
-        getPendingRecordInfo("RawMaterialTestingLiquidEpoxyOperation", g_pipeno);
     }
-    //得到实验接收标准失败
-    function GetAllProcessInfoByPipeNoFail(message) {
+    function RequireProjectNoOK(data) {
+        $('#project_no').empty();
+        for (var i = 0; i < data.length; i++) {
+            $('#project_no').append('<option value=' + data[i].project_no + '>' + data[i].project_name + '</option>');
+        }
+        if (g_id != undefined) {
+            RequestRawMaterialTestingInfoById(g_id, "RawMaterialTestingLiquidEpoxyOperation/getRawMaterialTestingLiquidEpoxyById.action");
+        }else{
+            ClearLoadingPicture();
+        }
+    }
+    function RequireProjectNoFail() {
+      api.alert({
+          msg:"获取项目编号时出错!"
+      });
+      closeWindow();
+    }
+    function GetRawMaterialTestingInfoByIdOK(data) {
+        if (data != undefined) {
+            $('.id').val(data.id);
+            $('input[name="sample_no"]').val(data.sample_no);
+            $('#raw_material').val(data.raw_material);
+            $('input[name="batch_no"]').val(data.batch_no);
+            if (data.pot_life != undefined)
+                $('input[name="pot_life"]').val(data.pot_life);
+            if (data.viscosity != undefined)
+                $('input[name="viscosity"]').val(data.viscosity);
+            $('#result').val(data.result);
+            var imgUrl = data.upload_files;
+            if (imgUrl.length > 0) {
+                var imgArr = imgUrl.split(';');
+                var s = 'http://' + serverIP + '/upload/pictures/';
+                for (var i = 0; i < imgArr.length; i++) {
+                    if (imgArr[i] != undefined && imgArr[i].length > 0)
+                        $('.imgBox').append(pictureTemplate(imgArr[i], s + imgArr[i]));
+                }
+            }
+            $('#remark').val(data.remark);
+            if(data.result=="1"){
+              $('.form-process-button').hide();
+            }
+            validateAllValue();
+        }
+        //然后根据project_no获取实验标准
+        RequestRawMaterialCriteriaByProjecteNo(data.project_no);
+    }
+    function GetRawMaterialTestingInfoByIdFail() {
         ClearLoadingPicture();
-        api.alert({
-            msg: message
-        });
-        closeWindow();
     }
-
+    //根据project_no获取实验标准成功
+    function GetRawMaterialCriteriaByProjectNoOK(data){
+        g_employeeno = data.employeeno;
+        ClearLoadingPicture();
+    }
+    //根据project_no获取实验标准失败
+    function GetRawMaterialCriteriaByProjectNoFail(message){
+        ClearLoadingPicture();
+    }
     function submitForm() {
         if (initFormNumber()) {
             var s = 'http://' + serverIP + '/RawMaterialTestingLiquidEpoxyOperation/saveRawMaterialTestEpoxy.action';
@@ -171,7 +215,7 @@
                         batch_no: $('input[name="batch_no"]').val(),
                         pot_life: $('input[name="pot_life"]').val(),
                         viscosity: $('input[name="viscosity"]').val(),
-                        project_no:$('input[name="project_no"]').val(),
+                        project_no: $('#project_no').val(),
                         result: $('#result').val(),
                         upload_files: imgUrl,
                         remark: $('#remark').val(),
@@ -182,9 +226,7 @@
                     api.alert({
                         msg: ret.message
                     });
-                    if (ret.success) {
-                        closeWindow();
-                    }
+                    closeWindowNoPipeNo();
                 } else {
                     api.alert({
                         msg: JSON.stringify(err)
@@ -194,32 +236,5 @@
         }
     }
 
-    function getPendingRecordInfoOK(data) {
-        if (data != undefined) {
-            $('.id').val(data.id);
-            $('input[name="sample_no"]').val(data.sample_no);
-            $('#raw_material').val(data.raw_material);
-            $('input[name="batch_no"]').val(data.batch_no);
-            if (data.pot_life !=undefined)
-               $('input[name="pot_life"]').val(data.pot_life);
-            if (data.viscosity !=undefined)
-              $('input[name="viscosity"]').val(data.viscosity);
-            $('#result').val(data.result);
-            var imgUrl = data.upload_files;
-            if (imgUrl.length > 0) {
-                var imgArr = imgUrl.split(';');
-                var s = 'http://' + serverIP + '/upload/pictures/';
-                for (var i = 0; i < imgArr.length; i++) {
-                    if (imgArr[i] != undefined && imgArr[i].length > 0)
-                        $('.imgBox').append(pictureTemplate(imgArr[i], s + imgArr[i]));
-                }
-            }
-            $('#remark').val(data.remark);
-            validateAllValue();
-        }
-    }
 
-    function getPendingRecordInfoFail() {
-
-    }
 </script>

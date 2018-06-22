@@ -1,5 +1,5 @@
 var header, headerHeight = 0;
-var serverIP = '192.168.0.12:8080';
+var serverIP = '192.168.0.11:8080';
 
 function fnSettingHeader() {
 
@@ -1974,7 +1974,7 @@ function RequireProjectNo() {
   api.addEventListener({
       name: 'RequireProjectNoCallbackEvent'
   }, function(ret, err) {
-      if (ret.value.success) {
+      if (ret.value.data!=undefined) {
           RequireProjectNoOK(ret.value.data);
       } else {
           RequireProjectNoFail();
@@ -1991,9 +1991,7 @@ function RequireProjectNo() {
         }
     }, function(ret, err) {
         if (ret) {
-            // for (var i = 0; i < ret.length; i++) {
-            //     $('#project_no').append('<option value=' + ret[i].project_no + '>' + ret[i].project_name + '</option>');
-            // }
+
         } else {
             api.alert({
                 msg: JSON.stringify(err)
@@ -2002,14 +2000,9 @@ function RequireProjectNo() {
         api.sendEvent({
             name: 'RequireProjectNoCallbackEvent',
             extra: {
-                success: ret.success,
                 data: ret
             }
         });
-        //开始根据id获取实验记录
-        // if(g_id!=undefined){
-        //   RequestRawMaterialTestingInfoById(g_id,"RawMaterialTesting2FbeOperation/getRawMaterialTesting2FbeById.action");
-        // }
     });
 }
 
@@ -2053,4 +2046,7 @@ function RequestRawMaterialCriteriaByProjecteNo(project_no) {
         });
 
     });
+}
+function closeWindowNoPipeNo(){
+   api.closeWin();
 }
