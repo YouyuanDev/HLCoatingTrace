@@ -280,7 +280,6 @@
         var urlepoxy="../image/pipe_epoxy.png";
         var urldefault="../image/pipe2.png";
         var url="";
-        alert(pipe.external_coating);
         if(pipe.external_coating=="2FBE"){
           url=url2fbe;
         }else if(pipe.external_coating=="3LPE"){
@@ -288,7 +287,6 @@
         }else{
           url=urldefault;
         }
-        alert(url);
         var template = '<div class="item style1"  onclick="goPipeInfoRoot(' + pipe.pipe_no + ');">' +
             '<div class="itemlogo userlogo"><img src="'+url+'" alt=""></div>' +
             '<div class="itemshelf">' +
