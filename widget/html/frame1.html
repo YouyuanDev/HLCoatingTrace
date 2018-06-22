@@ -10,6 +10,7 @@
     <link rel="stylesheet" type="text/css" href="../css/style.css" />
     <link rel='stylesheet prefetch' href='../css/animate.min.css'>
     <style>
+      
         .empty {
             text-align: center;
             padding: 120px 0;
@@ -125,7 +126,7 @@
         .form-btn-container .form-selfbtn:nth-child(3) {
             background-color: #CD3700;
         }
-         
+
     </style>
 </head>
 
@@ -278,15 +279,26 @@
         else if (sample_type.indexOf('GLASS') != -1)
             title += " GLASS实验";
         template += '<div class="item style1" data-id='+id+' data-pipe-no=' + pipe_no + ' data-sample-type=' + sample_type + '  data-testing-type=' + testing_type + ' onclick="goTestingBySampleType(this);">';
-        //lab实验
-        if (testing_type.indexOf('LAB2FBE') != -1 || testing_type.indexOf('LAB3LPE') != -1 || testing_type.indexOf('LABEPOXY') != -1) {
-            template += '<div class="itemlogo userlogo"><img src="../image/pipe2.png" alt=""></div>';
-        } else { //原材料实验
-            template += '<div class="itemlogo userlogo"><img src="../image/rawmaterial.png" alt=""></div>';
+        //lab实验|| testing_type.indexOf('LAB3LPE') != -1 || testing_type.indexOf('LABEPOXY') != -1
+        if (testing_type.indexOf('LAB2FBE') != -1 ) {
+            template += '<div class="itemlogo userlogo"><img src="../image/pipe_2fbe.png" alt=""></div>';
+        }else if(testing_type.indexOf('LAB3LPE') != -1){
+            template += '<div class="itemlogo userlogo"><img src="../image/pipe_3lpe.png" alt=""></div>';
+        }else if(testing_type.indexOf('LABEPOXY') != -1){
+            template += '<div class="itemlogo userlogo"><img src="../image/pipe_epoxy.png" alt=""></div>';
+        }else if(testing_type.indexOf('RAW2FBE') != -1){
+            template += '<div class="itemlogo userlogo"><img src="../image/raw_2fbe.png" alt=""></div>';
+        }else if(testing_type.indexOf('RAW3LPE') != -1){
+            template += '<div class="itemlogo userlogo"><img src="../image/raw_3lpe.png" alt=""></div>';
         }
+         else if(testing_type.indexOf('RAWEPOXY') != -1){ //原材料实验
+            template += '<div class="itemlogo userlogo"><img src="../image/raw_epoxy.png" alt=""></div>';
+        }
+        if(pipe_no==undefined)
+           pipe_no="";
         template += '<div class="itemshelf">' +
             '<div class="shelfinfo01"><span class="pei pipeno-span">' + title + '</span></div>' +
-            '<div class="shelfinfo02"><span class="contractno-span">' + getDate1(operation_time) +'</span></div>' +
+            '<div class="shelfinfo02"><span class="contractno-span">' + getDate1(operation_time) +'</span><span>'+pipe_no+'<span></div>' +
             '</div>' +
             '<div class="itemshelf"><span class="status-span">' + result + '</span></div>' +
             '</div>';
@@ -383,43 +395,4 @@
        $('.labinfo-div').empty();
        getLabTestingInfoByProjectNo($('#projectInfoSelect').val(),start);
     }
-    function RawMaterial2fbe(){
-      api.openWin({
-          name: 'rawmaterialtesting2fbe',
-          url: './labtesting/rawmaterialtesting2fbe.html',
-          pageParam: {
-              id:undefined
-          }
-      });
-    }
-    function RawMaterial3lpe(){
-      api.openWin({
-          name: 'rawmaterialtesting3lpe',
-          url: './labtesting/rawmaterialtesting3lpe.html',
-          pageParam: {
-              id:undefined
-          }
-      });
-    }
-    function RawMaterialEpoxy(){
-      api.openWin({
-          name: 'rawmaterialtestingliquidepoxy',
-          url: './labtesting/rawmaterialtestingliquidepoxy.html',
-          pageParam: {
-              id:undefined
-          }
-      });
-    }
-    // function showNewTestingLink(){
-    //     var flag=$('#float-btn-container').attr('data-isshow');
-    //     if(flag=="show"){
-    //        $('.float-btn-item').hide();
-    //       $('.float-btn-item').addClass('animated zoomOut')
-    //       $('#float-btn-container').attr('data-isshow','hide')
-    //     }else{
-    //       $('.float-btn-item').show();
-    //       $('#float-btn-container').attr('data-isshow','show');
-    //       $('.float-btn-item').addClass('animated slideInRight');
-    //     }
-    // }
 </script>

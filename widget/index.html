@@ -403,14 +403,16 @@
     }
 
     function showNewTestingLink() {
+        $("body").addClass('mask');
         api.openFrame({
             name: 'newtestingpanel',
             url: './html/labtesting/newtestingpanel.html',
+            bgColor:'rgba(0,0,0,0.8)',
             rect:{
                 x: 0,
                 y: 0,
                 w:'auto',
-                h:200,
+                h:'auto',
                 marginLeft: 0,
                 marginTop: 0,
                 marginBottom: 0,
@@ -419,7 +421,7 @@
             animation: {
                 type: "movein",
                 subType: "from_top",
-                duration: 500
+                duration:300
             }
         });
     }
