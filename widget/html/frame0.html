@@ -283,6 +283,7 @@
         var urlepoxy="../image/pipe_epoxy.png";
         var urldefault="../image/pipe2.png";
         var url="";
+        var title = pipe.project_name+' '+pipe.external_coating+' '+pipe.internal_coating;
         if(pipe.external_coating=="2FBE"){
           url=url2fbe;
         }else if(pipe.external_coating=="3LPE"){
@@ -294,6 +295,7 @@
             '<div class="itemlogo userlogo"><img src="'+url+'" alt=""></div>' +
             '<div class="itemshelf">' +
             '<div class="shelfinfo01"><span class="pei pipeno-span">' + pipe.pipe_no + '</span></div>' +
+            '<div class="shelfinfo02"><span class="contractno-span">' + title + '</span></div>' +
             '<div class="shelfinfo02"><span class="contractno-span">' + pipe.contract_no + '</span><span class="od-span">' + pipe.od + '</span><span class="wt-span">' + pipe.wt + '</span></div>' +
             '</div>' +
             '<div class="itemshelf"><span class="status-span i18n1" name="' + pipe.status + '"></span></div>' +
