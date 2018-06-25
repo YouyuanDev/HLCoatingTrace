@@ -190,7 +190,14 @@
 
                     </div>
                 </li>
-                <li class="border-b i18n1" name="shipping">发运</li>
+                <li class="border-b" name="shipping">
+                    <span class="i18n1" name="shipping"></span>
+                    <div class="show-float-btn" data-isshow="hide" id="float-btn-container" onclick="newShipment()">
+                        <!-- 新建 -->
+
+                    </div>
+
+                </li>
                 <li class="border-b i18n1" name="statistics">统计</li>
                 <li class="border-b i18n1" name="personal">个人信息</li>
             </ul>
@@ -270,7 +277,7 @@
                 }
             });
         });
-        hlLanguage("./i18n/");
+        //hlLanguage("./i18n/");
     }
 
     //发送查询管号事件
@@ -379,7 +386,7 @@
         $api.addCls(eFootLis[index], 'active');
         $api.addCls(eHeaderLis[index], 'active');
 
-        if (index == 1 ||index == 2|| index == 3 || index == 4) {
+        if (index == 1 || index == 2 || index == 3 || index == 4) {
             var UIInput = api.require('UIInput');
             UIInput.hide({
                 id: UIInputId
@@ -406,12 +413,12 @@
         api.openFrame({
             name: 'newtestingpanel',
             url: './html/labtesting/newtestingpanel.html',
-            bgColor:'rgba(0,0,0,0.8)',
-            rect:{
+            bgColor: 'rgba(0,0,0,0.8)',
+            rect: {
                 x: 0,
                 y: 0,
-                w:'auto',
-                h:'auto',
+                w: 'auto',
+                h: 'auto',
                 marginLeft: 0,
                 marginTop: 0,
                 marginBottom: 0,
@@ -420,7 +427,17 @@
             animation: {
                 type: "movein",
                 subType: "from_top",
-                duration:300
+                duration: 300
+            }
+        });
+    }
+
+    function newShipment() {
+        api.openWin({
+            name: 'shipmentManagement',
+            url: './html/storage/shipmentManagement.html',
+            pageParam: {
+                shipment_no: undefined
             }
         });
     }

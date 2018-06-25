@@ -106,9 +106,11 @@
 </body>
 
 </html>
-<script type="text/javascript" src="script/api.js"></script>
+<script type="text/javascript" src="../script/api.js"></script>
 <script type="text/javascript" src="../script/jquery-3.3.1.min.js"></script>
 <script type="text/javascript" src="../script/common.js"></script>
+<script src="../script/jquery.i18n.properties-1.0.9.js" type="text/javascript"></script>
+<script src="../script/language.js" type="text/javascript"></script>
 <script type="text/javascript">
     //var serverIP='192.168.0.11';
 
@@ -266,12 +268,13 @@
         if (pipedata.length == 0) {
             var obj = $('#nodata');
             if (obj.length <= 0)
-                $('#div-data').append('<div id="nodata">没有找到记录</div>');
+                $('#div-data').append('<div id="nodata" class="i18n1" name="nodata"></div>');
         }
         for (var i = 0; i < pipedata.length; i++) {
             $('#div-data').append(pipeInfoTemplate(pipedata[i]));
         }
         //api.hideProgress();
+
     }
     //钢管信息的模版
     function pipeInfoTemplate(pipe) {
@@ -293,7 +296,7 @@
             '<div class="shelfinfo01"><span class="pei pipeno-span">' + pipe.pipe_no + '</span></div>' +
             '<div class="shelfinfo02"><span class="contractno-span">' + pipe.contract_no + '</span><span class="od-span">' + pipe.od + '</span><span class="wt-span">' + pipe.wt + '</span></div>' +
             '</div>' +
-            '<div class="itemshelf"><span class="status-span">' + pipe.status_name + '</span></div>' +
+            '<div class="itemshelf"><span class="status-span i18n1" name="' + pipe.status + '"></span></div>' +
             '</div>';
         return template;
     }
@@ -332,6 +335,7 @@
                     //alert(JSON.stringify(ret.rows));
                     funcShowPipeResultList(ret.rows, append);
                     api.refreshHeaderLoadDone();
+                    hlLanguage("../i18n/");
                     // var jsfun = 'funcShowPipeResultList(' + JSON.stringify(ret) + ');';
                     // api.execScript({
                     //     frameName: 'frame0',
@@ -382,6 +386,7 @@
             setTimeout(function() {
                 //执行刷新
                 api.refreshHeaderLoadDone();
+                hlLanguage("../i18n/");
             }, 50);
         });
     }

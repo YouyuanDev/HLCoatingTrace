@@ -181,10 +181,11 @@
 </body>
 
 </html>
-<script type="text/javascript" src="script/api.js"></script>
+<script type="text/javascript" src="../script/api.js"></script>
 <script type="text/javascript" src="../script/jquery-3.3.1.min.js"></script>
 <script type="text/javascript" src="../script/common.js"></script>
-
+<script src="../script/jquery.i18n.properties-1.0.9.js" type="text/javascript"></script>
+<script src="../script/language.js" type="text/javascript"></script>
 <script type="text/javascript">
     var start = 1;
     apiready = function() {
@@ -258,6 +259,7 @@
                     for (var i = 0; i < data.length; i++) {
                         $('.labinfo-div').append(makeTemplate(data[i].id, data[i].sample_type, data[i].testing_type, data[i].result, data[i].operation_time, data[i].pipe_no));
                     }
+                    hlLanguage("../i18n/");
                 }
             } else {
                 api.alert({
@@ -269,31 +271,33 @@
     //实验信息模板
     function makeTemplate(id, sample_type, testing_type, result, operation_time, pipe_no) {
         var template = "";
+        var prefix_title="";
         var title = "";
+        var title_sufix="";
         if (result == "0")
-            result = "不合格,复验";
+            result = "failed";
         else if (result == "1")
-            result = "合格";
+            result = "accepted";
         else if (result == "10")
-            result = "待定";
+            result = "pending";
         if (testing_type.indexOf('LAB') != -1)
-            title = "成品";
+            prefix_title = "product";
         else if (testing_type.indexOf('RAW') != -1)
-            title = "原材料";
+            prefix_title = "rawmaterial";
         if (testing_type.indexOf('2FBE') != -1)
-            title += " 2FBE";
+            title = " 2FBE";
         else if (testing_type.indexOf('3LPE') != -1)
-            title += " 3LPE";
+            title = " 3LPE";
         else if (testing_type.indexOf('EPOXY') != -1)
-            title += " EPOXY";
+            title = " EPOXY";
         if (sample_type.indexOf('REGULAR') != -1)
-            title += " 常规实验";
+            title_sufix = "regulartesting";
         else if (sample_type.indexOf('DSC') != -1)
-            title += " DSC实验";
+            title_sufix = "dsctesting";
         else if (sample_type.indexOf('PE') != -1)
-            title += " PE实验";
+            title_sufix = "petesting";
         else if (sample_type.indexOf('GLASS') != -1)
-            title += " GLASS实验";
+            title_sufix = "glasstesting";
         template += '<div class="item style1" data-id=' + id + ' data-pipe-no=' + pipe_no + ' data-sample-type=' + sample_type + '  data-testing-type=' + testing_type + ' onclick="goTestingBySampleType(this);">';
         //lab实验|| testing_type.indexOf('LAB3LPE') != -1 || testing_type.indexOf('LABEPOXY') != -1
         if (testing_type.indexOf('LAB2FBE') != -1) {
@@ -312,10 +316,10 @@
         if (pipe_no == undefined)
             pipe_no = "";
         template += '<div class="itemshelf">' +
-            '<div class="shelfinfo01"><span class="pei pipeno-span">' + title + '</span></div>' +
+            '<div class="shelfinfo01"><span class="pei pipeno-span i18n1" name="' + prefix_title + '"></span><span class="pei pipeno-span">&nbsp;'+title+'&nbsp;</span><span class="pei pipeno-span i18n1" name="' + title_sufix + '"></span></div>' +
             '<div class="shelfinfo02"><span class="contractno-span">' + getDate1(operation_time) + '</span><span>' + pipe_no + '<span></div>' +
             '</div>' +
-            '<div class="itemshelf"><span class="status-span">' + result + '</span></div>' +
+            '<div class="itemshelf"><span class="status-span i18n1" name="'+result+'"></span></div>' +
             '</div>';
         return template;
 
