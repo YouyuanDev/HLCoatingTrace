@@ -9,6 +9,18 @@
     <link rel="stylesheet" type="text/css" href="../../css/api.css" />
     <link rel="stylesheet" type="text/css" href="../../css/style.css" />
     <link rel="stylesheet" type="text/css" href="../../css/mobiscroll.custom-3.0.0-beta6.min.css" />
+    <style>
+        .scan-container {
+            height: 30px;
+            width: 10%;
+            background: url(../../image/qrcode.png);
+            background-size: 30px 30px;
+            background-repeat: no-repeat;
+            float: left;
+        }
+    </style>
+
+
 </head>
 
 <body>
@@ -17,7 +29,7 @@
         <span class="nav-pipeno i18n1" name="productionstockout" style="display:inline-block;margin-left:-43px;line-height:43px;"></span>
     </header>
     <div class="form-content" id="content">
-        <div class="form-item">
+        <!-- <div class="form-item">
             <table class="pipeinfo-table">
                 <thead>
                     <tr>
@@ -41,10 +53,12 @@
                     <td class="millno"></td>
                 </tr>
             </table>
-        </div>
+        </div> -->
         <div class="form-item">
             <input type="hidden" value="0" class="id" />
         </div>
+
+        <div class="scan-container"></div>
     </div>
     <footer class="form-footer" id=footer>
         <div id="foot-container" style="width:100%;height:43px;display:flex;justify-content:center;align-items:center;" class="foot-container">
@@ -66,29 +80,60 @@
     //UILoading 的id
     var g_loadingID = 0;
     apiready = function() {
-            DoLoadingPicture();
+            //DoLoadingPicture();
             var data = api.pageParam;
             g_pipeno = data.pipe_no;
             fnSettingHeader();
             hlLanguage("../../i18n/");
-            RequestAllProcessInfoByPipeNo(g_pipeno);
+
+
+            FNScanner = api.require('FNScanner');
+            //二维码点击事件
+            $('.scan-container').click(function() {
+                FNScanner.open({
+                    autorotation: true
+                }, function(ret, err) {
+                    if (ret) {
+                        //扫出来结果
+                        if (ret.eventType == 'success') {
+                            //alert(ret.content);
+                            //设置搜索框为读到的二维码数据
+                            var UIInput = api.require('UIInput');
+                            UIInput.value({
+                                msg: ret.content
+                            });
+                            alert(ret.content);
+
+                            //sendSearchEvent(ret.content);
+                            FNScanner.closeView();
+                        }
+                    }
+                });
+
+            });
+
+
+
+
+
+
         }
         //得到钢管数据汇总成功
-    function GetAllProcessInfoByPipeNoOK(data) {
-        ClearLoadingPicture();
-        g_employeeno = data.employeeno;
-        g_millno = data.millno;
-        $('.id').val(data.pipeinfo.id);
-        initPipeBasicHeader(data.pipeinfo, data.millno);
-    }
-    //得到外防接收标准失败
-    function GetAllProcessInfoByPipeNoFail(message) {
-        ClearLoadingPicture();
-        api.alert({
-            msg: message
-        });
-        closeWindow();
-    }
+        // function GetAllProcessInfoByPipeNoOK(data) {
+        //     ClearLoadingPicture();
+        //     g_employeeno = data.employeeno;
+        //     g_millno = data.millno;
+        //     $('.id').val(data.pipeinfo.id);
+        //     initPipeBasicHeader(data.pipeinfo, data.millno);
+        // }
+        // //得到外防接收标准失败
+        // function GetAllProcessInfoByPipeNoFail(message) {
+        //     ClearLoadingPicture();
+        //     api.alert({
+        //         msg: message
+        //     });
+        //     closeWindow();
+        // }
 
     function submitForm() {
         api.confirm({
@@ -96,36 +141,36 @@
             msg: '确定要出厂吗?',
             buttons: ['确定', '取消']
         }, function(ret, err) {
-            if(ret.buttonIndex==1){
-              if (initFormNumber()) {
-                  if ($('.id').val() == undefined) return false;
-                  var idArr = $('.id').val() + ",";
-                  var s = 'http://' + serverIP + '/pipeinfo/coatingProductStockout.action';
-                  api.ajax({
-                      url: s,
-                      method: 'post',
-                      timeout: 30,
-                      dataType: 'json',
-                      data: {
-                          values: {
-                              hlparam: idArr
-                          }
-                      }
-                  }, function(ret, err) { //alert(ret);
-                      if (ret) {
-                          api.alert({
-                              msg: ret.message
-                          });
-                          if (ret.success) {
-                              closeWindow();
-                          }
-                      } else {
-                          api.alert({
-                              msg: JSON.stringify(err)
-                          });
-                      }
-                  });
-              }
+            if (ret.buttonIndex == 1) {
+                if (initFormNumber()) {
+                    if ($('.id').val() == undefined) return false;
+                    var idArr = $('.id').val() + ",";
+                    var s = 'http://' + serverIP + '/pipeinfo/coatingProductStockout.action';
+                    api.ajax({
+                        url: s,
+                        method: 'post',
+                        timeout: 30,
+                        dataType: 'json',
+                        data: {
+                            values: {
+                                hlparam: idArr
+                            }
+                        }
+                    }, function(ret, err) { //alert(ret);
+                        if (ret) {
+                            api.alert({
+                                msg: ret.message
+                            });
+                            if (ret.success) {
+                                closeWindow();
+                            }
+                        } else {
+                            api.alert({
+                                msg: JSON.stringify(err)
+                            });
+                        }
+                    });
+                }
             }
         });
     }
