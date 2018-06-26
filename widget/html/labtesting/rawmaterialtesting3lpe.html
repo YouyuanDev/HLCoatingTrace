@@ -285,8 +285,7 @@
                 $('input[name="adhesion_flow_rate"]').val(data.adhesion_flow_rate);
             if (data.polyethylene_flow_rate != -99)
                 $('input[name="polyethylene_flow_rate"]').val(data.polyethylene_flow_rate);
-            if (data.project_no != undefined)
-                $('input[name="project_no"]').val(data.project_no);
+            $('#project_no').val(data.project_no);
             $('#result').val(data.result);
             var imgUrl = data.upload_files;
             if (imgUrl.length > 0) {
