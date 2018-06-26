@@ -362,7 +362,7 @@
             if (pipeinfo.shipment_date == undefined) {
                 $('.shipment_date').text(getDate1(new Date()));
             } else {
-                $('.shipment_date').text(pipeinfo.shipment_date);
+                $('.shipment_date').text(getDate1(pipeinfo.shipment_date));
             }
             if (pipeinfo.vehicle_plate_no != undefined) {
                 $('.vehicle_plate_no').val(pipeinfo.vehicle_plate_no);
