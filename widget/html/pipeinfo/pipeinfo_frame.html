@@ -15,7 +15,6 @@
             background-color: #f4f5f6;
         }
 
-
         .process-button {
             background-color: #19AD68;
             width: 200px;
@@ -37,11 +36,12 @@
             text-align: center;
             line-height: 43px;
             width: 95%;
-            margin:0 auto;
+            margin: 0 auto;
             outline: none;
         }
-        .pipeinfo-table tr td:nth-child(even){
-          text-align: center;
+
+        .pipeinfo-table tr td:nth-child(even) {
+            text-align: center;
         }
         /*.dataintable,.dataintable tr {
            width:100%;
@@ -149,6 +149,11 @@
                 </tr>
             </table>
         </div>
+        <div id="qrdiv" style="width:100%;height:auto;margin-top:20px;" onclick="printQRCode()">
+            <div style="margin:0px auto;text-align:center;" id="qrcodeCanvas"></div>
+            <div style="margin:0px auto;text-align:center;font-size: 14px" id="qrcodeText"></div>
+        </div>
+
         <div class="loadmore-div" style="height:auto;margin-top:50px;font-size: 16px;color:#000000;font-family:" Sans-serif ";">
             <div class="loadmore-btn i18n1" name="loadmorninfo" onclick="loadMoreInfo()">更多生产信息...</div>
         </div>
@@ -166,6 +171,10 @@
 <script type="text/javascript" src="../../script/common.js"></script>
 <script src="../../script/jquery.i18n.properties-1.0.9.js" type="text/javascript"></script>
 <script src="../../script/language.js" type="text/javascript"></script>
+<!-- <script type="text/javascript" src="../../script/jquery-1.11.1.js" ></script> -->
+<script type="text/javascript" src="../../script/jquery.qrcode.js"></script>
+<script type="text/javascript" src="../../script/qrcode.js"></script>
+<script type="text/javascript" src="../../script/utf.js"></script>
 <script type="text/javascript">
     var pipeno;
     var showmore = false;
@@ -318,6 +327,9 @@
         $('.shipment_date').text(formatterdate(pipeinfo.shipment_date));
         $('.od_coating_date').text(formatterdate(pipeinfo.od_coating_date));
         $('.id_coating_date').text(formatterdate(pipeinfo.id_coating_date));
+
+        //QRCode
+        GenerateQRCode(pipeinfo.pipe_no);
 
     }
     //更多生产信息
@@ -596,7 +608,7 @@
                 }
                 //外喷标odStencilProcessRecord
 
-                if (data.odStencilProcessRecord != undefined ) {
+                if (data.odStencilProcessRecord != undefined) {
                     flag = true;
                     var obj = data.odStencilProcessRecord;
                     var result = "";
@@ -1121,23 +1133,52 @@
         for (var key in dict) {
             template += '<tr style="width:100%;">';
             template += ' <td style="width:50%;color: #7A7A7A;padding:5px 0px;word-break: break-all;word-wrap: break-word;" class="i18n1 pipeinfo-td" name="' + key + '">' + key + '</td>';
-            if(dict[key]==undefined||dict[key]==-99)
-               dict[key]="";
-            if (key == "uploadfiles"){
-              template += '<td style="width:50%;text-align:center;padding:5px 0px;" class="pipeinfo-td" ><div style="color:#87CEEB;" onclick="setBrowsePicutre(this);" data-list="' + dict[key] +'" class="upload-pictures i18n1" name="viewpicture">图片</div></td>';
-            }else if(key == "stencilcontent"){
-               if(dict[key]!=undefined){
-                 dict[key]=dict[key].replace(/(\r\n)|(\n)/g,'<br>');
-               }
-               template += '</td></tr><tr style="width:100%;"><td colspan="2" style="text-align:left;padding:5px 0px;color:#000000;" class="pipeinfo-td">' + dict[key] + '</td>';
-            }
-            else{
-              template += ' <td style="width:50%;text-align:center;padding:5px 0px;" class="pipeinfo-td">' + dict[key] + '</td>';
+            if (dict[key] == undefined || dict[key] == -99)
+                dict[key] = "";
+            if (key == "uploadfiles") {
+                template += '<td style="width:50%;text-align:center;padding:5px 0px;" class="pipeinfo-td" ><div style="color:#87CEEB;" onclick="setBrowsePicutre(this);" data-list="' + dict[key] +
+                    '" class="upload-pictures i18n1" name="viewpicture">图片</div></td>';
+            } else if (key == "stencilcontent") {
+                if (dict[key] != undefined) {
+                    dict[key] = dict[key].replace(/(\r\n)|(\n)/g, '<br>');
+                }
+                template += '</td></tr><tr style="width:100%;"><td colspan="2" style="text-align:left;padding:5px 0px;color:#000000;" class="pipeinfo-td">' + dict[key] + '</td>';
+            } else {
+                template += ' <td style="width:50%;text-align:center;padding:5px 0px;" class="pipeinfo-td">' + dict[key] + '</td>';
             }
             template += '</tr>';
         }
         template += '</table><br>';
         //alert(template);
         return template;
+    }
+
+
+
+    function GenerateQRCode(pipeno) {
+        jQuery('#qrcodeCanvas').qrcode({
+            render: "canvas",
+            text: pipeno,
+            width: "100", //二维码的宽度
+            height: "100", //二维码的高度
+            background: "#ffffff", //二维码的后景色
+            foreground: "#000000", //二维码的前景色
+            src: '../../image/logo1.jpg' //二维码中间的图片
+        });
+
+        $('#qrcodeText').text('P/N:' + pipeno);
+    }
+
+    function printQRCode() {
+        api.confirm({
+            title: '提示',
+            msg: '是否打印二维码?',
+            buttons: ['确定', '取消']
+        }, function(ret, err) {
+            if (ret.buttonIndex == 1) {
+
+
+            }
+        });
     }
 </script>

@@ -19,39 +19,44 @@
 
 <body>
     <div class="div-data" style="margin-top:50px;">
-        <input  type="text" id="demo" style="width:100%;height:50px;border:1px solid #000000;" />
+        <input  type="text" id="demo" style="width:50%;height:50px;border:1px solid #000000;" />
+        <div onclick="test(123)">sfsfasfasfsafaf</div>
     </div>
+
+  <div id="qrcodeTable"></div>
+      <div id="qrcodeCanvas"></div>
 </body>
 
 </html>
 <script type="text/javascript" src="../script/api.js"></script>
 <script type="text/javascript" src="../script/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/jquery-1.11.1.js" ></script>
+<script type="text/javascript" src="../script/jquery.qrcode.js" ></script>
+    <script type="text/javascript" src="../script/qrcode.js" ></script>
+    <script type="text/javascript" src="../script/utf.js" ></script>
 <script type="text/javascript" src="../script/common.js"></script>
 <script type="text/javascript" src="../script/mobiscroll.custom-3.0.0-beta6.min.js"></script>
 <script type="text/javascript">
     apiready = function() {
-      $('#demo').mobiscroll('option', {
-        theme: 'auto',
-        fill: 'ltr',
-        lang: 'zh',
-        display: 'center',
-        min: 0,
-        max:1000,
-        scale: 2,
-        preset: 'decimal',
-        decimalSeparator:'.'
-      });
-        $('#demo').mobiscroll().numpad({
-            theme: 'auto',
-            fill: 'ltr',
-            lang: 'zh',
-            display: 'center',
-            min: 0,
-            max:1000,
-            scale: 2,
-            preset: 'decimal',
-            decimalSeparator:'.'
-        });
 
+
+
+          //  jQuery('#qrcodeTable').qrcode({
+          //       render    : "table",                <!--二维码生成方式 -->
+          //       text    : "http://www.baidu.com" , <!-- 二维码内容  -->
+          //       width : "200",               //二维码的宽度
+          //           height : "200",
+          //   });
+            jQuery('#qrcodeCanvas').qrcode({
+              render    : "canvas",
+                text    : "http://www.baidu.com",
+                width : "200",               //二维码的宽度
+                    height : "200",              //二维码的高度
+                    background : "#ffffff",       //二维码的后景色
+                    foreground : "#000000",        //二维码的前景色
+                    src: '../image/logo1.jpg'             //二维码中间的图片
+            });
     }
+
+
 </script>
