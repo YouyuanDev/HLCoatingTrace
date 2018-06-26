@@ -834,7 +834,7 @@ function setControls() {
             inst.setVal($(this).val());
         }
     });
-
+    $('.mob-datetime1').mobiscroll().date({lang: 'zh',dateFormat: 'yy-mm-dd'});
     // $('#exp').mobiscroll().datetime();
 
 
