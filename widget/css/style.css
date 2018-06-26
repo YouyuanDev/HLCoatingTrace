@@ -154,6 +154,7 @@ select,button{
 .pipeinfo-table,
 .dataintable tr {
     width: 100%;
+    word-break: break-all;word-wrap: break-word;
 }
 .dataintable tr td{
   word-break: break-all;word-wrap: break-word;
