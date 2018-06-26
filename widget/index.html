@@ -157,10 +157,30 @@
             line-height: 50px;
             /*border-radius:50%;*/
             color: white;
-            background: url('./image/new_button_rect.png');
+            background: url('./image/new_labtesting.png');
             background-repeat: no-repeat;
             background-size: cover;
         }
+
+        .show-scan-loading-btn {
+            position: fixed;
+            right: 10px;
+            top: 25px;
+            /*z-index: 10000;*/
+            background-color: #4D4D4D;
+            width: 35px;
+            height: 35px;
+            text-align: center;
+            line-height: 50px;
+            /*border-radius:50%;*/
+            color: white;
+            background: url('./image/scan_and_loading.png');
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+
+
     </style>
 </head>
 
@@ -192,7 +212,7 @@
                 </li>
                 <li class="border-b" name="shipping">
                     <span class="i18n1" name="shipping"></span>
-                    <div class="show-float-btn" data-isshow="hide" id="float-btn-container" onclick="newShipment()">
+                    <div class="show-scan-loading-btn" data-isshow="hide" id="float-btn-container" onclick="newShipment()">
                         <!-- 新建 -->
 
                     </div>
