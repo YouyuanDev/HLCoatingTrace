@@ -120,37 +120,39 @@
 
 <body>
     <header class="form-nav" id="header">
-        <div class="arrow" tapmode onclick="closeWindowNoPipeNo();"></div>
+        <div class="arrow" tapmode onclick="leaveWindow();"></div>
         <span class="nav-pipeno i18n1" name="productionstockout" style="display:inline-block;margin-left:-43px;line-height:43px;"></span>
     </header>
     <div class="form-content" id="content">
-        <!-- <div class="form-item">
+        <div class="form-item">
             <table class="pipeinfo-table">
                 <thead>
                     <tr>
-                        <th class="i18n1" name="pipebasicinfo" colspan="4" style="text-align:center;">钢管基础信息</th>
+                        <th class="i18n1" name="shipmentinfo" colspan="4" style="text-align:center;">发运信息</th>
                     </tr>
                 </thead>
                 <tr>
-                    <td class="i18n1" name="pipeno"></td>
-                    <td class="pipe_no"></td>
-                    <td class="i18n1" name="statusname"></td>
-                    <td class="status_name"></td>
+                    <td class="i18n1" name="shipmentno"></td>
+                    <td class="shipment_no"></td>
+                    <td class="i18n1" name="projectname"></td>
+                    <td class="project_name"></td>
                 </tr>
                 <tr>
-                    <td class="i18n1" name="od"></td>
-                    <td class="od"></td>
-                    <td class="i18n1" name="wt"></td>
-                    <td class="wt"></td>
+                    <td class="i18n1" name="coatingtype"></td>
+                    <td class="coating_type"></td>
+                    <td class="i18n1" name="odwt"></td>
+                    <td class="od_wt"></td>
                 </tr>
                 <tr>
-                    <td class="i18n1" name="millno"></td>
-                    <td class="millno"></td>
+                    <td class="i18n1" name="vehicleplateno"></td>
+                    <td>
+                        <input type="text" class="mob-text-list" name="vehicle_plate_no" />
+
+                    </td>
+                    <td class="i18n1" name="shipmentdate"></td>
+                    <td class="shipment_date"></td>
                 </tr>
             </table>
-        </div> -->
-        <div class="form-item">
-            <input type="hidden" value="0" class="id" />
         </div>
 
         <div class="scan-container"></div>
@@ -176,7 +178,7 @@
 <script src="../../script/language.js" type="text/javascript"></script>
 <script src="../../script/mobiscroll.custom-3.0.0-beta6.min.js" type="text/javascript"></script>
 <script type="text/javascript">
-    var g_employeeno;
+    var g_project_no;
     //UILoading 的id
     var g_loadingID = 0;
 
@@ -287,12 +289,54 @@
 
     function makeTemplate(pipeinfo) {
 
+        var template = "";
+        //判断是否为同一个项目的管子
+        if (g_project_no != undefined && pipeinfo.project_no != g_project_no) {
+            api.alert({
+                msg: '钢管' + pipeinfo.pipe_no + '不属于项目' + g_project_no + ',不能装车'
+            });
+
+            return template;
+        }
+
+        g_project_no = pipeinfo.project_no;
+
+        //判断钢管是否已经存在于表单上
+        for (var j = 0; j < shipmentList.length; j++) {
+            var pipeno = shipmentList[j];
+            if (pipeno == pipeinfo.pipe_no) {
+                api.alert({
+                    msg: '钢管' + pipeinfo.pipe_no + '已添加'
+                });
+
+                return template;
+            }
+        }
+        var odwt = pipeinfo.od + '*' + pipeinfo.wt + 'mm';
+        if (shipmentList.length == 0) {
+            //初始化发运单头部
+            if (pipeinfo.shipment_no == undefined) {
+                var shipmentno = new Date().getTime();
+                $('.shipment_no').text(shipmentno);
+            } else {
+                $('.shipment_no').text(pipeinfo.shipment_no);
+            }
+            $('.project_name').text(pipeinfo.project_name);
+            $('.od_wt').text(odwt);
+            $('.coating_type').text(pipeinfo.external_coating + ' ' + pipeinfo.internal_coating);
+            if (pipeinfo.shipment_date == undefined) {
+                $('.shipment_date').text(getDate1(new Date()));
+            } else {
+                $('.shipment_date').text(pipeinfo.shipment_date);
+            }
+
+        }
+
         shipmentList.push(pipeinfo.pipe_no);
 
-        var template = "";
         var title = pipeinfo.project_name + ' ' + pipeinfo.external_coating + ' ' + pipeinfo.internal_coating;
-        var odwt = pipeinfo.od + '*' + pipeinfo.wt + 'mm';
-        template += '<div id="' + pipeinfo.pipe_no + '" class="item style1" data-pipe-no=' + pipeinfo.pipe_no + ' onclick="goShipment(this);">';
+
+        template += '<div id="' + pipeinfo.pipe_no + '" class="item style1" data-pipe-id=' + pipeinfo.id + ' data-pipe-no=' + pipeinfo.pipe_no + ' onclick="goShipment(this);">';
         template += '<div class="itemseq"><span class="sequence">' + shipmentList.length + '</span></div>';
         template += '<div class="itemlogo userlogo"><img height="40" width="40" src="../../image/truck_loading.png" alt=""></div>';
 
@@ -331,7 +375,7 @@
                     //更新后续序号
                     for (var j = index; j < shipmentList.length; j++) {
                         var pipeno = shipmentList[j];
-                        $("#" + pipeno).find('.sequence').text(j+1);
+                        $("#" + pipeno).find('.sequence').text(j + 1);
                     }
 
                 }
@@ -343,40 +387,63 @@
     function submitForm() {
         api.confirm({
             title: '提示',
-            msg: '确定要出厂吗?',
+            msg: '确定要发运吗?',
             buttons: ['确定', '取消']
         }, function(ret, err) {
             if (ret.buttonIndex == 1) {
-                if (initFormNumber()) {
-                    if ($('.id').val() == undefined) return false;
-                    var idArr = $('.id').val() + ",";
-                    var s = 'http://' + serverIP + '/pipeinfo/coatingProductStockout.action';
-                    api.ajax({
-                        url: s,
-                        method: 'post',
-                        timeout: 30,
-                        dataType: 'json',
-                        data: {
-                            values: {
-                                hlparam: idArr
-                            }
-                        }
-                    }, function(ret, err) { //alert(ret);
-                        if (ret) {
-                            api.alert({
-                                msg: ret.message
-                            });
-                            if (ret.success) {
-                                closeWindow();
-                            }
-                        } else {
-                            api.alert({
-                                msg: JSON.stringify(err)
-                            });
-                        }
-                    });
+                var pipeArr ="";
+                for (var i = 0; i < shipmentList.length; i++) {
+                    var pipeno = shipmentList[i];
+                    pipeArr=pipeno+",";
                 }
+
+                var s = 'http://' + serverIP + '/ShipmentOperation/APPAddShipmentInfo.action';
+                api.ajax({
+                    url: s,
+                    method: 'post',
+                    timeout: 30,
+                    dataType: 'json',
+                    data: {
+                        values: {
+                            pipeno_arr: pipeArr,
+                            shipment_no:shipment_no,
+                            vehicle_plate_no:vehicle_plate_no
+
+                        }
+                    }
+                }, function(ret, err) { //alert(ret);
+                    if (ret) {
+                        api.alert({
+                            msg: ret.message
+                        });
+                        if (ret.success) {
+                            closeWindow();
+                        }
+                    } else {
+                        api.alert({
+                            msg: JSON.stringify(err)
+                        });
+                    }
+                });
+
             }
         });
+    }
+
+
+    function leaveWindow() {
+        if (shipmentList.length > 0) {
+            api.confirm({
+                title: '提示',
+                msg: '离开后表单数据将丢失，确定离开表单吗?',
+                buttons: ['确定', '取消']
+            }, function(ret, err) {
+                if (ret.buttonIndex == 1) {
+                    api.closeWin();
+                }
+            });
+        } else {
+            api.closeWin();
+        }
     }
 </script>
