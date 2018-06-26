@@ -330,6 +330,11 @@
                 $('.shipment_date').text(pipeinfo.shipment_date);
             }
 
+            if (pipeinfo.vehicle_plate_no != undefined) {
+              $('.vehicle_plate_no').val(pipeinfo.vehicle_plate_no);
+            }
+
+
         }
 
         shipmentList.push(pipeinfo.pipe_no);
@@ -394,7 +399,7 @@
                 var pipeArr ="";
                 for (var i = 0; i < shipmentList.length; i++) {
                     var pipeno = shipmentList[i];
-                    pipeArr=pipeno+",";
+                    pipeArr=pipeArr+pipeno+",";
                 }
 
                 var s = 'http://' + serverIP + '/ShipmentOperation/APPAddShipmentInfo.action';
@@ -406,9 +411,8 @@
                     data: {
                         values: {
                             pipeno_arr: pipeArr,
-                            shipment_no:shipment_no,
-                            vehicle_plate_no:vehicle_plate_no
-
+                            shipment_no:$('.shipment_no').text(),
+                            vehicle_plate_no:$('.vehicle_plate_no').val()
                         }
                     }
                 }, function(ret, err) { //alert(ret);
@@ -417,7 +421,7 @@
                             msg: ret.message
                         });
                         if (ret.success) {
-                            closeWindow();
+                            api.closeWin();
                         }
                     } else {
                         api.alert({
