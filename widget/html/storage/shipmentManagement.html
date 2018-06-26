@@ -113,7 +113,6 @@
         .style1 {
             border-top: 1px solid #cdcdcd;
         }
-
         /*.form-item,.pipeinfo-table,.pipeinfo-table tr{
           width:100%;
         }
@@ -160,23 +159,26 @@
                 <tr>
                     <td class="i18n1" name="vehicleplateno"></td>
                     <td>
-                        <input type="text" name="vehicle_plate_no" style="width:90%;border:1px solid #cdcdcd;" placeholder="输入车牌号..."/>
+                        <input type="text" class="vehicle_plate_no" name="vehicle_plate_no" style="width:90%;border:1px solid #cdcdcd;" placeholder="输入车牌号..." />
 
                     </td>
                 </tr>
                 <tr>
-                  <td class="i18n1" name="shipmentdate"></td>
-                  <td class="shipment_date"></td>
+                    <td class="i18n1" name="shipmentdate"></td>
+                    <td class="shipment_date"></td>
                 </tr>
                 <tr>
-                  <td class="i18n1" name="totallength"></td>
-                  <td class="totallength">0</td>
-                  <td class="i18n1" name="totalweight"></td>
-                  <td class="totalweight">0</td>
+                    <td class="i18n1" name="totallength"></td>
+                    <td class="totallength">0</td>
+                    <td class="i18n1" name="totalweight"></td>
+                    <td class="totalweight">0</td>
                 </tr>
                 <tr>
-                  <td class="i18n1" name="totalcount"></td>
-                  <td class="totalcount">0</td>
+                    <td class="i18n1" name="totalcount"></td>
+                    <td class="totalcount">0</td>
+                </tr>
+                <tr>
+                  <td></td>
                 </tr>
             </table>
         </div>
@@ -209,10 +211,17 @@
     var g_loadingID = 0;
 
     var shipmentList = [];
-
+    var g_shipment_no = undefined;
     apiready = function() {
             //DoLoadingPicture();
             var data = api.pageParam;
+            g_shipment_no = data.shipment_no;
+            if (g_shipment_no != undefined) {
+                //开始拉数据
+                loadShipmentInfo(g_shipment_no);
+                $('.form-process-button').hide();
+                $('.scan-container').hide();
+            }
             fnSettingHeader();
             hlLanguage("../../i18n/");
             FNScanner = api.require('FNScanner');
@@ -355,9 +364,8 @@
             } else {
                 $('.shipment_date').text(pipeinfo.shipment_date);
             }
-
             if (pipeinfo.vehicle_plate_no != undefined) {
-              $('.vehicle_plate_no').val(pipeinfo.vehicle_plate_no);
+                $('.vehicle_plate_no').val(pipeinfo.vehicle_plate_no);
             }
 
 
@@ -365,31 +373,31 @@
 
 
         shipmentList.push(pipeinfo.pipe_no);
-        var totalcount=shipmentList.length;
+        var totalcount = shipmentList.length;
         $('.totalcount').text(totalcount);
-        var totallength=parseFloat($('.totallength').text());
-        var totalweight=parseFloat($('.totalweight').text());
-        if(pipeinfo.p_length!=undefined)
-            totallength+=parseFloat(pipeinfo.p_length);
+        var totallength = parseFloat($('.totallength').text());
+        var totalweight = parseFloat($('.totalweight').text());
+        if (pipeinfo.p_length != undefined)
+            totallength += parseFloat(pipeinfo.p_length);
         $('.totallength').text(totallength.toFixed(2));
-        if(pipeinfo.weight!=undefined)
-            totalweight+=parseFloat(pipeinfo.weight);
+        if (pipeinfo.weight != undefined)
+            totalweight += parseFloat(pipeinfo.weight);
         $('.totalweight').text(totalweight.toFixed(2));
         var title = pipeinfo.project_name + ' ' + pipeinfo.external_coating + ' ' + pipeinfo.internal_coating;
 
-        template += '<div  id="' + pipeinfo.pipe_no + '" class="item style1" data-pipe-length='+pipeinfo.p_length+' data-pipe-weight='+pipeinfo.weight+' data-pipe-id=' + pipeinfo.id + ' data-pipe-no=' + pipeinfo.pipe_no + '>';
+        template += '<div  id="' + pipeinfo.pipe_no + '" class="item style1" data-pipe-length=' + pipeinfo.p_length + ' data-pipe-weight=' + pipeinfo.weight + ' data-pipe-id=' + pipeinfo.id + ' data-pipe-no=' + pipeinfo.pipe_no + '>';
         template += '<div class="itemseq"><span class="sequence">' + shipmentList.length + '</span></div>';
         template += '<div class="itemlogo userlogo"><img height="40" width="40" src="../../image/truck_loading.png" alt=""></div>';
 
         template += '<div class="itemshelf">' +
             '<div class="shelfinfo01"><span class="pei pipeno-span">' + pipeinfo.pipe_no + '</span><span class="od-span">' + odwt + '</span></div>' +
-            '<div class="shelfinfo02"><span>' + pipeinfo.p_length+'m '+pipeinfo.weight+'t'+ '</span></div>' +
+            '<div class="shelfinfo02"><span>' + pipeinfo.p_length + 'm ' + pipeinfo.weight + 't' + '</span></div>' +
             '<div class="shelfinfo02"><span>' + title + '</span></div>' +
             '</div>' +
-            '<div class="itemshelf"><span class="status-span i18n1" name="' + pipeinfo.status + '"></span></div>' +
-            '<div class="itemlogo" data-pipe-no=' + pipeinfo.pipe_no + ' onclick="deletePipeFromList(this);"><img height="30" width="30"  src="../../image/delete.png" ></div>' +
-
-            '</div>';
+            '<div class="itemshelf"><span class="status-span i18n1" name="' + pipeinfo.status + '"></span></div>';
+        if (g_shipment_no == undefined)
+            template += '<div class="itemlogo" data-pipe-no=' + pipeinfo.pipe_no + ' onclick="deletePipeFromList(this);"><img height="30" width="30"  src="../../image/delete.png" ></div>';
+        template += '</div>';
         return template;
 
     }
@@ -411,12 +419,12 @@
                     }
                 }
                 if (index != -1) {
-                  var p_length=$("#" + pipe_no).attr('data-pipe-length');
-                  var weight=$("#" + pipe_no).attr('data-pipe-weight');
-                  var totallength=parseFloat($('.totallength').text())-parseFloat(p_length);
-                  var totalweight=parseFloat($('.totalweight').text())-parseFloat(weight);
-                  $('.totallength').text(totallength.toFixed(2));
-                   $('.totalweight').text(totalweight.toFixed(2));
+                    var p_length = $("#" + pipe_no).attr('data-pipe-length');
+                    var weight = $("#" + pipe_no).attr('data-pipe-weight');
+                    var totallength = parseFloat($('.totallength').text()) - parseFloat(p_length);
+                    var totalweight = parseFloat($('.totalweight').text()) - parseFloat(weight);
+                    $('.totallength').text(totallength.toFixed(2));
+                    $('.totalweight').text(totalweight.toFixed(2));
                     shipmentList.splice(index, 1);
                     //删除div
                     $("#" + pipe_no).remove();
@@ -441,10 +449,16 @@
             buttons: ['确定', '取消']
         }, function(ret, err) {
             if (ret.buttonIndex == 1) {
-                var pipeArr ="";
+                if($('.vehicle_plate_no').val()==undefined||$('.vehicle_plate_no').val().length<=0){
+                  api.alert({
+                      msg:"请输入车牌号!"
+                  });
+                  return false;
+                }
+                var pipeArr = "";
                 for (var i = 0; i < shipmentList.length; i++) {
                     var pipeno = shipmentList[i];
-                    pipeArr=pipeArr+pipeno+",";
+                    pipeArr = pipeArr + pipeno + ",";
                 }
 
                 var s = 'http://' + serverIP + '/ShipmentOperation/APPAddShipmentInfo.action';
@@ -456,8 +470,8 @@
                     data: {
                         values: {
                             pipeno_arr: pipeArr,
-                            shipment_no:$('.shipment_no').text(),
-                            vehicle_plate_no:$('.vehicle_plate_no').val()
+                            shipment_no: $('.shipment_no').text(),
+                            vehicle_plate_no: $('.vehicle_plate_no').val()
                         }
                     }
                 }, function(ret, err) { //alert(ret);
@@ -474,14 +488,12 @@
                         });
                     }
                 });
-
             }
         });
     }
 
-
     function leaveWindow() {
-        if (shipmentList.length > 0) {
+        if ((shipmentList.length > 0)&&g_shipment_no==undefined) {
             api.confirm({
                 title: '提示',
                 msg: '离开后表单数据将丢失，确定离开表单吗?',
@@ -494,5 +506,41 @@
         } else {
             api.closeWin();
         }
+    }
+
+    function loadShipmentInfo(shipment_no) {
+        var s = 'http://' + serverIP + '/ShipmentOperation/getShipmentInfoByShipmentNo.action';
+        api.ajax({
+            url: s,
+            method: 'post',
+            timeout: 30,
+            dataType: 'json',
+            data: {
+                values: {
+                    shipment_no: shipment_no
+                }
+            }
+        }, function(ret, err) {
+            if (ret) {
+
+                // if (ret.success) {
+                //     api.closeWin();
+                // }
+                if (ret.success) {
+                    var data = ret.record;
+                    for (var i = 0; i < data.length; i++) {
+                        $('.pipeinfo-div').append(makeTemplate(data[i]));
+                    }
+                } else {
+                    api.alert({
+                        msg: ret.message
+                    });
+                }
+            } else {
+                api.alert({
+                    msg: JSON.stringify(err)
+                });
+            }
+        });
     }
 </script>
