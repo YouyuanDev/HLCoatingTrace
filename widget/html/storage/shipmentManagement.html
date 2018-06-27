@@ -159,7 +159,7 @@
                 <tr>
                     <td class="i18n1" name="vehicleplateno"></td>
                     <td>
-                        <input type="text" class="vehicle_plate_no" name="vehicle_plate_no" style="width:90%;border:1px solid #cdcdcd;" placeholder="输入车牌号..." />
+                        <input type="text" readonly=false class="vehicle_plate_no" name="vehicle_plate_no" style="width:90%;border:1px solid #cdcdcd;" placeholder="输入车牌号..." />
 
                     </td>
                 </tr>
@@ -178,7 +178,7 @@
                     <td class="totalcount">0</td>
                 </tr>
                 <tr>
-                  <td></td>
+                    <td></td>
                 </tr>
             </table>
         </div>
@@ -216,14 +216,10 @@
             //DoLoadingPicture();
             var data = api.pageParam;
             g_shipment_no = data.shipment_no;
-            if (g_shipment_no != undefined) {
-                //开始拉数据
-                loadShipmentInfo(g_shipment_no);
-                $('.form-process-button').hide();
-                $('.scan-container').hide();
-            }
             fnSettingHeader();
             hlLanguage("../../i18n/");
+
+
             FNScanner = api.require('FNScanner');
             //二维码点击事件
             $('.scan-container').click(function() {
@@ -247,6 +243,20 @@
                 });
 
             });
+
+            if (g_shipment_no != undefined) {
+                //开始拉数据
+                loadShipmentInfo(g_shipment_no);
+                $('.form-process-button').hide();
+                $('.scan-container').hide();
+                $('.vehicle_plate_no').attr('readonly', true);
+                $('.vehicle_plate_no').attr('placeholder', '');
+
+
+            }
+
+
+
         }
         //得到钢管数据汇总成功
         // function GetAllProcessInfoByPipeNoOK(data) {
@@ -449,11 +459,11 @@
             buttons: ['确定', '取消']
         }, function(ret, err) {
             if (ret.buttonIndex == 1) {
-                if($('.vehicle_plate_no').val()==undefined||$('.vehicle_plate_no').val().length<=0){
-                  api.alert({
-                      msg:"请输入车牌号!"
-                  });
-                  return false;
+                if ($('.vehicle_plate_no').val() == undefined || $('.vehicle_plate_no').val().length <= 0) {
+                    api.alert({
+                        msg: "请输入车牌号!"
+                    });
+                    return false;
                 }
                 var pipeArr = "";
                 for (var i = 0; i < shipmentList.length; i++) {
@@ -493,7 +503,7 @@
     }
 
     function leaveWindow() {
-        if ((shipmentList.length > 0)&&g_shipment_no==undefined) {
+        if ((shipmentList.length > 0) && g_shipment_no == undefined) {
             api.confirm({
                 title: '提示',
                 msg: '离开后表单数据将丢失，确定离开表单吗?',
@@ -522,7 +532,6 @@
             }
         }, function(ret, err) {
             if (ret) {
-
                 // if (ret.success) {
                 //     api.closeWin();
                 // }
@@ -535,11 +544,15 @@
                     api.alert({
                         msg: ret.message
                     });
+
+                      api.closeWin();
+
                 }
             } else {
                 api.alert({
                     msg: JSON.stringify(err)
                 });
+                api.closeWin();
             }
         });
     }
