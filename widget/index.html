@@ -178,7 +178,22 @@
             background-repeat: no-repeat;
             background-size: cover;
         }
-
+        .show-statistics-btn{
+          position: fixed;
+          right: 10px;
+          top: 25px;
+          /*z-index: 10000;*/
+          background-color: #4D4D4D;
+          width: 35px;
+          height: 35px;
+          text-align: center;
+          line-height: 50px;
+          /*border-radius:50%;*/
+          color: white;
+          background: url('./image/search.png');
+          background-repeat: no-repeat;
+          background-size: cover;
+        }
     </style>
 </head>
 
@@ -218,7 +233,7 @@
                 </li>
                 <li class="border-b" name="statistics">
                   <span class="i18n1" name="statistics"></span>
-                  <div class="show-float-btn" data-isshow="hide" onclick="newStatistics()">
+                  <div class="show-statistics-btn" data-isshow="hide" onclick="newStatistics()">
                       <!-- 新建 -->
                   </div>
                 </li>
