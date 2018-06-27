@@ -221,6 +221,22 @@
 
 
             FNScanner = api.require('FNScanner');
+
+            api.addEventListener({
+                name: 'resume'
+            }, function(ret, err) {
+                FNScanner.onResume();
+                //alert('应用回到前台');
+            });
+            api.addEventListener({
+                name: 'pause'
+            }, function(ret, err) {
+                FNScanner.onPause();
+                //alert('应用进入后台');
+            });
+
+
+
             //二维码点击事件
             $('.scan-container').click(function() {
                 FNScanner.open({
