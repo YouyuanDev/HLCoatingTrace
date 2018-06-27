@@ -10,7 +10,24 @@
     <link rel="stylesheet" type="text/css" href="../css/style.css" />
     <link rel="stylesheet" type="text/css" href="../css/mobiscroll.custom-3.0.0-beta6.min.css" />
     <style>
-
+        .pipeinfo-table tr td {
+            font-size: 10px;
+        }
+        .item-oddtd{
+          text-align: left;
+          color: #7A7A7A;
+          width: 25%;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;font-size:10px;
+        }
+        .item-eventd{
+          width: 25%;
+          text-align: left;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;font-size:10px;
+        }
     </style>
 </head>
 
@@ -52,33 +69,33 @@
                 </thead>
                 <tr>
                     <td class="i18n1" name="totalcoated"></td>
-                    <td class="totalcoated"></td>
+                    <td class="totalcoated">0</td>
                     <td class="i18n1" name="acceptablecoated"></td>
-                    <td class="acceptablecoated"></td>
+                    <td class="acceptablecoated">0</td>
                 </tr>
                 <tr>
                     <td class="i18n1" name="acceptedwithrepair"></td>
-                    <td class="acceptedwithrepair"></td>
+                    <td class="acceptedwithrepair">0</td>
                     <td class="i18n1" name="rejected"></td>
-                    <td class="rejected"></td>
+                    <td class="rejected">0</td>
                 </tr>
                 <tr>
                     <td class="i18n1" name="quarantinedbare"></td>
-                    <td class="quarantinedbare"></td>
-                </tr>
-                <tr>
-                    <td class="i18n1" name="quarantinedbare"></td>
-                    <td class="quarantinedbare"></td>
+                    <td class="quarantinedbare">0</td>
                 </tr>
                 <tr>
                     <td class="i18n1" name="pipenofortestingring"></td>
                     <td class="pipenofortestingring"></td>
+                </tr>
+                <tr>
                     <td class="i18n1" name="cuttinglength"></td>
                     <td class="cuttinglength"></td>
                 </tr>
                 <tr>
                     <td class="i18n1" name="pipenofordscsampling"></td>
                     <td class="pipenofordscsampling"></td>
+                </tr>
+                <tr>
                     <td class="i18n1" name="pipenoforpesampling"></td>
                     <td class="pipenoforpesampling"></td>
                 </tr>
@@ -96,19 +113,15 @@
                 </thead>
                 <tr>
                     <td class="i18n1" name="totalcoated"></td>
-                    <td class="totalcoated"></td>
+                    <td class="totalcoated">0</td>
                     <td class="i18n1" name="acceptablecoated"></td>
-                    <td class="acceptablecoated"></td>
+                    <td class="acceptablecoated">0</td>
                 </tr>
                 <tr>
                     <td class="i18n1" name="acceptedwithrepair"></td>
-                    <td class="acceptedwithrepair"></td>
+                    <td class="acceptedwithrepair">0</td>
                     <td class="i18n1" name="rejected"></td>
-                    <td class="rejected"></td>
-                </tr>
-                <tr>
-                    <td class="i18n1" name="quarantinedbare"></td>
-                    <td class="quarantinedbare"></td>
+                    <td class="rejected">0</td>
                 </tr>
                 <tr>
                     <td class="i18n1" name="quarantinedbare"></td>
@@ -117,6 +130,8 @@
                 <tr>
                     <td class="i18n1" name="pipenoforsteelpanel"></td>
                     <td class="pipenoforsteelpanel"></td>
+                </tr>
+                <tr>
                     <td class="i18n1" name="pipenoforglasspanel"></td>
                     <td class="pipenoforglasspanel"></td>
                 </tr>
@@ -135,19 +150,15 @@
                 </thead>
                 <tr>
                     <td class="i18n1" name="totalcoated"></td>
-                    <td class="totalcoated"></td>
+                    <td class="totalcoated">0</td>
                     <td class="i18n1" name="acceptablecoated"></td>
-                    <td class="acceptablecoated"></td>
+                    <td class="acceptablecoated">0</td>
                 </tr>
                 <tr>
                     <td class="i18n1" name="acceptedwithrepair"></td>
-                    <td class="acceptedwithrepair"></td>
+                    <td class="acceptedwithrepair">0</td>
                     <td class="i18n1" name="rejected"></td>
-                    <td class="rejected"></td>
-                </tr>
-                <tr>
-                    <td class="i18n1" name="quarantinedbare"></td>
-                    <td class="quarantinedbare"></td>
+                    <td class="rejected">0</td>
                 </tr>
                 <tr>
                     <td class="i18n1" name="quarantinedbare"></td>
@@ -156,12 +167,16 @@
                 <tr>
                     <td class="i18n1" name="pipenofortestingring"></td>
                     <td class="pipenofortestingring"></td>
+                </tr>
+                <tr>
                     <td class="i18n1" name="cuttinglength"></td>
                     <td class="cuttinglength"></td>
                 </tr>
                 <tr>
                     <td class="i18n1" name="pipenofordscsampling"></td>
                     <td class="pipenofordscsampling"></td>
+                </tr>
+                <tr>
                     <td class="i18n1" name="pipenoforpesampling"></td>
                     <td class="pipenoforpesampling"></td>
                 </tr>
@@ -170,6 +185,7 @@
 
             </table>
         </div>
+
         <div class="form-item">
             <table class="pipeinfo-table idnightshift-table">
                 <thead>
@@ -179,19 +195,15 @@
                 </thead>
                 <tr>
                     <td class="i18n1" name="totalcoated"></td>
-                    <td class="totalcoated"></td>
+                    <td class="totalcoated">0</td>
                     <td class="i18n1" name="acceptablecoated"></td>
-                    <td class="acceptablecoated"></td>
+                    <td class="acceptablecoated">0</td>
                 </tr>
                 <tr>
                     <td class="i18n1" name="acceptedwithrepair"></td>
-                    <td class="acceptedwithrepair"></td>
+                    <td class="acceptedwithrepair">0</td>
                     <td class="i18n1" name="rejected"></td>
-                    <td class="rejected"></td>
-                </tr>
-                <tr>
-                    <td class="i18n1" name="quarantinedbare"></td>
-                    <td class="quarantinedbare"></td>
+                    <td class="rejected">0</td>
                 </tr>
                 <tr>
                     <td class="i18n1" name="quarantinedbare"></td>
@@ -200,6 +212,8 @@
                 <tr>
                     <td class="i18n1" name="pipenoforsteelpanel"></td>
                     <td class="pipenoforsteelpanel"></td>
+                </tr>
+                <tr>
                     <td class="i18n1" name="pipenoforglasspanel"></td>
                     <td class="pipenoforglasspanel"></td>
                 </tr>
@@ -219,17 +233,21 @@
 <script src="../script/language.js" type="text/javascript"></script>
 <script src="../script/mobiscroll.custom-3.0.0-beta6.min.js" type="text/javascript"></script>
 <script type="text/javascript">
+    var g_loadingID = 0;
     apiready = function() {
+            DoLoadingPicture();
             //获取项目编号集合
             RequireProjectNo();
             //获取分厂编号集合
             RequireMillNo();
             dropdownLoading();
             hlLanguage("../i18n/");
+            $('#operationTime').val(getDateOnly(new Date()));
             setControls();
         }
         //下拉刷新
     function dropdownLoading() {
+
         api.setRefreshHeaderInfo({
             loadingImg: 'widget://image/loading_more.png',
             bgColor: '#ccc',
@@ -237,10 +255,26 @@
             textDown: '下拉刷新...',
             textUp: '松开刷新...'
         }, function(ret, err) {
+          $('#oddayshift-table').empty();
+          $('#odnightshift-table').empty();
+          $('#iddayshift-table').empty();
+          $('#idnightshift-table').empty();
+          $('.totalcoated').text(0);
+          $('.acceptablecoated').text(0);
+          $('.acceptedwithrepair').text(0);
+          $('.rejected').text(0);
+          $('.quarantinedbare').text(0);
+          $('.pipenofortestingring').text('');
+          $('.cuttinglength').text('');
+          $('.pipenofordscsampling').text('');
+          $('.pipenoforpesampling').text('');
+          $('.pipenoforsteelpanel').text('');
+          $('.pipenoforglasspanel').text('');
             //获取项目编号集合
             RequireProjectNo();
             //获取分厂编号集合
             RequireMillNo();
+
             setTimeout(function() {
                 //执行刷新
                 api.refreshHeaderLoadDone();
@@ -266,15 +300,15 @@
     }
     //项目编号改变事件
     function reloadInfoByProjectNo() {
-
+        RequireShiftInfo();
     }
     //分厂编号改变事件
     function reloadInfoByMillNo() {
-
+        RequireShiftInfo();
     }
     //日期改变事件
     function reloadInfoByTime() {
-        //  alert($('.mob-datetime1').val());
+        RequireShiftInfo();
     }
     //获取所有分厂编号
     function RequireMillNo() {
@@ -302,7 +336,7 @@
                     msg: JSON.stringify(err)
                 });
             }
-            //closeWindowNoPipeNo();
+            ClearLoadingPicture();
         });
     }
     //获取当前用户所在分厂信息
@@ -335,6 +369,7 @@
     }
     //获取当班信息
     function RequireShiftInfo() {
+        DoLoadingPicture();
         var project_no = $('#projectInfoSelect').val();
         var mill_no = $('#millInfoSelect').val();
         var operation_time = $('#operationTime').val();
@@ -356,21 +391,317 @@
             });
             return false;
         }
-        var s = 'http://' + serverIP + '/Login/getMySession.action';
+        var s = 'http://' + serverIP + '/InspectionRecordPDFOperation/RequireShiftInfoForAPP.action';
         api.ajax({
             url: s,
             method: 'post',
             timeout: 30,
             dataType: 'json',
-            data: {}
+            data: {
+                values: {
+                    project_no: project_no,
+                    mill_no: mill_no,
+                    operation_time: operation_time
+                }
+            }
         }, function(ret, err) {
             if (ret) {
                 if (ret.success) {
-                    $('#millInfoSelect').val(ret.millno);
-                    RequireShiftInfo();
+                    //外防白班
+                    if (ret.odCoatingCountOfDay != undefined)
+                        $('.oddayshift-table .totalcoated').text(ret.odCoatingCountOfDay);
+                    if (ret.odAcceptedPipeCountOfDay != undefined)
+                        $('.oddayshift-table .acceptablecoated').text(ret.odAcceptedPipeCountOfDay);
+                    if (ret.odRepairPipeCountOfDay != undefined)
+                        $('.oddayshift-table .acceptedwithrepair').text(ret.odRepairPipeCountOfDay);
+                    if (ret.odRejectedPipeCountOfDay != undefined)
+                        $('.oddayshift-table .rejected').text(ret.odRejectedPipeCountOfDay);
+                    if (ret.odOnholdPipeCountOfDay != undefined)
+                        $('.oddayshift-table .quarantinedbare').text(ret.odOnholdPipeCountOfDay);
+                    var pipe_no_list_od_day = "",
+                        cut_off_length_list_od_day = "";
+                    if (ret.OdSampleListOfDay != undefined) {
+                        for (var i = 0; i < ret.OdSampleListOfDay.length; i++) {
+                            pipe_no_list_od_day += ret.OdSampleListOfDay[i].pipe_no + ";";
+                            cut_off_length_list_od_day += ret.OdSampleListOfDay[i].pipe_no + ":" + ret.OdSampleListOfDay[i].cut_off_length + ";";
+                        }
+                    }
+                    $('.oddayshift-table .pipenofortestingring').text(pipe_no_list_od_day);
+                    $('.oddayshift-table .cuttinglength').text(cut_off_length_list_od_day);
+                    var pipenofordscsampling_list_od_day = "",
+                        pipenoforpesampling_list_od_day = "";
+                    if (ret.OdDscList2FBEOfDay != undefined) {
+                        for (var i = 0; i < ret.OdDscList2FBEOfDay.length; i++) {
+                            if (pipenofordscsampling_list_od_day.indexOf(ret.OdDscList2FBEOfDay[i].pipe_no) == -1)
+                                pipenofordscsampling_list_od_day += ret.OdDscList2FBEOfDay[i].pipe_no + ";";
+                        }
+                    }
+                    if (ret.OdDscList3LPEOfDay != undefined) {
+                        for (var i = 0; i < ret.OdDscList3LPEOfDay.length; i++) {
+                            if (pipenofordscsampling_list_od_day.indexOf(ret.OdDscList3LPEOfDay[i].pipe_no) == -1)
+                                pipenofordscsampling_list_od_day += ret.OdDscList3LPEOfDay[i].pipe_no + ";";
+                        }
+                    }
+                    if (ret.OdPEListOfDay != undefined) {
+                        for (var i = 0; i < ret.OdPEListOfDay.length; i++) {
+                            if (pipenoforpesampling_list_od_day.indexOf(ret.OdPEListOfDay[i].pipe_no) == -1)
+                                pipenoforpesampling_list_od_day += ret.OdPEListOfDay[i].pipe_no + ";";
+                        }
+                    }
+                    $('.oddayshift-table .pipenofordscsampling').text(pipenofordscsampling_list_od_day);
+                    $('.oddayshift-table .pipenoforpesampling').text(pipenoforpesampling_list_od_day);
+                    if (ret.ODRepairListOfDay != undefined) {
+                        for (var i = 0; i < ret.ODRepairListOfDay.length; i++) {
+                            $('#oddayshift-table').append('<tr>');
+                            $('#oddayshift-table').append('<td class="i18n1 item-oddtd" name="coatingrepairpipeno"></td>');
+                            $('#oddayshift-table').append('<td class="item-eventd">' + ret.ODRepairListOfDay[i].pipe_no + '</td>');
+                            $('#oddayshift-table').append('<td class="i18n1 item-oddtd" name="repairreason"></td>');
+                            if (ret.ODRepairListOfDay[i].remark != undefined)
+                                $('#oddayshift-table').append('<td class="item-eventd">' + ret.ODRepairListOfDay[i].remark + '</td>');
+                            else
+                                $('#oddayshift-table').append('<td></td>');
+                            $('#oddayshift-table').append('</tr>');
+                        }
+                    }
+                    if (ret.ODStripListOfDay != undefined) {
+                        for (var i = 0; i < ret.ODStripListOfDay.length; i++) {
+                            $('#oddayshift-table').append('<tr>');
+                            $('#oddayshift-table').append('<td class="i18n1 item-oddtd" name="rejectedcoatedpipeno"></td>');
+                            $('#oddayshift-table').append('<td class="item-eventd">' + ret.ODStripListOfDay[i].pipe_no + '</td>');
+                            $('#oddayshift-table').append('<td class="i18n1 item-oddtd" name="rejectedreason"></td>');
+                            if (ret.ODStripListOfDay[i].remark != undefined)
+                                $('#oddayshift-table').append('<td class="item-eventd">' + ret.ODStripListOfDay[i].remark + '</td>');
+                            else
+                                $('#oddayshift-table').append('<td></td>');
+                            $('#oddayshift-table').append('</tr>');
+                        }
+                    }
+                    if (ret.ODOnholdListOfDay != undefined) {
+                        for (var i = 0; i < ret.ODOnholdListOfDay.length; i++) {
+                            $('#oddayshift-table').append('<tr>');
+                            $('#oddayshift-table').append('<td class="i18n1 item-oddtd" name="quarantinedbarepipeno"></td>');
+                            $('#oddayshift-table').append('<td class="item-eventd">' + ret.ODOnholdListOfDay[i].pipe_no + '</td>');
+                            $('#oddayshift-table').append('<td class="i18n1 item-oddtd" name="quarantinedreason"></td>');
+                            if (ret.ODOnholdListOfDay[i].remark != undefined)
+                                $('#oddayshift-table').append('<td class="item-eventd">' + ret.ODOnholdListOfDay[i].remark + '</td>');
+                            else
+                                $('#oddayshift-table').append('<td></td>');
+                            $('#oddayshift-table').append('</tr>');
+                        }
+                    }
+                    //内防白班
+                    if (ret.idCoatingCountOfDay != undefined)
+                        $('.iddayshift-table .totalcoated').text(ret.idCoatingCountOfDay);
+                    if (ret.idAcceptedPipeCountOfDay != undefined)
+                        $('.iddayshift-table .acceptablecoated').text(ret.idAcceptedPipeCountOfDay);
+                    if (ret.idRepairPipeCountOfDay != undefined)
+                        $('.iddayshift-table .acceptedwithrepair').text(ret.idRepairPipeCountOfDay);
+                    if (ret.idRejectedPipeCountOfDay != undefined)
+                        $('.iddayshift-table .rejected').text(ret.idRejectedPipeCountOfDay);
+                    if (ret.idOnholdPipeCountOfDay != undefined)
+                        $('.iddayshift-table .quarantinedbare').text(ret.idOnholdPipeCountOfDay);
+                    var pipe_no_steel_list_id_day = "",
+                        pipe_no_glass_list_id_day = "";
+                    if (ret.IDSampleInfoListOfDay != undefined) {
+                        for (var i = 0; i < ret.IDSampleInfoListOfDay.length; i++) {
+                            pipe_no_steel_list_id_day += ret.IDSampleInfoListOfDay[i].pipe_no + ";";
+                        }
+                    }
+                    if (ret.IDGlassSampleInfoListOfDay != undefined) {
+                        for (var i = 0; i < ret.IDGlassSampleInfoListOfDay.length; i++) {
+                            pipe_no_glass_list_id_day += ret.IDGlassSampleInfoListOfDay[i].pipe_no + ";";
+                        }
+                    }
+                    $('.iddayshift-table .pipenoforsteelpanel').text(pipe_no_steel_list_id_day);
+                    $('.iddayshift-table .pipenoforglasspanel').text(pipe_no_glass_list_id_day);
+                    if (ret.IDRepairListOfDay != undefined) {
+                        for (var i = 0; i < ret.IDRepairListOfDay.length; i++) {
+                            $('#iddayshift-table').append('<tr>');
+                            $('#iddayshift-table').append('<td class="i18n1 item-oddtd" name="coatingrepairpipeno"></td>');
+                            $('#iddayshift-table').append('<td class="item-eventd">' + ret.IDRepairListOfDay[i].pipe_no + '</td>');
+                            $('#iddayshift-table').append('<td class="i18n1 item-oddtd" name="repairreason"></td>');
+                            if (ret.IDRepairListOfDay[i].remark != undefined)
+                                $('#iddayshift-table').append('<td class="item-eventd">' + ret.IDRepairListOfDay[i].remark + '</td>');
+                            else
+                                $('#iddayshift-table').append('<td></td>');
+                            $('#iddayshift-table').append('</tr>');
+                        }
+                    }
+                    if (ret.IDStripListOfDay != undefined) {
+                        for (var i = 0; i < ret.IDStripListOfDay.length; i++) {
+                            $('#iddayshift-table').append('<tr>');
+                            $('#iddayshift-table').append('<td class="i18n1 item-oddtd" name="rejectedcoatedpipeno"></td>');
+                            $('#iddayshift-table').append('<td class="item-eventd">' + ret.IDStripListOfDay[i].pipe_no + '</td>');
+                            $('#iddayshift-table').append('<td class="i18n1 item-oddtd" name="rejectedreason"></td>');
+                            if (ret.IDStripListOfDay[i].remark != undefined)
+                                $('#iddayshift-table').append('<td class="item-eventd">' + ret.IDStripListOfDay[i].remark + '</td>');
+                            else
+                                $('#iddayshift-table').append('<td></td>');
+                            $('#iddayshift-table').append('</tr>');
+                        }
+                    }
+                    if (ret.IDOnholdListOfDay != undefined) {
+                        for (var i = 0; i < ret.IDOnholdListOfDay.length; i++) {
+                            $('#iddayshift-table').append('<tr>');
+                            $('#iddayshift-table').append('<td class="i18n1 item-oddtd" name="quarantinedbarepipeno"></td>');
+                            $('#iddayshift-table').append('<td class="item-eventd">' + ret.IDOnholdListOfDay[i].pipe_no + '</td>');
+                            $('#iddayshift-table').append('<td class="i18n1 item-oddtd" name="quarantinedreason"></td>');
+                            if (ret.IDOnholdListOfDay[i].remark != undefined)
+                                $('#iddayshift-table').append('<td class="item-eventd">' + ret.IDOnholdListOfDay[i].remark + '</td>');
+                            else
+                                $('#iddayshift-table').append('<td></td>');
+                            $('#iddayshift-table').append('</tr>');
+                        }
+                    }
+                    //外防夜班
+                    if (ret.odCoatingCountOfNight != undefined)
+                        $('.odnightshift-table .totalcoated').text(ret.odCoatingCountOfNight);
+                    if (ret.odAcceptedPipeCountOfNight != undefined)
+                        $('.odnightshift-table .acceptablecoated').text(ret.odAcceptedPipeCountOfNight);
+                    if (ret.odRepairPipeCountOfNight != undefined)
+                        $('.odnightshift-table .acceptedwithrepair').text(ret.odRepairPipeCountOfNight);
+                    if (ret.odRejectedPipeCountOfNight != undefined)
+                        $('.odnightshift-table .rejected').text(ret.odRejectedPipeCountOfNight);
+                    if (ret.odOnholdPipeCountOfNight != undefined)
+                        $('.odnightshift-table .quarantinedbare').text(ret.odOnholdPipeCountOfNight);
+                    var pipe_no_list_od_night = "",
+                        cut_off_length_list_od_night = "";
+                    if (ret.OdSampleListOfNight != undefined) {
+                        for (var i = 0; i < ret.OdSampleListOfNight.length; i++) {
+                            pipe_no_list_od_night += ret.OdSampleListOfNight[i].pipe_no + ";";
+                            cut_off_length_list_od_night += ret.OdSampleListOfNight[i].pipe_no + ":" + ret.OdSampleListOfNight[i].cut_off_length + ";";
+                        }
+                    }
+                    $('.odnightshift-table .pipenofortestingring').text(pipe_no_list_od_night);
+                    $('.odnightshift-table .cuttinglength').text(cut_off_length_list_od_night);
+                    var pipenofordscsampling_list_od_night = "",
+                        pipenoforpesampling_list_od_night = "";
+                    if (ret.OdDscList2FBEOfNight != undefined) {
+                        for (var i = 0; i < ret.OdDscList2FBEOfNight.length; i++) {
+                            pipenofordscsampling_list_od_night += ret.OdDscList2FBEOfNight[i].pipe_no + ";";
+                        }
+                    }
+                    if (ret.OdDscList3LPEOfNight != undefined) {
+                        for (var i = 0; i < ret.OdDscList3LPEOfNight.length; i++) {
+                            pipenofordscsampling_list_od_night += ret.OdDscList3LPEOfNight[i].pipe_no + ";";
+                        }
+                    }
+                    if (ret.OdPEListOfNight != undefined) {
+                        for (var i = 0; i < ret.OdPEListOfNight.length; i++) {
+                            pipenoforpesampling_list_od_night += ret.OdPEListOfNight[i].pipe_no + ";";
+                        }
+                    }
+                    $('.odnightshift-table .pipenofordscsampling').text(pipenofordscsampling_list_od_night);
+                    $('.odnightshift-table .pipenoforpesampling').text(pipenoforpesampling_list_od_night);
+                    if (ret.ODRepairListOfNight != undefined) {
+                        for (var i = 0; i < ret.ODRepairListOfNight.length; i++) {
+                            $('#odnightshift-table').append('<tr>');
+                            $('#odnightshift-table').append('<td class="i18n1 item-oddtd" name="coatingrepairpipeno"></td>');
+                            $('#odnightshift-table').append('<td class="item-eventd">' + ret.ODRepairListOfNight[i].pipe_no + '</td>');
+                            $('#odnightshift-table').append('<td class="i18n1 item-oddtd" name="repairreason"></td>');
+                            if (ret.ODRepairListOfNight[i].remark != undefined)
+                                $('#odnightshift-table').append('<td class="item-eventd">' + ret.ODRepairListOfNight[i].remark + '</td>');
+                            else
+                                $('#odnightshift-table').append('<td></td>');
+                            $('#odnightshift-table').append('</tr>');
+                        }
+                    }
+                    if (ret.ODStripListOfNight != undefined) {
+                        for (var i = 0; i < ret.ODStripListOfNight.length; i++) {
+                            $('#odnightshift-table').append('<tr>');
+                            $('#odnightshift-table').append('<td class="i18n1 item-oddtd" name="rejectedcoatedpipeno"></td>');
+                            $('#odnightshift-table').append('<td class="item-eventd">' + ret.ODStripListOfNight[i].pipe_no + '</td>');
+                            $('#odnightshift-table').append('<td class="i18n1 item-oddtd" name="rejectedreason"></td>');
+                            if (ret.ODStripListOfNight[i].remark != undefined)
+                                $('#odnightshift-table').append('<td class="item-eventd">' + ret.ODStripListOfNight[i].remark + '</td>');
+                            else
+                                $('#odnightshift-table').append('<td></td>');
+                            $('#odnightshift-table').append('</tr>');
+                        }
+                    }
+                    if (ret.ODOnholdListOfNight != undefined) {
+                        for (var i = 0; i < ret.ODOnholdListOfNight.length; i++) {
+                            $('#odnightshift-table').append('<tr>');
+                            $('#odnightshift-table').append('<td class="i18n1 item-oddtd" name="quarantinedbarepipeno"></td>');
+                            $('#odnightshift-table').append('<td class="item-eventd">' + ret.ODOnholdListOfNight[i].pipe_no + '</td>');
+                            $('#odnightshift-table').append('<td class="i18n1 item-oddtd" name="quarantinedreason"></td>');
+                            if (ret.ODOnholdListOfNight[i].remark != undefined)
+                                $('#odnightshift-table').append('<td class="item-eventd">' + ret.ODOnholdListOfNight[i].remark + '</td>');
+                            else
+                                $('#odnightshift-table').append('<td></td>');
+                            $('#odnightshift-table').append('</tr>');
+                        }
+                    }
+                    //内防夜班
+                    if (ret.idCoatingCountOfNight != undefined)
+                        $('.idnightshift-table .totalcoated').text(ret.idCoatingCountOfNight);
+                    if (ret.idAcceptedPipeCountOfNight != undefined)
+                        $('.idnightshift-table .acceptablecoated').text(ret.idAcceptedPipeCountOfNight);
+                    if (ret.idRepairPipeCountOfNight != undefined)
+                        $('.idnightshift-table .acceptedwithrepair').text(ret.idRepairPipeCountOfNight);
+                    if (ret.idRejectedPipeCountOfNight != undefined)
+                        $('.idnightshift-table .rejected').text(ret.idRejectedPipeCountOfNight);
+                    if (ret.idOnholdPipeCountOfNight != undefined)
+                        $('.idnightshift-table .quarantinedbare').text(ret.idOnholdPipeCountOfNight);
+                    var pipe_no_steel_list_id_night = "",
+                        pipe_no_glass_list_id_night = "";
+                    if (ret.IDSampleInfoListOfNight != undefined) {
+                        for (var i = 0; i < ret.IDSampleInfoListOfNight.length; i++) {
+                            pipe_no_steel_list_id_night += ret.IDSampleInfoListOfNight[i].pipe_no + ";";
+                        }
+                    }
+                    if (ret.IDGlassSampleInfoListOfNight != undefined) {
+                        for (var i = 0; i < ret.IDGlassSampleInfoListOfNight.length; i++) {
+                            pipe_no_glass_list_id_night += ret.IDGlassSampleInfoListOfNight[i].pipe_no + ";";
+                        }
+                    }
+                    $('.idnightshift-table .pipenoforsteelpanel').text(pipe_no_steel_list_id_night);
+                    $('.idnightshift-table .pipenoforglasspanel').text(pipe_no_glass_list_id_night);
+                    if (ret.IDRepairListOfNight != undefined) {
+                        for (var i = 0; i < ret.IDRepairListOfNight.length; i++) {
+                            $('#idnightshift-table').append('<tr>');
+                            $('#idnightshift-table').append('<td class="i18n1 item-oddtd" name="coatingrepairpipeno"></td>');
+                            $('#idnightshift-table').append('<td class="item-eventd">' + ret.IDRepairListOfNight[i].pipe_no + '</td>');
+                            $('#idnightshift-table').append('<td class="i18n1 item-oddtd" name="repairreason"></td>');
+                            if (ret.IDRepairListOfNight[i].remark != undefined)
+                                $('#idnightshift-table').append('<td class="item-eventd">' + ret.IDRepairListOfNight[i].remark + '</td>');
+                            else
+                                $('#idnightshift-table').append('<td></td>');
+                            $('#idnightshift-table').append('</tr>');
+                        }
+                    }
+                    if (ret.IDStripListOfNight != undefined) {
+                        for (var i = 0; i < ret.IDStripListOfNight.length; i++) {
+                            $('#idnightshift-table').append('<tr>');
+                            $('#idnightshift-table').append('<td class="i18n1 item-oddtd" name="rejectedcoatedpipeno"></td>');
+                            $('#idnightshift-table').append('<td class="item-eventd">' + ret.IDStripListOfNight[i].pipe_no + '</td>');
+                            $('#idnightshift-table').append('<td class="i18n1 item-oddtd" name="rejectedreason"></td>');
+                            if (ret.IDStripListOfNight[i].remark != undefined)
+                                $('#idnightshift-table').append('<td class="item-eventd">' + ret.IDStripListOfNight[i].remark + '</td>');
+                            else
+                                $('#idnightshift-table').append('<td></td>');
+                            $('#idnightshift-table').append('</tr>');
+                        }
+                    }
+                    if (ret.IDOnholdListOfNight != undefined) {
+                        for (var i = 0; i < ret.IDOnholdListOfNight.length; i++) {
+                            $('#idnightshift-table').append('<tr>');
+                            $('#idnightshift-table').append('<td class="i18n1 item-oddtd" name="quarantinedbarepipeno"></td>');
+                            $('#idnightshift-table').append('<td class="item-eventd">' + ret.IDOnholdListOfNight[i].pipe_no + '</td>');
+                            $('#idnightshift-table').append('<td class="i18n1 item-oddtd" name="quarantinedreason"></td>');
+                            if (ret.IDOnholdListOfNight[i].remark != undefined)
+                                $('#idnightshift-table').append('<td class="item-eventd">' + ret.IDOnholdListOfNight[i].remark + '</td>');
+                            else
+                                $('#idnightshift-table').append('<td></td>');
+                            $('#idnightshift-table').append('</tr>');
+                        }
+                    }
+
+                    hlLanguage("../i18n/");
+
                 } else {
                     api.alert({
-                        msg: JSON.stringify(ret.msg)
+                        msg: "获取当班信息失败!"
                     });
                 }
             } else {
@@ -378,6 +709,7 @@
                     msg: JSON.stringify(err)
                 });
             }
+            ClearLoadingPicture();
         });
     }
 </script>
