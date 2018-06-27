@@ -178,6 +178,7 @@
             background-repeat: no-repeat;
             background-size: cover;
         }
+
     </style>
 </head>
 
@@ -215,7 +216,12 @@
                     </div>
 
                 </li>
-                <li class="border-b i18n1" name="statistics">统计</li>
+                <li class="border-b" name="statistics">
+                  <span class="i18n1" name="statistics"></span>
+                  <div class="show-float-btn" data-isshow="hide" onclick="newStatistics()">
+                      <!-- 新建 -->
+                  </div>
+                </li>
                 <li class="border-b i18n1" name="personal">个人信息</li>
             </ul>
         </header>
@@ -475,5 +481,28 @@
                 shipment_no: undefined
             }
         });
+    }
+    function newStatistics(){
+      $("body").addClass('mask');
+      api.openFrame({
+          name: 'newstatisticsselect',
+          url: './html/addition/newstatisticsselect.html',
+          bgColor: 'rgba(0,0,0,0.8)',
+          rect: {
+              x: 0,
+              y: 0,
+              w: 'auto',
+              h: 'auto',
+              marginLeft: 0,
+              marginTop: 0,
+              marginBottom: 0,
+              marginRight: 0
+          },
+          animation: {
+              type: "movein",
+              subType: "from_top",
+              duration: 300
+          }
+      });
     }
 </script>

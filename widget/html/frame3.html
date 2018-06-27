@@ -33,32 +33,7 @@
 
 <body>
     <div class="div-data" id="div-data" style="font-size: 16px;color:#000000;font-family:" Sans-serif ";">
-        <div class="form-item">
-            <div class="form-item-lbl">
-                <label class="i18n1" name="projectno"></label>
-            </div>
-            <div class="form-item-val">
-                <select class="model-select" id="projectInfoSelect" onchange="reloadInfoByProjectNo()">
-             </select>
-            </div>
-        </div>
-        <div class="form-item">
-            <div class="form-item-lbl">
-                <label class="i18n1" name="millno"></label>
-            </div>
-            <div class="form-item-val">
-                <select class="model-select" id="millInfoSelect" onchange="reloadInfoByMillNo()">
-             </select>
-            </div>
-        </div>
-        <div class="form-item">
-            <div class="form-item-lbl">
-                <label class="i18n1" name="operationtime"></label>
-            </div>
-            <div class="form-item-val">
-                <input class="mob-datetime1" id="operationTime" type="text" name="operation_time" onchange="reloadInfoByTime()" />
-            </div>
-        </div>
+
         <!--白班-->
         <div class="form-item">
             <table class="pipeinfo-table oddayshift-table">
@@ -234,20 +209,21 @@
 <script src="../script/mobiscroll.custom-3.0.0-beta6.min.js" type="text/javascript"></script>
 <script type="text/javascript">
     var g_loadingID = 0;
+    var project_no="",mill_no="",operation_time="";
     apiready = function() {
-            DoLoadingPicture();
-            //获取项目编号集合
-            RequireProjectNo();
-            //获取分厂编号集合
-            RequireMillNo();
             dropdownLoading();
             hlLanguage("../i18n/");
-            $('#operationTime').val(getDateOnly(new Date()));
-            setControls();
+            api.addEventListener({
+                name: 'RequireShiftInfoEvent'
+            }, function(ret, err) {
+                RequireShiftInfo(ret.value.project_no,ret.value.mill_no,ret.value.operation_time);
+                project_no=ret.value.project_no;
+                mill_no=ret.value.mill_no;
+                operation_time=ret.value.operation_time;
+            });
         }
         //下拉刷新
     function dropdownLoading() {
-
         api.setRefreshHeaderInfo({
             loadingImg: 'widget://image/loading_more.png',
             bgColor: '#ccc',
@@ -255,106 +231,16 @@
             textDown: '下拉刷新...',
             textUp: '松开刷新...'
         }, function(ret, err) {
-             RequireShiftInfo();
+            RequireShiftInfo(project_no,mill_no,operation_time);
             setTimeout(function() {
                 //执行刷新
                 api.refreshHeaderLoadDone();
             }, 50);
         });
     }
-    //获取项目编号集合成功
-    function RequireProjectNoOK(data) {
-        $('#projectInfoSelect').empty();
-        for (var i = 0; i < data.length; i++) {
-            if (i == 0)
-                $('#projectInfoSelect').append('<option value=' + data[i].project_no + ' selected="selected">' + data[i].project_name + '</option>');
-            else
-                $('#projectInfoSelect').append('<option value=' + data[i].project_no + '>' + data[i].project_name + '</option>');
-        }
-    }
-    //获取项目编号集合失败
-    function RequireProjectNoFail() {
-        api.alert({
-            msg: "获取项目编号时出错!"
-        });
-        closeWindowNoPipeNo();
-    }
-    //项目编号改变事件
-    function reloadInfoByProjectNo() {
-        RequireShiftInfo();
-    }
-    //分厂编号改变事件
-    function reloadInfoByMillNo() {
-        RequireShiftInfo();
-    }
-    //日期改变事件
-    function reloadInfoByTime() {
-        RequireShiftInfo();
-    }
-    //获取所有分厂编号
-    function RequireMillNo() {
-        //发出请求
-        var s = 'http://' + serverIP + '/millInfo/getAllMillsInfo.action';
-        api.ajax({
-            url: s,
-            method: 'post',
-            timeout: 30,
-            dataType: 'json',
-            data: {}
-        }, function(ret, err) {
-            if (ret) {
-                if (ret.success) {
-                    var data = ret.millinfo;
-                    $('#millInfoSelect').empty();
-                    for (var i = 0; i < data.length; i++) {
-                        $('#millInfoSelect').append('<option value=' + data[i].mill_no + '>' + data[i].mill_name + '</option>');
-                    }
-                    //获取当前所在的分厂信息
-                    RequireMillNoByUser();
-                }
-            } else {
-                api.alert({
-                    msg: JSON.stringify(err)
-                });
-            }
-            ClearLoadingPicture();
-        });
-    }
-    //获取当前用户所在分厂信息
-    function RequireMillNoByUser() {
-        //发出请求
-        var s = 'http://' + serverIP + '/Login/getMySession.action';
-        api.ajax({
-            url: s,
-            method: 'post',
-            timeout: 30,
-            dataType: 'json',
-            data: {}
-        }, function(ret, err) {
-            if (ret) {
-                if (ret.success) {
-                    $('#millInfoSelect').val(ret.millno);
-                    RequireShiftInfo();
-                } else {
-                    api.alert({
-                        msg: JSON.stringify(ret.msg)
-                    });
-                }
-            } else {
-                api.alert({
-                    msg: JSON.stringify(err)
-                });
-            }
-            //closeWindowNoPipeNo();
-        });
-    }
     //获取当班信息
-    function RequireShiftInfo() {
-        DoLoadingPicture();
+    function RequireShiftInfo(project_no,mill_no,operation_time) {
         clearTableData();
-        var project_no = $('#projectInfoSelect').val();
-        var mill_no = $('#millInfoSelect').val();
-        var operation_time = $('#operationTime').val();
         if (project_no == undefined || project_no == "") {
             api.alert({
                 msg: "请选择所做项目!"
@@ -373,7 +259,7 @@
             });
             return false;
         }
-
+        DoLoadingPicture();
         var s = 'http://' + serverIP + '/InspectionRecordPDFOperation/RequireShiftInfoForAPP.action';
         api.ajax({
             url: s,
