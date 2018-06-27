@@ -240,7 +240,8 @@
             //二维码点击事件
             $('.scan-container').click(function() {
                 FNScanner.open({
-                    autorotation: true
+                    autorotation: true,
+                    sound:'../../sound/scanok.wav'
                 }, function(ret, err) {
                     if (ret) {
                         //扫出来结果
