@@ -50,7 +50,7 @@
 
     <preference name="autoUpdate" value="true"/>
 
-    <preference name="smartUpdate" value="false"/>
+    <preference name="smartUpdate" value="true"/>
 
     <preference name="debug" value="true"/>
 
