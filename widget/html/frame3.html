@@ -255,26 +255,7 @@
             textDown: '下拉刷新...',
             textUp: '松开刷新...'
         }, function(ret, err) {
-          $('#oddayshift-table').empty();
-          $('#odnightshift-table').empty();
-          $('#iddayshift-table').empty();
-          $('#idnightshift-table').empty();
-          $('.totalcoated').text(0);
-          $('.acceptablecoated').text(0);
-          $('.acceptedwithrepair').text(0);
-          $('.rejected').text(0);
-          $('.quarantinedbare').text(0);
-          $('.pipenofortestingring').text('');
-          $('.cuttinglength').text('');
-          $('.pipenofordscsampling').text('');
-          $('.pipenoforpesampling').text('');
-          $('.pipenoforsteelpanel').text('');
-          $('.pipenoforglasspanel').text('');
-            //获取项目编号集合
-            RequireProjectNo();
-            //获取分厂编号集合
-            RequireMillNo();
-
+             RequireShiftInfo();
             setTimeout(function() {
                 //执行刷新
                 api.refreshHeaderLoadDone();
@@ -370,6 +351,7 @@
     //获取当班信息
     function RequireShiftInfo() {
         DoLoadingPicture();
+        clearTableData();
         var project_no = $('#projectInfoSelect').val();
         var mill_no = $('#millInfoSelect').val();
         var operation_time = $('#operationTime').val();
@@ -391,6 +373,7 @@
             });
             return false;
         }
+
         var s = 'http://' + serverIP + '/InspectionRecordPDFOperation/RequireShiftInfoForAPP.action';
         api.ajax({
             url: s,
@@ -701,7 +684,7 @@
 
                 } else {
                     api.alert({
-                        msg: "获取当班信息失败!"
+                        msg:ret.message
                     });
                 }
             } else {
@@ -711,5 +694,22 @@
             }
             ClearLoadingPicture();
         });
+    }
+    function clearTableData(){
+      $('#oddayshift-table').empty();
+      $('#odnightshift-table').empty();
+      $('#iddayshift-table').empty();
+      $('#idnightshift-table').empty();
+      $('.totalcoated').text(0);
+      $('.acceptablecoated').text(0);
+      $('.acceptedwithrepair').text(0);
+      $('.rejected').text(0);
+      $('.quarantinedbare').text(0);
+      $('.pipenofortestingring').text('');
+      $('.cuttinglength').text('');
+      $('.pipenofordscsampling').text('');
+      $('.pipenoforpesampling').text('');
+      $('.pipenoforsteelpanel').text('');
+      $('.pipenoforglasspanel').text('');
     }
 </script>
