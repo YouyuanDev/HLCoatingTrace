@@ -1,5 +1,5 @@
 var header, headerHeight = 0;
-var serverIP = '192.168.0.12:8080';
+var serverIP = '116.62.17.42:8080';
 
 function fnSettingHeader() {
 
