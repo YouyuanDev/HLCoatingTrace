@@ -366,6 +366,8 @@
         var processcode = $(obj).attr('data-testing-type');
         //var sample_type = $(obj).attr('data-sample-type');
         var pipe_no = $(obj).attr('data-pipe-no');
+        alert("pipe_no"+pipe_no);
+        alert("processcode"+processcode);
         var id = $(obj).attr('data-id');
         if (processcode!=undefined&&processcode!="") {
             api.openWin({

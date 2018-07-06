@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-    <title>外喷砂</title>
+    <title>工序</title>
     <link rel="stylesheet" type="text/css" href="../../css/api.css" />
     <link rel="stylesheet" type="text/css" href="../../css/style.css" />
     <link rel="stylesheet" type="text/css" href="../../css/mobiscroll.custom-3.0.0-beta6.min.css" />
@@ -206,14 +206,13 @@
         g_pipeno = data.pipe_no;
         g_processcode = data.process_code
         $('.nav-pipeno').attr('name',g_processcode);
-        alert(g_pipeno+":"+g_processcode);
+        //alert(g_pipeno+":"+g_processcode);
         // g_pipeno = '1544530';
         // g_processcode = "od_blast";
         fnSettingHeader();
         language = getCookie("userLanguage");
         hlLanguage("../../i18n/");
-        RequestAllProcessInfoByPipeNo(g_pipeno, g_processcode);
-        //根据管子的状态进入到不同的工序
+
     }
 
     function GetAllProcessInfoByPipeNoOK(data) {
@@ -232,7 +231,7 @@
         setMobControls();
         setSelectPictures();
 
-        setResults("od_blast",language);
+        setResults(g_processcode,language);
         //alert(JSON.stringify(data));
         //getPendingRecordInfo("OdOperation", g_pipeno);
 
@@ -762,6 +761,9 @@
         }, function(ret, err) {
             if (ret) {
                 g_result_output = ret;
+                //根据管子的状态进入到不同的工序
+                RequestAllProcessInfoByPipeNo(g_pipeno, g_processcode);
+
             }
         });
     }

@@ -109,31 +109,31 @@
         <div class="close-float" onclick="closePanel()"></div>
         <div class="float-btn-container">
             <div class="float-btn">
-                <div class="float-btn-item" onclick="LabTesting2fbe()">
+                <div class="float-btn-item" onclick="LabTesting('lab_testing_od_regular')">
                     <div class="raw-bg raw-bg1"></div>
-                    成品(2FBE)
+                    外防常规实验（OD Regular Testing）
                 </div>
-                <div class="float-btn-item" onclick="LabTesting3lpe()">
+                <div class="float-btn-item" onclick="LabTesting('lab_testing_dsc')">
                     <div class="raw-bg raw-bg2"></div>
-                    成品(3LPE)
+                    DSC实验（DSC Testing）
                 </div>
-                <div class="float-btn-item" onclick="LabTestingEpoxy()">
+                <div class="float-btn-item" onclick="LabTesting('lab_testing_pe')">
                     <div class="raw-bg raw-bg3"></div>
-                    成品(EPOXY)
+                    PE实验（PE Testing）
                 </div>
             </div>
             <div class="float-btn">
-                <div class="float-btn-item" onclick="RawMaterial2fbe()">
+                <div class="float-btn-item" onclick="LabTesting('lab_testing_glass')">
                     <div class="raw-bg raw-bg4"></div>
-                    原材料(2FBE)
+                    内防玻璃片实验（Glass Panel Testing）
                 </div>
-                <div class="float-btn-item" onclick="RawMaterial3lpe()">
+                <div class="float-btn-item" onclick="LabTesting('lab_testing_id_regular')">
                     <div class="raw-bg raw-bg5"></div>
-                    原材料(3LPE)
+                    内防常规实验（ID Regular Testing）
                 </div>
-                <div class="float-btn-item" onclick="RawMaterialEpoxy()">
+                <div class="float-btn-item" onclick="LabTesting('lab_testing_raw_material_3LPE')">
                     <div class="raw-bg raw-bg6"></div>
-                    原材料(EPOXY)
+                    原材料实验(Raw Material 3LPE Tesing)
                 </div>
             </div>
         </div>
@@ -159,69 +159,17 @@
         });
     }
 
-    function LabTesting2fbe() {
+    function LabTesting(process_code) {
         api.openWin({
             name: 'newtestingpanelselect',
-            url: './newtestingpanelselect.html',
+            url: '../process/generalprocess.html',
             pageParam: {
-                testing_type: '2FBE'
+                process_code:process_code,
+                pipe_no:''
             }
         });
         closePanel();
     }
 
-    function LabTesting3lpe() {
-        api.openWin({
-            name: 'newtestingpanelselect',
-            url: './newtestingpanelselect.html',
-            pageParam: {
-                testing_type: '3LPE'
-            }
-        });
-        closePanel();
-    }
 
-    function LabTestingEpoxy() {
-        api.openWin({
-            name: 'newtestingpanelselect',
-            url: './newtestingpanelselect.html',
-            pageParam: {
-                testing_type: 'EPOXY'
-            }
-        });
-        closePanel();
-    }
-
-    function RawMaterial2fbe() {
-        api.openWin({
-            name: 'rawmaterialtesting2fbe',
-            url: './rawmaterialtesting2fbe.html',
-            pageParam: {
-                id: undefined
-            }
-        });
-        closePanel();
-    }
-
-    function RawMaterial3lpe() {
-        api.openWin({
-            name: 'rawmaterialtesting3lpe',
-            url: './rawmaterialtesting3lpe.html',
-            pageParam: {
-                id: undefined
-            }
-        });
-        closePanel();
-    }
-
-    function RawMaterialEpoxy() {
-        api.openWin({
-            name: 'rawmaterialtestingliquidepoxy',
-            url: './rawmaterialtestingliquidepoxy.html',
-            pageParam: {
-                id: undefined
-            }
-        });
-        closePanel();
-    }
 </script>
