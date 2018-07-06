@@ -239,7 +239,7 @@
     //APP根据项目编号获取试验信息
     function getLabTestingInfoByProjectNo(project_no, start) {
         //alert(project_no);
-        var s = 'http://' + serverIP + '/LabTest2FbeOperation/getLabTestingInfoByProjectNo.action';
+        var s = 'http://' + serverIP + '/APPRequestTransfer/getLabTestingInfoByProjectNo.action';
         api.ajax({
             url: s,
             method: 'post',
@@ -257,7 +257,7 @@
                 if (ret.success) {
                     var data = ret.record;
                     for (var i = 0; i < data.length; i++) {
-                        $('.labinfo-div').append(makeTemplate(data[i].id, data[i].sample_type, data[i].testing_type, data[i].result, data[i].operation_time, data[i].pipe_no));
+                        $('.labinfo-div').append(makeTemplate(data[i].id, data[i].testing_type, data[i].result, data[i].operation_time, data[i].pipe_no));
                     }
                     hlLanguage("../i18n/");
                 }
@@ -269,7 +269,7 @@
         });
     }
     //实验信息模板
-    function makeTemplate(id, sample_type, testing_type, result, operation_time, pipe_no) {
+    function makeTemplate(id, testing_type, result, operation_time, pipe_no) {
         var template = "";
         var prefix_title="";
         var title = "";
@@ -280,25 +280,32 @@
             result = "accepted";
         else if (result == "10")
             result = "pending";
-        if (testing_type.indexOf('LAB') != -1)
-            prefix_title = "product";
-        else if (testing_type.indexOf('RAW') != -1)
+
+        if (testing_type.indexOf('raw_material') != -1)
             prefix_title = "rawmaterial";
-        if (testing_type.indexOf('2FBE') != -1)
-            title = " 2FBE";
-        else if (testing_type.indexOf('3LPE') != -1)
-            title = " 3LPE";
-        else if (testing_type.indexOf('EPOXY') != -1)
-            title = " EPOXY";
-        if (sample_type.indexOf('REGULAR') != -1)
-            title_sufix = "regulartesting";
-        else if (sample_type.indexOf('DSC') != -1)
-            title_sufix = "dsctesting";
-        else if (sample_type.indexOf('PE') != -1)
-            title_sufix = "petesting";
-        else if (sample_type.indexOf('GLASS') != -1)
-            title_sufix = "glasstesting";
-        template += '<div class="item style1" data-id=' + id + ' data-pipe-no=' + pipe_no + ' data-sample-type=' + sample_type + '  data-testing-type=' + testing_type + ' onclick="goTestingBySampleType(this);">';
+        else
+            prefix_title = "product";
+
+        if (testing_type.indexOf('od_regular') != -1)
+            title = " OD Regular";
+        else if (testing_type.indexOf('dsc') != -1)
+            title = " DSC";
+        else if (testing_type.indexOf('pe') != -1)
+            title = " PE";
+        else if (testing_type.indexOf('id_regular') != -1)
+            title = " ID Regular ";
+        else if (testing_type.indexOf('glass') != -1)
+            title = " ID Glass Panel ";
+
+        // if (sample_type.indexOf('REGULAR') != -1)
+        //     title_sufix = "regulartesting";
+        // else if (sample_type.indexOf('DSC') != -1)
+        //     title_sufix = "dsctesting";
+        // else if (sample_type.indexOf('PE') != -1)
+        //     title_sufix = "petesting";
+        // else if (sample_type.indexOf('GLASS') != -1)
+        //     title_sufix = "glasstesting";
+        template += '<div class="item style1" data-id=' + id + ' data-pipe-no=' + pipe_no + ' data-testing-type=' + testing_type + ' onclick="goTestingBySampleType(this);">';
         //lab实验|| testing_type.indexOf('LAB3LPE') != -1 || testing_type.indexOf('LABEPOXY') != -1
         if (testing_type.indexOf('LAB2FBE') != -1) {
             template += '<div class="itemlogo userlogo"><img src="../image/pipe_2fbe.png" alt=""></div>';
@@ -355,56 +362,18 @@
     }
     //实验点击事件
     function goTestingBySampleType(obj) {
-        var testing_type = $(obj).attr('data-testing-type');
-        var sample_type = $(obj).attr('data-sample-type');
+       //testing_type就是process_code
+        var processcode = $(obj).attr('data-testing-type');
+        //var sample_type = $(obj).attr('data-sample-type');
         var pipe_no = $(obj).attr('data-pipe-no');
         var id = $(obj).attr('data-id');
-        if (testing_type.indexOf('LAB2FBE') != -1) {
+        if (processcode!=undefined&&processcode!="") {
             api.openWin({
-                name: 'labtesting2fbe',
-                url: './labtesting/labtesting2fbe.html',
+                name: 'labtesting',
+                url: './process/generalprocess.html',
                 pageParam: {
-                    pipe_no: pipe_no
-                }
-            });
-        } else if (testing_type.indexOf('LAB3LPE') != -1) {
-            api.openWin({
-                name: 'labtesting3lpe',
-                url: './labtesting/labtesting3lpe.html',
-                pageParam: {
-                    pipe_no: pipe_no
-                }
-            });
-        } else if (testing_type.indexOf('LABEPOXY') != -1) {
-            api.openWin({
-                name: 'labtestingepoxy',
-                url: './labtesting/labtestingepoxy.html',
-                pageParam: {
-                    pipe_no: pipe_no
-                }
-            });
-        } else if (testing_type.indexOf('RAW2FBE') != -1) {
-            api.openWin({
-                name: 'rawmaterialtesting2fbe',
-                url: './labtesting/rawmaterialtesting2fbe.html',
-                pageParam: {
-                    id: id
-                }
-            });
-        } else if (testing_type.indexOf('RAW3LPE') != -1) {
-            api.openWin({
-                name: 'rawmaterialtesting3lpe',
-                url: './labtesting/rawmaterialtesting3lpe.html',
-                pageParam: {
-                    id: id
-                }
-            });
-        } else if (testing_type.indexOf('RAWEPOXY') != -1) {
-            api.openWin({
-                name: 'rawmaterialtestingliquidepoxy',
-                url: './labtesting/rawmaterialtestingliquidepoxy.html',
-                pageParam: {
-                    id: id
+                    pipe_no: pipe_no,
+                    process_code:processcode
                 }
             });
         }
