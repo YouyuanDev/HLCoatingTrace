@@ -566,7 +566,7 @@ function delSelectPicture(obj) {
 
 
 //根据pipeno  内外防腐标准、检验频率、钢管信息、光管检验频率、pending数据  APP使用  stencil_content 做完动态替换
-function RequestAllProcessInfoByPipeNo(pipeno) {
+function RequestAllProcessInfoByPipeNo(pipeno,processcode) {
     //alert(pipeno);
     // pipeno="1524540";
     //注册接收RequestAllProcessInfoByPipeNo回调
@@ -577,14 +577,9 @@ function RequestAllProcessInfoByPipeNo(pipeno) {
             //得到了外防接收标准  下一行代码不要注释！！
             var employeeno = ret.value.data.employeeno;
             var millno = ret.value.data.millno;
-            var odcriteria = ret.value.data.odcriteria;
-            var idcriteria = ret.value.data.idcriteria;
-            var pbcriteria = ret.value.data.pbcriteria;
-            var inspectfreq = ret.value.data.inspectfreq;
+            var criteria = ret.value.data.criteria;
             var pipeinfo = ret.value.data.pipeinfo;
-
-
-
+            //alert(JSON.stringify(criteria));
             GetAllProcessInfoByPipeNoOK(ret.value.data);
         } else {
             //alert(JSON.stringify(ret.value.msg));
@@ -602,7 +597,8 @@ function RequestAllProcessInfoByPipeNo(pipeno) {
         dataType: 'json',
         data: {
             values: {
-                pipe_no: pipeno
+                pipe_no: pipeno,
+                process_code:processcode
             }
         }
     }, function(ret, err) {

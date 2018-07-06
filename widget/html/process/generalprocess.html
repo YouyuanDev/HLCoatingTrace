@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>外喷砂</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/mobiscroll.custom-3.0.0-beta6.min.css" />
+</head>
+
+<body>
+    <header class="form-nav" id="header">
+        <div class="arrow" tapmode onclick="closeWindow();"></div>
+        <span class="nav-pipeno i18n1" name="odblastprocess" style="display:inline-block;margin-left:-43px;line-height:43px;">外打砂</span>
+    </header>
+    <div class="form-content" id="content">
+        <div class="form-item">
+            <table class="pipeinfo-table">
+                <thead>
+                    <tr>
+                        <th class="i18n1" name="pipebasicinfo" colspan="4" style="text-align:center;">钢管基础信息</th>
+                    </tr>
+                </thead>
+                <tr>
+                    <td class="i18n1" name="pipeno"></td>
+                    <td class="pipe_no"></td>
+                    <td class="i18n1" name="statusname"></td>
+                    <td class="status_name"></td>
+                </tr>
+                <tr>
+                    <td class="i18n1" name="od"></td>
+                    <td class="od"></td>
+                    <td class="i18n1" name="wt"></td>
+                    <td class="wt"></td>
+                </tr>
+                <tr>
+                    <td class="i18n1" name="millno"></td>
+                    <td class="millno"></td>
+                </tr>
+            </table>
+        </div>
+        <div class="form-item dynamic-form-item">
+
+        </div>
+        <div class="form-item">
+            <input type="hidden" value="0" class="id" />
+        </div>
+        <!--<div class="form-item">
+            <div class="form-item-lbl">
+                <label class="i18n1" name="marking"></label>
+            </div>
+            <div class="form-item-val">
+                <select id="mk" name="marking" style="">
+                   <option value="0" selected="selected">清晰</option>
+                   <option value="1">不清晰</option>
+               </select>
+            </div>
+        </div>
+        <div class="form-item">
+            <div class="form-item-lbl">
+                <label class="i18n1" name="surfacecondition"></label>
+            </div>
+            <div class="form-item-val">
+                <button data-type="steel" class="i18n1 form-steel-condition form-condition" name="select"></button>
+            </div>
+            <div class="form-steel-select-val">
+
+            </div>
+        </div>
+        <div class="form-item">
+            <div class="form-item-lbl">
+                <label class="i18n1 preheat_temp_lbl" name="preheattemp"></label>
+            </div>
+            <div class="form-item-val">
+                <input data-number=true class="mob-preheat-temperature preheat_temp" type="text" name="preheat_temp" />
+            </div>
+        </div>
+        <div class="form-item">
+            <div class="form-item-lbl">
+                <label class="i18n1 salt_contamination_before_blast_lbl" name="saltcontaminationbeforeblasting"></label>
+            </div>
+            <div class="form-item-val">
+                <input data-number=true data-required=false class="mob-salt-contamination salt_contamination_before_blast" type="text" name="salt_contamination_before_blasting" />
+            </div>
+        </div>
+        <div class="form-item">
+            <div class="form-item-lbl">
+                <label class="i18n1 alkaline_dwell_time_lbl" name="alkalinedwelltime"></label>
+            </div>
+            <div class="form-item-val">
+                <input data-number=true data-required=false class="mob-second-time alkaline_dwell_time" type="text" name="alkaline_dwell_time" />
+            </div>
+        </div>
+        <div class="form-item">
+            <div class="form-item-lbl">
+                <label class="i18n1 alkaline_concentration_lbl" name="alkalineconcentration"></label>
+            </div>
+            <div class="form-item-val">
+                <input data-number=true data-required=false class="mob-concentration alkaline_concentration" type="text" name="alkaline_concentration" />
+            </div>
+        </div>
+        <div class="form-item">
+            <div class="form-item-lbl">
+                <label class="i18n1 acid_wash_time_lbl" name="acidwashtime"></label>
+            </div>
+            <div class="form-item-val">
+                <input data-number=true data-required=false class="mob-second-time acid_wash_time" type="text" name="acid_wash_time" />
+            </div>
+        </div>
+        <div class="form-item">
+            <div class="form-item-lbl">
+                <label class="i18n1 acid_concentration_lbl" name="acidconcentration"></label>
+            </div>
+            <div class="form-item-val">
+                <input data-number=true data-required=false class="mob-concentration acid_concentration" type="text" name="acid_concentration" />
+            </div>
+        </div>
+        <div class="form-item">
+            <div class="form-item-lbl">
+                <label class="i18n1 rinse_water_conductivity_lbl" name="rinsewaterconductivity"></label>
+            </div>
+            <div class="form-item-val">
+                <input data-number=true data-required=false class="mob-water-conductivity rinse_water_conductivity" type="text" name="rinse_water_conductivity" />
+            </div>
+        </div>
+        <div class="form-item">
+            <div class="form-item-lbl">
+                <label class="i18n1 abrasive_conductivity_lbl" name="abrasiveconductivity"></label>
+            </div>
+            <div class="form-item-val">
+                <input data-number=true data-required=false class="mob-abrasive-conductivity abrasive_conductivity" type="text" name="abrasive_conductivity" />
+            </div>
+        </div>
+        <div class="form-item">
+            <div class="form-item-lbl">
+                <label class="i18n1 blast_line_speed_lbl" name="blastlinespeed"></label>
+            </div>
+            <div class="form-item-val">
+                <input data-number=true data-required=false class="mob-line-speed blast_line_speed" type="text" name="blast_line_speed" />
+            </div>
+        </div> -->
+        <div class="form-item">
+            <div class="form-item-lbl">
+                <label class="i18n1" name="result"></label>
+            </div>
+            <div class="form-item-val">
+                <select id="result" name="result">
+                <!-- <option value="1">合格,进入外喷砂检验工序</option>
+                <option value="0">不合格,重新打砂处理</option>
+                <option value="10">待定</option>
+                <option value="3">隔离，进入修磨或切割工序</option> -->
+            </select>
+            </div>
+        </div>
+        <div class="form-item">
+            <div class="imgBox"></div>
+            <!-- <div style=""></div> -->
+        </div>
+        <div class="form-item">
+            <div class="form-item-lbl">
+                <label class="i18n1" name="uploadpicture"></label>
+            </div>
+            <div class="form-item-val">
+                <button class="i18n1 form-pictures" name="selectpicture"></button>
+            </div>
+        </div>
+        <div class="form-item">
+            <div class="form-item-lbl">
+                <label class="i18n1" name="remark"></label>
+            </div>
+            <div class="form-item-val">
+                <textarea id="remark" name="remark"></textarea>
+            </div>
+        </div>
+
+
+    </div>
+    <footer class="form-footer" id=footer>
+        <div id="foot-container" style="width:100%;height:43px;display:flex;justify-content:center;align-items:center;" class="foot-container">
+            <div class="i18n1 form-process-button" name="submit" onclick="submitForm()">提交</div>
+        </div>
+    </footer>
+</body>
+
+</html>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script src="../../script/jquery.i18n.properties-1.0.9.js" type="text/javascript"></script>
+<script src="../../script/language.js" type="text/javascript"></script>
+<script src="../../script/mobiscroll.custom-3.0.0-beta6.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+    var g_pipeno;
+    var g_employeeno, g_millno, g_processcode;
+    //UILoading 的id
+    var g_loadingID = 0;
+    var g_result_output;
+      var language;
+    apiready = function() {
+        LoadProcess_input_output();
+        DoLoadingPicture();
+        var data = api.pageParam;
+        g_pipeno = data.pipe_no;
+        g_processcode = data.process_code
+        g_pipeno = '1544530';
+        g_processcode = "od_blast";
+        fnSettingHeader();
+        language = getCookie("userLanguage");
+        hlLanguage("../../i18n/");
+        RequestAllProcessInfoByPipeNo(g_pipeno, g_processcode);
+        //根据管子的状态进入到不同的工序
+    }
+
+    function GetAllProcessInfoByPipeNoOK(data) {
+        ClearLoadingPicture();
+        g_employeeno = data.employeeno;
+        g_millno = data.millno;
+        $('.dynamic-form-item').empty();
+        for (var i = 0; i < data.criteria.length; i++) {
+            $('.dynamic-form-item').append(getTemplate(data.criteria[i]));
+        }
+        //setAllDefectInfo("steel");
+        //执行刷新
+        initPipeBasicHeader(data.pipeinfo, data.millno);
+        //}, 200);
+        //setControls();
+        setMobControls();
+        setSelectPictures();
+
+        setResults("od_blast",language);
+        //alert(JSON.stringify(data));
+        //getPendingRecordInfo("OdOperation", g_pipeno);
+
+    }
+    //得到外防接收标准失败
+    function GetAllProcessInfoByPipeNoFail(message) {
+        ClearLoadingPicture();
+        api.alert({
+            msg: message
+        });
+        closeWindow();
+    }
+
+
+    //生成检验项表单
+    function GenerateInspectionItem(row) {
+        var pipe_no = "";
+        var mill_no = "";
+        var process_code = "";
+        var inspection_process_record_header_code = "";
+        //根据管号和工序编号得到检验项表单项目
+        var s = "/DynamicItemOperation/getDynamicItemByPipeNoProcessCodeHeaderCode.action";
+        api.ajax({
+            url: s,
+            method: 'post',
+            timeout: 30,
+            dataType: 'json',
+            data: {
+                values: {
+                    pipe_no: pipe_no,
+                    mill_no: mill_no,
+                    process_code: process_code,
+                    inspection_process_record_header_code: inspection_process_record_header_code
+                }
+            }
+        }, function(ret, err) {
+            if (ret) {
+                if (ret.success) {
+                    if (data == undefined || data.record == undefined) return;
+                    var stencilcontent = "";
+                    //var div = "";
+                    for (var i = 0; i < data.record.length; i++) {
+
+                        // if ((i == 0) || (i % 2 == 0)) {
+                        //     div += "<tr>"
+                        // }
+                        // div += getTemplate(data.record[i], data.needInspectionInfo);
+                        // if (data.record[i].item_code == "od_stencil_content" || data.record[i].item_code == "id_stencil_content") {
+                        //     stencilcontent = data.record[i].item_value;
+                        // }
+                    }
+                    //div += "</tr>";
+                    $('#dynamicTable').empty();
+                    $('#dynamicTable').append(div);
+
+                    if (checkboxArr.length > 0) {
+                        $.each(checkboxArr, function(n, value) {
+                            var idName = "#" + value.itemcode;
+                            if (value.itemvalue == '1') {
+                                var idName = "#" + value.itemcode;
+                                $(idName).attr('checked', true);
+                                $("input[name='" + value.itemcode + "']").val(1);
+                            } else {
+                                $(idName).attr('checked', false);
+                                $("input[name='" + value.itemcode + "']").val(0);
+                            }
+                        });
+                    }
+                    JudgeMaxAndMIn();
+                    if (process_code == "od_stencil" || process_code == "id_stencil") {
+                        if ($("input[name='od_stencil_content']") != undefined) {
+                            $("#od_stencil_content").textbox("setValue", stencilcontent);
+                        }
+                        if ($("input[name='id_stencil_content']") != undefined) {
+                            $("#id_stencil_content").textbox("setValue", stencilcontent);
+                        }
+                        stencilcontent = "";
+                    }
+                }
+            } else {
+                api.alert({
+                    msg: JSON.stringify(err)
+                });
+            }
+        });
+    }
+
+    function getTemplate(item) {
+        var controltype = item.control_type; //控件类型
+        var itemcode = item.item_code; //控件编号
+        var itemname = item.item_name; //中文名
+        var itemnameen = item.item_name_en; //英文名
+        var unitname = item.unit_name; //单位名称
+        var unitnameen = item.unit_name_en; //单位名称英文名
+        var itemfrequency = item.item_frequency; //检测频率
+        var processcode = item.process_code; //工序编号
+        var decimalnum = item.decimal_num; //小树位数
+        var needverify = item.need_verify; //是否验证
+        var options = item.options; //选项
+        var maxvalue = item.max_value; //最大值
+        var minvalue = item.min_value; //最小值
+        var defaultvalue = item.default_value; //默认值
+        var itemvalue = item.item_value; // 若存在表单，则有该值，否则为undefined
+        var needInspectNow = item.need_inspection_mark;
+        //----------添加测量项Label
+        var template = '<div class="form-item"><div class="form-item-lbl">';
+        //var language = getCookie("userLanguage");
+        var minmax = "";
+        if (needverify != undefined && needverify == "1") {
+            minmax = minvalue + "~" + maxvalue;
+        }
+        var needVerifySpan = "";
+        if (needInspectNow != undefined && needInspectNow == "1")
+            needVerifySpan = '<span style="color:red;">*</span>';
+        if (language && language == "en") {
+            if (unitnameen != undefined && unitnameen != "") {
+                unitnameen = "(" + unitnameen + ")";
+                itemname=itemnameen;
+            } else {
+                unitnameen = "";
+            }
+            template += '<label ><span class="itemname">' + itemname + '</span><span>' + unitnameen + '</span><span>' + minmax + '</span>' + needVerifySpan + '</label>';
+        } else {
+            if (unitname != undefined && unitname != "") {
+                unitname = "(" + unitname + ")";
+            } else {
+                unitname = "";
+            }
+            template += '<label><span>' + itemname + '</span><span>' + unitname + '</span><span>' + minmax + '</span>' + needVerifySpan + '</label>';
+        }
+        template += '</div>';
+        //----------添加测量项控件
+        template += '<div class="form-item-val">';
+        var controldiv = "";
+        if (itemvalue != undefined) {
+            defaultvalue = itemvalue;
+        }
+        if (controltype == "singleselect") { //单选
+            controldiv = '<input class="mob-singleselect" needInspectNow=' + needInspectNow + ' options=' + options + ' myname=' + itemcode + ' name=' + itemcode + ' value=' + defaultvalue + ' max-value=' + maxvalue + ' min-value=' + minvalue +
+                ' type="text" dynamic="dynamic"/>';
+        } else if (controltype == "singlenumber") { //单值数字
+            controldiv = '<input class="mob-singlenumber" needInspectNow=' + needInspectNow + ' decimalnum=' + decimalnum + ' myname=' + itemcode + ' name=' + itemcode + ' value=' + defaultvalue + ' max-value=' + maxvalue + ' min-value=' + minvalue +
+                ' type="text" dynamic="dynamic"/>';
+        } else if (controltype == "singletext") { //单值文本
+            controldiv = '<input class="" needInspectNow=' + needInspectNow + ' max-value=' + maxvalue + ' myname=' + itemcode + ' name=' + itemcode + ' value=' + defaultvalue + ' min-value=' + minvalue + ' type="text" dynamic="dynamic"/>';
+        } else if (controltype == "multinumber") { //多值数字
+            controldiv = '<input class="mob-listnumber" needInspectNow=' + needInspectNow + ' myname=' + itemcode + ' name=' + itemcode + ' value=' + defaultvalue + ' max-value=' + maxvalue + ' min-value=' + minvalue +
+                ' type="text" dynamic="dynamic"/>';
+        } else if (controltype == "multitext") { //多值文本
+            controldiv = '<input class="" needInspectNow=' + needInspectNow + ' max-value=' + maxvalue + ' myname=' + itemcode + ' name=' + itemcode + ' value=' + defaultvalue + ' min-value=' + minvalue + ' type="text" dynamic="dynamic"/>';
+        } else if (controltype == "multiselect") { //多选
+            controldiv = '<input class="mob-multipleselect" needInspectNow=' + needInspectNow + ' options=' + options + ' myname=' + itemcode + ' name=' + itemcode + ' value=' + defaultvalue + ' max-value=' + maxvalue + ' min-value=' + minvalue +
+                ' type="text" dynamic="dynamic"/>';
+        } else if (controltype == "checkbox") { //复选框
+            controldiv = "<input controltype=\"" + controltype + "\"  type=\"checkbox\" id=\"" + itemcode + "\" myname=\"" + itemcode + "\" value=\"1\" checked=\"false\" onchange=\"checkboxChecked(this)\"/>\n" +
+                "<input dynamic=\"dynamic\" type=\"hidden\" myname=\"" + itemcode + "\" name=\"" + itemcode + "\" value=\"0\">";
+            if (itemvalue != undefined && itemvalue != "") {
+                checkboxArr.push({
+                    'itemcode': itemcode,
+                    'itemvalue': itemvalue
+                });
+            } else {
+                checkboxArr.push({
+                    'itemcode': itemcode,
+                    'itemvalue': defaultvalue
+                });
+            }
+        } else if (controltype == "textarea") { //多行文本
+            controldiv = "<input controltype=\"" + controltype + "\" id=\"" + itemcode + "\" dynamic=\"dynamic\" class=\"easyui-textbox\" type=\"text\" value=\"" + defaultvalue + "\" myname=\"" + itemcode + "\" name=\"" + itemcode +
+                "\" data-options=\"multiline:true\" style=\"width:300px;height:80px\" />";
+        } else if (controltype == "date") { //时间
+            controldiv = '<input class="mob-datetime" max-value=' + maxvalue + ' myname=' + itemcode + ' name=' + itemcode + ' value=' + defaultvalue + ' min-value=' + minvalue + ' type="text" dynamic="dynamic"/>';
+        }
+        template += controldiv;
+        template += '</div></div>';
+        return template;
+    }
+
+    //设置控件
+    function setMobControls() {
+        $('.mob-singlenumber').each(function() {
+            var decimalnum = $(this).attr('decimalnum');
+            var scale = 0;
+            var decimalSeparator = "";
+            if (decimalnum != undefined && decimalnum != "" && !isNaN(decimalnum)) {
+                scale = parseInt(decimalnum);
+                decimalSeparator = ".";
+            }
+            $(this).mobiscroll().numpad({
+                theme: 'auto',
+                lang: 'zh',
+                display: 'bottom',
+                preset: 'decimal',
+                decimalSeparator: decimalSeparator,
+                thousandsSeparator: '',
+                min: -9999,
+                max: 9999,
+                scale: scale,
+                fill: 'ltr',
+                defaultValue: 0,
+                rtl: false,
+                onSet: function(event, inst) {
+                    var selectedVal = inst.getVal();
+                    validateMaxAndMIn($(this), selectedVal, $(this).attr('max-value'), $(this).attr('min-value'));
+                }
+            });
+        });
+        //设置浮点数数字集合
+        $('.mob-listnumber').each(function() {
+            var numList1 = "";
+            var $nowObj1;
+            $(this).mobiscroll().numpad({
+                theme: 'auto',
+                lang: 'zh',
+                display: 'bottom',
+                min: 0,
+                max: 9999,
+                scale: 2,
+                fill: 'ltr',
+                defaultValue: 0,
+                preset: 'decimal',
+                decimalSeparator: '',
+                thousandsSeparator: '.',
+                rtl: false,
+                buttons: [
+                    'set', {
+                        text: '删除',
+                        icon: '',
+                        handler: function(event, inst) {
+                            var selectedVal = $nowObj1.val();
+                            selectedVal = selectedVal.substring(0, selectedVal.lastIndexOf(','));
+                            selectedVal = selectedVal.substring(0, (selectedVal.lastIndexOf(',') + 1));
+                            $nowObj1.val(selectedVal);
+                            numList1 = selectedVal;
+                            validateMaxAndMIn($nowObj1, selectedVal, $nowObj1.attr('max-value'), $nowObj1.attr('min-value'));
+                            inst.setVal(0);
+                        }
+                    }, {
+                        text: '添加',
+                        icon: '',
+                        handler: function(event, inst) {
+                            var selectedVal = inst.getVal(true);
+                            if (selectedVal != undefined) {
+                                selectedVal = ($nowObj1.val() + selectedVal + ",");
+                                $nowObj1.val(selectedVal);
+                                numList1 = selectedVal;
+                                validateMaxAndMIn($nowObj1, selectedVal, $nowObj1.attr('max-value'), $nowObj1.attr('min-value'));
+                                inst.setVal(0);
+                            }
+                        }
+                    }
+                ],
+                onBeforeShow: function(event, inst) {
+                    $nowObj1 = $(this);
+                    inst.setVal(0);
+                    numList1 = $nowObj1.val();
+                },
+                onSet: function(event, inst) {
+                    $nowObj1.val(numList1);
+                }
+            });
+        });
+        $('.mob-datetime').each(function() {
+            $(this).mobiscroll().datetime({
+                theme: 'auto',
+                lang: 'zh',
+                display: 'bottom',
+                dateFormat: 'yyyy-mm-dd',
+                timeFormat: 'HH:ii:ss'
+            });
+        });
+        $('.mob-singleselect').each(function() {
+            var data = [];
+            var dataListStr = $(this).attr('options');
+            var dataList = [];
+            if (dataListStr != undefined) {
+                dataList = dataListStr.split(';');
+            }
+            for (var i = 0; i < dataList.length; i++) {
+                var temp = {
+                    "value": dataList[i],
+                    "text": dataList[i]
+                };
+                data.push(temp);
+            }
+            $(this).mobiscroll().select({
+                data: data,
+                label: 'Name',
+                theme: 'auto',
+                lang: 'zh'
+            });
+        });
+
+        $('.mob-multipleselect').each(function() {
+            var data = [];
+            var dataListStr = $(this).attr('options');
+            var dataList = [];
+            if (dataListStr != undefined) {
+                dataList = dataListStr.split(';');
+            }
+            for (var i = 0; i < dataList.length; i++) {
+                var temp = {
+                    "value": dataList[i],
+                    "text": dataList[i]
+                };
+                data.push(temp);
+            }
+            $(this).mobiscroll().select({
+                data: data,
+                label: 'Name',
+                theme: 'auto',
+                lang: 'zh',
+                select: 'multiple'
+            });
+        });
+    }
+    //验证数据是否合法
+    function validateMaxAndMIn($obj, value, maxVal, minVal) {
+        var flag = true;
+        var values = value + "";
+        if (values != undefined && values != "") {
+            var valuelist = values.split(',');
+            for (var i = 0; i < valuelist.length; i++) {
+                if (maxVal != undefined && !isNaN(maxVal)) {
+                    if (parseFloat(maxVal) < parseFloat(valuelist[i])) {
+                        flag = false;
+                        break;
+                    }
+                }
+                if (minVal != undefined && !isNaN(minVal)) {
+                    if (parseFloat(valuelist[i]) < parseFloat(minVal)) {
+                        flag = false;
+                        break;
+                    }
+                }
+            }
+        }
+        if (flag)
+            $obj.css('background', '#FFFFFF');
+        else
+            $obj.css('background', '#F9A6A6');
+    }
+    //设置结论
+    function setResults(process_code,language) {
+        $("#result").empty();
+        var result_name="",result="";
+        if (g_result_output != undefined) {
+            //alert(JSON.stringify(g_result_output));
+            for (var i = 0; i < g_result_output.length; i++) {
+                if (g_result_output[i].process_code == process_code) {
+                    for (var j = 0; j < g_result_output[i].output.length; j++) {
+                            if (language == "en") {
+                                result_name = g_result_output[i].output[j].result_name_en;
+                            } else {
+                                result_name = g_result_output[i].output[j].result_name;
+                            }
+                            result=g_result_output[i].output[j].result;
+                            $("#result").append('<option value="'+result+'">'+result_name+'</option>');
+                    }
+                }
+            }
+        }
+    }
+    //判断是否有必填项没有填写
+    function newInitFormNumber() {
+        var result = true;
+        //必填项目检验
+        $("input[dynamic=dynamic]").each(function(a, b) {
+            var needInspectNow = $(this).attr('needInspectNow');
+            if (needInspectNow != undefined && needInspectNow == "1") {
+                var name = $(this).parent().siblings('.form-item-lbl').find('.itemname').text();
+                if ($(this).val().length <= 0) {
+                    api.alert({
+                        msg: "请输入:" + name
+                    });
+                    result = false;
+                    return result;
+                }
+            }
+        });
+        if (!result)
+            return false;
+        return true;
+    }
+    //表单提交
+    function submitForm() {
+        api.confirm({
+            title: '提示',
+            msg: '确定提交吗?',
+            buttons: ['确定', '取消']
+        }, function(ret, err) {
+
+            if (ret.buttonIndex == 1 && newInitFormNumber()) {
+                var s = 'http://' + serverIP + '/OdOperation/saveOdBlastProcess.action';
+                var imgUrl = "";
+                $('.imgBox  .temp-container img').each(function() {
+                    var temp = $(this).attr("data-url");
+                    if (temp != undefined) {
+                        imgUrl += (temp + ";");
+                    }
+                });
+                var arr = {};
+                $(".dynamic-form-item :input[dynamic='dynamic'],select[dynamic='dynamic']").each(function(i) {
+                    var dy = $(this).attr("dynamic");
+                    if (dy != undefined && dy == "dynamic") {
+                        var item_code = $(this).attr("myname");
+                        if (item_code != undefined) {
+                            arr[item_code] = $(this).val();
+                        }
+                    }
+                });
+                arr["id"]=$('.id').val();
+                arr["pipe_no"]=g_pipeno;
+                arr["mill_no"]=g_millno;
+                arr["operator_no"]=g_employeeno;
+                arr["result"]=$('#result').val();
+                arr["remark"]=$('#remark').val();
+                arr["upload_files"]=imgUrl;
+                alert(JSON.stringify(arr));
+                return;
+                //alert(imgUrl);
+                api.ajax({
+                    url: s,
+                    method: 'post',
+                    timeout: 30,
+                    dataType: 'json',
+                    data: {
+                        values: {
+                            id: $('.id').val(),
+                            pipe_no: g_pipeno,
+                            mill_no: g_millno,
+                            operator_no: g_employeeno,
+                            marking: $('#mk').val(),
+                            surface_condition: $('.form-steel-select-val').text(),
+                            preheat_temp: $('input[name="preheat_temp"]').val(),
+                            salt_contamination_before_blasting: $('input[name="salt_contamination_before_blasting"]').val(),
+                            alkaline_dwell_time: $('input[name="alkaline_dwell_time"]').val(),
+                            alkaline_concentration: $('input[name="alkaline_concentration"]').val(),
+                            acid_wash_time: $('input[name="acid_wash_time"]').val(),
+                            acid_concentration: $('input[name="acid_concentration"]').val(),
+                            rinse_water_conductivity: $('input[name="rinse_water_conductivity"]').val(),
+                            abrasive_conductivity: $('input[name="abrasive_conductivity"]').val(),
+                            blast_line_speed: $('input[name="blast_line_speed"]').val(),
+                            result: $('#result').val(),
+                            blast_line_speed: $('input[name="blast_line_speed"]').val(),
+                            upload_files: imgUrl,
+                            remark: $('#remark').val(),
+                        }
+                    }
+                }, function(ret, err) { //alert(ret);
+                    if (ret) {
+                        api.alert({
+                            msg: ret.message
+                        });
+                        if (ret.success) {
+                            closeWindow();
+                        }
+                    } else {
+                        api.alert({
+                            msg: JSON.stringify(err)
+                        });
+                    }
+                });
+            }
+        });
+    }
+
+    function getPendingRecordInfoOK(data) {
+        if (data != undefined) {
+            $('.id').val(data.id);
+            $('#mk').val(data.marking);
+            $('.form-steel-select-val').text(data.surface_condition);
+            if (data.preheat_temp != -99) {
+                $('input[name="preheat_temp"]').val(data.preheat_temp);
+            }
+            if (data.salt_contamination_before_blasting != -99) {
+                $('input[name="salt_contamination_before_blasting"]').val(data.salt_contamination_before_blasting);
+            }
+            if (data.alkaline_dwell_time != -99) {
+                $('input[name="alkaline_dwell_time"]').val(data.alkaline_dwell_time);
+            }
+            if (data.alkaline_concentration != -99) {
+                $('input[name="alkaline_concentration"]').val(data.alkaline_concentration);
+            }
+            if (data.acid_wash_time != -99) {
+                $('input[name="acid_wash_time"]').val(data.acid_wash_time);
+            }
+            if (data.acid_concentration != -99) {
+                $('input[name="acid_concentration"]').val(data.acid_concentration);
+            }
+            if (data.rinse_water_conductivity != -99) {
+                $('input[name="rinse_water_conductivity"]').val(data.rinse_water_conductivity);
+            }
+            if (data.abrasive_conductivity != -99) {
+                $('input[name="abrasive_conductivity"]').val(data.abrasive_conductivity);
+            }
+            if (data.blast_line_speed != -99) {
+                $('input[name="blast_line_speed"]').val(data.blast_line_speed);
+            }
+            $('#result').val(data.result);
+
+            var imgUrl = data.upload_files;
+            if (imgUrl.length > 0) {
+                var imgArr = imgUrl.split(';');
+                var s = 'http://' + serverIP + '/upload/pictures/';
+                for (var i = 0; i < imgArr.length; i++) {
+                    if (imgArr[i] != undefined && imgArr[i].length > 0)
+                        $('.imgBox').append(pictureTemplate(imgArr[i], s + imgArr[i]));
+                }
+            }
+            $('#remark').val(data.remark);
+            validateAllValue();
+        }
+    }
+
+    function getPendingRecordInfoFail() {
+
+    }
+    //初始化工序的input和output
+    function LoadProcess_input_output() {
+        var s = 'http://' + serverIP + '/data/process_input_output.json';
+        api.ajax({
+            url: s,
+            method: 'post',
+            timeout: 30,
+            dataType: 'json'
+        }, function(ret, err) {
+            if (ret) {
+                g_result_output = ret;
+            }
+        });
+    }
+</script>

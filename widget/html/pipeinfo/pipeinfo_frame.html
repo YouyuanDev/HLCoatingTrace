@@ -178,9 +178,10 @@
 <script type="text/javascript">
     var pipeno;
     var showmore = false;
+    var g_result_output;
     //var imageBrowser;
     apiready = function() {
-
+            LoadProcess_input_output();
             var data = api.pageParam;
             pipeno = data.pipeno;
 
@@ -349,15 +350,38 @@
                     pipe_no: pipeno
                 }
             }
-        }, function(data, err) { //alert(ret);
+        }, function(ret, err) { //alert(ret);
             //api.hideProgress();
+            var data=ret;
+            var language = getCookie("userLanguage");
+            //alert(JSON.stringify(ret));
+            //alert(toString.call(data));
+            // var data=JSON.parse(ret);
+            // $.each(data,function(n,val){
+            //   for (var key in data[i]) {
+            //       if (key.indexOf('header') == -1) {
+            //           getTemplate(key, data[i][key], language, data[i][key + "_header"]);
+            //       }
+            //   }
+            // });
+            for (var i = 0; i < data.length; i++) {
+
+                for (var key in data[i]) {
+                    alert(key);
+                    if (key.indexOf('header') == -1) {
+                        getTemplate(key, data[i][key], language, data[i][key + "_header"]);
+                    }
+                }
+            }
+
+
+            return;
             if (data.success != undefined && data.success == false) {
                 api.alert({
                     msg: JSON.stringify(data.message)
                 });
                 return;
             }
-
             if (data) {
                 var flag = false;
                 if (data.odBlastProcessRecord != undefined) {
@@ -1154,6 +1178,83 @@
         return template;
     }
 
+    function getTemplate(process_code, array, language, header_dict) {
+        var template = "";
+        template += '<table  title="" class="dataintable" style="width:100%;height:auto;"><thead><tr><th class="i18n1" name="' + process_code + '" colspan="6">' + process_code + '</th></tr></thead><tbody>';
+        template += '<tr>';
+        var j = 1;
+        var remark = "",
+            result = "",
+            result_name = "";
+
+        for (var i = 0; i < array.length; i++) {
+            if (j > 3) {
+                template += '</tr><tr>';
+                j = 1;
+            }
+            var dict = header_dict;
+            if (dict.result != undefined || dict.remark != undefined) {
+                remark = dict.remark;
+                result = dict.result;
+                for (var i = 0; i < g_result_output.length; i++) {
+                    if (g_result_output[i].process_code == process_code) {
+                        for (var j = 0; j < g_result_output[i].output.length; j++) {
+                            if (g_result_output[i].output[j].result == result) {
+                                if (language == "en") {
+                                    result_name = g_result_output[i].output[j].result_name_en;
+                                } else {
+                                    result_name = g_result_output[i].output[j].result_name;
+                                }
+                            }
+                        }
+                    }
+                }
+
+            } else {
+                var max_value = array[i].max_value;
+                var min_value = array[i].min_value;
+                var item_value = array[i].item_value == undefined ? "" : array[i].item_value;
+                var range = "";
+                var flag = false;
+                if (max_value != undefined && min_value != undefined) {
+                    if (array[i].need_verify != undefined && array[i].need_verify == "1") {
+                        range = "(" + min_value + "~" + max_value + ")";
+                        if (item_value != undefined && !isNaN(item_value)) {
+                            if (parseFloat(max_value) < parseFloat(item_value))
+                                flag = true;
+                            if (parseFloat(min_value) > parseFloat(item_value))
+                                flag = true;
+                        }
+                    }
+                }
+                if (language && language == "en") {
+                    var unit = (array[i].unit_name_en == undefined || array[i].unit_name_en == "") ? "" : ' (' + array[i].unit_name_en + ') ';
+                    template += ' <td  style="width:120px;vertical-align: middle;text-align: center;">' + array[i].item_name_en + unit + range + '</td>';
+                } else {
+                    var unit = (array[i].unit_name == undefined || array[i].unit_name_en == "") ? "" : ' (' + array[i].unit_name + ') ';
+                    template += ' <td  style="width:120px;vertical-align: middle;text-align: center;">' + array[i].item_name + unit + range + '</td>';
+                }
+                if (flag) {
+                    template += '<td style="width:280px;color:red;vertical-align: middle;text-align: center;">' + item_value + '</td>';
+                } else {
+                    template += '<td style="width:280px;color:#878787;vertical-align: middle;text-align: center;">' + item_value + '</td>';
+                }
+
+            }
+            j++;
+        }
+        template += '</tr>';
+        template += '<tr>';
+        template += ' <td class="i18n1" name="result" style="width:120px;vertical-align: middle;text-align: center;">结果</td>';
+        template += ' <td colspan="5" style="width:120px;vertical-align: middle;text-align: center;">' + result_name + '</td>';
+        template += '</tr>';
+        template += '<tr>';
+        template += ' <td class="i18n1" name="remark" style="width:120px;vertical-align: middle;text-align: center;">备注</td>';
+        template += ' <td colspan="5" style="color:#878787;vertical-align: middle;text-align: left;">' + remark + '</td>';
+        template += '</tr></tbody></table>';
+        $('#pipe-process-info').append(template);
+    }
+
 
 
     function GenerateQRCode(pipeno) {
@@ -1179,6 +1280,20 @@
             if (ret.buttonIndex == 1) {
 
 
+            }
+        });
+    }
+
+    function LoadProcess_input_output() {
+        var s = 'http://' + serverIP + '/data/process_input_output.json';
+        api.ajax({
+            url: s,
+            method: 'post',
+            timeout: 30,
+            dataType: 'json'
+        }, function(ret, err) {
+            if (ret) {
+                g_result_output = ret;
             }
         });
     }
