@@ -351,14 +351,14 @@
             }
         }, function(data, err) { //alert(ret);
             //api.hideProgress();
-            if (data.success != undefined && data.success == false) {
-                api.alert({
-                    msg: JSON.stringify(data.message)
-                });
-                return;
-            }
-
+            alert(data);
             if (data) {
+              if (data.success != undefined && data.success == false) {
+                  api.alert({
+                      msg: JSON.stringify(data.message)
+                  });
+                  return;
+              }
                 var flag = false;
                 if (data.odBlastProcessRecord != undefined) {
                     flag = true;

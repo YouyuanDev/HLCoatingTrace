@@ -254,7 +254,7 @@
         $('.foot-container').empty();
         if (urloptions != undefined) {
             for (var key in urloptions) {
-                $('.foot-container').append(nextProcessTemplate(key));
+                $('.foot-container').append(nextProcessTemplate(key,urloptions[key]));
             }
         } else {
               $('.foot-container').append('无跳转');
@@ -263,16 +263,18 @@
     }
 
     //下一工序按钮的模版
-    function nextProcessTemplate(key) {
-        var template = '<div class="i18n1 process-button" name="'+key+'" onclick="goNextProcess(this)">' + key + '</div>';
+    function nextProcessTemplate(key,value) {
+        //var pagename=value.substring(value.lastIndexOf('/')+1);
+        var template = '<div class="i18n1 process-button" nexturl="'+value+'" name="'+key+'" urlparam="'+key+'" onclick="goNextProcess(this)">' + key + '</div>';
         return template;
     }
 
 
     //跳转下一工序页面
     function goNextProcess(obj) {
-        var key=$(obj).attr('name');
-        var url = urloptions[key];
+        var name=$(obj).attr('name');
+        var url = $(obj).attr('nexturl');
+        var urlparam = $(obj).attr('key');
 
         var nextURL = '../' + url + '.html';
         // var status_name=$(".pipeinfo-table .status_name").text();
@@ -284,7 +286,8 @@
             name: url,
             url: nextURL,
             pageParam: {
-                pipe_no: pipeno
+                pipe_no: pipeno,
+                process_code:urlparam
             }
         });
     }
