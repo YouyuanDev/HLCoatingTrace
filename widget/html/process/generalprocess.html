@@ -231,7 +231,7 @@
         setMobControls();
         setSelectPictures();
 
-        setResults(g_processcode,language);
+
         //alert(JSON.stringify(data));
         //getPendingRecordInfo("OdOperation", g_pipeno);
 
@@ -762,6 +762,7 @@
             if (ret) {
                 g_result_output = ret;
                 //根据管子的状态进入到不同的工序
+                setResults(g_processcode,language);
                 RequestAllProcessInfoByPipeNo(g_pipeno, g_processcode);
 
             }
