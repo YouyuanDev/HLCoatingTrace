@@ -198,15 +198,17 @@
     //UILoading 的id
     var g_loadingID = 0;
     var g_result_output;
-      var language;
+    var language;
     apiready = function() {
         LoadProcess_input_output();
         DoLoadingPicture();
         var data = api.pageParam;
         g_pipeno = data.pipe_no;
         g_processcode = data.process_code
-        g_pipeno = '1544530';
-        g_processcode = "od_blast";
+        $('.nav-pipeno').attr('name',g_processcode);
+        alert(g_pipeno+":"+g_processcode);
+        // g_pipeno = '1544530';
+        // g_processcode = "od_blast";
         fnSettingHeader();
         language = getCookie("userLanguage");
         hlLanguage("../../i18n/");
