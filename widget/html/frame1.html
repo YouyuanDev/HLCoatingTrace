@@ -257,7 +257,7 @@
                 if (ret.success) {
                     var data = ret.record;
                     for (var i = 0; i < data.length; i++) {
-                        $('.labinfo-div').append(makeTemplate(data[i].id, data[i].testing_type, data[i].result, data[i].operation_time, data[i].pipe_no));
+                        $('.labinfo-div').append(makeTemplate(data[i].id, data[i].testing_type, data[i].result, data[i].operation_time, data[i].pipe_no, data[i].external_coating, data[i].internal_coating));
                     }
                     hlLanguage("../i18n/");
                 }
@@ -269,11 +269,11 @@
         });
     }
     //实验信息模板
-    function makeTemplate(id, testing_type, result, operation_time, pipe_no) {
+    function makeTemplate(id, testing_type, result, operation_time, pipe_no, external_coating, internal_coating) {
         var template = "";
-        var prefix_title="";
+        var prefix_title = "";
         var title = "";
-        var title_sufix="";
+        var title_sufix = "";
         if (result == "0")
             result = "failed";
         else if (result == "1")
@@ -286,47 +286,55 @@
         else
             prefix_title = "product";
 
-        if (testing_type.indexOf('od_regular') != -1)
+        if (testing_type.indexOf('od_regular') != -1) {
             title = " OD Regular";
-        else if (testing_type.indexOf('dsc') != -1)
+            title_sufix = external_coating;
+        } else if (testing_type.indexOf('dsc') != -1) {
             title = " DSC";
-        else if (testing_type.indexOf('pe') != -1)
+            title_sufix = external_coating;
+        } else if (testing_type.indexOf('pe') != -1) {
             title = " PE";
-        else if (testing_type.indexOf('id_regular') != -1)
+            title_sufix = external_coating;
+        } else if (testing_type.indexOf('id_regular') != -1) {
             title = " ID Regular ";
-        else if (testing_type.indexOf('glass') != -1)
+            title_sufix = internal_coating;
+        } else if (testing_type.indexOf('glass') != -1) {
             title = " ID Glass Panel ";
+            title_sufix = internal_coating;
+        }
 
-        // if (sample_type.indexOf('REGULAR') != -1)
-        //     title_sufix = "regulartesting";
-        // else if (sample_type.indexOf('DSC') != -1)
-        //     title_sufix = "dsctesting";
-        // else if (sample_type.indexOf('PE') != -1)
-        //     title_sufix = "petesting";
-        // else if (sample_type.indexOf('GLASS') != -1)
-        //     title_sufix = "glasstesting";
+
+
         template += '<div class="item style1" data-id=' + id + ' data-pipe-no=' + pipe_no + ' data-testing-type=' + testing_type + ' onclick="goTestingBySampleType(this);">';
         //lab实验|| testing_type.indexOf('LAB3LPE') != -1 || testing_type.indexOf('LABEPOXY') != -1
-        if (testing_type.indexOf('LAB2FBE') != -1) {
+        if (testing_type.indexOf('od_regular') != -1) {
             template += '<div class="itemlogo userlogo"><img src="../image/pipe_2fbe.png" alt=""></div>';
-        } else if (testing_type.indexOf('LAB3LPE') != -1) {
+        } else if (testing_type.indexOf('dsc') != -1) {
             template += '<div class="itemlogo userlogo"><img src="../image/pipe_3lpe.png" alt=""></div>';
-        } else if (testing_type.indexOf('LABEPOXY') != -1) {
+        } else if (testing_type.indexOf('pe') != -1) {
             template += '<div class="itemlogo userlogo"><img src="../image/pipe_epoxy.png" alt=""></div>';
-        } else if (testing_type.indexOf('RAW2FBE') != -1) {
+        } else if (testing_type.indexOf('glass') != -1) {
             template += '<div class="itemlogo userlogo"><img src="../image/raw_2fbe.png" alt=""></div>';
-        } else if (testing_type.indexOf('RAW3LPE') != -1) {
+        } else if (testing_type.indexOf('id_regular') != -1) {
             template += '<div class="itemlogo userlogo"><img src="../image/raw_3lpe.png" alt=""></div>';
-        } else if (testing_type.indexOf('RAWEPOXY') != -1) { //原材料实验
+        } else if (testing_type.indexOf('raw_material_3LPE') != -1) { //原材料实验
+            template += '<div class="itemlogo userlogo"><img src="../image/raw_epoxy.png" alt=""></div>';
+        } else if (testing_type.indexOf('raw_material_2FBE') != -1) { //原材料实验
+            template += '<div class="itemlogo userlogo"><img src="../image/raw_epoxy.png" alt=""></div>';
+        } else if (testing_type.indexOf('raw_material_EPOXY') != -1) { //原材料实验
             template += '<div class="itemlogo userlogo"><img src="../image/raw_epoxy.png" alt=""></div>';
         }
+
+
+
+
         if (pipe_no == undefined)
             pipe_no = "";
         template += '<div class="itemshelf">' +
-            '<div class="shelfinfo01"><span class="pei pipeno-span i18n1" name="' + prefix_title + '"></span><span class="pei pipeno-span">&nbsp;'+title+'&nbsp;</span><span class="pei pipeno-span i18n1" name="' + title_sufix + '"></span></div>' +
+            '<div class="shelfinfo01"><span class="pei pipeno-span i18n1" name="' + prefix_title + '"></span><span class="pei pipeno-span">&nbsp;' + title + '&nbsp;</span><span class="pei pipeno-span i18n1" name="' + title_sufix + '"></span></div>' +
             '<div class="shelfinfo02"><span class="contractno-span">' + getDate1(operation_time) + '</span><span>' + pipe_no + '<span></div>' +
             '</div>' +
-            '<div class="itemshelf"><span class="status-span i18n1" name="'+result+'"></span></div>' +
+            '<div class="itemshelf"><span class="status-span i18n1" name="' + result + '"></span></div>' +
             '</div>';
         return template;
 
@@ -362,20 +370,20 @@
     }
     //实验点击事件
     function goTestingBySampleType(obj) {
-       //testing_type就是process_code
+        //testing_type就是process_code
         var processcode = $(obj).attr('data-testing-type');
         //var sample_type = $(obj).attr('data-sample-type');
         var pipe_no = $(obj).attr('data-pipe-no');
-        alert("pipe_no"+pipe_no);
-        alert("processcode"+processcode);
+        alert("pipe_no" + pipe_no);
+        alert("processcode" + processcode);
         var id = $(obj).attr('data-id');
-        if (processcode!=undefined&&processcode!="") {
+        if (processcode != undefined && processcode != "") {
             api.openWin({
                 name: 'labtesting',
                 url: './process/generalprocess.html',
                 pageParam: {
                     pipe_no: pipe_no,
-                    process_code:processcode
+                    process_code: processcode
                 }
             });
         }

@@ -138,15 +138,24 @@
                     <td class="idsampling_mark"></td>
                 </tr>
                 <tr>
+                    <td class="i18n1" name="oddscsamplemark"></td>
+                    <td class="od_dsc_sample_mark"></td>
+                    <td class="i18n1" name="odpesamplemark"></td>
+                    <td class="od_pe_sample_mark"></td>
+                </tr>
+                <tr>
+                    <td class="i18n1" name="idglasssamplemark"></td>
+                    <td class="id_glass_sample_mark"></td>
+                    <td class="i18n1" name="shipmentdate"></td>
+                    <td class="shipment_date"></td>
+                </tr>
+                <tr>
                     <td class="i18n1" name="odcoatingdate"></td>
                     <td class="od_coating_date"></td>
                     <td class="i18n1" name="idcoatingdate"></td>
                     <td class="id_coating_date"></td>
                 </tr>
-                <tr>
-                    <td class="i18n1" name="shipmentdate"></td>
-                    <td class="shipment_date"></td>
-                </tr>
+
             </table>
         </div>
         <div id="qrdiv" style="width:100%;height:auto;margin-top:20px;" onclick="printQRCode()">
@@ -154,7 +163,7 @@
             <div style="margin:0px auto;text-align:center;font-size: 14px" id="qrcodeText"></div>
         </div>
 
-        <div class="loadmore-div" style="height:auto;margin-top:50px;font-size: 16px;color:#000000;font-family:" Sans-serif ";">
+        <div class="loadmore-div" style="height:auto;margin-top:20px;font-size: 16px;color:#000000;font-family:" Sans-serif ";">
             <div class="loadmore-btn i18n1" name="loadmorninfo" onclick="loadMoreInfo()">更多生产信息...</div>
         </div>
         <div id="pipe-process-info" style="width:100%;height:auto;margin:0 auto;overflow-x: hidden;">
@@ -326,6 +335,9 @@
         $('.rebevel_mark').text(pipeinfo.rebevel_mark);
         $('.odsampling_mark').text(pipeinfo.odsampling_mark);
         $('.idsampling_mark').text(pipeinfo.idsampling_mark);
+        $('.od_dsc_sample_mark').text(pipeinfo.od_dsc_sample_mark);
+        $('.od_pe_sample_mark').text(pipeinfo.od_pe_sample_mark);
+        $('.id_glass_sample_mark').text(pipeinfo.id_glass_sample_mark);
         $('.shipment_date').text(formatterdate(pipeinfo.shipment_date));
         $('.od_coating_date').text(formatterdate(pipeinfo.od_coating_date));
         $('.id_coating_date').text(formatterdate(pipeinfo.id_coating_date));
@@ -483,7 +495,7 @@
           template += '<td style="width:50%;text-align:center;padding:5px 0px;" class="pipeinfo-td" ><div style="color:#87CEEB;" onclick="setBrowsePicutre(this);" data-list="' + uploadfiles +
               '" class="upload-pictures i18n1" name="viewpicture">图片</div></td>';
         }else{
-          template += '<td style="width:50%;text-align:center;padding:5px 0px;" class="pipeinfo-td" ><div style="color:#87CEEB;" class="upload-pictures i18n1" name="nopictures">无图片</div></td>'; 
+          template += '<td style="width:50%;text-align:center;padding:5px 0px;" class="pipeinfo-td" ><div style="color:#87CEEB;" class="upload-pictures i18n1" name="nopictures">无图片</div></td>';
 
         }
 

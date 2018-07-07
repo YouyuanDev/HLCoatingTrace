@@ -232,6 +232,7 @@
         }
         setMobControls();
         setSelectPictures();
+        JudgeMaxAndMIn();
     }
     //得到表单及数据失败
     function GetAllProcessInfoByPipeNoFail(message) {
@@ -244,67 +245,67 @@
 
 
     //生成检验项表单
-    function GenerateInspectionItem(row) {
-        var pipe_no = "";
-        var mill_no = "";
-        var process_code = "";
-        var inspection_process_record_header_code = "";
-        //根据管号和工序编号得到检验项表单项目
-        var s = "/DynamicItemOperation/getDynamicItemByPipeNoProcessCodeHeaderCode.action";
-        api.ajax({
-            url: s,
-            method: 'post',
-            timeout: 30,
-            dataType: 'json',
-            data: {
-                values: {
-                    pipe_no: pipe_no,
-                    mill_no: mill_no,
-                    process_code: process_code,
-                    inspection_process_record_header_code: inspection_process_record_header_code
-                }
-            }
-        }, function(ret, err) {
-            if (ret) {
-                if (ret.success) {
-                    if (data == undefined || data.record == undefined) return;
-                    //var stencilcontent = "";
-                    //var div = "";
-                    for (var i = 0; i < data.record.length; i++) {
-
-                        // if ((i == 0) || (i % 2 == 0)) {
-                        //     div += "<tr>"
-                        // }
-                        // div += getTemplate(data.record[i], data.needInspectionInfo);
-
-                    }
-                    //div += "</tr>";
-                    $('#dynamicTable').empty();
-                    $('#dynamicTable').append(div);
-
-                    if (checkboxArr.length > 0) {
-                        $.each(checkboxArr, function(n, value) {
-                            var idName = "#" + value.itemcode;
-                            if (value.itemvalue == '1') {
-                                var idName = "#" + value.itemcode;
-                                $(idName).attr('checked', true);
-                                $("input[name='" + value.itemcode + "']").val(1);
-                            } else {
-                                $(idName).attr('checked', false);
-                                $("input[name='" + value.itemcode + "']").val(0);
-                            }
-                        });
-                    }
-                    JudgeMaxAndMIn();
-
-                }
-            } else {
-                api.alert({
-                    msg: JSON.stringify(err)
-                });
-            }
-        });
-    }
+    // function GenerateInspectionItem(row) {
+    //     var pipe_no = "";
+    //     var mill_no = "";
+    //     var process_code = "";
+    //     var inspection_process_record_header_code = "";
+    //     //根据管号和工序编号得到检验项表单项目
+    //     var s = "/DynamicItemOperation/getDynamicItemByPipeNoProcessCodeHeaderCode.action";
+    //     api.ajax({
+    //         url: s,
+    //         method: 'post',
+    //         timeout: 30,
+    //         dataType: 'json',
+    //         data: {
+    //             values: {
+    //                 pipe_no: pipe_no,
+    //                 mill_no: mill_no,
+    //                 process_code: process_code,
+    //                 inspection_process_record_header_code: inspection_process_record_header_code
+    //             }
+    //         }
+    //     }, function(ret, err) {
+    //         if (ret) {
+    //             if (ret.success) {
+    //                 if (data == undefined || data.record == undefined) return;
+    //                 //var stencilcontent = "";
+    //                 //var div = "";
+    //                 for (var i = 0; i < data.record.length; i++) {
+    //
+    //                     // if ((i == 0) || (i % 2 == 0)) {
+    //                     //     div += "<tr>"
+    //                     // }
+    //                     // div += getTemplate(data.record[i], data.needInspectionInfo);
+    //
+    //                 }
+    //                 //div += "</tr>";
+    //                 $('#dynamicTable').empty();
+    //                 //$('#dynamicTable').append(div);
+    //
+    //                 if (checkboxArr.length > 0) {
+    //                     $.each(checkboxArr, function(n, value) {
+    //                         var idName = "#" + value.itemcode;
+    //                         if (value.itemvalue == '1') {
+    //                             var idName = "#" + value.itemcode;
+    //                             $(idName).attr('checked', true);
+    //                             $("input[name='" + value.itemcode + "']").val(1);
+    //                         } else {
+    //                             $(idName).attr('checked', false);
+    //                             $("input[name='" + value.itemcode + "']").val(0);
+    //                         }
+    //                     });
+    //                 }
+    //                 JudgeMaxAndMIn();
+    //
+    //             }
+    //         } else {
+    //             api.alert({
+    //                 msg: JSON.stringify(err)
+    //             });
+    //         }
+    //     });
+    // }
 
     function getTemplate(item, recordItems) {
         var controltype = item.control_type; //控件类型
@@ -368,18 +369,18 @@
             defaultvalue = itemvalue;
         }
         if (controltype == "singleselect") { //单选
-            controldiv = '<input class="mob-singleselect" needInspectNow=' + needInspectNow + ' options=' + options + ' myname=' + itemcode + ' name=' + itemcode + ' value=' + defaultvalue + ' max-value=' + maxvalue + ' min-value=' + minvalue +
+            controldiv = '<input class="mob-singleselect" needverify="'+needverify+'" needInspectNow=' + needInspectNow + ' options=' + options + ' myname=' + itemcode + ' name=' + itemcode + ' value=' + defaultvalue + ' max-value=' + maxvalue + ' min-value=' + minvalue +
                 ' type="text" dynamic="dynamic"/>';
         } else if (controltype == "singlenumber") { //单值数字
-            controldiv = '<input class="mob-singlenumber" needInspectNow=' + needInspectNow + ' decimalnum=' + decimalnum + ' myname=' + itemcode + ' name=' + itemcode + ' value=' + defaultvalue + ' max-value=' + maxvalue + ' min-value=' + minvalue +
+            controldiv = '<input class="mob-singlenumber" needverify="'+needverify+'" needInspectNow=' + needInspectNow + ' decimalnum=' + decimalnum + ' myname=' + itemcode + ' name=' + itemcode + ' value=' + defaultvalue + ' max-value=' + maxvalue + ' min-value=' + minvalue +
                 ' type="text" dynamic="dynamic"/>';
         } else if (controltype == "singletext") { //单值文本
-            controldiv = '<input class="" needInspectNow=' + needInspectNow + ' max-value=' + maxvalue + ' myname=' + itemcode + ' name=' + itemcode + ' value=' + defaultvalue + ' min-value=' + minvalue + ' type="text" dynamic="dynamic"/>';
+            controldiv = '<input class="" needverify="'+needverify+'" needInspectNow=' + needInspectNow + ' max-value=' + maxvalue + ' myname=' + itemcode + ' name=' + itemcode + ' value=' + defaultvalue + ' min-value=' + minvalue + ' type="text" dynamic="dynamic"/>';
         } else if (controltype == "multinumber") { //多值数字
-            controldiv = '<input class="mob-listnumber" needInspectNow=' + needInspectNow + ' myname=' + itemcode + ' name=' + itemcode + ' value=' + defaultvalue + ' max-value=' + maxvalue + ' min-value=' + minvalue +
+            controldiv = '<input class="mob-listnumber" needverify="'+needverify+'" needInspectNow=' + needInspectNow + ' myname=' + itemcode + ' name=' + itemcode + ' value=' + defaultvalue + ' max-value=' + maxvalue + ' min-value=' + minvalue +
                 ' type="text" dynamic="dynamic"/>';
         } else if (controltype == "multitext") { //多值文本
-            controldiv = '<input class="" needInspectNow=' + needInspectNow + ' max-value=' + maxvalue + ' myname=' + itemcode + ' name=' + itemcode + ' value=' + defaultvalue + ' min-value=' + minvalue + ' type="text" dynamic="dynamic"/>';
+            controldiv = '<input class="" needverify="'+needverify+'" needInspectNow=' + needInspectNow + ' max-value=' + maxvalue + ' myname=' + itemcode + ' name=' + itemcode + ' value=' + defaultvalue + ' min-value=' + minvalue + ' type="text" dynamic="dynamic"/>';
         } else if (controltype == "multiselect") { //多选
             controldiv = '<input class="mob-multipleselect" needInspectNow=' + needInspectNow + ' options=' + options + ' myname=' + itemcode + ' name=' + itemcode + ' value=' + defaultvalue + ' max-value=' + maxvalue + ' min-value=' + minvalue +
                 ' type="text" dynamic="dynamic"/>';
@@ -546,8 +547,36 @@
             });
         });
     }
+
+    function JudgeMaxAndMIn() {
+        //alert($(obj).attr('maxvalue')+":"+$(obj).val());
+        $(".dynamic-form-item :input[dynamic='dynamic'],select[dynamic='dynamic']").each(function(i) {
+            var $obj = $(this);
+            var controltype = $obj.attr("controltype");
+            var needverify = $obj.attr("needverify");
+            var myname = $obj.attr("myname");
+            //alert("myname="+myname+"needverify="+needverify);
+            //alert("myname value="+$(this).val());
+            if (needverify==undefined||needverify != "1") {
+                return;
+            }
+            validateMaxAndMIn($(this), $(this).val(), $(this).attr('max-value'), $(this).attr('min-value'));
+
+        });
+    }
+
+
+
+
+
+
     //验证数据是否合法
     function validateMaxAndMIn($obj, value, maxVal, minVal) {
+        var needverify = $obj.attr('needverify');
+        if(needverify==undefined||needverify=="0"){
+          return;
+        }
+
         var flag = true;
         var values = value + "";
         if (values != undefined && values != "") {
@@ -683,11 +712,11 @@
                             result: $('#result').val(),
                             upload_files: imgUrl,
                             remark: $('#remark').val(),
-                            dynamicJson:JSON.stringify(dynamicArr),
-                            outputJson:JSON.stringify(outputparam),
-                            inputStatusList:inputstatus,
-                            process_code:g_processcode,
-                            inspection_process_record_header_code:$('.pipeinfo-table .inspection_process_record_header_code').text()
+                            dynamicJson: JSON.stringify(dynamicArr),
+                            outputJson: JSON.stringify(outputparam),
+                            inputStatusList: inputstatus,
+                            process_code: g_processcode,
+                            inspection_process_record_header_code: $('.pipeinfo-table .inspection_process_record_header_code').text()
                         }
                     }
                 }, function(ret, err) { //alert(ret);

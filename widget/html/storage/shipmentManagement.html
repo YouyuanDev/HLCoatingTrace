@@ -159,7 +159,7 @@
                 <tr>
                     <td class="i18n1" name="vehicleplateno"></td>
                     <td>
-                        <input type="text" readonly=false class="vehicle_plate_no" name="vehicle_plate_no" style="width:90%;border:1px solid #cdcdcd;" placeholder="输入车牌号..." />
+                        <input type="text" class="vehicle_plate_no" name="vehicle_plate_no" style="width:90%;border:1px solid #cdcdcd;" placeholder="输入车牌号..." />
 
                     </td>
                 </tr>
@@ -263,13 +263,12 @@
 
             if (g_shipment_no != undefined) {
                 //开始拉数据
+                alert(g_shipment_no);
                 loadShipmentInfo(g_shipment_no);
                 $('.form-process-button').hide();
                 $('.scan-container').hide();
-                $('.vehicle_plate_no').attr('readonly', true);
+                $('.vehicle_plate_no').attr("readonly","readonly");
                 $('.vehicle_plate_no').attr('placeholder', '');
-
-
             }
 
 
