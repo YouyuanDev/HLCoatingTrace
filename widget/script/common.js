@@ -1,5 +1,5 @@
 var header, headerHeight = 0;
-var serverIP = '192.168.0.12:8080';
+var serverIP = '192.168.3.14:8080';
 
 function fnSettingHeader() {
 
@@ -579,6 +579,9 @@ function RequestAllProcessInfoByPipeNo(pipeno,processcode) {
             var millno = ret.value.data.millno;
             var criteria = ret.value.data.criteria;
             var pipeinfo = ret.value.data.pipeinfo;
+            var record_header=ret.value.data.record_header;
+            var record_items=ret.value.data.record_items;
+
             //alert(JSON.stringify(criteria));
             GetAllProcessInfoByPipeNoOK(ret.value.data);
         } else {

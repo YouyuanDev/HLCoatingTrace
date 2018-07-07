@@ -39,6 +39,9 @@
                 <tr>
                     <td class="i18n1" name="millno"></td>
                     <td class="millno"></td>
+                    <td class="i18n1" name="inspectionprocessrecordheadercode"></td>
+                    <td class="inspection_process_record_header_code"></td>
+
                 </tr>
             </table>
         </div>
@@ -197,7 +200,7 @@
     var g_employeeno, g_millno, g_processcode;
     //UILoading 的id
     var g_loadingID = 0;
-    var g_result_output;
+    var g_result_input_output;
     var language;
     apiready = function() {
         LoadProcess_input_output();
@@ -205,7 +208,7 @@
         var data = api.pageParam;
         g_pipeno = data.pipe_no;
         g_processcode = data.process_code
-        $('.nav-pipeno').attr('name',g_processcode);
+        $('.nav-pipeno').attr('name', g_processcode);
         //alert(g_pipeno+":"+g_processcode);
         // g_pipeno = '1544530';
         // g_processcode = "od_blast";
@@ -220,23 +223,17 @@
         g_employeeno = data.employeeno;
         g_millno = data.millno;
         $('.dynamic-form-item').empty();
-        for (var i = 0; i < data.criteria.length; i++) {
-            $('.dynamic-form-item').append(getTemplate(data.criteria[i]));
-        }
-        //setAllDefectInfo("steel");
-        //执行刷新
         initPipeBasicHeader(data.pipeinfo, data.millno);
-        //}, 200);
-        //setControls();
+        //初始化表单头部数据 result remark
+        InitRecordHeader(data.record_header);
+        //初始化表单动态项
+        for (var i = 0; i < data.criteria.length; i++) {
+            $('.dynamic-form-item').append(getTemplate(data.criteria[i], data.record_items));
+        }
         setMobControls();
         setSelectPictures();
-
-
-        //alert(JSON.stringify(data));
-        //getPendingRecordInfo("OdOperation", g_pipeno);
-
     }
-    //得到外防接收标准失败
+    //得到表单及数据失败
     function GetAllProcessInfoByPipeNoFail(message) {
         ClearLoadingPicture();
         api.alert({
@@ -271,7 +268,7 @@
             if (ret) {
                 if (ret.success) {
                     if (data == undefined || data.record == undefined) return;
-                    var stencilcontent = "";
+                    //var stencilcontent = "";
                     //var div = "";
                     for (var i = 0; i < data.record.length; i++) {
 
@@ -279,9 +276,7 @@
                         //     div += "<tr>"
                         // }
                         // div += getTemplate(data.record[i], data.needInspectionInfo);
-                        // if (data.record[i].item_code == "od_stencil_content" || data.record[i].item_code == "id_stencil_content") {
-                        //     stencilcontent = data.record[i].item_value;
-                        // }
+
                     }
                     //div += "</tr>";
                     $('#dynamicTable').empty();
@@ -301,15 +296,7 @@
                         });
                     }
                     JudgeMaxAndMIn();
-                    if (process_code == "od_stencil" || process_code == "id_stencil") {
-                        if ($("input[name='od_stencil_content']") != undefined) {
-                            $("#od_stencil_content").textbox("setValue", stencilcontent);
-                        }
-                        if ($("input[name='id_stencil_content']") != undefined) {
-                            $("#id_stencil_content").textbox("setValue", stencilcontent);
-                        }
-                        stencilcontent = "";
-                    }
+
                 }
             } else {
                 api.alert({
@@ -319,7 +306,7 @@
         });
     }
 
-    function getTemplate(item) {
+    function getTemplate(item, recordItems) {
         var controltype = item.control_type; //控件类型
         var itemcode = item.item_code; //控件编号
         var itemname = item.item_name; //中文名
@@ -334,7 +321,7 @@
         var maxvalue = item.max_value; //最大值
         var minvalue = item.min_value; //最小值
         var defaultvalue = item.default_value; //默认值
-        var itemvalue = item.item_value; // 若存在表单，则有该值，否则为undefined
+        var itemvalue = item.item_value; // APP此处为undefined
         var needInspectNow = item.need_inspection_mark;
         //----------添加测量项Label
         var template = '<div class="form-item"><div class="form-item-lbl">';
@@ -349,7 +336,7 @@
         if (language && language == "en") {
             if (unitnameen != undefined && unitnameen != "") {
                 unitnameen = "(" + unitnameen + ")";
-                itemname=itemnameen;
+                itemname = itemnameen;
             } else {
                 unitnameen = "";
             }
@@ -366,6 +353,17 @@
         //----------添加测量项控件
         template += '<div class="form-item-val">';
         var controldiv = "";
+
+
+        //读出item_value的值
+        for (var ii = 0; recordItems != undefined && ii < recordItems.length; ii++) {
+            if (recordItems[ii].item_code != undefined && recordItems[ii].item_code == itemcode) {
+                itemvalue = recordItems[ii].item_value;
+                break;
+            }
+        }
+
+
         if (itemvalue != undefined) {
             defaultvalue = itemvalue;
         }
@@ -574,22 +572,23 @@
         else
             $obj.css('background', '#F9A6A6');
     }
-    //设置结论
-    function setResults(process_code,language) {
+    //设置结论选项
+    function initResultOptions(process_code, language) {
         $("#result").empty();
-        var result_name="",result="";
-        if (g_result_output != undefined) {
-            //alert(JSON.stringify(g_result_output));
-            for (var i = 0; i < g_result_output.length; i++) {
-                if (g_result_output[i].process_code == process_code) {
-                    for (var j = 0; j < g_result_output[i].output.length; j++) {
-                            if (language == "en") {
-                                result_name = g_result_output[i].output[j].result_name_en;
-                            } else {
-                                result_name = g_result_output[i].output[j].result_name;
-                            }
-                            result=g_result_output[i].output[j].result;
-                            $("#result").append('<option value="'+result+'">'+result_name+'</option>');
+        var result_name = "",
+            result = "";
+        if (g_result_input_output != undefined) {
+            //alert(JSON.stringify(g_result_input_output));
+            for (var i = 0; i < g_result_input_output.length; i++) {
+                if (g_result_input_output[i].process_code == process_code) {
+                    for (var j = 0; j < g_result_input_output[i].output.length; j++) {
+                        if (language == "en") {
+                            result_name = g_result_input_output[i].output[j].result_name_en;
+                        } else {
+                            result_name = g_result_input_output[i].output[j].result_name;
+                        }
+                        result = g_result_input_output[i].output[j].result;
+                        $("#result").append('<option value="' + result + '">' + result_name + '</option>');
                     }
                 }
             }
@@ -625,7 +624,7 @@
         }, function(ret, err) {
 
             if (ret.buttonIndex == 1 && newInitFormNumber()) {
-                var s = 'http://' + serverIP + '/OdOperation/saveOdBlastProcess.action';
+                var s = 'http://' + serverIP + '/InspectionProcessOperation/saveProcess.action';
                 var imgUrl = "";
                 $('.imgBox  .temp-container img').each(function() {
                     var temp = $(this).attr("data-url");
@@ -633,26 +632,43 @@
                         imgUrl += (temp + ";");
                     }
                 });
-                var arr = {};
+                var dynamicArr = {};
                 $(".dynamic-form-item :input[dynamic='dynamic'],select[dynamic='dynamic']").each(function(i) {
                     var dy = $(this).attr("dynamic");
                     if (dy != undefined && dy == "dynamic") {
                         var item_code = $(this).attr("myname");
                         if (item_code != undefined) {
-                            arr[item_code] = $(this).val();
+                            dynamicArr[item_code] = $(this).val();
                         }
                     }
                 });
-                arr["id"]=$('.id').val();
-                arr["pipe_no"]=g_pipeno;
-                arr["mill_no"]=g_millno;
-                arr["operator_no"]=g_employeeno;
-                arr["result"]=$('#result').val();
-                arr["remark"]=$('#remark').val();
-                arr["upload_files"]=imgUrl;
-                alert(JSON.stringify(arr));
-                return;
+                // arr["id"] = $('.id').val();
+                // arr["pipe_no"] = g_pipeno;
+                // arr["mill_no"] = g_millno;
+                // arr["operator_no"] = g_employeeno;
+                // arr["result"] = $('#result').val();
+                // arr["remark"] = $('#remark').val();
+                // arr["upload_files"] = imgUrl;
+
+                var outputparam = {};
+                var inputstatus = "";
+                for (var i = 0; i < g_result_input_output.length; i++) {
+                    if (g_processcode != undefined && g_processcode == g_result_input_output[i].process_code) {
+                        inputstatus = g_result_input_output[i].input;
+                        outputparam["output"] = g_result_input_output[i].output;
+                        outputparam["additionParams"] = g_result_input_output[i].additionParams;
+                        break;
+                    }
+                }
+                // var arr={};
+                // arr["dynamicJson"] = JSON.stringify(dynamicArr);
+                // arr["outputJson"] = JSON.stringify(outputparam);
+                // arr["inputStatusList"] = inputstatus;
+                // alert(JSON.stringify(arr));
+                // return;
+
                 //alert(imgUrl);
+                alert($('.pipeinfo-table .inspection_process_record_header_code').text());
                 api.ajax({
                     url: s,
                     method: 'post',
@@ -664,21 +680,14 @@
                             pipe_no: g_pipeno,
                             mill_no: g_millno,
                             operator_no: g_employeeno,
-                            marking: $('#mk').val(),
-                            surface_condition: $('.form-steel-select-val').text(),
-                            preheat_temp: $('input[name="preheat_temp"]').val(),
-                            salt_contamination_before_blasting: $('input[name="salt_contamination_before_blasting"]').val(),
-                            alkaline_dwell_time: $('input[name="alkaline_dwell_time"]').val(),
-                            alkaline_concentration: $('input[name="alkaline_concentration"]').val(),
-                            acid_wash_time: $('input[name="acid_wash_time"]').val(),
-                            acid_concentration: $('input[name="acid_concentration"]').val(),
-                            rinse_water_conductivity: $('input[name="rinse_water_conductivity"]').val(),
-                            abrasive_conductivity: $('input[name="abrasive_conductivity"]').val(),
-                            blast_line_speed: $('input[name="blast_line_speed"]').val(),
                             result: $('#result').val(),
-                            blast_line_speed: $('input[name="blast_line_speed"]').val(),
                             upload_files: imgUrl,
                             remark: $('#remark').val(),
+                            dynamicJson:JSON.stringify(dynamicArr),
+                            outputJson:JSON.stringify(outputparam),
+                            inputStatusList:inputstatus,
+                            process_code:g_processcode,
+                            inspection_process_record_header_code:$('.pipeinfo-table .inspection_process_record_header_code').text()
                         }
                     }
                 }, function(ret, err) { //alert(ret);
@@ -699,41 +708,14 @@
         });
     }
 
-    function getPendingRecordInfoOK(data) {
-        if (data != undefined) {
-            $('.id').val(data.id);
-            $('#mk').val(data.marking);
-            $('.form-steel-select-val').text(data.surface_condition);
-            if (data.preheat_temp != -99) {
-                $('input[name="preheat_temp"]').val(data.preheat_temp);
-            }
-            if (data.salt_contamination_before_blasting != -99) {
-                $('input[name="salt_contamination_before_blasting"]').val(data.salt_contamination_before_blasting);
-            }
-            if (data.alkaline_dwell_time != -99) {
-                $('input[name="alkaline_dwell_time"]').val(data.alkaline_dwell_time);
-            }
-            if (data.alkaline_concentration != -99) {
-                $('input[name="alkaline_concentration"]').val(data.alkaline_concentration);
-            }
-            if (data.acid_wash_time != -99) {
-                $('input[name="acid_wash_time"]').val(data.acid_wash_time);
-            }
-            if (data.acid_concentration != -99) {
-                $('input[name="acid_concentration"]').val(data.acid_concentration);
-            }
-            if (data.rinse_water_conductivity != -99) {
-                $('input[name="rinse_water_conductivity"]').val(data.rinse_water_conductivity);
-            }
-            if (data.abrasive_conductivity != -99) {
-                $('input[name="abrasive_conductivity"]').val(data.abrasive_conductivity);
-            }
-            if (data.blast_line_speed != -99) {
-                $('input[name="blast_line_speed"]').val(data.blast_line_speed);
-            }
-            $('#result').val(data.result);
 
-            var imgUrl = data.upload_files;
+    function InitRecordHeader(header) {
+        if (header != undefined) {
+            $('.id').val(header.id);
+            $('.pipeinfo-table .inspection_process_record_header_code').text(header.inspection_process_record_header_code);
+            $('#result').val(header.result);
+
+            var imgUrl = header.upload_files;
             if (imgUrl.length > 0) {
                 var imgArr = imgUrl.split(';');
                 var s = 'http://' + serverIP + '/upload/pictures/';
@@ -742,14 +724,13 @@
                         $('.imgBox').append(pictureTemplate(imgArr[i], s + imgArr[i]));
                 }
             }
-            $('#remark').val(data.remark);
-            validateAllValue();
+            $('#remark').val(header.remark);
         }
     }
 
-    function getPendingRecordInfoFail() {
 
-    }
+
+
     //初始化工序的input和output
     function LoadProcess_input_output() {
         var s = 'http://' + serverIP + '/data/process_input_output.json';
@@ -760,9 +741,9 @@
             dataType: 'json'
         }, function(ret, err) {
             if (ret) {
-                g_result_output = ret;
+                g_result_input_output = ret;
                 //根据管子的状态进入到不同的工序
-                setResults(g_processcode,language);
+                initResultOptions(g_processcode, language);
                 RequestAllProcessInfoByPipeNo(g_pipeno, g_processcode);
 
             }

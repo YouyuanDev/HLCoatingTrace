@@ -178,7 +178,7 @@
 <script type="text/javascript">
     var pipeno;
     var showmore = false;
-    var g_result_output;
+    var g_result_input_output;
     //var imageBrowser;
     apiready = function() {
             LoadProcess_input_output();
@@ -354,10 +354,10 @@
             //api.hideProgress();
             if (ret) {
                 var data = ret;
-                var flag=false;
+                var flag = false;
                 var language = getCookie("userLanguage");
-                if(data.length>0)
-                flag=true;
+                if (data.length > 0)
+                    flag = true;
                 for (var i = 0; i < data.length; i++) {
                     for (var key in data[i]) {
                         if (key.indexOf('header') == -1) {
@@ -419,20 +419,23 @@
         template += '<table  title="" class="dataintable"><thead><tr><th class="i18n1" name="' + process_code + '" colspan="6">' + process_code + '</th></tr></thead><tbody>';
         var remark = "",
             result = "",
-            result_name = "";
+            result_name = "",
+            uploadfiles = "";
+
         for (var i = 0; i < array.length; i++) {
             template += '<tr>';
             var dict = header_dict;
             remark = dict.remark;
             result = dict.result;
-            for (var t = 0; t < g_result_output.length; t++) {
-                if (g_result_output[t].process_code == process_code) {
-                    for (var w = 0; w < g_result_output[t].output.length; w++) {
-                        if (g_result_output[t].output[w].result == result) {
+            uploadfiles = dict.upload_files;
+            for (var t = 0; t < g_result_input_output.length; t++) {
+                if (g_result_input_output[t].process_code == process_code) {
+                    for (var w = 0; w < g_result_input_output[t].output.length; w++) {
+                        if (g_result_input_output[t].output[w].result == result) {
                             if (language == "en") {
-                                result_name = g_result_output[t].output[w].result_name_en;
+                                result_name = g_result_input_output[t].output[w].result_name_en;
                             } else {
-                                result_name = g_result_output[t].output[w].result_name;
+                                result_name = g_result_input_output[t].output[w].result_name;
                             }
                         }
                     }
@@ -472,6 +475,12 @@
         template += '<tr>';
         template += ' <td class="i18n1" name="result">结果</td>';
         template += ' <td>' + result_name + '</td>';
+        template += '</tr>';
+        //图片
+        template += '<tr>';
+        template += '<td class="i18n1" name="viewpicture">查看图片2</td>';
+        template += '<td style="width:50%;text-align:center;padding:5px 0px;" class="pipeinfo-td" ><div style="color:#87CEEB;" onclick="setBrowsePicutre(this);" data-list="' + uploadfiles +
+            '" class="upload-pictures i18n1" name="viewpicture">图片</div></td>';
         template += '</tr>';
         template += '<tr>';
         template += ' <td class="i18n1" name="remark">备注</td>';
@@ -519,7 +528,7 @@
             dataType: 'json'
         }, function(ret, err) {
             if (ret) {
-                g_result_output = ret;
+                g_result_input_output = ret;
             }
         });
     }
