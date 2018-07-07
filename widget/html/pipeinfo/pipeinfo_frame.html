@@ -478,9 +478,15 @@
         template += '</tr>';
         //图片
         template += '<tr>';
-        template += '<td class="i18n1" name="viewpicture">查看图片2</td>';
-        template += '<td style="width:50%;text-align:center;padding:5px 0px;" class="pipeinfo-td" ><div style="color:#87CEEB;" onclick="setBrowsePicutre(this);" data-list="' + uploadfiles +
-            '" class="upload-pictures i18n1" name="viewpicture">图片</div></td>';
+        template += '<td class="i18n1" name="viewpicture">查看图片</td>';
+        if(uploadfiles!=undefined&&uploadfiles!=""){
+          template += '<td style="width:50%;text-align:center;padding:5px 0px;" class="pipeinfo-td" ><div style="color:#87CEEB;" onclick="setBrowsePicutre(this);" data-list="' + uploadfiles +
+              '" class="upload-pictures i18n1" name="viewpicture">图片</div></td>';
+        }else{
+          template += '<td style="width:50%;text-align:center;padding:5px 0px;" class="pipeinfo-td" ><div style="color:#87CEEB;" class="upload-pictures i18n1" name="nopictures">无图片</div></td>'; 
+
+        }
+
         template += '</tr>';
         template += '<tr>';
         template += ' <td class="i18n1" name="remark">备注</td>';
