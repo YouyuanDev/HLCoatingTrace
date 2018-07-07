@@ -324,6 +324,10 @@
         var defaultvalue = item.default_value; //默认值
         var itemvalue = item.item_value; // APP此处为undefined
         var needInspectNow = item.need_inspection_mark;
+
+        var checkboxArr = [];
+        checkboxArr.length = 0;
+
         //----------添加测量项Label
         var template = '<div class="form-item"><div class="form-item-lbl">';
         //var language = getCookie("userLanguage");
@@ -369,35 +373,48 @@
             defaultvalue = itemvalue;
         }
         if (controltype == "singleselect") { //单选
-            controldiv = '<input class="mob-singleselect" needverify="'+needverify+'" needInspectNow=' + needInspectNow + ' options=' + options + ' myname=' + itemcode + ' name=' + itemcode + ' value=' + defaultvalue + ' max-value=' + maxvalue + ' min-value=' + minvalue +
+            controldiv = '<input class="mob-singleselect" needverify="' + needverify + '" needInspectNow=' + needInspectNow + ' options=' + options + ' myname=' + itemcode + ' name=' + itemcode + ' value=' + defaultvalue + ' max-value=' + maxvalue +
+                ' min-value=' + minvalue +
                 ' type="text" dynamic="dynamic"/>';
         } else if (controltype == "singlenumber") { //单值数字
-            controldiv = '<input class="mob-singlenumber" needverify="'+needverify+'" needInspectNow=' + needInspectNow + ' decimalnum=' + decimalnum + ' myname=' + itemcode + ' name=' + itemcode + ' value=' + defaultvalue + ' max-value=' + maxvalue + ' min-value=' + minvalue +
+            controldiv = '<input class="mob-singlenumber" needverify="' + needverify + '" needInspectNow=' + needInspectNow + ' decimalnum=' + decimalnum + ' myname=' + itemcode + ' name=' + itemcode + ' value=' + defaultvalue + ' max-value=' +
+                maxvalue + ' min-value=' + minvalue +
                 ' type="text" dynamic="dynamic"/>';
         } else if (controltype == "singletext") { //单值文本
-            controldiv = '<input class="" needverify="'+needverify+'" needInspectNow=' + needInspectNow + ' max-value=' + maxvalue + ' myname=' + itemcode + ' name=' + itemcode + ' value=' + defaultvalue + ' min-value=' + minvalue + ' type="text" dynamic="dynamic"/>';
+            controldiv = '<input class="" needverify="' + needverify + '" needInspectNow=' + needInspectNow + ' max-value=' + maxvalue + ' myname=' + itemcode + ' name=' + itemcode + ' value=' + defaultvalue + ' min-value=' + minvalue +
+                ' type="text" dynamic="dynamic"/>';
         } else if (controltype == "multinumber") { //多值数字
-            controldiv = '<input class="mob-listnumber" needverify="'+needverify+'" needInspectNow=' + needInspectNow + ' myname=' + itemcode + ' name=' + itemcode + ' value=' + defaultvalue + ' max-value=' + maxvalue + ' min-value=' + minvalue +
+            controldiv = '<input class="mob-listnumber" needverify="' + needverify + '" needInspectNow=' + needInspectNow + ' myname=' + itemcode + ' name=' + itemcode + ' value=' + defaultvalue + ' max-value=' + maxvalue + ' min-value=' + minvalue +
                 ' type="text" dynamic="dynamic"/>';
         } else if (controltype == "multitext") { //多值文本
-            controldiv = '<input class="" needverify="'+needverify+'" needInspectNow=' + needInspectNow + ' max-value=' + maxvalue + ' myname=' + itemcode + ' name=' + itemcode + ' value=' + defaultvalue + ' min-value=' + minvalue + ' type="text" dynamic="dynamic"/>';
+            controldiv = '<input class="" needverify="' + needverify + '" needInspectNow=' + needInspectNow + ' max-value=' + maxvalue + ' myname=' + itemcode + ' name=' + itemcode + ' value=' + defaultvalue + ' min-value=' + minvalue +
+                ' type="text" dynamic="dynamic"/>';
         } else if (controltype == "multiselect") { //多选
             controldiv = '<input class="mob-multipleselect" needInspectNow=' + needInspectNow + ' options=' + options + ' myname=' + itemcode + ' name=' + itemcode + ' value=' + defaultvalue + ' max-value=' + maxvalue + ' min-value=' + minvalue +
                 ' type="text" dynamic="dynamic"/>';
         } else if (controltype == "checkbox") { //复选框
-            controldiv = "<input controltype=\"" + controltype + "\"  type=\"checkbox\" id=\"" + itemcode + "\" myname=\"" + itemcode + "\" value=\"1\" checked=\"false\" onchange=\"checkboxChecked(this)\"/>\n" +
-                "<input dynamic=\"dynamic\" type=\"hidden\" myname=\"" + itemcode + "\" name=\"" + itemcode + "\" value=\"0\">";
-            if (itemvalue != undefined && itemvalue != "") {
+            var checked = "";
+            if (itemvalue != undefined && itemvalue == "1") {
+                checked = "checked=true";
                 checkboxArr.push({
                     'itemcode': itemcode,
                     'itemvalue': itemvalue
                 });
             } else {
+                checked = "";
                 checkboxArr.push({
                     'itemcode': itemcode,
                     'itemvalue': defaultvalue
                 });
             }
+
+            controldiv = "<input controltype=\"" + controltype + "\"  type=\"checkbox\" id=\"" + itemcode + "\" myname=\"" + itemcode + "\" value=\"1\" " + checked + " onchange=\"checkboxChecked(this)\"/>\n";
+            if (itemvalue != undefined && itemvalue == "1") {
+                controldiv += "<input dynamic=\"dynamic\" type=\"hidden\" myname=\"" + itemcode + "\" name=\"" + itemcode + "\" value=\"1\">";
+            } else {
+                controldiv += "<input dynamic=\"dynamic\" type=\"hidden\" myname=\"" + itemcode + "\" name=\"" + itemcode + "\" value=\"0\">";
+            }
+
         } else if (controltype == "textarea") { //多行文本
             controldiv = "<input controltype=\"" + controltype + "\" id=\"" + itemcode + "\" dynamic=\"dynamic\" class=\"easyui-textbox\" type=\"text\" value=\"" + defaultvalue + "\" myname=\"" + itemcode + "\" name=\"" + itemcode +
                 "\" data-options=\"multiline:true\" style=\"width:300px;height:80px\" />";
@@ -557,7 +574,7 @@
             var myname = $obj.attr("myname");
             //alert("myname="+myname+"needverify="+needverify);
             //alert("myname value="+$(this).val());
-            if (needverify==undefined||needverify != "1") {
+            if (needverify == undefined || needverify != "1") {
                 return;
             }
             validateMaxAndMIn($(this), $(this).val(), $(this).attr('max-value'), $(this).attr('min-value'));
@@ -573,8 +590,8 @@
     //验证数据是否合法
     function validateMaxAndMIn($obj, value, maxVal, minVal) {
         var needverify = $obj.attr('needverify');
-        if(needverify==undefined||needverify=="0"){
-          return;
+        if (needverify == undefined || needverify == "0") {
+            return;
         }
 
         var flag = true;
@@ -693,7 +710,7 @@
                 // arr["dynamicJson"] = JSON.stringify(dynamicArr);
                 // arr["outputJson"] = JSON.stringify(outputparam);
                 // arr["inputStatusList"] = inputstatus;
-                // alert(JSON.stringify(arr));
+                //alert(JSON.stringify(dynamicArr));
                 // return;
 
                 //alert(imgUrl);
@@ -758,7 +775,17 @@
     }
 
 
-
+    //checkbox 点击事件
+    function checkboxChecked(obj) {
+        var name = $(obj).attr("myname");
+        if ($(obj).is(":checked")) {
+            $(obj).prop('checked', true);
+            $("input[name='" + name + "']").val(1);
+        } else {
+            $(obj).prop('checked', false);
+            $("input[name='" + name + "']").val(0);
+        }
+    }
 
     //初始化工序的input和output
     function LoadProcess_input_output() {
