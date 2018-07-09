@@ -668,8 +668,8 @@
                 // arr["dynamicJson"] = JSON.stringify(dynamicArr);
                 // arr["outputJson"] = JSON.stringify(outputparam);
                 // arr["inputStatusList"] = inputstatus;
-                alert(JSON.stringify(dynamicArr));
-                alert(JSON.stringify(inputstatus));
+                // alert(JSON.stringify(dynamicArr));
+                // alert(JSON.stringify(inputstatus));
                 // return;
 
                 //alert(imgUrl);
@@ -701,10 +701,7 @@
                             msg: ret.message
                         });
                         if (ret.success) {
-                            //closeWindow();
-                            api.closeToWin({
-                                name: 'root'
-                            });
+                            closeWindow(g_processcode);
                         }
                     } else {
                         api.alert({
