@@ -178,21 +178,22 @@
             background-repeat: no-repeat;
             background-size: cover;
         }
-        .show-statistics-btn{
-          position: fixed;
-          right: 10px;
-          top: 25px;
-          /*z-index: 10000;*/
-          background-color: #4D4D4D;
-          width: 35px;
-          height: 35px;
-          text-align: center;
-          line-height: 50px;
-          /*border-radius:50%;*/
-          color: white;
-          background: url('./image/search.png');
-          background-repeat: no-repeat;
-          background-size: cover;
+
+        .show-statistics-btn {
+            position: fixed;
+            right: 10px;
+            top: 25px;
+            /*z-index: 10000;*/
+            background-color: #4D4D4D;
+            width: 35px;
+            height: 35px;
+            text-align: center;
+            line-height: 50px;
+            /*border-radius:50%;*/
+            color: white;
+            background: url('./image/search.png');
+            background-repeat: no-repeat;
+            background-size: cover;
         }
     </style>
 </head>
@@ -232,10 +233,10 @@
 
                 </li>
                 <li class="border-b" name="statistics">
-                  <span class="i18n1" name="statistics"></span>
-                  <div class="show-statistics-btn" data-isshow="hide" onclick="newStatistics()">
-                      <!-- 新建 -->
-                  </div>
+                    <span class="i18n1" name="statistics"></span>
+                    <div class="show-statistics-btn" data-isshow="hide" onclick="newStatistics()">
+                        <!-- 新建 -->
+                    </div>
                 </li>
                 <li class="border-b i18n1" name="personal">个人信息</li>
             </ul>
@@ -265,83 +266,95 @@
     //定义二维码全局变量
     var FNScanner;
     var UIInputId;
+    var g_project_no = "",
+        g_mill_no = "",
+        g_operation_time = "";
     apiready = function() {
+            RequireStatisticSearchinfo();
+            //设置TitleBar位置(兼容IOS)
+            fnSettingHeader();
+            //设置搜索栏
+            initSearchBar();
+            funIniGroup();
+            //判断是否登录
+            //JudgeLogin();
+            //设置回调函数
+            setPushListener();
+            // api.openWin({
+            //     name: 'generalprocess',
+            //     url: './html/process/generalprocess.html',
+            //     pageParam: {
+            //         shipment_no: undefined
+            //     }
+            // });
 
-        //设置TitleBar位置(兼容IOS)
-        fnSettingHeader();
-        //设置搜索栏
-        initSearchBar();
-        funIniGroup();
-        //判断是否登录
-        //JudgeLogin();
-        //设置回调函数
-        setPushListener();
-        // api.openWin({
-        //     name: 'generalprocess',
-        //     url: './html/process/generalprocess.html',
-        //     pageParam: {
-        //         shipment_no: undefined
-        //     }
-        // });
+            FNScanner = api.require('FNScanner');
 
-        FNScanner = api.require('FNScanner');
-
-        api.addEventListener({
-            name: 'resume'
-        }, function(ret, err) {
-            FNScanner.onResume();
-            //alert('应用回到前台');
-        });
-        api.addEventListener({
-            name: 'pause'
-        }, function(ret, err) {
-            FNScanner.onPause();
-            //alert('应用进入后台');
-        });
-
-
-
-
-        //二维码点击事件
-        $('.scan-container').click(function() {
-            FNScanner.open({
-                autorotation: true,
-                sound:'./sound/scanok.wav'
+            api.addEventListener({
+                name: 'resume'
             }, function(ret, err) {
-                if (ret) {
-                    //扫出来结果
-                    if (ret.eventType == 'success') {
-                        //alert(ret.content);
-                        //设置搜索框为读到的二维码数据
-                        var UIInput = api.require('UIInput');
-                        UIInput.value({
-                            msg: ret.content
-                        });
+                FNScanner.onResume();
+                //alert('应用回到前台');
+            });
+            api.addEventListener({
+                name: 'pause'
+            }, function(ret, err) {
+                FNScanner.onPause();
+                //alert('应用进入后台');
+            });
 
-                        // var jsfun = 'doSearchPipeInfo(' + ret.content + ',1,false);';
-                        // api.execScript({
-                        //     frameName: 'frame0',
-                        //     script: jsfun
-                        // });
-                        sendSearchEvent(ret.content);
-                        FNScanner.closeView();
+
+
+
+            //二维码点击事件
+            $('.scan-container').click(function() {
+                FNScanner.open({
+                    autorotation: true,
+                    sound: './sound/scanok.wav'
+                }, function(ret, err) {
+                    if (ret) {
+                        //扫出来结果
+                        if (ret.eventType == 'success') {
+                            //alert(ret.content);
+                            //设置搜索框为读到的二维码数据
+                            var UIInput = api.require('UIInput');
+                            UIInput.value({
+                                msg: ret.content
+                            });
+
+                            // var jsfun = 'doSearchPipeInfo(' + ret.content + ',1,false);';
+                            // api.execScript({
+                            //     frameName: 'frame0',
+                            //     script: jsfun
+                            // });
+                            sendSearchEvent(ret.content);
+                            FNScanner.closeView();
+                        }
                     }
-                }
-            });
+                });
 
-        });
-        //搜索点击事件
-        $('.search-span').click(function() {
-            var UIInput = api.require('UIInput');
-            UIInput.value(function(ret) {
-                if (ret) {
-                    sendSearchEvent(ret.msg);
-                }
             });
+            //搜索点击事件
+            $('.search-span').click(function() {
+                var UIInput = api.require('UIInput');
+                UIInput.value(function(ret) {
+                    if (ret) {
+                        sendSearchEvent(ret.msg);
+                    }
+                });
+            });
+            hlLanguage("./i18n/");
+        }
+        // 班报保留上次搜索信息
+    function RequireStatisticSearchinfo() {
+        api.addEventListener({
+            name: 'sendSettingStatisticInfoEvent'
+        }, function(ret, err) {
+            g_project_no = ret.value.project_no;
+            g_mill_no = ret.value.mill_no;
+            g_operation_time = ret.value.operation_time;
         });
-        hlLanguage("./i18n/");
     }
-
     //发送查询管号事件
     function sendSearchEvent(pipeno) {
         api.sendEvent({
@@ -503,27 +516,33 @@
             }
         });
     }
-    function newStatistics(){
-      $("body").addClass('mask');
-      api.openFrame({
-          name: 'newstatisticsselect',
-          url: './html/addition/newstatisticsselect.html',
-          bgColor: 'rgba(0,0,0,0.8)',
-          rect: {
-              x: 0,
-              y: 0,
-              w: 'auto',
-              h: 'auto',
-              marginLeft: 0,
-              marginTop: 0,
-              marginBottom: 0,
-              marginRight: 0
-          },
-          animation: {
-              type: "movein",
-              subType: "from_top",
-              duration: 300
-          }
-      });
+
+    function newStatistics() {
+        $("body").addClass('mask');
+        api.openFrame({
+            name: 'newstatisticsselect',
+            url: './html/addition/newstatisticsselect.html',
+            bgColor: 'rgba(0,0,0,0.8)',
+            rect: {
+                x: 0,
+                y: 0,
+                w: 'auto',
+                h: 'auto',
+                marginLeft: 0,
+                marginTop: 0,
+                marginBottom: 0,
+                marginRight: 0
+            },
+            animation: {
+                type: "movein",
+                subType: "from_top",
+                duration: 300
+            },
+            pageParam: {
+                project_no:g_project_no,
+                mill_no:g_mill_no,
+                operation_time:g_operation_time
+            }
+        });
     }
 </script>

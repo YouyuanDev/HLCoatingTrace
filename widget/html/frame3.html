@@ -33,7 +33,20 @@
 
 <body>
     <div class="div-data" id="div-data" style="font-size: 16px;color:#000000;font-family:" Sans-serif ";">
-
+      <div class="form-item">
+               <table class="pipeinfo-table">
+                   <tr>
+                       <td class="i18n1" name="projectno"></td>
+                       <td id="s_projectno"></td>
+                       <td class="i18n1" name="millno"></td>
+                       <td id="s_millno"></td>
+                   </tr>
+                   <tr>
+                       <td class="i18n1" name="operationtime"></td>
+                       <td id="s_operationtime"></td>
+                   </tr>
+               </table>
+           </div>
         <!--白班-->
         <div class="form-item">
             <table class="pipeinfo-table oddayshift-table">
@@ -220,6 +233,9 @@
                 project_no=ret.value.project_no;
                 mill_no=ret.value.mill_no;
                 operation_time=ret.value.operation_time;
+                $('#s_projectno').text(project_no);
+                $('#s_millno').text(mill_no);
+                $('#s_operationtime').text(operation_time);
             });
         }
         //下拉刷新

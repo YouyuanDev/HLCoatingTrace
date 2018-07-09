@@ -313,23 +313,23 @@
         if (controltype == "singleselect") { //单选
             controldiv = '<input class="mob-singleselect" needverify="' + needverify + '" needInspectNow=' + needInspectNow + ' options=' + options + ' myname=' + itemcode + ' name=' + itemcode + ' value=' + defaultvalue + ' max-value=' + maxvalue +
                 ' min-value=' + minvalue +
-                ' type="text" dynamic="dynamic" style="width:300px;"/>';
+                ' type="text" dynamic="dynamic" />';
         } else if (controltype == "singlenumber") { //单值数字
             controldiv = '<input class="mob-singlenumber" needverify="' + needverify + '" needInspectNow=' + needInspectNow + ' decimalnum=' + decimalnum + ' myname=' + itemcode + ' name=' + itemcode + ' value=' + defaultvalue + ' max-value=' +
                 maxvalue + ' min-value=' + minvalue +
-                ' type="text" dynamic="dynamic" style="width:300px;"/>';
+                ' type="text" dynamic="dynamic" />';
         } else if (controltype == "singletext") { //单值文本
             controldiv = '<input class="" needverify="' + needverify + '" needInspectNow=' + needInspectNow + ' max-value=' + maxvalue + ' myname=' + itemcode + ' name=' + itemcode + ' value=' + defaultvalue + ' min-value=' + minvalue +
-                ' type="text" dynamic="dynamic" style="width:300px;"/>';
+                ' type="text" dynamic="dynamic"/>';
         } else if (controltype == "multinumber") { //多值数字
             controldiv = '<input class="mob-listnumber" needverify="' + needverify + '" needInspectNow=' + needInspectNow + ' myname=' + itemcode + ' name=' + itemcode + ' value=' + defaultvalue + ' max-value=' + maxvalue + ' min-value=' + minvalue +
-                ' type="text" dynamic="dynamic" style="width:300px;"/>';
+                ' type="text" dynamic="dynamic" />';
         } else if (controltype == "multitext") { //多值文本
-            controldiv = '<input class="" needverify="' + needverify + '" needInspectNow=' + needInspectNow + ' max-value=' + maxvalue + ' myname=' + itemcode + ' name=' + itemcode + ' value=' + defaultvalue + ' min-value=' + minvalue +
-                ' type="text" dynamic="dynamic" style="width:300px;"/>';
+            controldiv = '<input class="mob-listtext" needverify="' + needverify + '" needInspectNow=' + needInspectNow + ' max-value=' + maxvalue + ' myname=' + itemcode + ' name=' + itemcode + ' value=' + defaultvalue + ' min-value=' + minvalue +
+                ' type="text" dynamic="dynamic" />';
         } else if (controltype == "multiselect") { //多选
             controldiv = '<input class="mob-multipleselect" needInspectNow=' + needInspectNow + ' options=' + options + ' myname=' + itemcode + ' name=' + itemcode + ' value=' + defaultvalue + ' max-value=' + maxvalue + ' min-value=' + minvalue +
-                ' type="text" dynamic="dynamic" style="width:300px;"/>';
+                ' type="text" dynamic="dynamic" />';
         } else if (controltype == "checkbox") { //复选框
             var checked = "";
             if (itemvalue != undefined && itemvalue == "1") {
@@ -354,9 +354,9 @@
             }
 
         } else if (controltype == "textarea") { //多行文本
-           //alert(defaultvalue);
+            //alert(defaultvalue);
             controldiv = "<textarea controltype=\"" + controltype + "\" id=\"" + itemcode + "\" dynamic=\"dynamic\"   type=\"text\" value=\"" + defaultvalue + "\" myname=\"" + itemcode + "\" name=\"" + itemcode +
-                "\"  style=\"width:300px;height:120px\" >"+defaultvalue+"</textarea>";
+                "\"  style=\"width:300px;height:120px\" >" + defaultvalue + "</textarea>";
         } else if (controltype == "date") { //时间
             controldiv = '<input class="mob-datetime" max-value=' + maxvalue + ' myname=' + itemcode + ' name=' + itemcode + ' value=' + defaultvalue + ' min-value=' + minvalue + ' type="text" dynamic="dynamic"/>';
         }
@@ -500,6 +500,16 @@
                 theme: 'auto',
                 lang: 'zh',
                 select: 'multiple'
+            });
+        });
+        //多值文本设置
+        $('.mob-listtext').each(function() {
+            $(this).bind('input propertychange', function() {
+              var needverify = $(this).attr("needverify");
+              if (needverify == undefined || needverify != "1") {
+                  return;
+              }
+              validateMaxAndMIn($(this), $(this).val(), $(this).attr('max-value'), $(this).attr('min-value'));
             });
         });
     }
