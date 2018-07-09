@@ -278,7 +278,6 @@
             if (ret) {
                 if (ret.success) {
                     var data = ret.record;
-                    alert(JSON.stringify(data));
                     for (var i = 0; i < data.length; i++) {
                         $('.labinfo-div').append(makeTemplate(data[i].id, data[i].testing_type, data[i].testing_result, data[i].operation_time, data[i].pipe_no, data[i].external_coating, data[i].internal_coating));
                     }
@@ -298,6 +297,7 @@
         var title = "";
         var title_sufix = "";
         var result="";
+        var process_code="";
         if (testing_result ==undefined)
             result = "norecord";
         else if (testing_result == "0")
@@ -315,23 +315,28 @@
         if (testing_type.indexOf('is_sample') != -1) {
             title = " OD Regular";
             title_sufix = external_coating;
+            process_code="lab_testing_od_regular";
         } else if (testing_type.indexOf('dsc') != -1) {
             title = " DSC";
             title_sufix = external_coating;
+            process_code="lab_testing_dsc";
         } else if (testing_type.indexOf('pe') != -1) {
             title = " PE";
             title_sufix = external_coating;
+            process_code="lab_testing_pe";
         } else if (testing_type.indexOf('steel') != -1) {
             title = " ID Regular ";
             title_sufix = internal_coating;
+            process_code="lab_testing_id_regular";
         } else if (testing_type.indexOf('glass') != -1) {
             title = " ID Glass Panel ";
             title_sufix = internal_coating;
+            process_code="lab_testing_glass";
         }
 
 
 
-        template += '<div class="item style1" data-id=' + id + ' data-pipe-no=' + pipe_no + ' data-testing-type=' + testing_type + ' onclick="goTestingBySampleType(this);">';
+        template += '<div class="item style1" data-process-code='+process_code+' data-id=' + id + ' data-pipe-no=' + pipe_no + ' data-testing-type=' + testing_type + ' onclick="goTestingBySampleType(this);">';
         //lab实验|| testing_type.indexOf('LAB3LPE') != -1 || testing_type.indexOf('LABEPOXY') != -1
         if (testing_type.indexOf('is_sample') != -1) {
             if(external_coating!=undefined&&external_coating=="2FBE"){
@@ -401,11 +406,10 @@
     //实验点击事件
     function goTestingBySampleType(obj) {
         //testing_type就是process_code
-        var processcode = $(obj).attr('data-testing-type');
+        var processcode = $(obj).attr('data-process-code');
         //var sample_type = $(obj).attr('data-sample-type');
         var pipe_no = $(obj).attr('data-pipe-no');
-        alert("pipe_no" + pipe_no);
-        alert("processcode" + processcode);
+
         var id = $(obj).attr('data-id');
         if (processcode != undefined && processcode != "") {
             api.openWin({
@@ -413,7 +417,8 @@
                 url: './process/generalprocess.html',
                 pageParam: {
                     pipe_no: pipe_no,
-                    process_code: processcode
+                    process_code: processcode,
+
                 }
             });
         }
@@ -422,6 +427,7 @@
     function reloadLabTestingInfoByProjectNo() {
         start = 1;
         $('.labinfo-div').empty();
+      
         getLabTestingInfoByProjectNo($('#projectInfoSelect').val(), start);
     }
 </script>
