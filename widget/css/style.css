@@ -87,6 +87,14 @@ html,body {  font-size:14px; height:100%;background:#FFFFFF;}
     line-height: 43px;
     color: #ffffff;
 }
+.form-process-retest-button{
+  background-color:#FFD700;
+  width: 100%;
+  height: 43px;
+  text-align: center;
+  line-height: 43px;
+  color: #ffffff;
+}
 
 .form-item {
     width:97%;

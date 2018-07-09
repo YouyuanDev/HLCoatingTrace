@@ -125,6 +125,9 @@
         .form-btn-container .form-selfbtn:nth-child(3) {
             background-color: #CD3700;
         }
+        select{
+          -webkit-appearance: none;
+        }
     </style>
 </head>
 
@@ -279,7 +282,7 @@
                 if (ret.success) {
                     var data = ret.record;
                     for (var i = 0; i < data.length; i++) {
-                        $('.labinfo-div').append(makeTemplate(data[i].id, data[i].testing_type, data[i].testing_result, data[i].operation_time, data[i].pipe_no, data[i].external_coating, data[i].internal_coating));
+                        $('.labinfo-div').append(makeTemplate(data[i].odsampling_mark,data[i].id, data[i].testing_type, data[i].testing_result, data[i].operation_time, data[i].pipe_no, data[i].external_coating, data[i].internal_coating));
                     }
                     hlLanguage("../i18n/");
                 }
@@ -291,7 +294,7 @@
         });
     }
     //实验信息模板
-    function makeTemplate(id, testing_type, testing_result, operation_time, pipe_no, external_coating, internal_coating) {
+    function makeTemplate(odsampling_mark,id, testing_type, testing_result, operation_time, pipe_no, external_coating, internal_coating) {
         var template = "";
         var prefix_title = "";
         var title = "";
@@ -336,7 +339,7 @@
 
 
 
-        template += '<div class="item style1" data-process-code='+process_code+' data-id=' + id + ' data-pipe-no=' + pipe_no + ' data-testing-type=' + testing_type + ' onclick="goTestingBySampleType(this);">';
+        template += '<div class="item style1" data-process-code='+process_code+' data-odsampling-mark='+odsampling_mark+' data-id=' + id + ' data-pipe-no=' + pipe_no + ' data-testing-type=' + testing_type + ' onclick="goTestingBySampleType(this);">';
         //lab实验|| testing_type.indexOf('LAB3LPE') != -1 || testing_type.indexOf('LABEPOXY') != -1
         if (testing_type.indexOf('is_sample') != -1) {
             if(external_coating!=undefined&&external_coating=="2FBE"){
@@ -411,23 +414,30 @@
         var pipe_no = $(obj).attr('data-pipe-no');
 
         var id = $(obj).attr('data-id');
+        var odsampling_mark=$(obj).attr('data-odsampling-mark');
+        if(processcode!=undefined&&processcode=="lab_testing_od_regular"&&(odsampling_mark==undefined||odsampling_mark!="1")){
+          api.alert({
+              msg:'实验管取样未完成,不可实验!'
+          });
+          return;
+        }
         if (processcode != undefined && processcode != "") {
             api.openWin({
                 name: 'labtesting',
                 url: './process/generalprocess.html',
                 pageParam: {
                     pipe_no: pipe_no,
-                    process_code: processcode,
-
+                    process_code: processcode
                 }
             });
         }
+
     }
 
     function reloadLabTestingInfoByProjectNo() {
         start = 1;
         $('.labinfo-div').empty();
-      
+
         getLabTestingInfoByProjectNo($('#projectInfoSelect').val(), start);
     }
 </script>

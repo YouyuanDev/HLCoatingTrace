@@ -184,6 +184,7 @@
     <footer class="form-footer" id=footer>
         <div id="foot-container" style="width:100%;height:43px;display:flex;justify-content:center;align-items:center;" class="foot-container">
             <div class="i18n1 form-process-button" name="submit" onclick="submitForm()">提交</div>
+            <div class="i18n1 form-process-retest-button" name="retestsubmit" onclick="submitReTestForm()">复样</div>
         </div>
     </footer>
 </body>
@@ -202,12 +203,18 @@
     var g_loadingID = 0;
     var g_result_input_output;
     var language;
+    var retest = 0;
     apiready = function() {
         LoadProcess_input_output();
         DoLoadingPicture();
         var data = api.pageParam;
         g_pipeno = data.pipe_no;
-        g_processcode = data.process_code
+        g_processcode = data.process_code;
+        retest = data.retest;
+        if (retest == undefined) {
+            retest = 0;
+        }
+
         $('.nav-pipeno').attr('name', g_processcode);
         //alert(g_pipeno+":"+g_processcode);
         // g_pipeno = '1544530';
@@ -215,7 +222,7 @@
         fnSettingHeader();
         language = getCookie("userLanguage");
         hlLanguage("../../i18n/");
-
+        $('.form-process-retest-button').hide();
     }
 
     function GetAllProcessInfoByPipeNoOK(data) {
@@ -224,11 +231,14 @@
         g_millno = data.millno;
         $('.dynamic-form-item').empty();
         initPipeBasicHeader(data.pipeinfo, data.millno);
-        //初始化表单头部数据 result remark
-        InitRecordHeader(data.record_header);
+
+        if (retest == 0) {
+            //初始化表单头部数据 result remark
+            InitRecordHeader(data.record_header);
+        }
         //初始化表单动态项
         for (var i = 0; i < data.criteria.length; i++) {
-            $('.dynamic-form-item').append(getTemplate(data.criteria[i], data.record_items));
+            $('.dynamic-form-item').append(getTemplate(retest, data.criteria[i], data.record_items));
         }
         setMobControls();
         setSelectPictures();
@@ -245,7 +255,7 @@
 
 
 
-    function getTemplate(item, recordItems) {
+    function getTemplate(retest, item, recordItems) {
         var controltype = item.control_type; //控件类型
         var itemcode = item.item_code; //控件编号
         var itemname = item.item_name; //中文名
@@ -297,16 +307,15 @@
         template += '<div class="form-item-val">';
         var controldiv = "";
 
-
-        //读出item_value的值
-        for (var ii = 0; recordItems != undefined && ii < recordItems.length; ii++) {
-            if (recordItems[ii].item_code != undefined && recordItems[ii].item_code == itemcode) {
-                itemvalue = recordItems[ii].item_value;
-                break;
+        if (retest == 0) {
+            //读出item_value的值
+            for (var ii = 0; recordItems != undefined && ii < recordItems.length; ii++) {
+                if (recordItems[ii].item_code != undefined && recordItems[ii].item_code == itemcode) {
+                    itemvalue = recordItems[ii].item_value;
+                    break;
+                }
             }
         }
-
-
         if (itemvalue != undefined) {
             defaultvalue = itemvalue;
         }
@@ -505,11 +514,11 @@
         //多值文本设置
         $('.mob-listtext').each(function() {
             $(this).bind('input propertychange', function() {
-              var needverify = $(this).attr("needverify");
-              if (needverify == undefined || needverify != "1") {
-                  return;
-              }
-              validateMaxAndMIn($(this), $(this).val(), $(this).attr('max-value'), $(this).attr('min-value'));
+                var needverify = $(this).attr("needverify");
+                if (needverify == undefined || needverify != "1") {
+                    return;
+                }
+                validateMaxAndMIn($(this), $(this).val(), $(this).attr('max-value'), $(this).attr('min-value'));
             });
         });
     }
@@ -660,6 +669,7 @@
                 // arr["outputJson"] = JSON.stringify(outputparam);
                 // arr["inputStatusList"] = inputstatus;
                 alert(JSON.stringify(dynamicArr));
+                alert(JSON.stringify(inputstatus));
                 // return;
 
                 //alert(imgUrl);
@@ -691,7 +701,10 @@
                             msg: ret.message
                         });
                         if (ret.success) {
-                            closeWindow();
+                            //closeWindow();
+                            api.closeToWin({
+                                name: 'root'
+                            });
                         }
                     } else {
                         api.alert({
@@ -702,14 +715,33 @@
             }
         });
     }
+    //复样表单提交
+    function submitReTestForm() {
+        //$('.form-process-retest-button').hide();
+        api.openWin({
+            name: 'labretesting',
+            url: 'generalprocess.html',
+            reload: true,
+            pageParam: {
+                pipe_no: g_pipeno,
+                process_code: g_processcode,
+                retest: 1
+            }
+        });
 
-
+    }
+    //
     function InitRecordHeader(header) {
         if (header != undefined) {
             $('.id').val(header.id);
             $('.pipeinfo-table .inspection_process_record_header_code').text(header.inspection_process_record_header_code);
             $('#result').val(header.result);
-
+            if (header.result != undefined && header.result != "10") {
+                $('.form-process-button').hide();
+            }
+            if (header.process_code.indexOf('lab') != -1 && header.result == "0") {
+                $('.form-process-retest-button').show();
+            }
             var imgUrl = header.upload_files;
             if (imgUrl.length > 0) {
                 var imgArr = imgUrl.split(';');
