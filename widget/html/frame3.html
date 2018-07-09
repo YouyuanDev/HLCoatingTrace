@@ -299,18 +299,18 @@
                     $('.oddayshift-table .cuttinglength').text(cut_off_length_list_od_day);
                     var pipenofordscsampling_list_od_day = "",
                         pipenoforpesampling_list_od_day = "";
-                    if (ret.OdDscList2FBEOfDay != undefined) {
-                        for (var i = 0; i < ret.OdDscList2FBEOfDay.length; i++) {
-                            if (pipenofordscsampling_list_od_day.indexOf(ret.OdDscList2FBEOfDay[i].pipe_no) == -1)
-                                pipenofordscsampling_list_od_day += ret.OdDscList2FBEOfDay[i].pipe_no + ";";
+                    if (ret.OdDscListOfDay != undefined) {
+                        for (var i = 0; i < ret.OdDscListOfDay.length; i++) {
+                            if (pipenofordscsampling_list_od_day.indexOf(ret.OdDscListOfDay[i].pipe_no) == -1)
+                                pipenofordscsampling_list_od_day += ret.OdDscListOfDay[i].pipe_no + ";";
                         }
                     }
-                    if (ret.OdDscList3LPEOfDay != undefined) {
-                        for (var i = 0; i < ret.OdDscList3LPEOfDay.length; i++) {
-                            if (pipenofordscsampling_list_od_day.indexOf(ret.OdDscList3LPEOfDay[i].pipe_no) == -1)
-                                pipenofordscsampling_list_od_day += ret.OdDscList3LPEOfDay[i].pipe_no + ";";
-                        }
-                    }
+                    // if (ret.OdDscList3LPEOfDay != undefined) {
+                    //     for (var i = 0; i < ret.OdDscList3LPEOfDay.length; i++) {
+                    //         if (pipenofordscsampling_list_od_day.indexOf(ret.OdDscList3LPEOfDay[i].pipe_no) == -1)
+                    //             pipenofordscsampling_list_od_day += ret.OdDscList3LPEOfDay[i].pipe_no + ";";
+                    //     }
+                    // }
                     if (ret.OdPEListOfDay != undefined) {
                         for (var i = 0; i < ret.OdPEListOfDay.length; i++) {
                             if (pipenoforpesampling_list_od_day.indexOf(ret.OdPEListOfDay[i].pipe_no) == -1)
@@ -445,16 +445,16 @@
                     $('.odnightshift-table .cuttinglength').text(cut_off_length_list_od_night);
                     var pipenofordscsampling_list_od_night = "",
                         pipenoforpesampling_list_od_night = "";
-                    if (ret.OdDscList2FBEOfNight != undefined) {
-                        for (var i = 0; i < ret.OdDscList2FBEOfNight.length; i++) {
-                            pipenofordscsampling_list_od_night += ret.OdDscList2FBEOfNight[i].pipe_no + ";";
+                    if (ret.OdDscListOfNight != undefined) {
+                        for (var i = 0; i < ret.OdDscListOfNight.length; i++) {
+                            pipenofordscsampling_list_od_night += ret.OdDscListOfNight[i].pipe_no + ";";
                         }
                     }
-                    if (ret.OdDscList3LPEOfNight != undefined) {
-                        for (var i = 0; i < ret.OdDscList3LPEOfNight.length; i++) {
-                            pipenofordscsampling_list_od_night += ret.OdDscList3LPEOfNight[i].pipe_no + ";";
-                        }
-                    }
+                    // if (ret.OdDscList3LPEOfNight != undefined) {
+                    //     for (var i = 0; i < ret.OdDscList3LPEOfNight.length; i++) {
+                    //         pipenofordscsampling_list_od_night += ret.OdDscList3LPEOfNight[i].pipe_no + ";";
+                    //     }
+                    // }
                     if (ret.OdPEListOfNight != undefined) {
                         for (var i = 0; i < ret.OdPEListOfNight.length; i++) {
                             pipenoforpesampling_list_od_night += ret.OdPEListOfNight[i].pipe_no + ";";
