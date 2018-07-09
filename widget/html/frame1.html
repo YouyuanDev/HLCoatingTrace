@@ -323,10 +323,22 @@
         else if (testing_result == "10")
             result = "pending";
 
-        if (testing_type.indexOf('raw_material') != -1)
+        if (testing_type.indexOf('raw_material_3LPE') != -1) {
             prefix_title = "rawmaterial";
-        else
+            title_sufix = external_coating;
+            process_code = "lab_testing_raw_material_3LPE";
+        } else if (testing_type.indexOf('raw_material_2FBE') != -1) {
+            prefix_title = "rawmaterial";
+            title_sufix = external_coating;
+            process_code = "lab_testing_raw_material_2FBE";
+        } else if (testing_type.indexOf('raw_material_EPOXY') != -1) {
+            prefix_title = "rawmaterial";
+            title_sufix = internal_coating;
+            process_code = "lab_testing_raw_material_EPOXY";
+        } else {
             prefix_title = "product";
+        }
+
 
         if (testing_type.indexOf('is_sample') != -1) {
             title = " OD Regular";
@@ -371,9 +383,9 @@
         } else if (testing_type.indexOf('steel') != -1) {
             template += '<div class="itemlogo userlogo"><img src="../image/testing_steel.png" alt=""></div>';
         } else if (testing_type.indexOf('raw_material_3LPE') != -1) { //原材料实验
-            template += '<div class="itemlogo userlogo"><img src="../image/raw_epoxy.png" alt=""></div>';
+            template += '<div class="itemlogo userlogo"><img src="../image/raw_3lpe.png" alt=""></div>';
         } else if (testing_type.indexOf('raw_material_2FBE') != -1) { //原材料实验
-            template += '<div class="itemlogo userlogo"><img src="../image/raw_epoxy.png" alt=""></div>';
+            template += '<div class="itemlogo userlogo"><img src="../image/raw_2fbe.png" alt=""></div>';
         } else if (testing_type.indexOf('raw_material_EPOXY') != -1) { //原材料实验
             template += '<div class="itemlogo userlogo"><img src="../image/raw_epoxy.png" alt=""></div>';
         }

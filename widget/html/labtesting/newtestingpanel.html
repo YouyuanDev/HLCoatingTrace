@@ -49,7 +49,7 @@
             flex: 1;
             /*padding: 10px;*/
             text-align: center;
-            font-size:14px;
+            font-size: 14px;
         }
 
         .close-float {
@@ -108,7 +108,7 @@
     <div class="testing-container">
         <div class="close-float" onclick="closePanel()"></div>
         <div class="float-btn-container">
-            <div class="float-btn">
+            <!-- <div class="float-btn">
                 <div class="float-btn-item" onclick="LabTesting('lab_testing_od_regular')">
                     <div class="raw-bg raw-bg1"></div>
                     外防常规实验（OD Regular Testing）
@@ -121,19 +121,19 @@
                     <div class="raw-bg raw-bg3"></div>
                     PE实验（PE Testing）
                 </div>
-            </div>
+            </div> -->
             <div class="float-btn">
-                <div class="float-btn-item" onclick="LabTesting('lab_testing_glass')">
-                    <div class="raw-bg raw-bg4"></div>
-                    内防玻璃片实验（Glass Panel Testing）
-                </div>
-                <div class="float-btn-item" onclick="LabTesting('lab_testing_id_regular')">
-                    <div class="raw-bg raw-bg5"></div>
-                    内防常规实验（ID Regular Testing）
-                </div>
                 <div class="float-btn-item" onclick="LabTesting('lab_testing_raw_material_3LPE')">
-                    <div class="raw-bg raw-bg6"></div>
+                    <div class="raw-bg raw-bg4"></div>
                     原材料实验(Raw Material 3LPE Tesing)
+                </div>
+                <div class="float-btn-item" onclick="LabTesting('lab_testing_raw_material_2FBE')">
+                    <div class="raw-bg raw-bg5"></div>
+                    原材料实验(Raw Material 2FBE Tesing)
+                </div>
+                <div class="float-btn-item" onclick="LabTesting('lab_testing_raw_material_EPOXY')">
+                    <div class="raw-bg raw-bg6"></div>
+                    原材料实验(Raw Material Epoxy Tesing)
                 </div>
             </div>
         </div>
@@ -149,8 +149,12 @@
 <script type="text/javascript" src="../../script/common.js"></script>
 <script type="text/javascript" src="../../script/mobiscroll.custom-3.0.0-beta6.min.js"></script>
 <script type="text/javascript">
+    var g_project_no;
     apiready = function() {
         //  alert($('#ceshi').text());
+        var data = api.pageParam;
+        g_project_no = data.project_no;
+
     }
 
     function closePanel() {
@@ -160,16 +164,60 @@
     }
 
     function LabTesting(process_code) {
-        api.openWin({
-            name: 'newtestingpanelselect',
-            url: '../process/generalprocess.html',
-            pageParam: {
-                process_code:process_code,
-                pipe_no:''
+
+        if (process_code == undefined)
+            return;
+        var external_coating = "";
+        var internal_coating = "";
+        if (process_code == 'lab_testing_raw_material_3LPE') {
+            external_coating = "3LPE";
+        }else if(process_code == 'lab_testing_raw_material_2FBE') {
+            external_coating = "2FBE";
+        }else if(process_code == 'lab_testing_raw_material_EPOXY') {
+            internal_coating = "EPOXY";
+        }
+
+
+        var s = 'http://' + serverIP + '/APPRequestTransfer/getFirstPipeNoByProjectNo.action';
+        api.ajax({
+            url: s,
+            method: 'post',
+            timeout: 30,
+            dataType: 'json',
+            data: {
+                values: {
+                    project_no: g_project_no,
+                    external_coating:external_coating,
+                    internal_coating:internal_coating
+                }
+            }
+        }, function(ret, err) {
+            if (ret) {
+
+                if(ret.success){
+                  var pipeno= ret.record.pipe_no;
+                  //根据管子的状态进入到不同的工序
+                  api.openWin({
+                      name: 'newtestingpanelselect',
+                      url: '../process/generalprocess.html',
+                      pageParam: {
+                          process_code: process_code,
+                          pipe_no: pipeno
+                      }
+                  });
+                  closePanel();
+                }else{
+                  api.alert({
+                      msg: ret.message
+                  });
+                }
+
+
+
             }
         });
-        closePanel();
+
+
+
     }
-
-
 </script>
