@@ -247,31 +247,7 @@
             });
         });
     }
-    //获取项目信息
-    // function RequireProjectNo() {
-    //     $('#projectInfoSelect').empty();
-    //     var s = 'http://' + serverIP + '/ProjectOperation/getProjectInfoByNoOrName.action';
-    //     api.ajax({
-    //         url: s,
-    //         method: 'post',
-    //         timeout: 30,
-    //         dataType: 'json',
-    //         data: {
-    //             values: {}
-    //         }
-    //     }, function(ret, err) {
-    //         if (ret) {
-    //             for (var i = 0; i < ret.length; i++) {
-    //                 $('#projectInfoSelect').append('<option value=' + ret[i].project_no + '>' + ret[i].project_name + '</option>');
-    //             }
-    //             getLabTestingInfoByProjectNo($('#projectInfoSelect').val(), start);
-    //         } else {
-    //             api.alert({
-    //                 msg: JSON.stringify(err)
-    //             });
-    //         }
-    //     });
-    // }
+  
     //APP根据项目编号获取试验信息
     function getLabTestingInfoByProjectNo(project_no, start) {
       sendProjectParamToIndexPage();
