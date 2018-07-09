@@ -278,8 +278,9 @@
             if (ret) {
                 if (ret.success) {
                     var data = ret.record;
+                    alert(JSON.stringify(data));
                     for (var i = 0; i < data.length; i++) {
-                        $('.labinfo-div').append(makeTemplate(data[i].id, data[i].testing_type, data[i].result, data[i].operation_time, data[i].pipe_no, data[i].external_coating, data[i].internal_coating));
+                        $('.labinfo-div').append(makeTemplate(data[i].id, data[i].testing_type, data[i].testing_result, data[i].operation_time, data[i].pipe_no, data[i].external_coating, data[i].internal_coating));
                     }
                     hlLanguage("../i18n/");
                 }
@@ -291,16 +292,19 @@
         });
     }
     //实验信息模板
-    function makeTemplate(id, testing_type, result, operation_time, pipe_no, external_coating, internal_coating) {
+    function makeTemplate(id, testing_type, testing_result, operation_time, pipe_no, external_coating, internal_coating) {
         var template = "";
         var prefix_title = "";
         var title = "";
         var title_sufix = "";
-        if (result == "0")
-            result = "failed";
-        else if (result == "1")
+        var result="";
+        if (testing_result ==undefined)
+            result = "norecord";
+        else if (testing_result == "0")
+                result = "failed";
+        else if (testing_result == "1")
             result = "accepted";
-        else if (result == "10")
+        else if (testing_result == "10")
             result = "pending";
 
         if (testing_type.indexOf('raw_material') != -1)
@@ -308,7 +312,7 @@
         else
             prefix_title = "product";
 
-        if (testing_type.indexOf('od_regular') != -1) {
+        if (testing_type.indexOf('is_sample') != -1) {
             title = " OD Regular";
             title_sufix = external_coating;
         } else if (testing_type.indexOf('dsc') != -1) {
@@ -317,7 +321,7 @@
         } else if (testing_type.indexOf('pe') != -1) {
             title = " PE";
             title_sufix = external_coating;
-        } else if (testing_type.indexOf('id_regular') != -1) {
+        } else if (testing_type.indexOf('steel') != -1) {
             title = " ID Regular ";
             title_sufix = internal_coating;
         } else if (testing_type.indexOf('glass') != -1) {
@@ -329,16 +333,20 @@
 
         template += '<div class="item style1" data-id=' + id + ' data-pipe-no=' + pipe_no + ' data-testing-type=' + testing_type + ' onclick="goTestingBySampleType(this);">';
         //lab实验|| testing_type.indexOf('LAB3LPE') != -1 || testing_type.indexOf('LABEPOXY') != -1
-        if (testing_type.indexOf('od_regular') != -1) {
-            template += '<div class="itemlogo userlogo"><img src="../image/pipe_2fbe.png" alt=""></div>';
+        if (testing_type.indexOf('is_sample') != -1) {
+            if(external_coating!=undefined&&external_coating=="2FBE"){
+              template += '<div class="itemlogo userlogo"><img src="../image/pipe_2fbe.png" alt=""></div>';
+            }else if(external_coating!=undefined&&external_coating=="3LPE"){
+              template += '<div class="itemlogo userlogo"><img src="../image/pipe_3lpe.png" alt=""></div>';
+            }
         } else if (testing_type.indexOf('dsc') != -1) {
-            template += '<div class="itemlogo userlogo"><img src="../image/pipe_3lpe.png" alt=""></div>';
+            template += '<div class="itemlogo userlogo"><img src="../image/testing_dsc.png" alt=""></div>';
         } else if (testing_type.indexOf('pe') != -1) {
-            template += '<div class="itemlogo userlogo"><img src="../image/pipe_epoxy.png" alt=""></div>';
+            template += '<div class="itemlogo userlogo"><img src="../image/testing_pe.png" alt=""></div>';
         } else if (testing_type.indexOf('glass') != -1) {
-            template += '<div class="itemlogo userlogo"><img src="../image/raw_2fbe.png" alt=""></div>';
-        } else if (testing_type.indexOf('id_regular') != -1) {
-            template += '<div class="itemlogo userlogo"><img src="../image/raw_3lpe.png" alt=""></div>';
+            template += '<div class="itemlogo userlogo"><img src="../image/testing_glass.png" alt=""></div>';
+        } else if (testing_type.indexOf('steel') != -1) {
+            template += '<div class="itemlogo userlogo"><img src="../image/testing_steel.png" alt=""></div>';
         } else if (testing_type.indexOf('raw_material_3LPE') != -1) { //原材料实验
             template += '<div class="itemlogo userlogo"><img src="../image/raw_epoxy.png" alt=""></div>';
         } else if (testing_type.indexOf('raw_material_2FBE') != -1) { //原材料实验
