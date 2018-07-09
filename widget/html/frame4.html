@@ -179,6 +179,12 @@
                 </div>
             </li>
             <li>
+                <div class="list-item">
+                    <label class="i18n1" name="appversion">APP版本</label>
+                    <div class="list-item-con" id="appversion"></div>
+                </div>
+            </li>
+            <li>
                 <div class="list-item logout-div" style="display:none;">
                     <div class="logout-btn i18n1" name="exitlogon">退出登录</div>
                 </div>
@@ -200,6 +206,7 @@
 <script type="text/javascript">
     //var serverIP='192.168.0.11';
     apiready = function() {
+        $('#appversion').text(api.appVersion);
         modifyUserInfo();
         setLoginInvent();
         setLogoutInvent();
