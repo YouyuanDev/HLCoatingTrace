@@ -274,6 +274,7 @@
     // }
     //APP根据项目编号获取试验信息
     function getLabTestingInfoByProjectNo(project_no, start) {
+      sendProjectParamToIndexPage();
         var s = 'http://' + serverIP + '/APPRequestTransfer/getLabTestingInfoByProjectNo.action';
         api.ajax({
             url: s,
@@ -323,18 +324,10 @@
         else if (testing_result == "10")
             result = "pending";
 
-        if (testing_type.indexOf('raw_material_3LPE') != -1) {
+        if (testing_type.indexOf('lab_testing_raw_material') != -1) {
             prefix_title = "rawmaterial";
-            title_sufix = external_coating;
-            process_code = "lab_testing_raw_material_3LPE";
-        } else if (testing_type.indexOf('raw_material_2FBE') != -1) {
-            prefix_title = "rawmaterial";
-            title_sufix = external_coating;
-            process_code = "lab_testing_raw_material_2FBE";
-        } else if (testing_type.indexOf('raw_material_EPOXY') != -1) {
-            prefix_title = "rawmaterial";
-            title_sufix = internal_coating;
-            process_code = "lab_testing_raw_material_EPOXY";
+            process_code = testing_type;
+            title_sufix = testing_type.substring(testing_type.lastIndexOf('_') + 1);
         } else {
             prefix_title = "product";
         }
@@ -461,10 +454,19 @@
 
     }
 
+    //发送参数到index页面，用于设置project_no,新建原材料实验需要
+    function sendProjectParamToIndexPage() {
+        api.sendEvent({
+            name: 'onLabPageProjectNoChangedEvent',
+            extra: {
+                project_no: $('#projectInfoSelect').val()
+            }
+        });
+    }
+
     function reloadLabTestingInfoByProjectNo() {
         start = 1;
         $('.labinfo-div').empty();
-
         getLabTestingInfoByProjectNo($('#projectInfoSelect').val(), start);
     }
 </script>

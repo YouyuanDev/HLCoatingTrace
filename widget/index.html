@@ -269,6 +269,8 @@
     var g_project_no = "",
         g_mill_no = "",
         g_operation_time = "";
+
+    var lab_search_project_no;//实验搜索页的下拉
     apiready = function() {
             RequireStatisticSearchinfo();
             //设置TitleBar位置(兼容IOS)
@@ -287,6 +289,12 @@
             //         shipment_no: undefined
             //     }
             // });
+            api.addEventListener({
+                name: 'onLabPageProjectNoChangedEvent'
+            }, function(ret, err) {
+                lab_search_project_no=ret.value.project_no;
+                //alert("lab_search_project_no="+lab_search_project_no);
+            });
 
             FNScanner = api.require('FNScanner');
 
@@ -484,6 +492,15 @@
     }
 
     function showNewTestingLink() {
+      if(lab_search_project_no==undefined||lab_search_project_no==""){
+        api.alert({
+            msg: "请选择项目"
+        });
+        return;
+      }
+
+
+
         $("body").addClass('mask');
         api.openFrame({
             name: 'newtestingpanel',
@@ -505,7 +522,7 @@
                 duration: 300
             },
             pageParam: {
-                project_no: '20180208'
+                project_no: lab_search_project_no
             }
         });
     }
