@@ -1,5 +1,5 @@
 var header, headerHeight = 0;
-var serverIP = '192.168.0.16:8080';
+var serverIP = '192.168.0.14:8080';
 
 function fnSettingHeader() {
 
@@ -188,10 +188,16 @@ function setPushListener() {
     var push = api.require('push');
     push.setListener(function(ret, err) {
         if (ret) {
-            alert("setPushListener回调函数");
-            alert(JSON.stringify(ret));
+            //alert("setPushListener回调函数");
+            api.alert({
+                msg: ret.data
+            });
+            //alert(JSON.stringify(ret));
         } else {
-            alert(JSON.stringify(err));
+            //alert(JSON.stringify(err));
+            api.alert({
+                msg: err
+            });
         }
     });
 }
