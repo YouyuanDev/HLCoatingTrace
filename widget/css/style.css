@@ -120,6 +120,14 @@ select,button{
     outline: none;
 }
 
+.form-item .form-item-val2 input,
+select,button{
+    width: 100%;
+    height: 40px;
+    outline: none;
+}
+
+
 .form-item .form-item-val select,button{
    background-color:#e1e1e1;
 }

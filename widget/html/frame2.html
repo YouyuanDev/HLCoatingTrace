@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
     <title>待处理</title>
     <link rel="stylesheet" type="text/css" href="../css/api.css" />
     <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <link rel='stylesheet prefetch' href='../css/animate.min.css'>
     <style>
         .empty {
             text-align: center;
@@ -123,13 +125,17 @@
         .form-btn-container .form-selfbtn:nth-child(3) {
             background-color: #CD3700;
         }
+        select {
+            -webkit-appearance: none;
+        }
     </style>
 </head>
+
 <body>
     <div class="div-data" id="div-data" style="font-size: 16px;color:#000000;font-family:" Sans-serif ";">
 
         <div class="form-item">
-            <div class="form-item-val">
+            <div class="form-item-val2">
                 <select class="model-select" id="projectInfoSelect" onchange="reloadShipmentInfoByProjectNo()">
              </select>
             </div>
@@ -140,13 +146,13 @@
     </div>
 
 </body>
+
 </html>
 <script type="text/javascript" src="../script/api.js"></script>
 <script type="text/javascript" src="../script/jquery-3.3.1.min.js"></script>
 <script type="text/javascript" src="../script/common.js"></script>
 <script src="../script/jquery.i18n.properties-1.0.9.js" type="text/javascript"></script>
 <script src="../script/language.js" type="text/javascript"></script>
-
 <script type="text/javascript">
     var start = 1;
     apiready = function() {
@@ -228,7 +234,8 @@
                 if (ret.success) {
                     var data = ret.record;
                     for (var i = 0; i < data.length; i++) {
-                        $('.shipmentinfo-div').append(makeTemplate(data[i].total_count,data[i].total_length,data[i].total_weight,data[i].project_name, data[i].shipment_no, data[i].shipment_date, data[i].vehicle_plate_no,data[i].external_coating,data[i].internal_coating,data[i].od,data[i].wt));
+                        $('.shipmentinfo-div').append(makeTemplate(data[i].total_count, data[i].total_length, data[i].total_weight, data[i].project_name, data[i].shipment_no, data[i].shipment_date, data[i].vehicle_plate_no, data[i].external_coating,
+                            data[i].internal_coating, data[i].od, data[i].wt));
                     }
                     hlLanguage("../i18n/");
                 }
@@ -240,18 +247,18 @@
         });
     }
     //发运信息模板
-    function makeTemplate(total_count,total_length,total_weight,project_name,shipment_no, shipment_date, vehicle_plate_no,external_coating,internal_coating,od,wt) {
+    function makeTemplate(total_count, total_length, total_weight, project_name, shipment_no, shipment_date, vehicle_plate_no, external_coating, internal_coating, od, wt) {
         var template = "";
-        var title = project_name+' '+shipment_no+' '+external_coating+' '+internal_coating;
-        var odwt=od+'*'+wt+'mm';
-        template += '<div class="item style1" data-shipment-no=' + shipment_no +' onclick="goShipment(this);">';
+        var title = project_name + ' ' + shipment_no + ' ' + external_coating + ' ' + internal_coating;
+        var odwt = od + '*' + wt + 'mm';
+        template += '<div class="item style1" data-shipment-no=' + shipment_no + ' onclick="goShipment(this);">';
 
         template += '<div class="itemlogo userlogo"><img src="../image/shipment1.png" alt=""></div>';
 
         template += '<div class="itemshelf">' +
             '<div class="shelfinfo01"><span class="pei pipeno-span">' + title + '</span></div>' +
             '<div class="shelfinfo02"><span class="contractno-span">' + getDate1(shipment_date) + '</span><span>' + odwt + '</span></div>' +
-            '<div class="shelfinfo02"><span class="contractno-span">' +total_count+' (pcs)</span><span class="contractno-span">' + total_length + ' (m)</span><span>' + total_weight + ' (t)</span></div>' +
+            '<div class="shelfinfo02"><span class="contractno-span">' + total_count + ' (pcs)</span><span class="contractno-span">' + total_length + ' (m)</span><span>' + total_weight + ' (t)</span></div>' +
             '</div>' +
             '<div class="itemshelf"><span class="status-span i18n1" name="productStockout"></span></div>' +
             '</div>';

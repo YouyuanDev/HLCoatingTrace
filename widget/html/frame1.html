@@ -134,45 +134,9 @@
 
 <body>
     <div class="div-data" id="div-data" style="font-size: 16px;color:#000000;font-family:" Sans-serif ";">
-        <!-- <div class="form-btn-container">
-            <div class="form-selfbtn" onclick="RawMaterial2fbe()">
-                原材料实验(2FBE)
-            </div>
-            <div class="form-selfbtn" onclick="RawMaterial3lpe()">
-                原材料实验(3LPE)
-            </div>
-            <div class="form-selfbtn" onclick="RawMaterialEpoxy()">
-                原材料实验(EPOXY)
-            </div>
-        </div> -->
-
-
-        <!---->
-        <!-- <div class="float-btn-container" data-isshow="hide" id="float-btn-container" onclick="showNewTestingLink()">
-             新建
-             <div class="float-btn">
-               <div class="float-btn-item item1" onclick="">
-                   成品(2FBE)
-               </div>
-               <div class="float-btn-item" onclick="">
-                   成品(3LPE)
-               </div>
-               <div class="float-btn-item" onclick="">
-                   成品(EPOXY)
-               </div>
-               <div class="float-btn-item" onclick="">
-                   原材料(2FBE)
-               </div>
-               <div class="float-btn-item" onclick="">
-                   原材料(3LPE)
-               </div>
-               <div class="float-btn-item" onclick="">
-                   原材料(EPOXY)
-               </div>
-             </div>
-        </div> -->
+      
         <div class="form-item">
-            <div class="form-item-val">
+            <div class="form-item-val2">
                 <select class="model-select" id="projectInfoSelect" onchange="reloadLabTestingInfoByProjectNo()">
              </select>
             </div>
@@ -247,7 +211,7 @@
             });
         });
     }
-  
+
     //APP根据项目编号获取试验信息
     function getLabTestingInfoByProjectNo(project_no, start) {
       sendProjectParamToIndexPage();
