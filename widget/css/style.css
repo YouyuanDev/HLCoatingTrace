@@ -114,7 +114,7 @@ html,body {  font-size:14px; height:100%;background:#FFFFFF;}
 
 .form-item .form-item-val input,
 select,button{
-    width: 100%;
+    width: 80%;
     height: 40px;
     outline: none;
 }
