@@ -328,7 +328,7 @@
 
         if (controltype == "singleselect") { //单选
             controldiv = '<input class="mob-singleselect" needverify="' + needverify + '" needInspectNow="' + needInspectNow + '" options="' + options + '" myname="' + itemcode + '" name="' + itemcode + '" value="' + defaultvalue + '" max-value="' +
-                maxvalue +'" min-value="' + minvalue + '" type="text" dynamic="dynamic" />';
+                maxvalue + '" min-value="' + minvalue + '" type="text" dynamic="dynamic" />';
         } else if (controltype == "singlenumber") { //单值数字
             controldiv = '<input class="mob-singlenumber" needverify="' + needverify + '" needInspectNow="' + needInspectNow + '" decimalnum="' + decimalnum + '" myname="' + itemcode + '" name="' + itemcode + '" value="' + defaultvalue +
                 '" max-value="' + maxvalue + '" min-value="' + minvalue + '" type="text" dynamic="dynamic" />';
@@ -481,17 +481,23 @@
                 dataList = dataListStr.split(';');
             }
             for (var i = 0; i < dataList.length; i++) {
-                var temp = {
-                    "value": dataList[i],
-                    "text": dataList[i]
-                };
-                data.push(temp);
+                if (dataList[i] != "") {
+                    var temp = {
+                        "value": dataList[i],
+                        "text": dataList[i]
+                    };
+                    data.push(temp);
+                }
             }
             $(this).mobiscroll().select({
                 data: data,
                 label: 'Name',
                 theme: 'auto',
-                lang: 'zh'
+                lang: 'zh',
+                onSet: function(event, inst) {
+                    var selectedVal = inst.getVal();
+                    validateMaxAndMIn($(this), selectedVal, $(this).attr('max-value'), $(this).attr('min-value'));
+                }
             });
         });
 
@@ -503,11 +509,13 @@
                 dataList = dataListStr.split(';');
             }
             for (var i = 0; i < dataList.length; i++) {
-                var temp = {
-                    "value": dataList[i],
-                    "text": dataList[i]
-                };
-                data.push(temp);
+                if (dataList[i] != "") {
+                    var temp = {
+                        "value": dataList[i],
+                        "text": dataList[i]
+                    };
+                    data.push(temp);
+                }
             }
             $(this).mobiscroll().select({
                 data: data,
@@ -541,12 +549,7 @@
             if (needverify == undefined || needverify != "1") {
                 return;
             }
-            if (myname == "IT49822896-4aaf-4014-ad5a-7f75a27df5d3") {
-                alert("sa2.5");
-                alert("max=" + $(this).attr('max-value'));
-                alert("min=" + $(this).attr('min-value'));
-                alert("val=" + $(this).val());
-            }
+
             validateMaxAndMIn($(this), $(this).val(), $(this).attr('max-value'), $(this).attr('min-value'));
 
         });
@@ -583,10 +586,14 @@
                 }
             }
         }
-        if (flag)
+        if (flag) {
             $obj.css('background', '#FFFFFF');
-        else
+            $obj.siblings('input').css('background', '#FFFFFF');
+        } else {
             $obj.css('background', '#F9A6A6');
+            $obj.siblings('input').css('background', '#F9A6A6');
+        }
+
     }
     //设置结论选项
     function initResultOptions(process_code, language) {
