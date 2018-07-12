@@ -1,5 +1,5 @@
 var header, headerHeight = 0;
-var serverIP = '192.168.0.14:8080';
+var serverIP = '192.168.0.15:8080';
 
 function fnSettingHeader() {
 
@@ -633,18 +633,7 @@ function RequestAllProcessInfoByPipeNo(pipeno,processcode) {
 //关闭窗口并且更新piperoot页面
 function closeWindow(processcode) {
 
-   if(processcode==undefined||processcode.indexOf('lab')==-1){
-     api.sendEvent({
-         name: 'refreshPipeRoot',
-         extra: {
-             pipe_no: g_pipeno
-         }
-     });
-     setTimeout(function() {
-         api.closeWin();
-     }, 100);
-   }
-   else{
+  if(processcode!=undefined&&processcode.indexOf('lab')!=-1){
      api.sendEvent({
          name: 'refreshLabRoot',
          extra: {
@@ -655,6 +644,30 @@ function closeWindow(processcode) {
         api.closeToWin({
             name: 'root'
         });
+     }, 100);
+   }
+   else if(processcode!=undefined&&processcode.indexOf('shipment')!=-1){
+     api.sendEvent({
+         name: 'refreshShipmentRoot',
+         extra: {
+
+         }
+     });
+     setTimeout(function() {
+        api.closeToWin({
+            name: 'root'
+        });
+     }, 100);
+   }
+   else{
+     api.sendEvent({
+         name: 'refreshPipeRoot',
+         extra: {
+             pipe_no: g_pipeno
+         }
+     });
+     setTimeout(function() {
+         api.closeWin();
      }, 100);
    }
 

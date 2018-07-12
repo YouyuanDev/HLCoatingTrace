@@ -159,6 +159,13 @@
         RequireProjectNo();
         dropdownLoading();
         isRollingToEnd();
+        api.addEventListener({
+            name: 'refreshShipmentRoot'
+        }, function(ret, err) {
+            $('.shipmentinfo-div').empty();
+            getShipmentInfoByProjectNo($('#projectInfoSelect').val(), 1);
+
+        });
     }
 
 
