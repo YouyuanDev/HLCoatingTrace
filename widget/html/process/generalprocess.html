@@ -318,15 +318,17 @@
             }
         }
 
-        if (itemvalue != undefined) {
-            defaultvalue = itemvalue;
-        }else if (defaultvalue != undefined){
-            itemvalue=defaultvalue;
-        }
-
         if (defaultvalue == undefined) {
             defaultvalue = "";
         }
+
+        if (itemvalue != undefined) {
+            defaultvalue = itemvalue;
+        }else{
+            itemvalue=defaultvalue;
+        }
+
+
 
 
         if (controltype == "singleselect") { //单选
