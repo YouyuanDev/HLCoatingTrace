@@ -317,8 +317,11 @@
                 }
             }
         }
+
         if (itemvalue != undefined) {
             defaultvalue = itemvalue;
+        }else if (defaultvalue != undefined){
+            itemvalue=defaultvalue;
         }
 
         if (defaultvalue == undefined) {
@@ -327,6 +330,7 @@
 
 
         if (controltype == "singleselect") { //单选
+
             controldiv = '<input class="mob-singleselect" needverify="' + needverify + '" needInspectNow="' + needInspectNow + '" options="' + options + '" myname="' + itemcode + '" name="' + itemcode + '" value="' + defaultvalue + '" max-value="' +
                 maxvalue + '" min-value="' + minvalue + '" type="text" dynamic="dynamic" />';
         } else if (controltype == "singlenumber") { //单值数字
