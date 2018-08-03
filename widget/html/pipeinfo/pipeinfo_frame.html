@@ -65,6 +65,16 @@
             white-space: nowrap;
             text-overflow: ellipsis;
         }*/
+
+        .qr-canvas {
+            margin: 10px;
+            float: left;
+            text-align: center;
+        }
+
+        .qr-canvas-text {
+            font-size: 22px;
+        }
     </style>
 </head>
 
@@ -158,11 +168,30 @@
 
             </table>
         </div>
-        <div id="qrdiv" style="width:100%;height:auto;margin-top:20px;" onclick="printQRCode()">
+        <div id="qrdiv" style="width:100%;height:auto;margin-top:20px;overflow-x:scroll;" onclick="printQRCode()">
             <div style="margin:0px auto;text-align:center;" id="qrcodeCanvas"></div>
             <div style="margin:0px auto;text-align:center;font-size: 14px" id="qrcodeText"></div>
         </div>
-
+        <div id="qr-container" style="width:100%;height:440px;padding:2px;display:none;">
+            <div class="qr-canvas">
+                <div class="qr-canvas-inner"></div>
+                <div class="qr-canvas-text"></div>
+            </div>
+            <div class="qr-canvas">
+                <div class="qr-canvas-inner"></div>
+                <div class="qr-canvas-text"></div>
+            </div>
+            <div class="qr-canvas">
+                <div class="qr-canvas-inner"></div>
+                <div class="qr-canvas-text"></div>
+            </div>
+            <div class="qr-canvas">
+                <div class="qr-canvas-inner"></div>
+                <div class="qr-canvas-text"></div>
+            </div>
+        </div>
+        <a id="down_qr" href="#" style="display: none">haha</a>
+        <!-- <img id="myIMG"/> -->
         <div class="loadmore-div" style="height:auto;margin-top:20px;font-size: 16px;color:#000000;font-family:" Sans-serif ";">
             <div class="loadmore-btn i18n1" name="loadmorninfo" onclick="loadMoreInfo()">更多生产信息...</div>
         </div>
@@ -184,13 +213,16 @@
 <script type="text/javascript" src="../../script/jquery.qrcode.js"></script>
 <script type="text/javascript" src="../../script/qrcode.js"></script>
 <script type="text/javascript" src="../../script/utf.js"></script>
+<script type="text/javascript" src="../../script/html2canvas.min.js"></script>
 <script type="text/javascript">
     var pipeno;
     var showmore = false;
     var g_result_input_output;
+    //var FNImageClip;
     //var imageBrowser;
     apiready = function() {
             LoadProcess_input_output();
+            //FNImageClip = api.require('FNImageClip');
             var data = api.pageParam;
             pipeno = data.pipeno;
 
@@ -491,11 +523,11 @@
         //图片
         template += '<tr>';
         template += '<td class="i18n1" name="viewpicture">查看图片</td>';
-        if(uploadfiles!=undefined&&uploadfiles!=""){
-          template += '<td style="width:50%;text-align:center;padding:5px 0px;" class="pipeinfo-td" ><div style="color:#87CEEB;" onclick="setBrowsePicutre(this);" data-list="' + uploadfiles +
-              '" class="upload-pictures i18n1" name="viewpicture">图片</div></td>';
-        }else{
-          template += '<td style="width:50%;text-align:center;padding:5px 0px;" class="pipeinfo-td" ><div style="color:#87CEEB;" class="upload-pictures i18n1" name="nopictures">无图片</div></td>';
+        if (uploadfiles != undefined && uploadfiles != "") {
+            template += '<td style="width:50%;text-align:center;padding:5px 0px;" class="pipeinfo-td" ><div style="color:#87CEEB;" onclick="setBrowsePicutre(this);" data-list="' + uploadfiles +
+                '" class="upload-pictures i18n1" name="viewpicture">图片</div></td>';
+        } else {
+            template += '<td style="width:50%;text-align:center;padding:5px 0px;" class="pipeinfo-td" ><div style="color:#87CEEB;" class="upload-pictures i18n1" name="nopictures">无图片</div></td>';
 
         }
 
@@ -511,6 +543,9 @@
 
 
     function GenerateQRCode(pipeno) {
+        //for (var i = 0; i < 3; i++) {
+
+
         jQuery('#qrcodeCanvas').qrcode({
             render: "canvas",
             text: pipeno,
@@ -520,9 +555,9 @@
             foreground: "#000000", //二维码的前景色
             src: '../../image/logo2.jpg' //二维码中间的图片
         });
-        // var canvas=qrcode.find('canvas').get(0);
-        //    $('#imgOne').attr('src',canvas.toDataURL('image/jpg');
         $('#qrcodeText').text('P/N:' + pipeno);
+
+
     }
 
     function printQRCode() {
@@ -532,8 +567,41 @@
             buttons: ['确定', '取消']
         }, function(ret, err) {
             if (ret.buttonIndex == 1) {
-
-
+                $('.qr-canvas-inner').empty();
+                jQuery('.qr-canvas-inner').qrcode({
+                    render: "canvas",
+                    text: pipeno,
+                    width: "120", //二维码的宽度
+                    height: "120", //二维码的高度
+                    background: "#ffffff", //二维码的后景色
+                    foreground: "#000000", //二维码的前景色
+                    src: '../../image/logo2.jpg' //二维码中间的图片
+                });
+                $('.qr-canvas-text').text('P/N:' + pipeno);
+                $('#qr-container').show();
+                html2canvas(document.querySelector("#qr-container")).then(canvas => {
+                    //document.body.appendChild(canvas);
+                    var canvas = canvas.toDataURL("image/png");
+                    var img = canvas.replace('data:image/png;base64,', '');
+                    var trans = api.require('trans');
+                    var date=new Date();
+                    var imgName=date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDay()+"-"+date.getHours()+"-"+date.getMinutes()+"-"+date.getSeconds()+"-"+date.getMilliseconds()+".png";
+                    trans.saveImage({
+                        base64Str: img,
+                        album: true,
+                        imgPath: "fs://jietu/",
+                        imgName:imgName
+                    }, function(ret, err) {
+                        if (ret.status) {
+                            $('#qr-container').hide();
+                            toastSuccess('图片已生成,保存本地成功!');
+                            openZebraApp();
+                        } else {
+                            toastFail('图片生成失败!');
+                            $('#qr-container').hide();
+                        }
+                    });
+                });
             }
         });
     }
@@ -550,5 +618,21 @@
                 g_result_input_output = ret;
             }
         });
+    }
+    //调用打印app
+    function openZebraApp() {
+        var sType = api.systemType;
+        if (sType == "ios") {
+            api.openApp({
+                iosUrl: 'zebrautilities://' //打开微信的，其中weixin为微信的URL Scheme
+            });
+        } else if (sType == "android") {
+            //Android中的使用方法如下：
+            api.openApp({
+                androidPkg: 'com.zebra.android.zebrautilities'
+            }, function(ret, err) {
+
+            });
+        }
     }
 </script>

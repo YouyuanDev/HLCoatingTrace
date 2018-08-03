@@ -10,64 +10,94 @@
     <link rel="stylesheet" type="text/css" href="../css/style.css" />
     <link rel="stylesheet" type="text/css" href="../css/mobiscroll.custom-3.0.0-beta6.min.css" />
     <style>
-        .empty {
-            text-align: center;
-            padding: 120px 0;
-        }
+    .jietu {
+    background: linear-gradient(to right,#18c288,#21b582);
+    background: -webkit-linear-gradient(left, #18c288 , #21b582);
+    color: #fff;
+    width: 30%;
+    text-align: center;
+    height: 2rem;
+    line-height: 2rem;
+    border-top-left-radius: 1rem;
+    border-bottom-right-radius: 1rem;
+    margin-left: 15%;
+    margin-top: 2rem;
+    float: left
+  }
+  .chakan {
+    background: linear-gradient(to right,#FF3320,#FF6625);
+    background: -webkit-linear-gradient(left, #FF3320 , #FF6625);
+    color: #fff;
+    width: 30%;
+    text-align: center;
+    height: 2rem;
+    line-height: 2rem;
+    border-top-left-radius: 1rem;
+    border-bottom-right-radius: 1rem;
+    margin-right: 15%;
+    margin-top: 2rem;
+    float: right
+  }
+  .img {
+    min-height: 4rem;
+    margin-bottom: 4rem;
+    display: none;
+  }
     </style>
 </head>
 
 <body>
-    <div class="div-data" style="margin-top:50px;">
-        <input  type="text" id="demo" style="width:50%;height:50px;border:1px solid #000000;" />
-        <div onclick="test(123)">sfsfasfasfsafaf</div>
+    <header id="header"></header>
+    <div id="fanwei">
+         <img src="../image/logo1.jpg"/>
     </div>
-
-  <div id="qrcodeTable"></div>
-      <div id="qrcodeCanvas"></div>
+    <div class="jietu" onclick="baocun()">
+        点击截图
+    </div>
+    <div class="chakan" onclick="chakan()">
+        查看截图
+    </div>
+    <div class="img"><img id="jietu" src="1.jpg" />
+    </div>
 </body>
 
 </html>
 <script type="text/javascript" src="../script/api.js"></script>
 <script type="text/javascript" src="../script/jquery-3.3.1.min.js"></script>
-<script type="text/javascript" src="../script/jquery-1.11.1.js" ></script>
-<script type="text/javascript" src="../script/jquery.qrcode.js" ></script>
-    <script type="text/javascript" src="../script/qrcode.js" ></script>
-    <script type="text/javascript" src="../script/utf.js" ></script>
+<script type="text/javascript" src="../script/jquery-1.11.1.js"></script>
+<script type="text/javascript" src="../script/jquery.qrcode.js"></script>
+<script type="text/javascript" src="../script/qrcode.js"></script>
+<script type="text/javascript" src="../script/utf.js"></script>
 <script type="text/javascript" src="../script/common.js"></script>
-<script type="text/javascript" src="../script/mobiscroll.custom-3.0.0-beta6.min.js"></script>
+<script type="text/javascript" src="../script/html2canvas.min.js"></script>
 <script type="text/javascript">
     apiready = function() {
-
-
-
-          //  jQuery('#qrcodeTable').qrcode({
-          //       render    : "table",                <!--二维码生成方式 -->
-          //       text    : "http://www.baidu.com" , <!-- 二维码内容  -->
-          //       width : "200",               //二维码的宽度
-          //           height : "200",
-          //   });
-            // jQuery('#qrcodeCanvas').qrcode({
-            //   render    : "canvas",
-            //     text    : "http://www.baidu.com",
-            //     width : "200",               //二维码的宽度
-            //         height : "200",              //二维码的高度
-            //         background : "#ffffff",       //二维码的后景色
-            //         foreground : "#000000",        //二维码的前景色
-            //         src: '../image/logo1.jpg'             //二维码中间的图片
-            // });
-
-
-            var printModule = api.require('posPrinter');
-            var param = {
-                'status': 'bonded'
-            };
-            printModule.getBluetoothPrinters(param, function (ret, err) {
-                alert(JSON.stringify(ret));
-            });
-
-
+        fnSettingHeader();
     }
 
+    function baocun() {
+        html2canvas(document.querySelector("#fanwei")).then(canvas => {
+            document.body.appendChild(canvas);
+            var canvas = canvas.toDataURL("image/png");
+            var img = canvas.replace('data:image/png;base64,', '');
+            var trans = api.require('trans');
+            trans.saveImage({
+                base64Str: img,
+                album:true,
+                imgPath: "fs://jietu/",
+                imgName: "318.png"
+            }, function(ret, err) {
+                if (ret.status) {
+                    $("#jietu").attr("src", api.fsDir + '/jietu/318.png');
 
+                }
+            });
+        });
+        // html2canvas($('#fanwei'), {
+        //     onrendered: function(canvas) {
+        //         //  copyDom.css('display', 'none');
+        //
+        //     }
+        // });
+    }
 </script>

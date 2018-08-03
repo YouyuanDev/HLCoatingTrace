@@ -2088,3 +2088,19 @@ function RequestRawMaterialCriteriaByProjecteNo(project_no) {
 function closeWindowNoPipeNo(){
    api.closeWin();
 }
+//正确消息弹出框
+function toastSuccess(txt) {
+    api.toast({
+        msg: txt,
+        duration: 2000,
+        location: 'middle'
+    });
+}
+//错误消息弹出框
+function toastFail(txt) {
+    api.toast({
+        msg: txt,
+        duration: 2000,
+        location: 'middle'
+    });
+}

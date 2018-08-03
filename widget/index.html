@@ -270,7 +270,8 @@
         g_mill_no = "",
         g_operation_time = "";
 
-    var lab_search_project_no;//实验搜索页的下拉
+    var lab_search_project_no; //实验搜索页的下拉
+
     apiready = function() {
             RequireStatisticSearchinfo();
             //设置TitleBar位置(兼容IOS)
@@ -283,8 +284,8 @@
             //设置回调函数
             setPushListener();
             // api.openWin({
-            //     name: 'generalprocess',
-            //     url: './html/process/generalprocess.html',
+            //     name: 'test',
+            //     url: './html/test.html',
             //     pageParam: {
             //         shipment_no: undefined
             //     }
@@ -292,7 +293,7 @@
             api.addEventListener({
                 name: 'onLabPageProjectNoChangedEvent'
             }, function(ret, err) {
-                lab_search_project_no=ret.value.project_no;
+                lab_search_project_no = ret.value.project_no;
                 //alert("lab_search_project_no="+lab_search_project_no);
             });
 
@@ -353,7 +354,7 @@
             });
             hlLanguage("./i18n/");
         }
-        // 班报保留上次搜索信息
+    // 班报保留上次搜索信息
     function RequireStatisticSearchinfo() {
         api.addEventListener({
             name: 'sendSettingStatisticInfoEvent'
@@ -492,12 +493,12 @@
     }
 
     function showNewTestingLink() {
-      if(lab_search_project_no==undefined||lab_search_project_no==""){
-        api.alert({
-            msg: "请选择项目"
-        });
-        return;
-      }
+        if (lab_search_project_no == undefined || lab_search_project_no == "") {
+            api.alert({
+                msg: "请选择项目"
+            });
+            return;
+        }
 
 
 
@@ -559,9 +560,9 @@
                 duration: 300
             },
             pageParam: {
-                project_no:g_project_no,
-                mill_no:g_mill_no,
-                operation_time:g_operation_time
+                project_no: g_project_no,
+                mill_no: g_mill_no,
+                operation_time: g_operation_time
             }
         });
     }
