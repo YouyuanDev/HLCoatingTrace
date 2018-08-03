@@ -592,13 +592,12 @@
                         imgPath: "fs://jietu/",
                         imgName:imgName
                     }, function(ret, err) {
+                          $('#qr-container').hide();
                         if (ret.status) {
-                            $('#qr-container').hide();
                             toastSuccess('图片已生成,保存本地成功!');
                             openZebraApp();
                         } else {
                             toastFail('图片生成失败!');
-                            $('#qr-container').hide();
                         }
                     });
                 });
