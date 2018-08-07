@@ -62,8 +62,11 @@
     <div class="chakan" onclick="printeTest()">
         测试
     </div>
-    <div class="chakan" onclick="peinteLabel()">
-        打印
+    <div class="chakan" onclick="printeLabel()">
+        打印文字
+    </div>
+    <div class="chakan" onclick="printeImg()">
+        打印图片
     </div>
     <div class="img"><img id="jietu" src="1.jpg" />
     </div>
@@ -96,20 +99,22 @@
             copyNum: 1
         }]
     };
-    var gprinter;
+
     apiready = function() {
         fnSettingHeader();
-        gprinter = api.require('xGprinter');
-          alert(JSON.stringify(gprinter));
     }
 
     function connectGpPrinter() {
         alert('连接'+gprinter);
-        gprinter.connect();
+        var gprinter = api.require('xGprinter');
+        gprinter.connect(function(ret) {
+            alert(JSON.stringify(ret));
+        });
     }
 
     function connectStatus() {
         alert('状态');
+        var gprinter = api.require('xGprinter');
         gprinter.getStatus(function(ret) {
             alert(JSON.stringify(ret));
         });
@@ -117,13 +122,15 @@
 
     function printeTest() {
         alert('测试');
+        var gprinter = api.require('xGprinter');
         gprinter.printTest(function(ret, err) {
             alert(JSON.stringify(ret));
         });
     }
 
-    function peinteLabel() {
+    function printeLabel() {
         alert('打印');
+        var gprinter = api.require('xGprinter');
         gprinter.printMultipleText({
             title: '自定义数据',
             project: ['联1', '联2'],
@@ -131,11 +138,16 @@
                 text: '内容1',
                 style: [0, 0, 1, 0, 1], //不加粗,不倍高,倍宽,不采用下划线,使用
                 align: 'center',
-                lineHeight: 60,
-                image: '图片base64编码' //当text为空时使用image
+                lineHeight: 60
             }],
             isSubject: true
         });
+    }
+    function printeImg(){
+      var gprinter = api.require('xGprinter');
+      gprinter.printImage({
+          base64:'iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAACyElEQVRYR+2XTWgTQRTH33trC/GDgigaIyJi8aA38VJBD4Ii9WIxWvQmEhHM7O5BoogaEMXa1pnptBUqloKK4AeehCIUWgQLnqrgzaN4EWEVG0zp7JMtRmIb26RJLUrnuLz3f7/573s7swiLvDCqL4TYQURH/sRirb1ljPlaKavneZcAwCmVh4hDUsqXBYBWItoEAK9LBVtrR40x+UoBXNfdg4hUIi8BAJuVUtd+AQBA0NXVNVhpkfnECyEaiejoEsC/74AQoomZNxhjnlTSC1X3QDqdXus4zmNmXgUAnxBx3cTERLK3t/d9OSAzAMpJimKSyaQTj8c1IrYgolBKTe08nU7vJaJ+RBwbGxs7MTw8/L1czakxLGe5rnsMAKLiz5VSpwCAp+cJIa4g4tkwDG8aY9rL0Z0TwPO8ODMPAUDeWtvc3d39cTbhVCrVEIvFngFAIwA0a63fzhZfDsBuZr4OAKN1dXVXOzo6xmcTzGaz9UEQeMy8HwAeaq3vVgUghNhJRE1hGA4i4mVEfKGUuldKVAixDxFPM3MbEa1HxBVSykc1AVBKmUjI87yDzHyciG5IKd9Fz3zf3xKG4TlEfKWUuh/1h+d5zQsCEBXMZrPLgiA4AwBRf3xBxPpcLtfZ19eXK+x2QQEKRVzXPQQA27TWndNt/lsA0XG7VSnV/38DIOIBrXU0ir+tnxeOkg4IIVodxwmrnoJMJtOQz+dvM/O3ycnJCz09PZ+LemDGK0ilUstjsdhFANgVhuFJY8yHqsawqKunPkhE9EBKeScatekOCCEOE5HPzFpr/bQmn+JikegwSiQSKQBoAYAMM6+MmtBaO0JE7Yj4JgiCtoGBgcoOo+h9VXIn9H1/NTNnmXkjACAijltrz89ld2EzVd8HCkK+728HgDVSypFy7K45QCVFi2Nr5sASQE0dWOxfs8X9OZ2vlbXI+wHsg7owETEYpwAAAABJRU5ErkJggg=='
+      });
     }
 
     function openPrinter() {

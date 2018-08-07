@@ -620,8 +620,8 @@
                             $('#qr-container').hide();
                             if (ret.status) {
                                 toastSuccess('图片已生成,保存本地成功!');
-                                openGPPrinter(img);
-                                //openZebraApp();
+                                //openGPPrinter(img);
+                                openZebraApp();
                             } else {
                                 toastFail('图片生成失败!');
                             }
@@ -662,69 +662,36 @@
             });
         }
     }
-
-    function downQrcode() {
-        html2canvas(document.querySelector("#qr-container")).then(canvas => {
-            //document.body.appendChild(canvas);
-            var canvas = canvas.toDataURL("image/png");
-            var img = canvas.replace('data:image/png;base64,', '');
-            var trans = api.require('trans');
-            var date = new Date();
-            var imgName = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDay() + "-" + date.getHours() + "-" + date.getMinutes() + "-" + date.getSeconds() + "-" + date.getMilliseconds() + ".png";
-            trans.saveImage({
-                base64Str: img,
-                album: true,
-                imgPath: "fs://jietu/",
-                imgName: imgName
-            }, function(ret, err) {
-                //$('#qr-container').hide();
-                if (ret.status) {
-                    toastSuccess('图片已生成,保存本地成功!');
-                    openGPPrinter(img);
-                    //openZebraApp();
-                } else {
-                    toastFail('图片生成失败!');
-                }
-            });
-        });
-    }
+    // function downQrcode() {
+    //     html2canvas(document.querySelector("#qr-container")).then(canvas => {
+    //         //document.body.appendChild(canvas);
+    //         var canvas = canvas.toDataURL("image/png");
+    //         var img = canvas.replace('data:image/png;base64,', '');
+    //         var trans = api.require('trans');
+    //         var date = new Date();
+    //         var imgName = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDay() + "-" + date.getHours() + "-" + date.getMinutes() + "-" + date.getSeconds() + "-" + date.getMilliseconds() + ".png";
+    //         trans.saveImage({
+    //             base64Str: img,
+    //             album: true,
+    //             imgPath: "fs://jietu/",
+    //             imgName: imgName
+    //         }, function(ret, err) {
+    //             //$('#qr-container').hide();
+    //             if (ret.status) {
+    //                 toastSuccess('图片已生成,保存本地成功!');
+    //                 //openGPPrinter(img);
+    //                 openZebraApp();
+    //             } else {
+    //                 toastFail('图片生成失败!');
+    //             }
+    //         });
+    //     });
+    // }
 
     function openGPPrinter(imgData) {
         var gprinter = api.require('xGprinter');
-        //alert(gprinter);
-        gprinter.connect();
-        gprinter.printMultipleText({
-            title: '自定义数据',
-            project: ['联1', '联2'],
-            rows: [{
-                text: '内容1',
-                style: [0, 0, 1, 0, 1], //不加粗,不倍高,倍宽,不采用下划线,使用
-                align: 'center',
-                lineHeight: 60,
-                image: '' //当text为空时使用image
-            }],
-            isSubject: true
-        });
-        //gprinter.printTest();
-        //alert(2);
-        // gprinter.printImage({
-        //     base64: imgData
-        // });
-        // gprinter.connect(function(ret, err) {
-        //     if (ret.status) {
-        // gprinter.getStatus(function(ret) {
-        //     alert(JSON.stringify(ret));
-        //     if (ret.status) {
-        //         gprinter.printImage({
-        //             base64: imgData
-        //         });
-        //     } else {
-        //         toastFail(ret.message);
-        //     }
-        // });
-        //     }else{
-        //       toastFail("打印机连接失败!");
-        //     }
-        // });
+        gprinter.printImage({
+            base64: 'iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAACyElEQVRYR+2XTWgTQRTH33trC/GDgigaIyJi8aA38VJBD4Ii9WIxWvQmEhHM7O5BoogaEMXa1pnptBUqloKK4AeehCIUWgQLnqrgzaN4EWEVG0zp7JMtRmIb26RJLUrnuLz3f7/573s7swiLvDCqL4TYQURH/sRirb1ljPlaKavneZcAwCmVh4hDUsqXBYBWItoEAK9LBVtrR40x+UoBXNfdg4hUIi8BAJuVUtd+AQBA0NXVNVhpkfnECyEaiejoEsC/74AQoomZNxhjnlTSC1X3QDqdXus4zmNmXgUAnxBx3cTERLK3t/d9OSAzAMpJimKSyaQTj8c1IrYgolBKTe08nU7vJaJ+RBwbGxs7MTw8/L1czakxLGe5rnsMAKLiz5VSpwCAp+cJIa4g4tkwDG8aY9rL0Z0TwPO8ODMPAUDeWtvc3d39cTbhVCrVEIvFngFAIwA0a63fzhZfDsBuZr4OAKN1dXVXOzo6xmcTzGaz9UEQeMy8HwAeaq3vVgUghNhJRE1hGA4i4mVEfKGUuldKVAixDxFPM3MbEa1HxBVSykc1AVBKmUjI87yDzHyciG5IKd9Fz3zf3xKG4TlEfKWUuh/1h+d5zQsCEBXMZrPLgiA4AwBRf3xBxPpcLtfZ19eXK+x2QQEKRVzXPQQA27TWndNt/lsA0XG7VSnV/38DIOIBrXU0ir+tnxeOkg4IIVodxwmrnoJMJtOQz+dvM/O3ycnJCz09PZ+LemDGK0ilUstjsdhFANgVhuFJY8yHqsawqKunPkhE9EBKeScatekOCCEOE5HPzFpr/bQmn+JikegwSiQSKQBoAYAMM6+MmtBaO0JE7Yj4JgiCtoGBgcoOo+h9VXIn9H1/NTNnmXkjACAijltrz89ld2EzVd8HCkK+728HgDVSypFy7K45QCVFi2Nr5sASQE0dWOxfs8X9OZ2vlbXI+wHsg7owETEYpwAAAABJRU5ErkJggg=='
+          });
     }
 </script>
