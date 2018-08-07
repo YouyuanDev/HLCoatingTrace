@@ -10,52 +10,60 @@
     <link rel="stylesheet" type="text/css" href="../css/style.css" />
     <link rel="stylesheet" type="text/css" href="../css/mobiscroll.custom-3.0.0-beta6.min.css" />
     <style>
-    .jietu {
-    background: linear-gradient(to right,#18c288,#21b582);
-    background: -webkit-linear-gradient(left, #18c288 , #21b582);
-    color: #fff;
-    width: 30%;
-    text-align: center;
-    height: 2rem;
-    line-height: 2rem;
-    border-top-left-radius: 1rem;
-    border-bottom-right-radius: 1rem;
-    margin-left: 15%;
-    margin-top: 2rem;
-    float: left
-  }
-  .chakan {
-    background: linear-gradient(to right,#FF3320,#FF6625);
-    background: -webkit-linear-gradient(left, #FF3320 , #FF6625);
-    color: #fff;
-    width: 30%;
-    text-align: center;
-    height: 2rem;
-    line-height: 2rem;
-    border-top-left-radius: 1rem;
-    border-bottom-right-radius: 1rem;
-    margin-right: 15%;
-    margin-top: 2rem;
-    float: right
-  }
-  .img {
-    min-height: 4rem;
-    margin-bottom: 4rem;
-    display: none;
-  }
+        .jietu {
+            background: linear-gradient(to right, #18c288, #21b582);
+            background: -webkit-linear-gradient(left, #18c288, #21b582);
+            color: #fff;
+            width: 30%;
+            text-align: center;
+            height: 2rem;
+            line-height: 2rem;
+            border-top-left-radius: 1rem;
+            border-bottom-right-radius: 1rem;
+            margin-left: 15%;
+            margin-top: 2rem;
+            float: left
+        }
+
+        .chakan {
+            background: linear-gradient(to right, #FF3320, #FF6625);
+            background: -webkit-linear-gradient(left, #FF3320, #FF6625);
+            color: #fff;
+            width: 30%;
+            text-align: center;
+            height: 2rem;
+            line-height: 2rem;
+            border-top-left-radius: 1rem;
+            border-bottom-right-radius: 1rem;
+            margin-right: 15%;
+            margin-top: 2rem;
+            float: right
+        }
+
+        .img {
+            min-height: 4rem;
+            margin-bottom: 4rem;
+            display: none;
+        }
     </style>
 </head>
 
 <body>
     <header id="header"></header>
-    <div id="fanwei">
-         <img src="../image/logo1.jpg"/>
+    <div id="qr-container">
+        <img src="../image/logo1.jpg" />
     </div>
-    <div class="jietu" onclick="baocun()">
-        点击截图
+    <div class="jietu" onclick="connectGpPrinter();">
+        连接Gp
     </div>
-    <div class="chakan" onclick="chakan()">
-        查看截图
+    <div class="chakan" onclick="connectStatus()">
+        状态
+    </div>
+    <div class="chakan" onclick="printeTest()">
+        测试
+    </div>
+    <div class="chakan" onclick="peinteLabel()">
+        打印
     </div>
     <div class="img"><img id="jietu" src="1.jpg" />
     </div>
@@ -71,33 +79,108 @@
 <script type="text/javascript" src="../script/common.js"></script>
 <script type="text/javascript" src="../script/html2canvas.min.js"></script>
 <script type="text/javascript">
+    var params = {
+        taskList: [{
+            printerAddr: 'AC:3F:A4:A6:5F:3E',
+            type: 2,
+            tscSetting: {
+                width: 40,
+                height: 30,
+                gap: 2
+            },
+            content: '<text size="30" bold="true" left="10" top="10">我的测试1</text>',
+            //<qr>标签表示打印二维码
+            //tagContent里面所有标签都支持旋转属性，如rotate="45"表示旋转45度
+            //text标签可以使用center="1"表示居中，如果居中时，设置left="-10"，表示居中后，再往左偏移10
+            keepAlive: true, //usb打印机，建议把keepAlive设为true
+            copyNum: 1
+        }]
+    };
+    var gprinter;
     apiready = function() {
         fnSettingHeader();
+        gprinter = api.require('xGprinter');
+          alert(JSON.stringify(gprinter));
     }
 
-    function baocun() {
-        html2canvas(document.querySelector("#fanwei")).then(canvas => {
-            document.body.appendChild(canvas);
-            var canvas = canvas.toDataURL("image/png");
-            var img = canvas.replace('data:image/png;base64,', '');
-            var trans = api.require('trans');
-            trans.saveImage({
-                base64Str: img,
-                album:true,
-                imgPath: "fs://jietu/",
-                imgName: "318.png"
-            }, function(ret, err) {
-                if (ret.status) {
-                    $("#jietu").attr("src", api.fsDir + '/jietu/318.png');
+    function connectGpPrinter() {
+        alert('连接'+gprinter);
+        gprinter.connect();
+    }
 
+    function connectStatus() {
+        alert('状态');
+        gprinter.getStatus(function(ret) {
+            alert(JSON.stringify(ret));
+        });
+    }
+
+    function printeTest() {
+        alert('测试');
+        gprinter.printTest(function(ret, err) {
+            alert(JSON.stringify(ret));
+        });
+    }
+
+    function peinteLabel() {
+        alert('打印');
+        gprinter.printMultipleText({
+            title: '自定义数据',
+            project: ['联1', '联2'],
+            rows: [{
+                text: '内容1',
+                style: [0, 0, 1, 0, 1], //不加粗,不倍高,倍宽,不采用下划线,使用
+                align: 'center',
+                lineHeight: 60,
+                image: '图片base64编码' //当text为空时使用image
+            }],
+            isSubject: true
+        });
+    }
+
+    function openPrinter() {
+        var printModule = api.require('posPrinter');
+        var param = {
+            'status': 'bonded'
+        };
+        printModule.getBluetoothPrinters(param, function(ret, err) {
+            alert(JSON.stringify(ret));
+            //绑定打印机
+            printModule.createBondToPrinter({
+                address: "AC:3F:A4:A6:5F:3E"
+            }, function(ret, err) {
+                if (err) {
+                    alert(JSON.stringify(err));
+                } else if (ret && ret.result == "ok") {
+                    alert("绑定成功");
+                    printModule.print(params);
                 }
             });
         });
-        // html2canvas($('#fanwei'), {
-        //     onrendered: function(canvas) {
-        //         //  copyDom.css('display', 'none');
-        //
-        //     }
-        // });
+    }
+
+    function baocun() {
+        html2canvas(document.querySelector("#qr-container")).then(canvas => {
+            //document.body.appendChild(canvas);
+            var canvas = canvas.toDataURL("image/png");
+            var img = canvas.replace('data:image/png;base64,', '');
+            var trans = api.require('trans');
+            var date = new Date();
+            var imgName = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDay() + "-" + date.getHours() + "-" + date.getMinutes() + "-" + date.getSeconds() + "-" + date.getMilliseconds() + ".png";
+            trans.saveImage({
+                base64Str: img,
+                album: true,
+                imgPath: "fs://jietu/",
+                imgName: imgName
+            }, function(ret, err) {
+                //$('#qr-container').hide();
+                if (ret.status) {
+                    toastSuccess('图片已生成,保存本地成功!');
+                    openZebraApp();
+                } else {
+                    toastFail('图片生成失败!');
+                }
+            });
+        });
     }
 </script>

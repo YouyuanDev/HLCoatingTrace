@@ -283,13 +283,13 @@
             //JudgeLogin();
             //设置回调函数
             setPushListener();
-            // api.openWin({
-            //     name: 'test',
-            //     url: './html/test.html',
-            //     pageParam: {
-            //         shipment_no: undefined
-            //     }
-            // });
+            api.openWin({
+                name: 'test',
+                url: './html/test.html',
+                pageParam: {
+                    shipment_no: undefined
+                }
+            });
             api.addEventListener({
                 name: 'onLabPageProjectNoChangedEvent'
             }, function(ret, err) {

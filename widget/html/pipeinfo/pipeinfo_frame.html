@@ -65,17 +65,24 @@
             white-space: nowrap;
             text-overflow: ellipsis;
         }*/
+
         .qr-canvas {
             /*margin: 10px;*/
             float: left;
             text-align: center;
-            width:auto;
+            width: auto;
             height: auto;
-            margin-left:20px;
-            margin-top:20px;
+            margin-left: 1rem;
+            margin-top: 20px;
         }
+
+        .qr-canvas:nth-child(1),
+        .qr-canvas:nth-child(4) {
+            margin-left: 0.5rem;
+        }
+
         .qr-canvas-text {
-            font-size:18px;
+            font-size: 1.2rem;
         }
     </style>
 </head>
@@ -174,7 +181,15 @@
             <div style="margin:0px auto;text-align:center;" id="qrcodeCanvas"></div>
             <div style="margin:0px auto;text-align:center;font-size: 14px" id="qrcodeText"></div>
         </div>
-        <div id="qr-container" style="width:100%;height:440px;">
+        <div id="qr-container" style="width:auto;height:auto;">
+            <div class="qr-canvas">
+                <div class="qr-canvas-inner"></div>
+                <div class="qr-canvas-text"></div>
+            </div>
+            <div class="qr-canvas">
+                <div class="qr-canvas-inner"></div>
+                <div class="qr-canvas-text"></div>
+            </div>
             <div class="qr-canvas">
                 <div class="qr-canvas-inner"></div>
                 <div class="qr-canvas-text"></div>
@@ -558,16 +573,25 @@
         });
         $('#qrcodeText').text('P/N:' + pipeno);
         $('.qr-canvas-inner').empty();
+        var width = api.winWidth / 3 - 20;
+        $('#qr-container').hide();
         jQuery('.qr-canvas-inner').qrcode({
             render: "canvas",
             text: pipeno,
-            width: "120", //二维码的宽度
-            height: "120", //二维码的高度
+            width: width, //二维码的宽度
+            height: width, //二维码的高度
             background: "#ffffff", //二维码的后景色
             foreground: "#000000", //二维码的前景色
             src: '../../image/logo2.jpg' //二维码中间的图片
         });
+        var os_type = api.systemType;
+        if (os_type == "ios") {
+            $('.qr-canvas-text').css('font-size', '1.6rem');
+        } else if (os_type == "android") {
+            $('.qr-canvas-text').css('font-size', '1.2rem');
+        }
         $('.qr-canvas-text').text('P/N:' + pipeno);
+
     }
 
     function printQRCode() {
@@ -579,31 +603,32 @@
             if (ret.buttonIndex == 1) {
                 DoLoadingPicture();
                 $('#qr-container').show();
-                setTimeout(function(){
-                  html2canvas(document.querySelector("#qr-container")).then(canvas => {
-                      //document.body.appendChild(canvas);
-                      var canvas = canvas.toDataURL("image/png");
-                      var img = canvas.replace('data:image/png;base64,', '');
-                      var trans = api.require('trans');
-                      var date=new Date();
-                      var imgName=date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDay()+"-"+date.getHours()+"-"+date.getMinutes()+"-"+date.getSeconds()+"-"+date.getMilliseconds()+".png";
-                      trans.saveImage({
-                          base64Str: img,
-                          album: true,
-                          imgPath: "fs://jietu/",
-                          imgName:imgName
-                      }, function(ret, err) {
-                          //  $('#qr-container').hide();
-                          if (ret.status) {
-                              toastSuccess('图片已生成,保存本地成功!');
-                              //openZebraApp();
-                          } else {
-                              toastFail('图片生成失败!');
-                          }
-                      });
-                      ClearLoadingPicture();
-                  });
-                },1000);
+                setTimeout(function() {
+                    html2canvas(document.querySelector("#qr-container")).then(canvas => {
+                        //document.body.appendChild(canvas);
+                        var canvas = canvas.toDataURL("image/png");
+                        var img = canvas.replace('data:image/png;base64,', '');
+                        var trans = api.require('trans');
+                        var date = new Date();
+                        var imgName = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDay() + "-" + date.getHours() + "-" + date.getMinutes() + "-" + date.getSeconds() + "-" + date.getMilliseconds() + ".png";
+                        trans.saveImage({
+                            base64Str: img,
+                            album: true,
+                            imgPath: "fs://jietu/",
+                            imgName: imgName
+                        }, function(ret, err) {
+                            $('#qr-container').hide();
+                            if (ret.status) {
+                                toastSuccess('图片已生成,保存本地成功!');
+                                openGPPrinter(img);
+                                //openZebraApp();
+                            } else {
+                                toastFail('图片生成失败!');
+                            }
+                        });
+                        ClearLoadingPicture();
+                    });
+                }, 1000);
             }
         });
     }
@@ -626,7 +651,7 @@
         var sType = api.systemType;
         if (sType == "ios") {
             api.openApp({
-                iosUrl: 'zebrautilities://' //打开微信的，其中weixin为微信的URL Scheme
+                iosUrl: 'zebra://' //打开微信的，其中weixin为微信的URL Scheme
             });
         } else if (sType == "android") {
             //Android中的使用方法如下：
@@ -637,28 +662,69 @@
             });
         }
     }
-    function downQrcode(){
-      html2canvas(document.querySelector("#qr-container")).then(canvas => {
-          //document.body.appendChild(canvas);
-          var canvas = canvas.toDataURL("image/png");
-          var img = canvas.replace('data:image/png;base64,', '');
-          var trans = api.require('trans');
-          var date=new Date();
-          var imgName=date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDay()+"-"+date.getHours()+"-"+date.getMinutes()+"-"+date.getSeconds()+"-"+date.getMilliseconds()+".png";
-          trans.saveImage({
-              base64Str: img,
-              album: true,
-              imgPath: "fs://jietu/",
-              imgName:imgName
-          }, function(ret, err) {
+
+    function downQrcode() {
+        html2canvas(document.querySelector("#qr-container")).then(canvas => {
+            //document.body.appendChild(canvas);
+            var canvas = canvas.toDataURL("image/png");
+            var img = canvas.replace('data:image/png;base64,', '');
+            var trans = api.require('trans');
+            var date = new Date();
+            var imgName = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDay() + "-" + date.getHours() + "-" + date.getMinutes() + "-" + date.getSeconds() + "-" + date.getMilliseconds() + ".png";
+            trans.saveImage({
+                base64Str: img,
+                album: true,
+                imgPath: "fs://jietu/",
+                imgName: imgName
+            }, function(ret, err) {
                 //$('#qr-container').hide();
-              if (ret.status) {
-                  toastSuccess('图片已生成,保存本地成功!');
-                  //openZebraApp();
-              } else {
-                  toastFail('图片生成失败!');
-              }
-          });
-      });
+                if (ret.status) {
+                    toastSuccess('图片已生成,保存本地成功!');
+                    openGPPrinter(img);
+                    //openZebraApp();
+                } else {
+                    toastFail('图片生成失败!');
+                }
+            });
+        });
+    }
+
+    function openGPPrinter(imgData) {
+        var gprinter = api.require('xGprinter');
+        //alert(gprinter);
+        gprinter.connect();
+        gprinter.printMultipleText({
+            title: '自定义数据',
+            project: ['联1', '联2'],
+            rows: [{
+                text: '内容1',
+                style: [0, 0, 1, 0, 1], //不加粗,不倍高,倍宽,不采用下划线,使用
+                align: 'center',
+                lineHeight: 60,
+                image: '' //当text为空时使用image
+            }],
+            isSubject: true
+        });
+        //gprinter.printTest();
+        //alert(2);
+        // gprinter.printImage({
+        //     base64: imgData
+        // });
+        // gprinter.connect(function(ret, err) {
+        //     if (ret.status) {
+        // gprinter.getStatus(function(ret) {
+        //     alert(JSON.stringify(ret));
+        //     if (ret.status) {
+        //         gprinter.printImage({
+        //             base64: imgData
+        //         });
+        //     } else {
+        //         toastFail(ret.message);
+        //     }
+        // });
+        //     }else{
+        //       toastFail("打印机连接失败!");
+        //     }
+        // });
     }
 </script>
