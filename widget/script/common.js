@@ -1,5 +1,5 @@
 var header, headerHeight = 0;
-var serverIP = '116.62.17.42:8080';
+var serverIP = 'www.topinspector.cn:8080';
 
 function fnSettingHeader() {
 

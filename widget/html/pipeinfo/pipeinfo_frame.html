@@ -177,7 +177,7 @@
 
             </table>
         </div>
-        <div id="qrdiv" style="width:100%;height:auto;margin-top:20px;overflow-x:scroll;" onclick="printQRCode()">
+        <div id="qrdiv" style="width:100%;height:auto;margin-top:20px;overflow-x:scroll;" onclick="rquestPrintCount()">
             <div style="margin:0px auto;text-align:center;" id="qrcodeCanvas"></div>
             <div style="margin:0px auto;text-align:center;font-size: 14px" id="qrcodeText"></div>
         </div>
@@ -594,10 +594,11 @@
 
     }
 
-    function printQRCode() {
+    function printQRCode(count) {
+        var msg="此管号已打印"+count+"次,是否再次打印?"
         api.confirm({
             title: '提示',
-            msg: '是否打印二维码?',
+            msg:msg,
             buttons: ['确定', '取消']
         }, function(ret, err) {
             if (ret.buttonIndex == 1) {
@@ -622,6 +623,7 @@
                                 toastSuccess('图片已生成,保存本地成功!');
                                 //openGPPrinter(img);
                                 openZebraApp();
+                                addPrintRecord();
                             } else {
                                 toastFail('图片生成失败!');
                             }
@@ -693,5 +695,45 @@
         gprinter.printImage({
             base64: 'iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAACyElEQVRYR+2XTWgTQRTH33trC/GDgigaIyJi8aA38VJBD4Ii9WIxWvQmEhHM7O5BoogaEMXa1pnptBUqloKK4AeehCIUWgQLnqrgzaN4EWEVG0zp7JMtRmIb26RJLUrnuLz3f7/573s7swiLvDCqL4TYQURH/sRirb1ljPlaKavneZcAwCmVh4hDUsqXBYBWItoEAK9LBVtrR40x+UoBXNfdg4hUIi8BAJuVUtd+AQBA0NXVNVhpkfnECyEaiejoEsC/74AQoomZNxhjnlTSC1X3QDqdXus4zmNmXgUAnxBx3cTERLK3t/d9OSAzAMpJimKSyaQTj8c1IrYgolBKTe08nU7vJaJ+RBwbGxs7MTw8/L1czakxLGe5rnsMAKLiz5VSpwCAp+cJIa4g4tkwDG8aY9rL0Z0TwPO8ODMPAUDeWtvc3d39cTbhVCrVEIvFngFAIwA0a63fzhZfDsBuZr4OAKN1dXVXOzo6xmcTzGaz9UEQeMy8HwAeaq3vVgUghNhJRE1hGA4i4mVEfKGUuldKVAixDxFPM3MbEa1HxBVSykc1AVBKmUjI87yDzHyciG5IKd9Fz3zf3xKG4TlEfKWUuh/1h+d5zQsCEBXMZrPLgiA4AwBRf3xBxPpcLtfZ19eXK+x2QQEKRVzXPQQA27TWndNt/lsA0XG7VSnV/38DIOIBrXU0ir+tnxeOkg4IIVodxwmrnoJMJtOQz+dvM/O3ycnJCz09PZ+LemDGK0ilUstjsdhFANgVhuFJY8yHqsawqKunPkhE9EBKeScatekOCCEOE5HPzFpr/bQmn+JikegwSiQSKQBoAYAMM6+MmtBaO0JE7Yj4JgiCtoGBgcoOo+h9VXIn9H1/NTNnmXkjACAijltrz89ld2EzVd8HCkK+728HgDVSypFy7K45QCVFi2Nr5sASQE0dWOxfs8X9OZ2vlbXI+wHsg7owETEYpwAAAABJRU5ErkJggg=='
           });
+    }
+    function rquestPrintCount(){
+      var s = 'http://' + serverIP + '/QrCodeOperation/APPGetQRCodePrintTimes.action';
+      api.ajax({
+          url: s,
+          method: 'post',
+          timeout: 30,
+          dataType: 'json',
+          data: {
+              values: {
+                  pipe_no: pipeno
+              }
+          }
+      }, function(ret, err) {
+          if (ret) {
+               if(ret.success){
+                 printQRCode(ret.count);
+               }else{
+                 toastFail(ret.message);
+               }
+          }else{
+            toastFail("获取打印次数时失败!");
+          }
+      });
+    }
+    function addPrintRecord(){
+      var s = 'http://' + serverIP + '/QrCodeOperation/APPPrintQRCode.action';
+      api.ajax({
+          url: s,
+          method: 'post',
+          timeout: 30,
+          dataType: 'json',
+          data: {
+              values: {
+                  pipe_no: pipeno
+              }
+          }
+      }, function(ret, err) {
+
+      });
     }
 </script>
