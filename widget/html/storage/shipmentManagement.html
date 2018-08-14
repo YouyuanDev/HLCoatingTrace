@@ -134,7 +134,7 @@
     <header class="form-nav" id="header">
         <div class="arrow" tapmode onclick="leaveWindow();"></div>
         <span class="nav-pipeno i18n1" name="productionstockout" style="display:inline-block;margin-left:-43px;line-height:43px;"></span>
-        <div class="scan-container" style="float:right;"></div>
+        <!-- <div class="scan-container" style="float:right;"></div> -->
     </header>
     <div class="form-content" id="content">
         <div class="form-item">
@@ -188,13 +188,14 @@
         <div class="form-item pipeinfo-div">
 
         </div>
-
-
     </div>
-    <footer class="form-footer" id=footer>
-        <div id="foot-container" style="width:100%;height:43px;display:flex;justify-content:center;align-items:center;" class="foot-container">
-            <div class="i18n1 form-process-button" name="submit" onclick="submitForm();">提交</div>
-        </div>
+    <footer class="form-footer" id="footer" style="height:auto;">
+      <div id="foot-container" style="width:100%;height:43px;display:flex;justify-content:center;align-items:center;" class="foot-container">
+          <div class="scan-container form-process-button"></div>
+      </div>
+      <div id="foot-container" style="width:100%;height:43px;" class="foot-container">
+          <div class="i18n1 form-process-button" name="submit" onclick="submitForm();">提交</div>
+      </div>
     </footer>
 </body>
 
@@ -218,10 +219,7 @@
             g_shipment_no = data.shipment_no;
             fnSettingHeader();
             hlLanguage("../../i18n/");
-
-
             FNScanner = api.require('FNScanner');
-
             api.addEventListener({
                 name: 'resume'
             }, function(ret, err) {
@@ -241,7 +239,7 @@
             $('.scan-container').click(function() {
                 FNScanner.open({
                     autorotation: true,
-                    sound:'../../sound/scanok.wav'
+                    sound: '../../sound/scanok.wav'
                 }, function(ret, err) {
                     if (ret) {
                         //扫出来结果
@@ -267,7 +265,7 @@
                 loadShipmentInfo(g_shipment_no);
                 $('.form-process-button').hide();
                 $('.scan-container').hide();
-                $('.vehicle_plate_no').attr("readonly","readonly");
+                $('.vehicle_plate_no').attr("readonly", "readonly");
                 $('.vehicle_plate_no').attr('placeholder', '');
             }
 
@@ -561,7 +559,7 @@
                         msg: ret.message
                     });
 
-                      api.closeWin();
+                    api.closeWin();
 
                 }
             } else {

@@ -239,22 +239,20 @@
     //var FNImageClip;
     //var imageBrowser;
     apiready = function() {
+
             LoadProcess_input_output();
             //FNImageClip = api.require('FNImageClip');
             var data = api.pageParam;
             pipeno = data.pipeno;
-
             //下拉刷新，钢管信息
             dropdownLoading();
             //urloptions =data.urloptions;
             if (pipeno != undefined) {
                 SearchpipeInfo();
             } else {
-                alert("查询出现异常!");
+                toastFail("查询出现异常!");
                 return;
             }
-
-
         }
         // $(function(){
         //   $(document).on('click','.upload-pictures',function(){
@@ -305,9 +303,10 @@
             api.hideProgress();
             if (ret) {
                 if (ret.success == false) {
-                    api.alert({
-                        msg: JSON.stringify(ret.message)
-                    });
+                   toastFail(ret.message);
+                    // api.alert({
+                    //     msg: JSON.stringify(ret.message)
+                    // });
                 } else {
                     pipeinfo = ret.pipeinfo;
                     urloptions = ret.urloptions;
@@ -595,41 +594,66 @@
     }
 
     function printQRCode(count) {
-        var msg="此管号已打印"+count+"次,是否再次打印?"
+        var msg = "此管号已打印" + count + "次,是否再次打印?"
         api.confirm({
             title: '提示',
-            msg:msg,
+            msg: msg,
             buttons: ['确定', '取消']
         }, function(ret, err) {
             if (ret.buttonIndex == 1) {
                 DoLoadingPicture();
                 $('#qr-container').show();
                 setTimeout(function() {
-                    html2canvas(document.querySelector("#qr-container")).then(canvas => {
-                        //document.body.appendChild(canvas);
-                        var canvas = canvas.toDataURL("image/png");
-                        var img = canvas.replace('data:image/png;base64,', '');
-                        var trans = api.require('trans');
-                        var date = new Date();
-                        var imgName = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDay() + "-" + date.getHours() + "-" + date.getMinutes() + "-" + date.getSeconds() + "-" + date.getMilliseconds() + ".png";
-                        trans.saveImage({
-                            base64Str: img,
-                            album: true,
-                            imgPath: "fs://jietu/",
-                            imgName: imgName
-                        }, function(ret, err) {
-                            $('#qr-container').hide();
-                            if (ret.status) {
-                                toastSuccess('图片已生成,保存本地成功!');
-                                //openGPPrinter(img);
-                                openZebraApp();
-                                addPrintRecord();
-                            } else {
-                                toastFail('图片生成失败!');
-                            }
-                        });
-                        ClearLoadingPicture();
-                    });
+                  html2canvas(document.querySelector("#qr-container")).then(function(canvas){
+                      var canvas = canvas.toDataURL("image/png");
+                      var img = canvas.replace('data:image/png;base64,', '');
+                      var trans = api.require('trans');
+                      var date = new Date();
+                      var imgName = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDay() + "-" + date.getHours() + "-" + date.getMinutes() + "-" + date.getSeconds() + "-" + date.getMilliseconds() + ".png";
+                      trans.saveImage({
+                          base64Str: img,
+                          album: true,
+                          imgPath: "fs://jietu/",
+                          imgName: imgName
+                      }, function(ret, err) {
+                          $('#qr-container').hide();
+                          if (ret.status) {
+                              toastSuccess('图片已生成,保存本地成功!');
+                              //openGPPrinter(img);
+                              openZebraApp();
+                              addPrintRecord();
+                          } else {
+                              toastFail('图片生成失败!');
+                          }
+                      });
+                      ClearLoadingPicture();
+                  });
+
+
+                    // html2canvas(document.querySelector("#qr-container")).then(canvas => {
+                    //     var canvas = canvas.toDataURL("image/png");
+                    //     var img = canvas.replace('data:image/png;base64,', '');
+                    //     var trans = api.require('trans');
+                    //     var date = new Date();
+                    //     var imgName = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDay() + "-" + date.getHours() + "-" + date.getMinutes() + "-" + date.getSeconds() + "-" + date.getMilliseconds() + ".png";
+                    //     trans.saveImage({
+                    //         base64Str: img,
+                    //         album: true,
+                    //         imgPath: "fs://jietu/",
+                    //         imgName: imgName
+                    //     }, function(ret, err) {
+                    //         $('#qr-container').hide();
+                    //         if (ret.status) {
+                    //             toastSuccess('图片已生成,保存本地成功!');
+                    //             //openGPPrinter(img);
+                    //             openZebraApp();
+                    //             addPrintRecord();
+                    //         } else {
+                    //             toastFail('图片生成失败!');
+                    //         }
+                    //     });
+                    //     ClearLoadingPicture();
+                    // });
                 }, 1000);
             }
         });
@@ -694,46 +718,49 @@
         var gprinter = api.require('xGprinter');
         gprinter.printImage({
             base64: 'iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAACyElEQVRYR+2XTWgTQRTH33trC/GDgigaIyJi8aA38VJBD4Ii9WIxWvQmEhHM7O5BoogaEMXa1pnptBUqloKK4AeehCIUWgQLnqrgzaN4EWEVG0zp7JMtRmIb26RJLUrnuLz3f7/573s7swiLvDCqL4TYQURH/sRirb1ljPlaKavneZcAwCmVh4hDUsqXBYBWItoEAK9LBVtrR40x+UoBXNfdg4hUIi8BAJuVUtd+AQBA0NXVNVhpkfnECyEaiejoEsC/74AQoomZNxhjnlTSC1X3QDqdXus4zmNmXgUAnxBx3cTERLK3t/d9OSAzAMpJimKSyaQTj8c1IrYgolBKTe08nU7vJaJ+RBwbGxs7MTw8/L1czakxLGe5rnsMAKLiz5VSpwCAp+cJIa4g4tkwDG8aY9rL0Z0TwPO8ODMPAUDeWtvc3d39cTbhVCrVEIvFngFAIwA0a63fzhZfDsBuZr4OAKN1dXVXOzo6xmcTzGaz9UEQeMy8HwAeaq3vVgUghNhJRE1hGA4i4mVEfKGUuldKVAixDxFPM3MbEa1HxBVSykc1AVBKmUjI87yDzHyciG5IKd9Fz3zf3xKG4TlEfKWUuh/1h+d5zQsCEBXMZrPLgiA4AwBRf3xBxPpcLtfZ19eXK+x2QQEKRVzXPQQA27TWndNt/lsA0XG7VSnV/38DIOIBrXU0ir+tnxeOkg4IIVodxwmrnoJMJtOQz+dvM/O3ycnJCz09PZ+LemDGK0ilUstjsdhFANgVhuFJY8yHqsawqKunPkhE9EBKeScatekOCCEOE5HPzFpr/bQmn+JikegwSiQSKQBoAYAMM6+MmtBaO0JE7Yj4JgiCtoGBgcoOo+h9VXIn9H1/NTNnmXkjACAijltrz89ld2EzVd8HCkK+728HgDVSypFy7K45QCVFi2Nr5sASQE0dWOxfs8X9OZ2vlbXI+wHsg7owETEYpwAAAABJRU5ErkJggg=='
-          });
+        });
     }
-    function rquestPrintCount(){
-      var s = 'http://' + serverIP + '/QrCodeOperation/APPGetQRCodePrintTimes.action';
-      api.ajax({
-          url: s,
-          method: 'post',
-          timeout: 30,
-          dataType: 'json',
-          data: {
-              values: {
-                  pipe_no: pipeno
-              }
-          }
-      }, function(ret, err) {
-          if (ret) {
-               if(ret.success){
-                 printQRCode(ret.count);
-               }else{
-                 toastFail(ret.message);
-               }
-          }else{
-            toastFail("获取打印次数时失败!");
-          }
-      });
-    }
-    function addPrintRecord(){
-      var s = 'http://' + serverIP + '/QrCodeOperation/APPPrintQRCode.action';
-      api.ajax({
-          url: s,
-          method: 'post',
-          timeout: 30,
-          dataType: 'json',
-          data: {
-              values: {
-                  pipe_no: pipeno
-              }
-          }
-      }, function(ret, err) {
 
-      });
+    function rquestPrintCount() {
+        var s = 'http://' + serverIP + '/QrCodeOperation/APPGetQRCodePrintTimes.action';
+        api.ajax({
+            url: s,
+            method: 'post',
+            timeout: 30,
+            dataType: 'json',
+            data: {
+                values: {
+                    pipe_no: pipeno
+                }
+            }
+        }, function(ret, err) {
+            if (ret) {
+                if (ret.success) {
+                    printQRCode(ret.count);
+                } else {
+                    toastFail("hahah");
+                    toastFail(ret.message);
+                }
+            } else {
+                toastFail("获取打印次数时失败!");
+            }
+        });
+    }
+
+    function addPrintRecord() {
+        var s = 'http://' + serverIP + '/QrCodeOperation/APPPrintQRCode.action';
+        api.ajax({
+            url: s,
+            method: 'post',
+            timeout: 30,
+            dataType: 'json',
+            data: {
+                values: {
+                    pipe_no: pipeno
+                }
+            }
+        }, function(ret, err) {
+
+        });
     }
 </script>
