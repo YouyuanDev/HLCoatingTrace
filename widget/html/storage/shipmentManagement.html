@@ -11,12 +11,12 @@
     <link rel="stylesheet" type="text/css" href="../../css/mobiscroll.custom-3.0.0-beta6.min.css" />
     <style>
         .scan-container {
-            height: 30px;
-            width: 10%;
+            height:43px;
+            width: 100%;
             background: url(../../image/qrcode.png);
             background-size: 30px 30px;
             background-repeat: no-repeat;
-            float: left;
+            background-position:center;
         }
 
         .item {
@@ -113,18 +113,15 @@
         .style1 {
             border-top: 1px solid #cdcdcd;
         }
-        /*.form-item,.pipeinfo-table,.pipeinfo-table tr{
-          width:100%;
+        .foot-item{
+          width:50%;height:100%;
         }
-        .pipeinfo-table{
-          display: table-cell;
+        .foot-item:first-child{
+          float: left;
         }
-        .pipeinfo-table tr td{
-          width:25%;
-          overflow-x:hidden;
-          word-break: break-all;word-wrap: break-word;  text-overflow: ellipsis;
-          flex: 1;
-        }*/
+        .foot-item:last-child{
+          float: right;
+        }
     </style>
 
 
@@ -190,11 +187,13 @@
         </div>
     </div>
     <footer class="form-footer" id="footer" style="height:auto;">
-      <div id="foot-container" style="width:100%;height:43px;display:flex;justify-content:center;align-items:center;" class="foot-container">
-          <div class="scan-container form-process-button"></div>
-      </div>
-      <div id="foot-container" style="width:100%;height:43px;" class="foot-container">
-          <div class="i18n1 form-process-button" name="submit" onclick="submitForm();">提交</div>
+      <div id="foot-container"  class="foot-container">
+          <div class="foot-item">
+            <div class="scan-container"></div>
+          </div>
+          <div class="foot-item">
+            <div class="i18n1 form-process-button" name="submit" onclick="submitForm();">提交</div>
+          </div>
       </div>
     </footer>
 </body>
