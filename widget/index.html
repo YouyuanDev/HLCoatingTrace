@@ -72,13 +72,14 @@
         }*/
 
         .search-span {
-            width: 30px;
-            height: 30px;
+            width:50px;
+            height:100%;
             float: right;
             background: url(./image/search.png);
             background-size: 30px 30px;
             background-repeat: no-repeat;
-            background-color: #ffffff;
+            background-color:#fff;
+            background-position: center;
         }
 
         #footer {
@@ -210,7 +211,7 @@
 
                             <!-- <div class="search-input"><input type="number" id="search-input" placeholder="请扫描二维码或输入管号..." />
                             -->
-                            <div class="search-span">
+                            <div class="search-span" ontouchend="touchend();" ontouchmove="touchend();"  ontouchstart="touchstart(this);">
                                 <div></div>
                             </div>
                             <div class="clearfix"></div>
@@ -273,7 +274,8 @@
         g_operation_time = "";
 
     var lab_search_project_no; //实验搜索页的下拉
-
+    var g_startdate;
+    var longpress_timer;
     apiready = function() {
             RequireStatisticSearchinfo();
             //设置TitleBar位置(兼容IOS)
@@ -567,5 +569,38 @@
                 operation_time: g_operation_time
             }
         });
+    }
+    function touchstart(obj){
+       g_startdate=new Date().getTime();
+       longpress_timer=setInterval(function(){
+         var now=new Date().getTime();
+         if(now-g_startdate>1000){
+           clearInterval(longpress_timer);
+           $("body").addClass('mask');
+           api.openFrame({
+               name: 'searchpipesetting',
+               url: './html/addition/searchpipesetting.html',
+               bgColor: 'rgba(0,0,0,0.8)',
+               rect: {
+                   x: 0,
+                   y: 0,
+                   w: 'auto',
+                   h: 'auto',
+                   marginLeft: 0,
+                   marginTop: 0,
+                   marginBottom: 0,
+                   marginRight: 0
+               },
+               animation: {
+                   type: "movein",
+                   subType: "from_top",
+                   duration: 300
+               }
+           });
+         }
+       },1000);
+    }
+    function touchend(){
+       clearInterval(longpress_timer);
     }
 </script>

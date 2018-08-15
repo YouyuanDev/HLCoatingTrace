@@ -172,10 +172,10 @@
                     });
                 } else {
                     // var picturefiles = JSON.stringify(ret);
-                    if(!reload)
-                    showPictures(ret);
+                    if (!reload)
+                        showPictures(ret);
                     else
-                    reloadPictures(ret);
+                        reloadPictures(ret);
                 }
             } else {
                 //alert("err");
@@ -191,16 +191,16 @@
 
 
     function reloadPictures(picturefiles) {
-      var datalist = [];
-      //alert("picturefiles.length="+picturefiles.length);
+        var datalist = [];
+        //alert("picturefiles.length="+picturefiles.length);
 
-      for (var i = 0; i < picturefiles.length; i++) {
-          var pic = picturefiles[i];
-          datalist.push('http://' + serverIP + '/upload/pictures/' + pic.pictureName);
-      }
+        for (var i = 0; i < picturefiles.length; i++) {
+            var pic = picturefiles[i];
+            datalist.push('http://' + serverIP + '/upload/pictures/' + pic.pictureName);
+        }
         UIScrollPicture.reloadData({
             data: {
-                paths: datalist ,
+                paths: datalist,
                 caption: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
             }
         });
@@ -280,21 +280,21 @@
     }
     //钢管信息的模版
     function pipeInfoTemplate(pipe) {
-        var url2fbe="../image/pipe_2fbe.png";
-        var url3lpe="../image/pipe_3lpe.png";
-        var urlepoxy="../image/pipe_epoxy.png";
-        var urldefault="../image/pipe2.png";
-        var url="";
-        var title = pipe.project_name+' '+pipe.external_coating+' '+pipe.internal_coating;
-        if(pipe.external_coating=="2FBE"){
-          url=url2fbe;
-        }else if(pipe.external_coating=="3LPE"){
-          url=url3lpe;
-        }else{
-          url=urldefault;
+        var url2fbe = "../image/pipe_2fbe.png";
+        var url3lpe = "../image/pipe_3lpe.png";
+        var urlepoxy = "../image/pipe_epoxy.png";
+        var urldefault = "../image/pipe2.png";
+        var url = "";
+        var title = pipe.project_name + ' ' + pipe.external_coating + ' ' + pipe.internal_coating;
+        if (pipe.external_coating == "2FBE") {
+            url = url2fbe;
+        } else if (pipe.external_coating == "3LPE") {
+            url = url3lpe;
+        } else {
+            url = urldefault;
         }
         var template = '<div class="item style1"  onclick="goPipeInfoRoot(' + pipe.pipe_no + ');">' +
-            '<div class="itemlogo userlogo"><img src="'+url+'" alt=""></div>' +
+            '<div class="itemlogo userlogo"><img src="' + url + '" alt=""></div>' +
             '<div class="itemshelf">' +
             '<div class="shelfinfo01"><span class="pei pipeno-span">' + pipe.pipe_no + '</span></div>' +
             '<div class="shelfinfo02"><span class="contractno-span">' + title + '</span></div>' +
@@ -315,6 +315,20 @@
             title: '加载中...',
             modal: false
         });
+        //var project_no;
+        var project_no = api.getPrefs({
+            sync: true,
+            key: 'project_no_pref'
+        });
+        var mill_no = api.getPrefs({
+            sync: true,
+            key: 'mill_no_pref'
+        });
+        var process_code = api.getPrefs({
+            sync: true,
+            key: 'process_code_pref'
+        });
+        //alert(project_no+":"+mill_no+":"+process_code);
         var s = 'http://' + serverIP + '/pipeinfo/searchPipe.action';
         api.ajax({
             url: s,
@@ -324,8 +338,11 @@
             data: {
                 values: {
                     pipe_no: keyword_pipeno,
+                    project_no:project_no,
+                    mill_no:mill_no,
+                    process_code:process_code,
                     page: start,
-                    rows:20
+                    rows: 20
                 }
             }
         }, function(ret, err) {
