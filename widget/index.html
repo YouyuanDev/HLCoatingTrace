@@ -72,14 +72,14 @@
         }*/
 
         .search-span {
-            width:50px;
-            height:100%;
+            width: 50px;
+            height: 100%;
             float: right;
             background: url(./image/search.png);
             background-size: 30px 30px;
             background-repeat: no-repeat;
-            background-color:#fff;
-            background-position: center;
+            background-color: #fff;
+            background-position: right;
         }
 
         #footer {
@@ -150,18 +150,14 @@
             position: fixed;
             right: 10px;
             top: 25px;
-            /*z-index: 10000;*/
-            background-color: #4D4D4D;
-            width: 35px;
-            height: 35px;
-            text-align: center;
-            /*line-height: 50px;*/
-            /*border-radius:50%;*/
-            color: white;
+            background-color: red;
+            width: 40px;
+            height: 40px;
+            background-color: red;
             background: url('./image/new_labtesting.png');
             background-position: center;
             background-repeat: no-repeat;
-            background-size: cover;
+            background-size: 35px 35px;
         }
 
         .show-scan-loading-btn {
@@ -208,10 +204,9 @@
                     <div class="main-container">
                         <div class="scan-container"></div>
                         <div class="search-container">
-
                             <!-- <div class="search-input"><input type="number" id="search-input" placeholder="请扫描二维码或输入管号..." />
                             -->
-                            <div class="search-span" ontouchend="touchend();" ontouchmove="touchend();"  ontouchstart="touchstart(this);">
+                            <div class="search-span" ontouchend="touchend();" ontouchmove="touchend();" ontouchstart="touchstart(this);">
                                 <div></div>
                             </div>
                             <div class="clearfix"></div>
@@ -220,25 +215,21 @@
                     </div>
                 </li>
                 <li class="border-b">
-                    <!-- <div class=""></div> -->
                     <span class="i18n1" name="experiment"></span>
                     <div class="show-float-btn" data-isshow="hide" id="float-btn-container" onclick="showNewTestingLink()">
-
-
+                        <!--涂层header -->
                     </div>
                 </li>
                 <li class="border-b" name="shipping">
                     <span class="i18n1" name="shipping"></span>
                     <div class="show-scan-loading-btn" data-isshow="hide" id="float-btn-container" onclick="newShipment()">
-                        <!-- 新建 -->
-
+                        <!--成品发运header -->
                     </div>
-
                 </li>
                 <li class="border-b" name="statistics">
                     <span class="i18n1" name="statistics"></span>
                     <div class="show-statistics-btn" data-isshow="hide" onclick="newStatistics()">
-                        <!-- 新建 -->
+                        <!--当班统计header -->
                     </div>
                 </li>
                 <li class="border-b i18n1" name="personal">个人信息</li>
@@ -276,6 +267,7 @@
     var lab_search_project_no; //实验搜索页的下拉
     var g_startdate;
     var longpress_timer;
+    var g_search_index = 0; //当前Frame 0代表搜索钢管 5代表搜索岗位记录
     apiready = function() {
             RequireStatisticSearchinfo();
             //设置TitleBar位置(兼容IOS)
@@ -358,7 +350,7 @@
             });
             hlLanguage("./i18n/");
         }
-    // 班报保留上次搜索信息
+        // 班报保留上次搜索信息
     function RequireStatisticSearchinfo() {
         api.addEventListener({
             name: 'sendSettingStatisticInfoEvent'
@@ -370,15 +362,27 @@
     }
     //发送查询管号事件
     function sendSearchEvent(pipeno) {
-        api.sendEvent({
-            name: 'myEvent',
-            extra: {
-                pipeno: pipeno,
-                pageStart: 1,
-                flag: false
-            }
-        });
+        if (g_search_index == 0) {
+            api.sendEvent({
+                name: 'searchPipeEvent',
+                extra: {
+                    pipeno: pipeno,
+                    pageStart: 1,
+                    flag: false
+                }
+            });
+        } else if (g_search_index == 5) {
+          api.sendEvent({
+              name: 'searchInspectionRecordEvent',
+              extra: {
+                  pipeno: pipeno,
+                  pageStart: 1,
+                  flag: false
+              }
+          });
+        }
     }
+    //
 
     function funIniGroup() {
         var eHeaderLis = $api.domAll('header li'),
@@ -391,6 +395,12 @@
                 bounces: true
             })
         }
+        frames.push({
+            name: 'frame5',
+            url: './html/frame5.html',
+            bgColor: 'rgba(60,0,0,.2)',
+            bounces: true
+        })
         api.openFrameGroup({
             name: 'group',
             scrollEnabled: false,
@@ -474,7 +484,7 @@
         $api.addCls(eFootLis[index], 'active');
         $api.addCls(eHeaderLis[index], 'active');
 
-        if (index == 1 || index == 2 || index == 3 || index == 4) {
+        if (index == 1 || index == 2 || index == 3 || index == 4 || index == 5) {
             var UIInput = api.require('UIInput');
             UIInput.hide({
                 id: UIInputId
@@ -570,37 +580,52 @@
             }
         });
     }
-    function touchstart(obj){
-       g_startdate=new Date().getTime();
-       longpress_timer=setInterval(function(){
-         var now=new Date().getTime();
-         if(now-g_startdate>1000){
-           clearInterval(longpress_timer);
-           $("body").addClass('mask');
-           api.openFrame({
-               name: 'searchpipesetting',
-               url: './html/addition/searchpipesetting.html',
-               bgColor: 'rgba(0,0,0,0.8)',
-               rect: {
-                   x: 0,
-                   y: 0,
-                   w: 'auto',
-                   h: 'auto',
-                   marginLeft: 0,
-                   marginTop: 0,
-                   marginBottom: 0,
-                   marginRight: 0
-               },
-               animation: {
-                   type: "movein",
-                   subType: "from_top",
-                   duration: 300
-               }
-           });
-         }
-       },1000);
+
+    function touchstart(obj) {
+        g_startdate = new Date().getTime();
+        longpress_timer = setInterval(function() {
+            var now = new Date().getTime();
+            if (now - g_startdate > 800) {
+                clearInterval(longpress_timer);
+                //  $("body").addClass('mask');
+                if (g_search_index == 0) {
+                    g_search_index = 5;
+                    api.setFrameGroupIndex({
+                        name: 'group',
+                        index: 5
+                    });
+                } else if (g_search_index == 5) {
+                    g_search_index = 0;
+                    api.setFrameGroupIndex({
+                        name: 'group',
+                        index: 0
+                    });
+                }
+                //  api.openFrame({
+                //      name: 'searchpipesetting',
+                //      url: './html/addition/searchpipesetting.html',
+                //      bgColor: 'rgba(0,0,0,0.8)',
+                //      rect: {
+                //          x: 0,
+                //          y: 0,
+                //          w: 'auto',
+                //          h:api.winHeight,
+                //          marginLeft: 0,
+                //          marginTop: 0,
+                //          marginBottom: 0,
+                //          marginRight: 0
+                //      },
+                //      animation: {
+                //          type: "movein",
+                //          subType: "from_top",
+                //          duration: 300
+                //      }
+                //  });
+            }
+        }, 300);
     }
-    function touchend(){
-       clearInterval(longpress_timer);
+
+    function touchend() {
+        clearInterval(longpress_timer);
     }
 </script>

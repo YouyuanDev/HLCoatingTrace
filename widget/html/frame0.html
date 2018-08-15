@@ -129,7 +129,7 @@
         dropdownLoading();
         isRollingToEnd();
         api.addEventListener({
-            name: 'myEvent'
+            name: 'searchPipeEvent'
         }, function(ret, err) {
             doSearchPipeInfo(ret.value.pipeno, ret.value.pageStart, ret.value.flag);
         });
@@ -316,18 +316,18 @@
             modal: false
         });
         //var project_no;
-        var project_no = api.getPrefs({
-            sync: true,
-            key: 'project_no_pref'
-        });
-        var mill_no = api.getPrefs({
-            sync: true,
-            key: 'mill_no_pref'
-        });
-        var process_code = api.getPrefs({
-            sync: true,
-            key: 'process_code_pref'
-        });
+        // var project_no = api.getPrefs({
+        //     sync: true,
+        //     key: 'project_no_pref'
+        // });
+        // var mill_no = api.getPrefs({
+        //     sync: true,
+        //     key: 'mill_no_pref'
+        // });
+        // var process_code = api.getPrefs({
+        //     sync: true,
+        //     key: 'process_code_pref'
+        // });
         //alert(project_no+":"+mill_no+":"+process_code);
         var s = 'http://' + serverIP + '/pipeinfo/searchPipe.action';
         api.ajax({
@@ -338,9 +338,9 @@
             data: {
                 values: {
                     pipe_no: keyword_pipeno,
-                    project_no:project_no,
-                    mill_no:mill_no,
-                    process_code:process_code,
+                    // project_no:project_no,
+                    // mill_no:mill_no,
+                    // process_code:process_code,
                     page: start,
                     rows: 20
                 }
