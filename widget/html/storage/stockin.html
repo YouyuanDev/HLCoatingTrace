@@ -25,9 +25,11 @@
             background-repeat: no-repeat;
             background-position: center;
         }
-        .pipeinfo-div{
-          margin-top:5px;
+
+        .pipeinfo-div {
+            margin-top: 5px;
         }
+
         .item {
             display: table;
             height: 70px;
@@ -37,9 +39,12 @@
 
         .itemseq {
             height: 50px;
-            width: 50px;
-            padding: 5px 0px;
+            padding: 5px;
             line-height: 50px;
+        }
+
+        .userlogo{
+            padding-right:8px;
         }
 
         .item .itemlogo,
@@ -148,7 +153,7 @@
 <body>
     <header class="form-nav" id="header">
         <div class="arrow" tapmode onclick="closeWindow();"></div>
-        <span class="nav-pipeno i18n1" name="stockin" style="display:inline-block;margin-left:-43px;line-height:43px;"></span>
+        <span class="nav-pipeno i18n1" name="stockin" style="display:inline-block;line-height:43px;"></span>
         <div class="i18n1 nav-submit" style="float:right;" name="submit" onclick="submitForm();">提交</div>
     </header>
     <div class="form-content" id="content">
@@ -422,13 +427,8 @@
                     var pipeno = record.pipe_no;
                     var id = record.id;
                     if (g_idArr.indexOf(id) == -1) {
-                        // $('.pipeinfo-div').append(makeTemplate(id,pipeno));
                         g_idArr = g_idArr + (id + ",");
                         $('.pipeinfo-div').append(makeTemplate(record));
-                        // var data = ret.value.record;
-                        // for (var i = 0; i < data.length; i++) {
-                        //     $('.pipeinfo-div').append(makeTemplate(data[i]));
-                        // }
                     } else {
                         toastSuccess("该管已存在入库列表中!");
                     }
@@ -498,7 +498,7 @@
 
         template += '<div  id="' + pipeinfo.pipe_no + '" class="item style1" data-pipe-length=' + pipeinfo.p_length + ' data-pipe-weight=' + pipeinfo.weight + ' data-pipe-id=' + pipeinfo.id + ' data-pipe-no=' + pipeinfo.pipe_no + '>';
         template += '<div class="itemseq"><span class="sequence">' + stockinList.length + '</span></div>';
-        template += '<div class="itemlogo userlogo"><img height="40" width="40" src="../../image/truck_loading.png" alt=""></div>';
+        template += '<div class="itemlogo userlogo"><img height="40" width="40" src="../../image/stockin.png" alt=""></div>';
 
         template += '<div class="itemshelf">' +
             '<div class="shelfinfo01"><span class="pei pipeno-span">' + pipeinfo.pipe_no + '</span><span class="od-span">' + odwt + '</span></div>' +
