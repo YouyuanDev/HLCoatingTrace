@@ -155,9 +155,7 @@
     }
     //获取项目编号集合失败
     function RequireProjectNoFail() {
-        api.alert({
-            msg: "获取项目编号时出错!"
-        });
+        toastFail("获取项目编号时出错!");
         ClearLoadingPicture();
     }
     //获取所有分厂编号
