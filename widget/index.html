@@ -484,7 +484,7 @@
         $api.addCls(eFootLis[index], 'active');
         $api.addCls(eHeaderLis[index], 'active');
 
-        if (index == 1 || index == 2 || index == 3 || index == 4 || index == 5) {
+        if (index == 1 || index == 2 || index == 3 || index == 4) {
             var UIInput = api.require('UIInput');
             UIInput.hide({
                 id: UIInputId
@@ -500,6 +500,8 @@
                 id: UIInputId
             });
         }
+        if(index==0)
+          index=g_search_index;
         api.setFrameGroupIndex({
             name: 'group',
             index: index

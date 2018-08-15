@@ -113,6 +113,16 @@
             padding-bottom: 5px;
             background-color: #F7F7F7;
         }
+        select {
+            -webkit-appearance: none;
+        }
+        #nodata{
+          width: 100%;
+          text-align:center;
+        }
+        .form-item-lbl label{
+          color: #7A7A7A;
+        }
     </style>
 </head>
 
@@ -124,7 +134,7 @@
                     <div class="form-item-lbl">
                         <label class="i18n1" name="projectno"></label>
                     </div>
-                    <div class="form-item-val">
+                    <div class="form-item-val2">
                         <select class="model-select" id="projectInfoSelect">
                </select>
                     </div>
@@ -133,7 +143,7 @@
                     <div class="form-item-lbl">
                         <label class="i18n1" name="millno"></label>
                     </div>
-                    <div class="form-item-val">
+                    <div class="form-item-val2">
                         <select class="model-select" id="millInfoSelect">
                </select>
                     </div>
@@ -142,7 +152,7 @@
                     <div class="form-item-lbl">
                         <label class="i18n1" name="workposition"></label>
                     </div>
-                    <div class="form-item-val">
+                    <div class="form-item-val2">
                         <select class="model-select" id="processSelect">
                </select>
                     </div>
@@ -154,7 +164,7 @@
         </div>
     </div>
 
-    <div class="mask"></div>
+    <!-- <div class="mask"></div> -->
     <!-- </div> -->
 
 </body>
@@ -182,41 +192,10 @@
                 searchInspectionRecord(ret.value.pipeno, ret.value.pageStart, ret.value.flag);
                 //doSearchPipeInfo(ret.value.pipeno, ret.value.pageStart, ret.value.flag);
             });
-
-            //先判断本地是否存在
-            var projectNoListPref = api.getPrefs({
-                sync: true,
-                key: 'projectNoListPref'
-            });
-            if (projectNoListPref == undefined || projectNoListPref == "") {
-                //获取项目编号集合
-                DoLoadingPicture();
-                RequireProjectNo();
-            } else {
-                addInfoToProjectSelect(projectNoListPref);
-            }
-            var millNoListPref = api.getPrefs({
-                sync: true,
-                key: 'millNoListPref'
-            });
-            if (millNoListPref == undefined || projectNoListPref == "") {
-                //获取分厂编号集合
-                DoLoadingPicture();
-                RequireMillNo();
-            } else {
-                addInfoToMillSelect(millNoListPref);
-            }
-            var processNoListPref = api.getPrefs({
-                sync: true,
-                key: 'processNoListPref'
-            });
-            if (processNoListPref == undefined || projectNoListPref == "") {
-                //获取分厂编号集合
-                DoLoadingPicture();
-                RequireAllProcess();
-            } else {
-                addInfoToProcessSelect(processNoListPref);
-            }
+            DoLoadingPicture();
+            RequireProjectNo();
+            RequireMillNo();
+            RequireAllProcess();
             //获取工位集合
             hlLanguage("../i18n/");
             setControls();
@@ -429,15 +408,8 @@
         }, function(ret, err) {
             api.hideProgress();
             if (ret) {
-                if (ret.success == false) {
-                    //toastFail(ret.message);
-                    api.alert({
-                        msg: JSON.stringify(ret.message)
-                    });
-                } else {
-                    funcShowPipeResultList(ret.rows, append);
-                    hlLanguage("../i18n/");
-                }
+                funcShowPipeResultList(ret.rows, append);
+                hlLanguage("../i18n/");
             } else {
                 toastFail(err);
             }
@@ -499,7 +471,7 @@
             '<div class="shelfinfo02"><span class="contractno-span">' + title + '</span></div>' +
             '<div class="shelfinfo02"><span class="contractno-span">' + pipe.contract_no + '</span><span class="od-span">' + pipe.od + '</span><span class="wt-span">' + pipe.wt + '</span></div>' +
             '</div>' +
-            '<div class="itemshelf"><span class="status-span">'+result_name+'</span></div>' +
+            '<div class="itemshelf"><span class="status-span">' + result_name + '</span></div>' +
             '</div>';
         return template;
     }
@@ -528,7 +500,7 @@
                                 result_name = ret[i].output[j].result_name;
                             }
                             result = ret[i].output[j].result;
-                            g_result_input_output[process_code+result]=result_name;
+                            g_result_input_output[process_code + result] = result_name;
                         }
                     }
                 }
