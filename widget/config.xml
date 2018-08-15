@@ -30,7 +30,7 @@
      </feature>
 
 
-    <preference name="backgroundMode" value="location | bluetooth-central | bluetooth-peripheral"/>
+    <preference name="backgroundMode" value="location"/>
 
     <preference name="pageBounce" value="false"/>
 
