@@ -264,9 +264,10 @@
                 //关闭bMap
                 var map = api.require('bMap');
                 map.close();
-                api.alert({
-                    msg: JSON.stringify(ret.msg)
-                });
+                toastSuccess(ret.msg);
+                // api.alert({
+                //     msg: JSON.stringify(ret.msg)
+                // });
 
                 api.sendEvent({
                     name: 'reloadUserInfo'

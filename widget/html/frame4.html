@@ -365,9 +365,10 @@
                         name: 'frame4',
                         url: './frame4.html'
                     });
-                    api.alert({
-                        msg: JSON.stringify(ret.msg)
-                    });
+                    toastSuccess(ret.msg);
+                    // api.alert({
+                    //     msg: JSON.stringify(ret.msg)
+                    // });
                         //退出登录
                         //解除所有的组
                         leaveAllPushGroup();

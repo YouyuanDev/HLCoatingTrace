@@ -25,20 +25,122 @@
             background-repeat: no-repeat;
             background-position: center;
         }
-        .pipeinfo-item{
-          width:100%;
-          height:43px;
-          text-align:center;
-          line-height:43px;
-          background-color:#dddddd;
-          margin-top:1rem;
-          color:#fff;
-          position: relative;
+        .pipeinfo-div{
+          margin-top:5px;
         }
-        .itemlogo{
-          position: absolute;
-          right:0px;
-          top:7px;
+        .item {
+            display: table;
+            height: 70px;
+            width: 100%;
+            padding: 5px 0px;
+        }
+
+        .itemseq {
+            height: 50px;
+            width: 50px;
+            padding: 5px 0px;
+            line-height: 50px;
+        }
+
+        .item .itemlogo,
+        .item .itemshelf {
+            display: table-cell;
+            vertical-align: middle;
+        }
+
+        .status-span {
+            background-color: #ffffff;
+            color: #000000;
+            font-size: 14px;
+            border-radius: 3px;
+            opacity: 0.5;
+            padding: 2px;
+            float: right;
+            margin-right: 20px;
+        }
+
+        .pipeno-span {
+            color: #000000;
+            font-size: 16px;
+            font-family: "Sans-serif";
+        }
+
+        .contractno-span,
+        .od-span,
+        .wt-span {
+            margin: 0px 2px;
+            font-family: "Sans-serif";
+        }
+
+        .sequence {
+            width: 100%;
+            height: 100%;
+            padding: 2px;
+            border-radius: 3px;
+            text-align: center;
+            vertical-align: middle;
+            font-size: 16px;
+            color: black;
+            font-family: "Sans-serif";
+        }
+
+        .od-span {
+            padding: 2px;
+            border-radius: 3px;
+            font-size: 12px;
+            color: #AFAFAF;
+            font-family: "Sans-serif";
+        }
+
+        .wt-span {
+            padding: 2px;
+            border-radius: 3px;
+            color: #AFAFAF;
+            font-family: "Sans-serif";
+        }
+
+        .itemshelf .shelfinfo01 {
+            font-size: 16px;
+            color: #4CAD35;
+            text-align: left;
+        }
+
+        .itemshelf .shelfinfo02 {
+            font-size: 12px;
+            color: #AFAFAF;
+            margin-top: 5px;
+            text-align: left;
+        }
+
+        .form-btn-container {
+            width: 100%;
+            height: auto;
+            display: flex;
+            padding: 5px 0px;
+        }
+
+        .style1 {
+            border-top: 1px solid #cdcdcd;
+        }
+
+        .foot-item {
+            width: 50%;
+            height: 100%;
+        }
+
+        .foot-item:first-child {
+            float: left;
+        }
+
+        .foot-item:last-child {
+            float: right;
+        }
+
+        .nav-submit {
+            width: 4rem;
+            background-color: #19AD68;
+            text-align: center;
+            color: #ffffff;
         }
     </style>
 </head>
@@ -64,15 +166,23 @@
                     <td class="status_name"></td>
                 </tr>
                 <tr>
+                    <td class="i18n1" name="totallength"></td>
+                    <td class="totallength">0</td>
+                    <td class="i18n1" name="totalweight"></td>
+                    <td class="totalweight">0</td>
+                </tr>
+                <tr>
+                    <td class="i18n1" name="totalcount"></td>
+                    <td class="totalcount">0</td>
+                    <td class="i18n1" name="millno"></td>
+                    <td class="millno"></td>
+                </tr>
+                <!-- <tr>
                     <td class="i18n1" name="od"></td>
                     <td class="od"></td>
                     <td class="i18n1" name="wt"></td>
                     <td class="wt"></td>
-                </tr>
-                <tr>
-                    <td class="i18n1" name="millno"></td>
-                    <td class="millno"></td>
-                </tr>
+                </tr> -->
             </table>
         </div>
         <div class="form-item">
@@ -160,10 +270,7 @@
             </div>
         </div>
         <div class="form-item pipeinfo-div">
-            <!-- <div class="pipeinfo-item">
-               <span class="pipeinfo-item-span"></span>
-               <div class="itemlogo" data-pipe-no=""  onclick="deletePipeFromList(this);"><img height="30" width="30"  src="../../image/delete.png" ></div>
-            </div> -->
+
         </div>
     </div>
     <footer class="form-footer" id=footer>
@@ -186,13 +293,14 @@
     //UILoading 的id
     var g_loadingID = 0;
     var FNScanner;
-    var g_idArr="";
+    var g_idArr = "";
+    var stockinList = [];
     apiready = function() {
             DoLoadingPicture();
             var data = api.pageParam;
             g_pipeno = data.pipe_no;
             g_processcode = data.process_code;
-            if(g_pipeno!=undefined){
+            if (g_pipeno != undefined) {
                 addPipeToStockIn(g_pipeno);
             }
             FNScanner = api.require('FNScanner');
@@ -263,19 +371,15 @@
                 var stack_level = $('#stacklevel').val();
                 var level_direction = $('#leveldirection').val();
                 var level_sequence = $('#levelsequence').val();
-                if(g_idArr==undefined||g_idArr==""){
-                  toastSuccess("请选择入库管!");
-                  return;
+                if (g_idArr == undefined || g_idArr == "") {
+                    toastSuccess("请选择入库管!");
+                    return;
                 }
-                if(level_sequence==undefined||level_sequence==""){
-                  toastSuccess("请输入起始序号!");
-                  return;
+                if (level_sequence == undefined || level_sequence == "") {
+                    toastSuccess("请输入起始序号!");
+                    return;
                 }
-                var s;
-                if (status == "od6")
-                    s = 'http://' + serverIP + '/pipeinfo/odproductstockin.action';
-                else
-                    s = 'http://' + serverIP + '/pipeinfo/idproductstockin.action';
+                var s = 'http://' + serverIP + '/pipeinfo/productstockin.action';
                 api.ajax({
                     url: s,
                     method: 'post',
@@ -283,7 +387,7 @@
                     dataType: 'json',
                     data: {
                         values: {
-                            hlparam:g_idArr,
+                            hlparam: g_idArr,
                             storage_stack: storage_stack,
                             stack_level: stack_level,
                             level_direction: level_direction,
@@ -316,13 +420,19 @@
             if (ret) {
                 if (ret.value.success) {
                     //将钢管数据增加至列表
-                    var pipeno = ret.value.pipeno;
-                    var id=ret.value.id;
-                    if(g_idArr.indexOf(id)==-1){
-                      $('.pipeinfo-div').append(makeTemplate(id,pipeno));
-                      g_idArr=g_idArr+(id+",");
-                    }else{
-                      toastSuccess("该管已存在入库列表中!");
+                    var record = ret.value.record;
+                    var pipeno = record.pipe_no;
+                    var id = record.id;
+                    if (g_idArr.indexOf(id) == -1) {
+                        // $('.pipeinfo-div').append(makeTemplate(id,pipeno));
+                        g_idArr = g_idArr + (id + ",");
+                        $('.pipeinfo-div').append(makeTemplate(record));
+                        // var data = ret.value.record;
+                        // for (var i = 0; i < data.length; i++) {
+                        //     $('.pipeinfo-div').append(makeTemplate(data[i]));
+                        // }
+                    } else {
+                        toastSuccess("该管已存在入库列表中!");
                     }
                     hlLanguage("../../i18n/");
                 } else {
@@ -355,8 +465,7 @@
                         name: 'RequireCheckForProductStockInEvent',
                         extra: {
                             success: ret.success,
-                            id:ret.id,
-                            pipeno: ret.pipeno,
+                            record: ret.record,
                             message: ret.message
                         }
                     });
@@ -373,27 +482,75 @@
 
     }
     //模板
-    function makeTemplate(id,pipeno){
-      var template='  <div class="pipeinfo-item">'+
-           '<span class="pipeinfo-item-span">'+pipeno+'</span>'+
-          '<div class="itemlogo" data-id="'+id+'" data-pipe-no="'+pipeno+'"  onclick="deletePipeFromList(this);"><img height="30" width="30"  src="../../image/delete.png" ></div>'+
-      '</div>';
-      return template;
+    function makeTemplate(pipeinfo) {
+        var template = "";
+        stockinList.push(pipeinfo.pipe_no);
+        var odwt = pipeinfo.od + '*' + pipeinfo.wt + 'mm';
+        var totalcount = stockinList.length;
+        $('.totalcount').text(totalcount);
+        var totallength = parseFloat($('.totallength').text());
+        var totalweight = parseFloat($('.totalweight').text());
+        if (pipeinfo.p_length != undefined)
+            totallength += parseFloat(pipeinfo.p_length);
+        $('.totallength').text(totallength.toFixed(2));
+        if (pipeinfo.weight != undefined)
+            totalweight += parseFloat(pipeinfo.weight);
+        $('.totalweight').text(totalweight.toFixed(2));
+        var title = pipeinfo.project_name + ' ' + pipeinfo.external_coating + ' ' + pipeinfo.internal_coating;
+
+        template += '<div  id="' + pipeinfo.pipe_no + '" class="item style1" data-pipe-length=' + pipeinfo.p_length + ' data-pipe-weight=' + pipeinfo.weight + ' data-pipe-id=' + pipeinfo.id + ' data-pipe-no=' + pipeinfo.pipe_no + '>';
+        template += '<div class="itemseq"><span class="sequence">' + stockinList.length + '</span></div>';
+        template += '<div class="itemlogo userlogo"><img height="40" width="40" src="../../image/truck_loading.png" alt=""></div>';
+
+        template += '<div class="itemshelf">' +
+            '<div class="shelfinfo01"><span class="pei pipeno-span">' + pipeinfo.pipe_no + '</span><span class="od-span">' + odwt + '</span></div>' +
+            '<div class="shelfinfo02"><span>' + pipeinfo.p_length + 'm ' + pipeinfo.weight + 't' + '</span></div>' +
+            '<div class="shelfinfo02"><span>' + title + '</span></div>' +
+            '</div>' +
+            '<div class="itemshelf"><span class="status-span i18n1" name="' + pipeinfo.status + '"></span></div>';
+        template += '<div class="itemlogo" data-id="' + pipeinfo.id + '" data-pipe-no=' + pipeinfo.pipe_no + ' onclick="deletePipeFromList(this);"><img height="30" width="30"  src="../../image/delete.png" ></div>';
+        template += '</div>';
+        return template;
+
     }
     //删除模板
-    function deletePipeFromList(obj){
-      var pipe_no = $(obj).attr('data-pipe-no');
-      var id=$(obj).attr('data-id');
-      api.confirm({
-          title: '提示',
-          msg: '确定要移除钢管' + pipe_no + '吗?',
-          buttons: ['确定', '取消']
-      }, function(ret, err) {
-          if (ret.buttonIndex == 1) {
-               g_idArr=g_idArr.replace((id+","),"");
-               $(obj).parent('.pipeinfo-item').remove();
-          }
+    function deletePipeFromList(obj) {
+        var pipe_no = $(obj).attr('data-pipe-no');
+        var id = $(obj).attr('data-id');
+        api.confirm({
+            title: '提示',
+            msg: '确定要移除钢管' + pipe_no + '吗?',
+            buttons: ['确定', '取消']
+        }, function(ret, err) {
+            if (ret.buttonIndex == 1) {
+                g_idArr = g_idArr.replace((id + ","), "");
+                var index = -1;
+                for (var i = 0; i < stockinList.length; i++) {
+                    if (stockinList[i] == pipe_no) {
+                        index = i;
+                        break;
+                    }
+                }
+                if (index != -1) {
+                    var p_length = $("#" + pipe_no).attr('data-pipe-length');
+                    var weight = $("#" + pipe_no).attr('data-pipe-weight');
+                    var totallength = parseFloat($('.totallength').text()) - parseFloat(p_length);
+                    var totalweight = parseFloat($('.totalweight').text()) - parseFloat(weight);
+                    $('.totallength').text(totallength.toFixed(2));
+                    $('.totalweight').text(totalweight.toFixed(2));
+                    stockinList.splice(index, 1);
+                    //删除div
+                    $("#" + pipe_no).remove();
+                    //更新后续序号
+                    for (var j = index; j < stockinList.length; j++) {
+                        var pipeno = stockinList[j];
+                        $("#" + pipeno).find('.sequence').text(j + 1);
+                    }
+                    $('.totalcount').text(stockinList.length);
+                }
+                //$(obj).parent('.item').remove();
+            }
 
-      });
+        });
     }
 </script>
