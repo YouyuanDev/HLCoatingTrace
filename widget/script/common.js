@@ -131,9 +131,10 @@ function unbindPush() {
         userId: api.deviceId
     }, function(ret, err) {
         if (ret.status) {
-            api.alert({
-                msg: '解除绑定成功'
-            });
+            toastSuccess("解除绑定成功");
+            // api.alert({
+            //     msg: '解除绑定成功'
+            // });
         } else {
             api.alert({
                 msg: err.msg
@@ -172,10 +173,11 @@ function leaveAllPushGroup() {
     var push = api.require('push');
     push.leaveAllGroup(function(ret, err) {
         if (ret) {
-            var s = '退出所有组成功';
-            api.alert({
-                msg: s
-            });
+            //var s = '退出所有组成功';
+            toastSuccess("退出所有组成功");
+            // api.alert({
+            //     msg: s
+            // });
             //alert( JSON.stringify( ret) );
         } else {
             alert(JSON.stringify(err));
@@ -432,7 +434,7 @@ function getPicture(sourceType) {
                     ClearLoadingPicture();
                     if (rets) {
                         $('.imgBox').append(pictureTemplate(rets.imgUrl, ret.base64Data));
-                        alert("上传成功!");
+                        toastSuccess("上传成功!");
                     } else {
                         api.alert({
                             msg: JSON.stringify(errs)
@@ -474,7 +476,7 @@ function getPicture(sourceType) {
                     ClearLoadingPicture();
                     if (rets) {
                         $('.imgBox').append(pictureTemplate(rets.imgUrl, ret.base64Data));
-                        alert("上传成功!");
+                        toastSuccess("上传成功!");
                     } else {
                         api.alert({
                             msg: JSON.stringify(errs)
