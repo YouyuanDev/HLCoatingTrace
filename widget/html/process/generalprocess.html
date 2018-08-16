@@ -499,7 +499,6 @@
                     data.push(temp);
                 }
             }
-            //alert(1);
             var defaultValue="";
             if(dataList[0]!=undefined){
               defaultValue=dataList[0];
@@ -556,14 +555,11 @@
     }
 
     function JudgeMaxAndMIn() {
-        //alert($(obj).attr('maxvalue')+":"+$(obj).val());
         $(".dynamic-form-item :input[dynamic='dynamic'],select[dynamic='dynamic']").each(function(i) {
             var $obj = $(this);
             var controltype = $obj.attr("controltype");
             var needverify = $obj.attr("needverify");
             var myname = $obj.attr("myname");
-            //alert("myname="+myname+"needverify="+needverify);
-            //alert("myname value="+$(this).val());
             if (needverify == undefined || needverify != "1") {
                 return;
             }
@@ -572,12 +568,6 @@
 
         });
     }
-
-
-
-
-
-
     //验证数据是否合法
     function validateMaxAndMIn($obj, value, maxVal, minVal) {
         var needverify = $obj.attr('needverify');
@@ -643,11 +633,16 @@
             var needInspectNow = $(this).attr('needInspectNow');
             if (needInspectNow != undefined && needInspectNow == "1") {
                 var name = $(this).parent().siblings('.form-item-lbl').find('.itemname').text();
-                alert($(this).val());
                 if ($(this).val().length <= 0) {
-                    api.alert({
-                        msg: "请输入:" + name
-                    });
+                    if(name!=undefined&&name!=""){
+                      api.alert({
+                          msg: "请输入:" + name
+                      });
+                    }else{
+                      api.alert({
+                          msg: "有必填项未填!"
+                      });
+                    }
                     result = false;
                     return result;
                 }
