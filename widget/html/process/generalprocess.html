@@ -301,7 +301,7 @@
             } else {
                 unitname = "";
             }
-            template += '<label><span>' + itemname + '</span><span>' + unitname + '</span><span>' + minmax + '</span>' + needVerifySpan + '</label>';
+            template += '<label><span class="itemname">' + itemname + '</span><span>' + unitname + '</span><span>' + minmax + '</span>' + needVerifySpan + '</label>';
         }
         template += '</div>';
         //----------添加测量项控件
@@ -324,8 +324,8 @@
 
         if (itemvalue != undefined) {
             defaultvalue = itemvalue;
-        }else{
-            itemvalue=defaultvalue;
+        } else {
+            itemvalue = defaultvalue;
         }
 
 
@@ -379,9 +379,9 @@
                 "\"  style=\"width:80%;height:120px\" >" + defaultvalue + "</textarea>";
         } else if (controltype == "date") { //时间
 
-          if(defaultvalue==undefined||defaultvalue==0){
-              defaultvalue=getNowDate();
-          }
+            if (defaultvalue == undefined || defaultvalue == 0) {
+                defaultvalue = getNowDate();
+            }
             controldiv = '<input class="mob-datetime" myname="' + itemcode + '" name="' + itemcode + '" value="' + defaultvalue + '" max-value="' + maxvalue + '" min-value="' + minvalue +
                 '" type="text" dynamic="dynamic"/>';
         }
@@ -499,11 +499,19 @@
                     data.push(temp);
                 }
             }
+            //alert(1);
+            var defaultValue="";
+            if(dataList[0]!=undefined){
+              defaultValue=dataList[0];
+            }
             $(this).mobiscroll().select({
                 data: data,
                 label: 'Name',
                 theme: 'auto',
                 lang: 'zh',
+                onInit: function(event, inst) {
+                    inst.setVal(defaultValue);
+                },
                 onSet: function(event, inst) {
                     var selectedVal = inst.getVal();
                     validateMaxAndMIn($(this), selectedVal, $(this).attr('max-value'), $(this).attr('min-value'));
@@ -635,6 +643,7 @@
             var needInspectNow = $(this).attr('needInspectNow');
             if (needInspectNow != undefined && needInspectNow == "1") {
                 var name = $(this).parent().siblings('.form-item-lbl').find('.itemname').text();
+                alert($(this).val());
                 if ($(this).val().length <= 0) {
                     api.alert({
                         msg: "请输入:" + name
