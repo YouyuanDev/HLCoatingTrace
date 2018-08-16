@@ -479,6 +479,7 @@
         $('.mob-singleselect').each(function() {
             var data = [];
             var dataListStr = $(this).attr('options');
+            var selectedVal=$(this).attr('value');
             var dataList = [];
             if (dataListStr != undefined) {
                 dataList = dataListStr.split(';');
@@ -493,8 +494,12 @@
                 }
             }
             var defaultValue="";
-            if(dataList[0]!=undefined){
-              defaultValue=dataList[0];
+            if(selectedVal!=undefined&&selectedVal!=""){
+              defaultValue=selectedVal;
+            }else{
+              if(dataList[0]!=undefined){
+                defaultValue=dataList[0];
+              }
             }
             $(this).mobiscroll().select({
                 data: data,
@@ -514,6 +519,7 @@
         $('.mob-multipleselect').each(function() {
             var data = [];
             var dataListStr = $(this).attr('options');
+            var selectedVal=$(this).attr('value');
             var dataList = [];
             if (dataListStr != undefined) {
                 dataList = dataListStr.split(';');
@@ -527,12 +533,19 @@
                     data.push(temp);
                 }
             }
+            var defaultValue="";
+            if(selectedVal!=undefined&&selectedVal!=""){
+              defaultValue=selectedVal;
+            }
             $(this).mobiscroll().select({
                 data: data,
                 label: 'Name',
                 theme: 'auto',
                 lang: 'zh',
-                select: 'multiple'
+                select: 'multiple',
+                onInit: function(event, inst) {
+                    inst.setVal(defaultValue);
+                },
             });
         });
         //多值文本设置
