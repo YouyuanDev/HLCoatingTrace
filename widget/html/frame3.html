@@ -590,9 +590,7 @@
                     });
                 }
             } else {
-                api.alert({
-                    msg: JSON.stringify(err)
-                });
+                toastFail(err.msg);
             }
             ClearLoadingPicture();
         });

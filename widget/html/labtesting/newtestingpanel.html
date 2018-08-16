@@ -151,7 +151,6 @@
 <script type="text/javascript">
     var g_project_no;
     apiready = function() {
-        //  alert($('#ceshi').text());
         var data = api.pageParam;
         g_project_no = data.project_no;
     }
@@ -192,7 +191,6 @@
             }
         }, function(ret, err) {
             if (ret) {
-
                 if(ret.success){
                   var pipeno= ret.record.pipe_no;
                   //根据管子的状态进入到不同的工序
@@ -206,13 +204,8 @@
                   });
                   closePanel();
                 }else{
-                  api.alert({
-                      msg: ret.message
-                  });
+                  toastFail(ret.message);
                 }
-
-
-
             }
         });
 

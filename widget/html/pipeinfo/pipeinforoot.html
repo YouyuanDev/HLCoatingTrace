@@ -119,32 +119,11 @@
         }, function(ret, err) {
             pipeno = ret.value.pipe_no;
             $('.nav-pipeno').text(pipeno);
-            //alert(JSON.stringify(ret.value));
             ShowPipeInfoFrame(pipeno);
-            //  api.closeWin();
         });
-        //接收frame回调
-        // api.addEventListener({
-        //     name: 'showNextProcessOptions'
-        // }, function(ret, err) {
-        //      urloptions=ret.value.urloptions;
-        //      //alert(JSON.stringify(ret.value));
-        //      showNextProcessOptions();
-        //
-        // });
-
         ShowPipeInfoFrame(pipeno);
-
         hlLanguage("../../i18n/");
-
-
-
     }
-
-
-
-
-
     function ShowPipeInfoFrame(pipeno) {
         //计算Header和footer高度
         var nav = $api.byId('header');
@@ -196,11 +175,6 @@
         var urlparam = $(obj).attr('urlparam');
 
         var nextURL = '../' + url + '.html';
-        // var status_name=$(".pipeinfo-table .status_name").text();
-        // var od=$(".pipeinfo-table .od").text();
-        // var wt=$(".pipeinfo-table .wt").text();
-        // alert(status_name+":"+od+":"+wt);
-        //alert("nextURL="+nextURL);
         api.openWin({
             name: url,
             url: nextURL,

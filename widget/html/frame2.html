@@ -220,7 +220,6 @@
 
     //APP根据项目编号获取发运信息
     function getShipmentInfoByProjectNo(project_no, start) {
-        //alert(project_no);
         var s = 'http://' + serverIP + '/ShipmentOperation/getAllShipmentInfoByProjectNo.action';
         api.ajax({
             url: s,
@@ -245,9 +244,7 @@
                     hlLanguage("../i18n/");
                 }
             } else {
-                api.alert({
-                    msg: JSON.stringify(err)
-                });
+                toastFail(err.msg);
             }
         });
     }

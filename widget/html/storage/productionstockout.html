@@ -85,9 +85,7 @@
     //得到外防接收标准失败
     function GetAllProcessInfoByPipeNoFail(message) {
         ClearLoadingPicture();
-        api.alert({
-            msg: message
-        });
+        toastFail(message);
         closeWindow();
     }
 
@@ -112,18 +110,14 @@
                               hlparam: idArr
                           }
                       }
-                  }, function(ret, err) { //alert(ret);
+                  }, function(ret, err) {
                       if (ret) {
-                          api.alert({
-                              msg: ret.message
-                          });
+                          toastSuccess(message);
                           if (ret.success) {
                               closeWindow();
                           }
                       } else {
-                          api.alert({
-                              msg: JSON.stringify(err)
-                          });
+                            toastFail(err.msg);
                       }
                   });
               }

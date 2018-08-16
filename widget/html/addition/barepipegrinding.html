@@ -172,7 +172,6 @@
         g_employeeno = data.employeeno;
         g_millno = data.millno;
         if (data.pipeinfo.status != "onhold") {
-            //alert("status not right");
             closeWindow();
         }
 
@@ -185,12 +184,7 @@
         $('input[name="original_pipe_length"]').val(data.pipeinfo.p_length);
         setControls();
         setSelectPictures();
-        //alert(JSON.stringify(data));
         getPendingRecordInfo("BarePipeGrindingOperation", g_pipeno);
-
-        // api.alert({
-        //     msg: JSON.stringify(ODacceptCriteriaMap)
-        // });
     }
     //得到外防接收标准失败
     function GetAllProcessInfoByPipeNoFail(message) {

@@ -221,7 +221,7 @@
                   });
                   api.closeWin();
               } else {
-                  api.alert('修改失败!');
+                  toastFail('修改失败!');
               }
             }else{
                   if(result==1){
@@ -237,89 +237,6 @@
 
         });
         hlLanguage("../../i18n/");
-
-
-        //年龄修改
-        // $('#user-age').click(function() {
-        //     var jsonArr = [];
-        //     var beginTimeYear = new Date('1940-01-01').getFullYear();
-        //     var endTimeYear = new Date().getFullYear();
-        //     var nowAgeOfYear = endTimeYear - $(this).text();
-        //     var indexArr = [];
-        //     var item;
-        //     var index = 0;
-        //     var flag = true;
-        //     for (var i = beginTimeYear; i < endTimeYear; i++) {
-        //         item = {
-        //             "name": i
-        //         };
-        //         jsonArr.push(item);
-        //         if (i != nowAgeOfYear && flag) {
-        //             index++;
-        //         } else {
-        //             flag = false;
-        //         }
-        //     }
-        //     indexArr[0] = index;
-        //     UIActionSelector.open({
-        //         datas: jsonArr,
-        //         layout: {
-        //             row: 5,
-        //             col: 1,
-        //             height: 30,
-        //             size: 12,
-        //             sizeActive: 14,
-        //             rowSpacing: 5,
-        //             colSpacing: 10,
-        //             maskBg: 'rgba(0,0,0,0.2)',
-        //             bg: '#fff',
-        //             color: '#888',
-        //             colorActive: '#f00',
-        //             colorSelected: '#f00'
-        //         },
-        //         animation: true,
-        //         cancel: {
-        //             text: '取消',
-        //             size: 12,
-        //             w: 90,
-        //             h: 35,
-        //             bg: '#fff',
-        //             bgActive: '#ccc',
-        //             color: '#888',
-        //             colorActive: '#fff'
-        //         },
-        //         ok: {
-        //             text: '确定',
-        //             size: 12,
-        //             w: 90,
-        //             h: 35,
-        //             bg: '#fff',
-        //             bgActive: '#ccc',
-        //             color: '#888',
-        //             colorActive: '#fff'
-        //         },
-        //         title: {
-        //             text: '请选择',
-        //             size: 12,
-        //             h: 44,
-        //             bg: '#eee',
-        //             color: '#888'
-        //         },
-        //         actives: indexArr,
-        //         fixedOn: api.frameName
-        //     }, function(ret, err) {
-        //         if (ret) {
-        //             if (ret.eventType == 'ok') {
-        //                 var year = ret.level1;
-        //                 $('#user-age').text(endTimeYear - year);
-        //             }
-        //         } else {
-        //             alert('系统繁忙');
-        //         }
-        //         UIActionSelector.hide();
-        //     });
-        // });
-       //
     };
 
     function getParamName() {

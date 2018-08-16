@@ -216,9 +216,6 @@
         }
 
         $('.nav-pipeno').attr('name', g_processcode);
-        //alert(g_pipeno+":"+g_processcode);
-        // g_pipeno = '1544530';
-        // g_processcode = "od_blast";
         fnSettingHeader();
         language = getCookie("userLanguage");
         hlLanguage("../../i18n/");
@@ -247,10 +244,7 @@
     //得到表单及数据失败
     function GetAllProcessInfoByPipeNoFail(message) {
         ClearLoadingPicture();
-        api.alert({
-            msg: message
-        });
-
+        toastFail(message);
         closeWindow(g_processcode);
     }
 
@@ -374,7 +368,6 @@
             }
 
         } else if (controltype == "textarea") { //多行文本
-            //alert(defaultvalue);
             controldiv = "<textarea controltype=\"" + controltype + "\" id=\"" + itemcode + "\" dynamic=\"dynamic\"   type=\"text\" value=\"" + defaultvalue + "\" myname=\"" + itemcode + "\" name=\"" + itemcode +
                 "\"  style=\"width:80%;height:120px\" >" + defaultvalue + "</textarea>";
         } else if (controltype == "date") { //时间
@@ -609,7 +602,6 @@
         var result_name = "",
             result = "";
         if (g_result_input_output != undefined) {
-            //alert(JSON.stringify(g_result_input_output));
             for (var i = 0; i < g_result_input_output.length; i++) {
                 if (g_result_input_output[i].process_code == process_code) {
                     for (var j = 0; j < g_result_input_output[i].output.length; j++) {
@@ -662,6 +654,10 @@
 
             if (ret.buttonIndex == 1 && newInitFormNumber()) {
                 var s = 'http://' + serverIP + '/InspectionProcessOperation/saveProcess.action';
+                var remark=$('#remark').val();
+                if(remark=="INIT"){
+                  remark="";
+                }
                 var imgUrl = "";
                 $('.imgBox  .temp-container img').each(function() {
                     var temp = $(this).attr("data-url");
@@ -679,14 +675,6 @@
                         }
                     }
                 });
-                // arr["id"] = $('.id').val();
-                // arr["pipe_no"] = g_pipeno;
-                // arr["mill_no"] = g_millno;
-                // arr["operator_no"] = g_employeeno;
-                // arr["result"] = $('#result').val();
-                // arr["remark"] = $('#remark').val();
-                // arr["upload_files"] = imgUrl;
-
                 var outputparam = {};
                 var inputstatus = "";
                 for (var i = 0; i < g_result_input_output.length; i++) {
@@ -697,16 +685,6 @@
                         break;
                     }
                 }
-                // var arr={};
-                // arr["dynamicJson"] = JSON.stringify(dynamicArr);
-                // arr["outputJson"] = JSON.stringify(outputparam);
-                // arr["inputStatusList"] = inputstatus;
-                // alert(JSON.stringify(dynamicArr));
-                // alert(JSON.stringify(inputstatus));
-                // return;
-
-                //alert(imgUrl);
-                //alert($('.pipeinfo-table .inspection_process_record_header_code').text());
                 api.ajax({
                     url: s,
                     method: 'post',
@@ -720,7 +698,7 @@
                             operator_no: g_employeeno,
                             result: $('#result').val(),
                             upload_files: imgUrl,
-                            remark: $('#remark').val(),
+                            remark: remark,
                             dynamicJson: JSON.stringify(dynamicArr),
                             outputJson: JSON.stringify(outputparam),
                             inputStatusList: inputstatus,
@@ -728,18 +706,14 @@
                             inspection_process_record_header_code: $('.pipeinfo-table .inspection_process_record_header_code').text()
                         }
                     }
-                }, function(ret, err) { //alert(ret);
+                }, function(ret, err) {
                     if (ret) {
-                        api.alert({
-                            msg: ret.message
-                        });
+                        toastSuccess(ret.message);
                         if (ret.success) {
                             closeWindow(g_processcode);
                         }
                     } else {
-                        api.alert({
-                            msg: JSON.stringify(err)
-                        });
+                        toastFail(err.msg);
                     }
                 });
             }
@@ -781,7 +755,8 @@
                         $('.imgBox').append(pictureTemplate(imgArr[i], s + imgArr[i]));
                 }
             }
-            $('#remark').val(header.remark);
+            if(header.remark!=undefined&&header.remark!="INIT")
+              $('#remark').val(header.remark);
         }
     }
 

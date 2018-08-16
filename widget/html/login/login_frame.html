@@ -210,7 +210,6 @@
     function setMillName(millno, millname) {
         $('.location-span').text(millname);
         $('#mill_no').val(millno);
-        //alert($('#mill_no').val());
     }
 
     function fnLogin() {
@@ -265,21 +264,11 @@
                 var map = api.require('bMap');
                 map.close();
                 toastSuccess(ret.msg);
-                // api.alert({
-                //     msg: JSON.stringify(ret.msg)
-                // });
-
                 api.sendEvent({
                     name: 'reloadUserInfo'
                 });
                 api.closeWin();
-
-                // api.openWin({
-                //     name: 'index',
-                //     url: '../index.html'
-                // });
             } else {
-                // alert("用户名或密码错误!");
                 api.alert({
                     msg: JSON.stringify(ret.msg)
                 });
@@ -295,7 +284,7 @@
                 if (ret.status) {
                     openbMap();
                 } else {
-                    alert('地图初始化失败，无法使用定位！');
+                    toastFail('地图初始化失败，无法使用定位！');
                 }
             });
         } else {
@@ -306,7 +295,6 @@
     //地图初始化成功后调用，
     function openbMap() {
         var map = api.require('bMap');
-        //alert('地图初始化成功，可以从百度地图服务器检索信息了！');
         map.open({
             rect: {
                 x: 0,
@@ -325,7 +313,6 @@
             fixed: true
         }, function(ret) {
             if (ret.status) {
-                //alert('地图打开成功');
                 setTimeout(function() {
                     map.showUserLocation({
                         isShow: true,
@@ -337,7 +324,6 @@
                     //延迟执行
                     map.getLocationServices(function(ret, err) {
                         if (ret.enable) {
-                            //alert(JSON.stringify(ret));
                             map.getLocation({
                                 accuracy: '10m',
                                 autoStop: false,
@@ -345,22 +331,21 @@
                             }, function(ret, err) {
                                 if (ret.status) {
                                     map.stopLocation();
-                                    //alert(JSON.stringify(ret));
                                     //自动开启
                                     setMillLocation();
                                 } else {
-                                    alert(err.code);
+                                    toastFail(err.msg);
                                 }
                             });
                         } else {
-                            alert("未开启定位功能！");
+                            toastFail("未开启定位功能！");
                         }
                     });
                 }, 200);
                 /////////
 
             } else {
-                alert('地图打开失败，无法使用定位！');
+                toastFail('地图打开失败，无法使用定位！');
             }
         });
 
@@ -391,13 +376,9 @@
                 map.stopLocation();
                 my_lon = ret.lon;
                 my_lat = ret.lat;
-                //alert("mylon=" + my_lon + "my_lat=" + my_lat);
                 GetClosestMill(my_lon, my_lat);
-                //alert(JSON.stringify(ret));
             } else {
-                //ClearLoadingPicture();
-                alert(err.code);
-
+                toastFail(err.msg);
             }
         });
     }
@@ -420,11 +401,8 @@
                     mills = ret.millinfo;
                 }
             } else {
-                api.alert({
-                    msg: JSON.stringify(err)
-                });
+                toastFail(err.msg);
             }
-
         });
 
     }
@@ -437,7 +415,6 @@
             var coords = coordinate.split(',');
             var mill_lon = coords[0];
             var mill_lat = coords[1];
-            //alert("mill" + i + " mill_lon=" + mill_lon);
             getDistance(mill_lon, mill_lat, my_lon, my_lat);
             setTimeout(function() {;
             }, 500);
@@ -460,18 +437,15 @@
             //ClearLoadingPicture();
             if (ret.status) {
                 distanceArray.push(ret.distance);
-                //alert(" distance=" + ret.distance);
             } else {
-                alert("错误" + ret);
+                toastFail(ret);
             }
-
         });
     }
 
     //取最近的mill作为分厂信息
     function SetClosestMill() {
         if (mills.length == distanceArray.length && mills.length != 0) {
-            //alert("齐了");
             var min_index = -1;
             var min_dis = -1;
             for (var i = 0; i < distanceArray.length; i++) {
@@ -480,7 +454,6 @@
                     min_dis = distanceArray[i];
                 }
             }
-            //alert("最近分厂="+mills[min_index].mill_name);
             setMillName(mills[min_index].mill_no, mills[min_index].mill_name);
             distanceArray.length = 0;
             if (timer != -1)

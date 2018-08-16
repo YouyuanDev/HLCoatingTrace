@@ -311,13 +311,11 @@
                 name: 'resume'
             }, function(ret, err) {
                 FNScanner.onResume();
-                //alert('应用回到前台');
             });
             api.addEventListener({
                 name: 'pause'
             }, function(ret, err) {
                 FNScanner.onPause();
-                //alert('应用进入后台');
             });
             fnSettingHeader();
             hlLanguage("../../i18n/");
@@ -342,9 +340,7 @@
     //得到外防接收标准失败
     function GetAllProcessInfoByPipeNoFail(message) {
         ClearLoadingPicture();
-        api.alert({
-            msg: message
-        });
+        toastFail(message);
         closeWindow();
     }
     //继续添加
@@ -397,18 +393,14 @@
                             level_sequence: level_sequence
                         }
                     }
-                }, function(ret, err) { //alert(ret);
+                }, function(ret, err) {
                     if (ret) {
-                        api.alert({
-                            msg: ret.message
-                        });
+                        toastSuccess(ret.message);
                         if (ret.success) {
                             closeWindow();
                         }
                     } else {
-                        api.alert({
-                            msg: JSON.stringify(err)
-                        });
+                        toastFail(err.msg);
                     }
                 });
             }
@@ -439,9 +431,7 @@
                     });
                 }
             } else {
-                api.alert({
-                    msg: JSON.stringify(err)
-                });
+                toastFail(err.msg);
             }
 
         });
@@ -471,9 +461,7 @@
                     toastFail(ret.message);
                 }
             } else {
-                api.alert({
-                    msg: JSON.stringify(err)
-                });
+              toastFail(err.msg);
             }
 
         });

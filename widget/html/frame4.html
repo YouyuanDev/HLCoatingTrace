@@ -318,7 +318,6 @@
             textUp: '松开刷新...'
         }, function(ret, err) {
             //在这里从服务器加载数据,加载完成后调用api.refreshHeaderLoadDone()方法恢复组件到默认状态
-            //alert('执行下拉');
 
             loadUserInfo();
 
@@ -366,9 +365,6 @@
                         url: './frame4.html'
                     });
                     toastSuccess(ret.msg);
-                    // api.alert({
-                    //     msg: JSON.stringify(ret.msg)
-                    // });
                         //退出登录
                         //解除所有的组
                         leaveAllPushGroup();
@@ -380,14 +376,10 @@
                         }
                         loadUserInfo();
                 } else {
-                    //alert("err");
-                    api.alert({
-                        msg: JSON.stringify(err)
-                    });
+                  toastFail(err.msg);
                 }
 
             });
-            //alert("这里没有调用后台logout，需要修改");
 
         });
     }
@@ -416,7 +408,7 @@
                     break;
             }
         } else {
-            api.alert('修改失败!');
+            toastFail('修改失败!');
             return;
         }
         // var operator_no=$('#userno').text();
@@ -442,14 +434,9 @@
             }
         }, function(ret, err) {
             if (ret) {
-                api.alert({
-                    msg: JSON.stringify(ret.message)
-                });
+                toastSuccess(ret.message);
             } else {
-                //alert("err");
-                api.alert({
-                    msg: JSON.stringify(err)
-                });
+                toastFail(err.msg);
             }
 
         });

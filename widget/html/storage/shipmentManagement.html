@@ -232,17 +232,12 @@
                 name: 'resume'
             }, function(ret, err) {
                 FNScanner.onResume();
-                //alert('应用回到前台');
             });
             api.addEventListener({
                 name: 'pause'
             }, function(ret, err) {
                 FNScanner.onPause();
-                //alert('应用进入后台');
             });
-
-
-
             //二维码点击事件
             $('.scan-container').click(function() {
                 FNScanner.open({
@@ -252,13 +247,11 @@
                     if (ret) {
                         //扫出来结果
                         if (ret.eventType == 'success') {
-                            //alert(ret.content);
                             //设置搜索框为读到的二维码数据
                             var UIInput = api.require('UIInput');
                             UIInput.value({
                                 msg: ret.content
                             });
-                            //alert(ret.content);
                             addPipeToShipment(ret.content);
                             FNScanner.closeView();
                         }
@@ -269,7 +262,6 @@
 
             if (g_shipment_no != undefined) {
                 //开始拉数据
-                //alert(g_shipment_no);
                 loadShipmentInfo(g_shipment_no);
                 $('.form-process-button').hide();
                 $('.scan-container').hide();
@@ -280,23 +272,6 @@
 
 
         }
-        //得到钢管数据汇总成功
-        // function GetAllProcessInfoByPipeNoOK(data) {
-        //     ClearLoadingPicture();
-        //     g_employeeno = data.employeeno;
-        //     g_millno = data.millno;
-        //     $('.id').val(data.pipeinfo.id);
-        //     initPipeBasicHeader(data.pipeinfo, data.millno);
-        // }
-        // //得到外防接收标准失败
-        // function GetAllProcessInfoByPipeNoFail(message) {
-        //     ClearLoadingPicture();
-        //     api.alert({
-        //         msg: message
-        //     });
-        //     closeWindow();
-        // }
-
     //将钢管加入出库单
     function addPipeToShipment(pipeno) {
         //判断该钢管能否出库
@@ -317,9 +292,7 @@
                     });
                 }
             } else {
-                api.alert({
-                    msg: JSON.stringify(err)
-                });
+                toastFail(err.msg);
             }
 
         });
@@ -338,9 +311,7 @@
             if (ret) {
 
             } else {
-                api.alert({
-                    msg: JSON.stringify(err)
-                });
+                toastFail(err.msg);
             }
             api.sendEvent({
                 name: 'RequireAddPipeToShipmentCallbackEvent',
@@ -506,18 +477,14 @@
                             vehicle_plate_no: $('.vehicle_plate_no').val()
                         }
                     }
-                }, function(ret, err) { //alert(ret);
+                }, function(ret, err) { 
                     if (ret) {
-                        api.alert({
-                            msg: ret.message
-                        });
+                        toastSuccess(ret.message);
                         if (ret.success) {
                             closeWindow('shipment');
                         }
                     } else {
-                        api.alert({
-                            msg: JSON.stringify(err)
-                        });
+                      toastFail(err.msg);
                     }
                 });
             }

@@ -163,25 +163,18 @@
                 }
             }
         }, function(ret, err) {
-            //alert(ret);
             api.hideProgress();
             if (ret) {
                 if (ret.success == false) {
-                    api.alert({
-                        msg: JSON.stringify(ret.message)
-                    });
+                    toastFail(ret.message);
                 } else {
-                    // var picturefiles = JSON.stringify(ret);
                     if (!reload)
                         showPictures(ret);
                     else
                         reloadPictures(ret);
                 }
             } else {
-                //alert("err");
-                // api.alert({
-                //     msg: JSON.stringify(err)
-                // });
+              toastFail(err.msg);
             }
 
         });
@@ -192,7 +185,6 @@
 
     function reloadPictures(picturefiles) {
         var datalist = [];
-        //alert("picturefiles.length="+picturefiles.length);
 
         for (var i = 0; i < picturefiles.length; i++) {
             var pic = picturefiles[i];
@@ -208,7 +200,6 @@
     //显示照片
     function showPictures(picturefiles) {
         var datalist = [];
-        //alert("picturefiles.length="+picturefiles.length);
 
         for (var i = 0; i < picturefiles.length; i++) {
             var pic = picturefiles[i];
@@ -255,7 +246,7 @@
         }, function(ret, err) {
             if (ret) {
                 if (ret.eventType == 'click') {
-                    alert(ret.index);
+                    //点击图片事件
                 }
             }
         });
@@ -307,7 +298,6 @@
     // 搜索钢管信息
     function doSearchPipeInfo(pipeno, parm_start, append) {
         //搜索管子
-        //alert("doSearchPipeInfo="+pipeno);
         start = parm_start;
         keyword_pipeno = pipeno;
         //pipeno='1545470';
@@ -328,7 +318,6 @@
         //     sync: true,
         //     key: 'process_code_pref'
         // });
-        //alert(project_no+":"+mill_no+":"+process_code);
         var s = 'http://' + serverIP + '/pipeinfo/searchPipe.action';
         api.ajax({
             url: s,
@@ -338,9 +327,6 @@
             data: {
                 values: {
                     pipe_no: keyword_pipeno,
-                    // project_no:project_no,
-                    // mill_no:mill_no,
-                    // process_code:process_code,
                     page: start,
                     rows: 20
                 }
@@ -349,11 +335,8 @@
             api.hideProgress();
             if (ret) {
                 if (ret.success == false) {
-                    api.alert({
-                        msg: JSON.stringify(ret.message)
-                    });
+                    toastFail(ret.message);
                 } else {
-                    //alert(JSON.stringify(ret.rows));
                     funcShowPipeResultList(ret.rows, append);
                     api.refreshHeaderLoadDone();
                     hlLanguage("../i18n/");
@@ -364,9 +347,7 @@
                     // });
                 }
             } else {
-                // api.alert({
-                //     msg: JSON.stringify(err)
-                // });
+                toastFail(err.msg);
             }
 
         });
@@ -377,9 +358,6 @@
 
     //打开钢管的涂层生产信息页面pipeinforoot
     function goPipeInfoRoot(pipe_no) {
-        // api.alert({
-        //     msg: JSON.stringify(urloptions)
-        // });
         api.openWin({
             name: 'pipeinforoot',
             url: './pipeinfo/pipeinforoot.html',
@@ -400,7 +378,6 @@
             textUp: '松开刷新...'
         }, function(ret, err) {
             //在这里从服务器加载数据,加载完成后调用api.refreshHeaderLoadDone()方法恢复组件到默认状态
-            //alert('执行下拉');
             broadcastPictures(true);
             doSearchPipeInfo(keyword_pipeno, 1, false);
 
@@ -419,7 +396,6 @@
                 threshold: 0 //设置距离底部多少距离时触发,默认值为0,数字类型
             }
         }, function(ret, err) {
-            //alert('已滚动到底部');//开始分页加载数据
             start = start + 1;
             doSearchPipeInfo(keyword_pipeno, start, true);
 

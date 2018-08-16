@@ -254,12 +254,6 @@
                 return;
             }
         }
-        // $(function(){
-        //   $(document).on('click','.upload-pictures',function(){
-        //       alert(4);
-        //       setBrowsePicutre(this);
-        //   });
-        // });
         //查看图片事件
     function setBrowsePicutre(obj) {
         var picturelistStr = $(obj).attr('data-list');
@@ -278,16 +272,15 @@
                     imageUrls: picturelistArr
                 });
             } else {
-                alert("暂无图片!");
+                toastFail("暂无图片!");
             }
         } else {
-            alert("暂无图片!");
+            toastFail("暂无图片!");
         }
     }
 
     // 查询钢管详细信息
     function SearchpipeInfo() {
-        //alert(pipeno);
         var s = 'http://' + serverIP + '/APPRequestTransfer/getCoatingInfoByPipeNo.action';
         api.ajax({
             url: s,
@@ -299,14 +292,11 @@
                     pipe_no: pipeno
                 }
             }
-        }, function(ret, err) { //alert(ret);
+        }, function(ret, err) {
             api.hideProgress();
             if (ret) {
                 if (ret.success == false) {
                    toastFail(ret.message);
-                    // api.alert({
-                    //     msg: JSON.stringify(ret.message)
-                    // });
                 } else {
                     pipeinfo = ret.pipeinfo;
                     urloptions = ret.urloptions;
@@ -319,7 +309,6 @@
                     //         urloptions: urloptions
                     //     }
                     // });
-                    //alert("showNextProcessOptions="+JSON.stringify(ret.urloptions));
                     var jsfun = 'showNextProcessOptions(' + JSON.stringify(ret.urloptions) + ');';
                     api.execScript({
                         name: 'pipeinforoot',
@@ -332,10 +321,7 @@
                     hlLanguage("../../i18n/");
                 }
             } else {
-                //alert("err");
-                api.alert({
-                    msg: JSON.stringify(err)
-                });
+                toastFail(err.msg);
             }
         });
     }
@@ -349,10 +335,7 @@
             textDown: '下拉刷新...',
             textUp: '松开刷新...'
         }, function(ret, err) {
-            // alert(2);
-            //在这里从服务器加载数据,加载完成后调用api.refreshHeaderLoadDone()方法恢复组件到默认状态
             //重新刷新
-            //alert("kaishi shuaxin");
             $('#qrcodeCanvas').empty();
             SearchpipeInfo();
             setTimeout(function() {
@@ -411,7 +394,7 @@
                     pipe_no: pipeno
                 }
             }
-        }, function(ret, err) { //alert(ret);
+        }, function(ret, err) { 
             //api.hideProgress();
             if (ret) {
                 var data = ret;
@@ -427,20 +410,13 @@
                     }
                 }
                 if (!flag) {
-                    api.alert({
-                        title: '提示',
-                        msg: '暂无更多内容',
-                    }, function(ret, err) {
-
-                    });
+                    toastSuccess('暂无更多内容');
                 } else {
                     $('.loadmore-div').remove();
                 }
                 hlLanguage("../../i18n/");
             } else {
-                api.alert({
-                    msg: JSON.stringify(err)
-                });
+                toastFail(err.msg);
             }
         });
 
@@ -470,7 +446,6 @@
     //         template += '</tr>';
     //     }
     //     template += '</table><br>';
-    //     //alert(template);
     //     return template;
     // }
 

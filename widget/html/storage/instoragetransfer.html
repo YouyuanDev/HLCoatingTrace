@@ -205,18 +205,14 @@
                             level_sequence: level_sequence
                         }
                     }
-                }, function(ret, err) { //alert(ret);
+                }, function(ret, err) {
                     if (ret) {
-                        api.alert({
-                            msg: ret.message
-                        });
+                        toastSuccess(ret.message);
                         if (ret.success) {
                             closeWindow();
                         }
                     } else {
-                        api.alert({
-                            msg: JSON.stringify(err)
-                        });
+                        toastFail(err.msg);
                     }
                 });
             }

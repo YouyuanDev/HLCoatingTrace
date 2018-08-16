@@ -32,9 +32,10 @@
             z-index: 1002;
             background-color: #fff;
         }
-        .search-condition{
-          width:100%;
-          height:auto;
+
+        .search-condition {
+            width: 100%;
+            height: auto;
         }
 
         .float-btn-container {
@@ -44,6 +45,7 @@
             padding-bottom: 5px;
             background-color: #F7F7F7;
         }
+
         .close-float {
             position: absolute;
             top: 30px;
@@ -128,7 +130,6 @@
             // var winHeight=api.winHeight;
             // var disH=winHeight-h;
             // $('.search-data').css({'max-height':disH+'px'});
-            // alert(disH);
             //先判断本地是否存在
             var projectNoListPref = api.getPrefs({
                 sync: true,
@@ -168,36 +169,36 @@
             setControls();
         }
         //下拉刷新更新图片及钢管搜索列表
-        function dropdownLoading() {
-            api.setRefreshHeaderInfo({
-                loadingImg: 'widget://image/loading_more.png',
-                bgColor: '#ccc',
-                textColor: '#fff',
-                textDown: '下拉刷新...',
-                textUp: '松开刷新...'
-            }, function(ret, err) {
-                searchInspectionRecord(1,false);
-                setTimeout(function() {
-                    //执行刷新
-                    api.refreshHeaderLoadDone();
-                    hlLanguage("../i18n/");
-                }, 50);
-            });
-        }
-        function isRollingToEnd() {
-            api.addEventListener({
-                name: 'scrolltobottom',
-                extra: {
-                    threshold: 0 //设置距离底部多少距离时触发,默认值为0,数字类型
-                }
-            }, function(ret, err) {
-                //alert('已滚动到底部');//开始分页加载数据
-                start = start + 1;
-                searchInspectionRecord(start, true);
-            });
-        }
-        //
-        //获取项目编号集合成功
+    function dropdownLoading() {
+        api.setRefreshHeaderInfo({
+            loadingImg: 'widget://image/loading_more.png',
+            bgColor: '#ccc',
+            textColor: '#fff',
+            textDown: '下拉刷新...',
+            textUp: '松开刷新...'
+        }, function(ret, err) {
+            searchInspectionRecord(1, false);
+            setTimeout(function() {
+                //执行刷新
+                api.refreshHeaderLoadDone();
+                hlLanguage("../i18n/");
+            }, 50);
+        });
+    }
+
+    function isRollingToEnd() {
+        api.addEventListener({
+            name: 'scrolltobottom',
+            extra: {
+                threshold: 0 //设置距离底部多少距离时触发,默认值为0,数字类型
+            }
+        }, function(ret, err) {
+            start = start + 1;
+            searchInspectionRecord(start, true);
+        });
+    }
+    //
+    //获取项目编号集合成功
     function RequireProjectNoOK(data) {
         addInfoToProjectSelect(data);
         ClearLoadingPicture();
@@ -257,9 +258,7 @@
                     addInfoToMillSelect(data);
                 }
             } else {
-                api.alert({
-                    msg: JSON.stringify(err)
-                });
+                toastFail(err.msg);
             }
             ClearLoadingPicture();
         });
@@ -271,7 +270,6 @@
             if (typeof data === 'string') {
                 data = JSON.parse(data);
             }
-            //var data=ret;alert(toString.call(data));
             for (var i = 0; i < data.length; i++) {
                 $('#millInfoSelect').append('<option value=' + data[i].mill_no + '>' + data[i].mill_name + '</option>');
             }
@@ -304,10 +302,7 @@
                 });
                 addInfoToProcessSelect(ret);
             } else {
-                api.alert({
-                    msg: JSON.stringify(err)
-                });
-
+                toastFail(err.msg);
             }
             ClearLoadingPicture();
         });
@@ -347,7 +342,7 @@
         });
     }
 
-    function searchInspectionRecord(start,append) {
+    function searchInspectionRecord(start, append) {
         var project_no = $('#projectInfoSelect').val();
         var mill_no = $('#millInfoSelect').val();
         var process_code = $('#processSelect').val();
@@ -363,9 +358,9 @@
             dataType: 'json',
             data: {
                 values: {
-                    project_no:project_no,
-                    mill_no:mill_no,
-                    process_code:process_code,
+                    project_no: project_no,
+                    mill_no: mill_no,
+                    process_code: process_code,
                     page: start,
                     rows: 20
                 }
@@ -374,9 +369,7 @@
             api.hideProgress();
             if (ret) {
                 if (ret.success == false) {
-                    api.alert({
-                        msg: JSON.stringify(ret.message)
-                    });
+                    toastFail(ret.message);
                 } else {
                     funcShowPipeResultList(ret.rows, append);
                     hlLanguage("../i18n/");
