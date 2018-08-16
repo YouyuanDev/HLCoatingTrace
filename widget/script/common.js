@@ -1,5 +1,5 @@
 var header, headerHeight = 0;
-var serverIP = 'www.topinspector.cn:8080';
+var serverIP = '192.168.0.10:8080';
 
 function fnSettingHeader() {
 
@@ -49,7 +49,6 @@ function JudgeLogin() {
 }
 
 function formatterdate(value, row, index) {
-    //alert(toString.call(value));
     if (value != undefined && value != null)
         return getDateOnly(value);
     else
@@ -116,7 +115,7 @@ function bindPush() {
         userName: api.deviceId,
         userId: api.deviceId
     }, function(ret, err) {
-        //alert(JSON.stringify( ret));
+
         if (ret.status == true) {
             //alert(api.deviceId+"bind成功");
         } else {}
@@ -132,13 +131,9 @@ function unbindPush() {
     }, function(ret, err) {
         if (ret.status) {
             toastSuccess("解除绑定成功");
-            // api.alert({
-            //     msg: '解除绑定成功'
-            // });
+
         } else {
-            api.alert({
-                msg: err.msg
-            });
+              toastFail(err.msg);
         }
     });
 }
@@ -180,7 +175,7 @@ function leaveAllPushGroup() {
             // });
             //alert( JSON.stringify( ret) );
         } else {
-            alert(JSON.stringify(err));
+              toastFail(err.msg);
         }
     });
 }
@@ -197,9 +192,7 @@ function setPushListener() {
             //alert(JSON.stringify(ret));
         } else {
             //alert(JSON.stringify(err));
-            api.alert({
-                msg: err
-            });
+            toastFail(err.msg);
         }
     });
 }
@@ -247,9 +240,7 @@ function RequestMySesssion() {
                 }
             });
         } else {
-            api.alert({
-                msg: JSON.stringify(err)
-            });
+            toastFail(err.msg);
         }
 
     });
@@ -358,7 +349,7 @@ function setAllDefectInfo(type) {
                     UIMultiSelector.close();
                 }
             } else {
-                alert(JSON.stringify(err));
+                  toastFail(err.msg);
             }
         });
     });
@@ -391,7 +382,7 @@ function DoLoadingPicture() {
         mask: 'rgba(0,0,0,0.5)',
         fixed: true
     }, function(ret) {
-        //alert(JSON.stringify(ret));
+
         g_loadingID = ret.id;
     });
 }
@@ -430,22 +421,20 @@ function getPicture(sourceType) {
                             file: ret.data
                         }
                     }
-                }, function(rets, errs) {
+                }, function(ret, err) {
                     ClearLoadingPicture();
-                    if (rets) {
-                        $('.imgBox').append(pictureTemplate(rets.imgUrl, ret.base64Data));
+                    if (ret) {
+                        $('.imgBox').append(pictureTemplate(ret.imgUrl, ret.base64Data));
                         toastSuccess("上传成功!");
                     } else {
-                        api.alert({
-                            msg: JSON.stringify(errs)
-                        });
+                        toastFail(err.msg);
                     }
 
 
                 });
                 //$('#imgUp').attr('src', ret.base64Data);
             } else {
-                alert(JSON.stringify(err));
+                  toastFail(err.msg);
             }
         });
     } else if (sourceType == 2) { // 从相机中选择
@@ -472,19 +461,17 @@ function getPicture(sourceType) {
                             file: ret.data
                         }
                     }
-                }, function(rets, errs) {
+                }, function(ret, err) {
                     ClearLoadingPicture();
-                    if (rets) {
-                        $('.imgBox').append(pictureTemplate(rets.imgUrl, ret.base64Data));
+                    if (ret) {
+                        $('.imgBox').append(pictureTemplate(ret.imgUrl, ret.base64Data));
                         toastSuccess("上传成功!");
                     } else {
-                        api.alert({
-                            msg: JSON.stringify(errs)
-                        });
+                          toastFail(err.msg);
                     }
                 });
             } else {
-                alert(JSON.stringify(err));
+                toastFail(err.msg);
             }
         });
     }
@@ -590,10 +577,8 @@ function RequestAllProcessInfoByPipeNo(pipeno,processcode) {
             var record_header=ret.value.data.record_header;
             var record_items=ret.value.data.record_items;
 
-            //alert(JSON.stringify(criteria));
             GetAllProcessInfoByPipeNoOK(ret.value.data);
         } else {
-            //alert(JSON.stringify(ret.value.msg));
             //处理逻辑。。。
             GetAllProcessInfoByPipeNoFail(ret.value.data.message);
         }
@@ -617,9 +602,7 @@ function RequestAllProcessInfoByPipeNo(pipeno,processcode) {
         if (ret) {
 
         } else {
-            api.alert({
-                msg: JSON.stringify(err)
-            });
+            toastFail(err.msg);
         }
         api.sendEvent({
             name: 'RequestAllProcessInfoByPipeNoCallbackEvent',
@@ -697,7 +680,6 @@ function initInspectionFreq(freq) {
                 if (name.indexOf("od_") != -1 || name.indexOf("id_") != -1 || name.indexOf("_freq") != -1) {
                     name0 = "." + name.replace("od_", "").replace("id_", "").replace("_freq", "");
                     name = "." + name.replace("od_", "").replace("id_", "").replace("_freq", "") + "_lbl";
-                    //alert(name);
                     if (needInspectNow != undefined && needInspectNow) {
                         $(name0).attr('data-required', true);
                         if ($(name).children('.freq-span').length <= 0)
@@ -806,7 +788,6 @@ function initCriteria(criteria) {
 //                     if (name.indexOf("od_") != -1 || name.indexOf("id_") != -1 || name.indexOf("_freq") != -1) {
 //                         name0 = "." + name.replace("od_", "").replace("id_", "").replace("_freq", "");
 //                         name = "." + name.replace("od_", "").replace("id_", "").replace("_freq", "") + "_lbl";
-//                         //alert(name);
 //                         if (needInspectNow != undefined && needInspectNow) {
 //                             $(name0).attr('data-required', true);
 //                             if ($(name).children('.freq-span').length <= 0)
@@ -817,7 +798,6 @@ function initCriteria(criteria) {
 //             });
 //
 //         } else {
-//             //alert(JSON.stringify(ret.value.msg));
 //             //处理逻辑。。。
 //             GetIDAcceptCriteriaFail();
 //         }
@@ -842,9 +822,7 @@ function initCriteria(criteria) {
 //         if (ret) {
 //             success = true;
 //         } else {
-//             api.alert({
-//                 msg: JSON.stringify(err)
-//             });
+//
 //         }
 //         api.sendEvent({
 //             name: 'RequestIDAcceptCriteriaCallbackEvent',
@@ -1174,7 +1152,6 @@ function setControls() {
         },
         onSet: function(event, inst) {
             // var selectedVal =$nowObj.val();
-            // alert(selectedVal);
             $nowObj.val(numList);
             // selectedVal = ($nowObj.val()+ selectedVal + ",");
             // $nowObj.val(selectedVal);
@@ -1552,9 +1529,7 @@ function setControls() {
                  }
             })
         } else {
-            api.alert({
-                msg: JSON.stringify(err)
-            });
+            toastFail(err.msg);
         }
     });
 }
@@ -1595,9 +1570,7 @@ function Request2FBELabAcceptCriteria(pipeno) {
         if (ret) {
             success = true;
         } else {
-            api.alert({
-                msg: JSON.stringify(err)
-            });
+           toastFail(err.msg);
         }
         api.sendEvent({
             name: 'Request2FBELabAcceptCriteriaCallbackEvent',
@@ -1622,7 +1595,6 @@ function Request3LPELabAcceptCriteria(pipeno) {
             ////处理逻辑。。。
             Get3LPELabAcceptCriteriaOK(ret.value.data);
         } else {
-            //alert(JSON.stringify(ret.value.msg));
             //处理逻辑。。。
             Get3LPELabAcceptCriteriaFail();
         }
@@ -1646,9 +1618,7 @@ function Request3LPELabAcceptCriteria(pipeno) {
         if (ret) {
             success = true;
         } else {
-            api.alert({
-                msg: JSON.stringify(err)
-            });
+            toastFail(err.msg);
         }
         api.sendEvent({
             name: 'Request3LPELabAcceptCriteriaCallbackEvent',
@@ -1771,10 +1741,7 @@ function getPendingRecordInfo(controller, pipe_no) {
                 }
             });
         } else {
-            //alert("err");
-            api.alert({
-                msg: JSON.stringify(err)
-            });
+          toastFail(err.msg);
         }
 
     });
@@ -1862,9 +1829,7 @@ function RequestLastAcceptedRecordBeforePipeNo(pipeno, operation) {
         if (ret) {
             success = true;
         } else {
-            api.alert({
-                msg: JSON.stringify(err)
-            });
+            toastFail(err.msg);
         }
         api.sendEvent({
             name: 'RequestLastAcceptedRecordBeforePipeNoEvent',
@@ -1905,9 +1870,7 @@ function RequestNextTenPipesBeforePipeNo(pipeno, operation) {
         if (ret) {
             success = true;
         } else {
-            api.alert({
-                msg: JSON.stringify(err)
-            });
+            toastFail(err.msg);
         }
         api.sendEvent({
             name: 'RequestNextTenPipesBeforePipeNoEvent',
@@ -1960,9 +1923,7 @@ function getSamplePipeNo(className,pipeno,coating_date,url,flag,testing_id){
                   $(className).append('<option value=' +ret[i].pipe_no + '>' +ret[i].pipe_no  + '</option>');
              }
         } else {
-            api.alert({
-                msg: JSON.stringify(err)
-            });
+            toastFail(err.msg);
         }
     });
 }
@@ -1995,9 +1956,7 @@ function RequestRawMaterialTestingInfoById(id,url) {
         api.hideProgress();
         if (ret) {
         } else {
-            api.alert({
-                msg: JSON.stringify(err)
-            });
+            toastFail(err.msg);
         }
         api.sendEvent({
             name: 'RequestRawMaterialTestingInfoByIdCallbackEvent',
@@ -2033,9 +1992,7 @@ function RequireProjectNo() {
         if (ret) {
 
         } else {
-            api.alert({
-                msg: JSON.stringify(err)
-            });
+            toastFail(err.msg);
         }
         api.sendEvent({
             name: 'RequireProjectNoCallbackEvent',
@@ -2073,9 +2030,7 @@ function RequestRawMaterialCriteriaByProjecteNo(project_no) {
         if (ret) {
 
         } else {
-            api.alert({
-                msg: JSON.stringify(err)
-            });
+              toastFail(err.msg);
         }
         api.sendEvent({
             name: 'RequestRawMaterialCriteriaByProjecteNoCallbackEvent',
