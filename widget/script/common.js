@@ -1839,7 +1839,7 @@ function RequestLastAcceptedRecordBeforePipeNo(pipeno, operation) {
     });
 }
 //得到钢管后10根涂层记录管号，并且记录为待定状态 10
-function RequestNextTenPipesBeforePipeNo(pipeno, operation) {
+function RequestNextTenPipesBeforePipeNo(pipeno, process_code) {
     //注册接收Request3LPELabAcceptCriteria回调
     api.addEventListener({
         name: 'RequestNextTenPipesBeforePipeNoEvent'
@@ -1851,7 +1851,7 @@ function RequestNextTenPipesBeforePipeNo(pipeno, operation) {
         }
     });
     //发出请求
-    var s = 'http://' + serverIP + '/' + operation + '/getNextTenPipesBeforePipeNo.action';
+    var s = 'http://' + serverIP + '/InspectionProcessOperation/getNextTenPipesBeforePipeNo.action';
     api.ajax({
         url: s,
         method: 'post',
@@ -1860,23 +1860,25 @@ function RequestNextTenPipesBeforePipeNo(pipeno, operation) {
         data: {
             values: {
                 pipe_no: pipeno,
-                process_code:g_processcode
+                process_code:process_code
             }
         }
     }, function(ret, err) {
-        var success = false;
         if (ret) {
-            success = true;
+          if(ret.success){
+            api.sendEvent({
+                name: 'RequestNextTenPipesBeforePipeNoEvent',
+                extra: {
+                    success: ret.success,
+                    data: ret.data
+                }
+            });
+          }else{
+            toastFail(ret.message);
+          }
         } else {
             toastFail(err.msg);
         }
-        api.sendEvent({
-            name: 'RequestNextTenPipesBeforePipeNoEvent',
-            extra: {
-                success: success,
-                data: ret.data
-            }
-        });
     });
 }
 //清空表单label数据
