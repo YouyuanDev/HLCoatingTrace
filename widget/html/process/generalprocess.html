@@ -479,7 +479,7 @@
         $('.mob-singleselect').each(function() {
             var data = [];
             var dataListStr = $(this).attr('options');
-            var selectedVal=$(this).attr('value');
+            var selectedVal = $(this).attr('value');
             var dataList = [];
             if (dataListStr != undefined) {
                 dataList = dataListStr.split(';');
@@ -493,13 +493,13 @@
                     data.push(temp);
                 }
             }
-            var defaultValue="";
-            if(selectedVal!=undefined&&selectedVal!=""){
-              defaultValue=selectedVal;
-            }else{
-              if(dataList[0]!=undefined){
-                defaultValue=dataList[0];
-              }
+            var defaultValue = "";
+            if (selectedVal != undefined && selectedVal != "") {
+                defaultValue = selectedVal;
+            } else {
+                if (dataList[0] != undefined) {
+                    defaultValue = dataList[0];
+                }
             }
             $(this).mobiscroll().select({
                 data: data,
@@ -519,7 +519,7 @@
         $('.mob-multipleselect').each(function() {
             var data = [];
             var dataListStr = $(this).attr('options');
-            var selectedVal=$(this).attr('value');
+            var selectedVal = $(this).attr('value');
             var dataList = [];
             if (dataListStr != undefined) {
                 dataList = dataListStr.split(';');
@@ -533,9 +533,13 @@
                     data.push(temp);
                 }
             }
-            var defaultValue="";
-            if(selectedVal!=undefined&&selectedVal!=""){
-              defaultValue=selectedVal;
+            var defaultValue = "";
+            if (selectedVal != undefined && selectedVal != "") {
+                defaultValue = selectedVal;
+            } else {
+                if (dataList[0] != undefined) {
+                    defaultValue = dataList[0];
+                }
             }
             $(this).mobiscroll().select({
                 data: data,
@@ -576,38 +580,42 @@
     }
     //验证数据是否合法
     function validateMaxAndMIn($obj, value, maxVal, minVal) {
-        var needverify = $obj.attr('needverify');
-        if (needverify == undefined || needverify == "0") {
-            return;
-        }
-
-        var flag = true;
-        var values = value + "";
-        if (values != undefined && values != "") {
-            var valuelist = values.split(',');
-            for (var i = 0; i < valuelist.length; i++) {
-                if (maxVal != undefined && !isNaN(maxVal)) {
-                    if (parseFloat(maxVal) < parseFloat(valuelist[i])) {
-                        flag = false;
-                        break;
-                    }
-                }
-                if (minVal != undefined && !isNaN(minVal)) {
-                    if (parseFloat(valuelist[i]) < parseFloat(minVal)) {
-                        flag = false;
-                        break;
+        try {
+            var needverify = $obj.attr('needverify');
+            if (needverify == undefined || needverify == "0") {
+                return;
+            }
+            var flag = true;
+            var values = value + "";
+            if (values != undefined && values != "") {
+                var valuelist = values.split(',');
+                for (var i = 0; i < valuelist.length; i++) {
+                    if (!isNaN(valuelist[i])) {
+                        if (maxVal != undefined && !isNaN(maxVal)) {
+                            if (parseFloat(maxVal) < parseFloat(valuelist[i])) {
+                                flag = false;
+                                break;
+                            }
+                        }
+                        if (minVal != undefined && !isNaN(minVal)) {
+                            if (parseFloat(valuelist[i]) < parseFloat(minVal)) {
+                                flag = false;
+                                break;
+                            }
+                        }
                     }
                 }
             }
-        }
-        if (flag) {
-            $obj.css('background', '#FFFFFF');
-            $obj.siblings('input').css('background', '#FFFFFF');
-        } else {
-            $obj.css('background', '#F9A6A6');
-            $obj.siblings('input').css('background', '#F9A6A6');
-        }
+            if (flag) {
+                $obj.css('background', '#FFFFFF');
+                $obj.siblings('input').css('background', '#FFFFFF');
+            } else {
+                $obj.css('background', '#F9A6A6');
+                $obj.siblings('input').css('background', '#F9A6A6');
+            }
+        } catch (e) {
 
+        }
     }
     //设置结论选项
     function initResultOptions(process_code, language) {
@@ -639,14 +647,14 @@
             if (needInspectNow != undefined && needInspectNow == "1") {
                 var name = $(this).parent().siblings('.form-item-lbl').find('.itemname').text();
                 if ($(this).val().length <= 0) {
-                    if(name!=undefined&&name!=""){
-                      api.alert({
-                          msg: "请输入:" + name
-                      });
-                    }else{
-                      api.alert({
-                          msg: "有必填项未填!"
-                      });
+                    if (name != undefined && name != "") {
+                        api.alert({
+                            msg: "请输入:" + name
+                        });
+                    } else {
+                        api.alert({
+                            msg: "有必填项未填!"
+                        });
                     }
                     result = false;
                     return result;
@@ -667,9 +675,9 @@
 
             if (ret.buttonIndex == 1 && newInitFormNumber()) {
                 var s = 'http://' + serverIP + '/InspectionProcessOperation/saveProcess.action';
-                var remark=$('#remark').val();
-                if(remark=="INIT"){
-                  remark="";
+                var remark = $('#remark').val();
+                if (remark == "INIT") {
+                    remark = "";
                 }
                 var imgUrl = "";
                 $('.imgBox  .temp-container img').each(function() {
@@ -768,8 +776,8 @@
                         $('.imgBox').append(pictureTemplate(imgArr[i], s + imgArr[i]));
                 }
             }
-            if(header.remark!=undefined&&header.remark!="INIT")
-              $('#remark').val(header.remark);
+            if (header.remark != undefined && header.remark != "INIT")
+                $('#remark').val(header.remark);
         }
     }
 

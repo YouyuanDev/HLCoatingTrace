@@ -29,7 +29,6 @@
             top: 0;
             left: 0;
             height: auto;
-
             z-index: 1002;
         }
 
@@ -37,7 +36,7 @@
             width: 100%;
             height: auto;
             padding-top: 50px;
-            padding-bottom:5px;
+            padding-bottom: 5px;
             background-color: #F7F7F7;
         }
 
@@ -53,7 +52,7 @@
             flex: 1;
             /*padding: 10px;*/
             text-align: center;
-            font-size:14px;
+            font-size: 14px;
         }
 
         .close-float {
@@ -76,37 +75,37 @@
     <div class="testing-container">
         <div class="close-float" onclick="closePanel()"></div>
         <div class="float-btn-container">
-          <div class="form-item">
-              <div class="form-item-lbl">
-                  <label class="i18n1" name="projectno"></label>
-              </div>
-              <div class="form-item-val">
-                  <select class="model-select" id="projectInfoSelect">
+            <div class="form-item">
+                <div class="form-item-lbl">
+                    <label class="i18n1" name="projectno"></label>
+                </div>
+                <div class="form-item-val">
+                    <select class="model-select" id="projectInfoSelect">
                </select>
-              </div>
-          </div>
-          <div class="form-item">
-              <div class="form-item-lbl">
-                  <label class="i18n1" name="millno"></label>
-              </div>
-              <div class="form-item-val">
-                  <select class="model-select" id="millInfoSelect">
+                </div>
+            </div>
+            <div class="form-item">
+                <div class="form-item-lbl">
+                    <label class="i18n1" name="millno"></label>
+                </div>
+                <div class="form-item-val">
+                    <select class="model-select" id="millInfoSelect">
                </select>
-              </div>
-          </div>
-          <div class="form-item">
-              <div class="form-item-lbl">
-                  <label class="i18n1" name="operationtime"></label>
-              </div>
-              <div class="form-item-val">
-                  <input class="mob-datetime1" id="operationTime" type="text" name="operation_time"/>
-              </div>
-          </div>
-          <div class="form-item">
-              <div class="form-item-val">
-                   <button  name="search" style="margin-top:10px;" class="form-process-button i18n1" onclick="submitForm()">搜索</button>
-              </div>
-          </div>
+                </div>
+            </div>
+            <div class="form-item">
+                <div class="form-item-lbl">
+                    <label class="i18n1" name="operationtime"></label>
+                </div>
+                <div class="form-item-val">
+                    <input class="mob-datetime1" id="operationTime" type="text" name="operation_time" />
+                </div>
+            </div>
+            <div class="form-item">
+                <div class="form-item-val">
+                    <button name="search" style="margin-top:10px;" class="form-process-button i18n1" onclick="submitForm()">搜索</button>
+                </div>
+            </div>
         </div>
     </div>
     <div class="mask"></div>
@@ -122,25 +121,27 @@
 <script src="../../script/language.js" type="text/javascript"></script>
 <script src="../../script/mobiscroll.custom-3.0.0-beta6.min.js" type="text/javascript"></script>
 <script type="text/javascript">
-    var g_project_no="",g_mill_no="",g_operation_time="";
+    var g_project_no = "",
+        g_mill_no = "",
+        g_operation_time = "";
     apiready = function() {
-      var data = api.pageParam;
-      g_project_no = data.project_no;
-      g_mill_no = data.mill_no;
-      g_operation_time=data.operation_time;
-      DoLoadingPicture();
-      //获取项目编号集合
-      RequireProjectNo();
-      //获取分厂编号集合
-      RequireMillNo();
-      hlLanguage("../../i18n/");
-      $('#operationTime').val(getDateOnly(new Date()));
-      if(g_operation_time!=""){
-        $('#operationTime').val(g_operation_time);
-      }
-      setControls();
-    }
-    //获取项目编号集合成功
+            var data = api.pageParam;
+            g_project_no = data.project_no;
+            g_mill_no = data.mill_no;
+            g_operation_time = data.operation_time;
+            DoLoadingPicture();
+            //获取项目编号集合
+            RequireProjectNo();
+            //获取分厂编号集合
+            RequireMillNo();
+            hlLanguage("../../i18n/");
+            $('#operationTime').val(getDateOnly(new Date()));
+            if (g_operation_time != "") {
+                $('#operationTime').val(g_operation_time);
+            }
+            setControls();
+        }
+        //获取项目编号集合成功
     function RequireProjectNoOK(data) {
         $('#projectInfoSelect').empty();
         for (var i = 0; i < data.length; i++) {
@@ -149,8 +150,8 @@
             else
                 $('#projectInfoSelect').append('<option value=' + data[i].project_no + '>' + data[i].project_name + '</option>');
         }
-        if(g_project_no!=""){
-          $('#projectInfoSelect').val(g_project_no);
+        if (g_project_no != "") {
+            $('#projectInfoSelect').val(g_project_no);
         }
     }
     //获取项目编号集合失败
@@ -176,8 +177,8 @@
                     for (var i = 0; i < data.length; i++) {
                         $('#millInfoSelect').append('<option value=' + data[i].mill_no + '>' + data[i].mill_name + '</option>');
                     }
-                    if(g_mill_no!=""){
-                      $('#millInfoSelect').val(g_mill_no);
+                    if (g_mill_no != "") {
+                        $('#millInfoSelect').val(g_mill_no);
                     }
                 }
                 RequireMillNoByUser();
@@ -204,51 +205,50 @@
             if (ret) {
                 if (ret.success) {
                     $('#millInfoSelect').val(ret.millno);
-                    //RequireShiftInfo();
                 } else {
-                    api.alert({
-                        msg: JSON.stringify(ret.msg)
-                    });
+                    toastFail(ret.msg);
                 }
             } else {
-                api.alert({
-                    msg: JSON.stringify(err)
-                });
+                toastFail(err.msg);
             }
-              ClearLoadingPicture();
+            ClearLoadingPicture();
         });
     }
+
     function closePanel() {
         api.closeFrame({
             name: 'newstatisticsselect'
         });
     }
-    function sendRequireShiftInfoEvent(project_no,mill_no,operation_time){
-      api.sendEvent({
-          name: 'RequireShiftInfoEvent',
-          extra: {
-              project_no:project_no,
-              mill_no: mill_no,
-              operation_time: operation_time
-          }
-      });
+
+    function sendRequireShiftInfoEvent(project_no, mill_no, operation_time) {
+        api.sendEvent({
+            name: 'RequireShiftInfoEvent',
+            extra: {
+                project_no: project_no,
+                mill_no: mill_no,
+                operation_time: operation_time
+            }
+        });
     }
-    function sendSettingStatisticInfo(project_no,mill_no,operation_time){
-      api.sendEvent({
-          name: 'sendSettingStatisticInfoEvent',
-          extra: {
-              project_no:project_no,
-              mill_no: mill_no,
-              operation_time: operation_time
-          }
-      });
+
+    function sendSettingStatisticInfo(project_no, mill_no, operation_time) {
+        api.sendEvent({
+            name: 'sendSettingStatisticInfoEvent',
+            extra: {
+                project_no: project_no,
+                mill_no: mill_no,
+                operation_time: operation_time
+            }
+        });
     }
-    function submitForm(){
-      g_project_no=$('#projectInfoSelect').val();
-      g_mill_no=$('#millInfoSelect').val();
-      g_operation_time=$('#operationTime').val();
-      sendRequireShiftInfoEvent($('#projectInfoSelect').val(),$('#millInfoSelect').val(),$('#operationTime').val());
-      sendSettingStatisticInfo($('#projectInfoSelect').val(),$('#millInfoSelect').val(),$('#operationTime').val());
-      closePanel();
+
+    function submitForm() {
+        g_project_no = $('#projectInfoSelect').val();
+        g_mill_no = $('#millInfoSelect').val();
+        g_operation_time = $('#operationTime').val();
+        sendRequireShiftInfoEvent($('#projectInfoSelect').val(), $('#millInfoSelect').val(), $('#operationTime').val());
+        sendSettingStatisticInfo($('#projectInfoSelect').val(), $('#millInfoSelect').val(), $('#operationTime').val());
+        closePanel();
     }
 </script>
