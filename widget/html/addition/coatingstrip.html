@@ -159,7 +159,6 @@
         g_employeeno = data.employeeno;
         g_millno = data.millno;
         if (data.pipeinfo.status != "odstrip1" && data.pipeinfo.status != "idstrip1") {
-            //alert("status not right");
             closeWindow();
         }
 
@@ -179,19 +178,12 @@
 
         setControls();
         setSelectPictures();
-        //alert(JSON.stringify(data));
         getPendingRecordInfo("coatingStripOperation", g_pipeno);
-
-        // api.alert({
-        //     msg: JSON.stringify(ODacceptCriteriaMap)
-        // });
     }
     //得到外防接收标准失败
     function GetAllProcessInfoByPipeNoFail(message) {
         ClearLoadingPicture();
-        api.alert({
-            msg: message
-        });
+        toastFail(message);
         closeWindow();
     }
 
@@ -241,7 +233,6 @@
                         imgUrl += (temp + ";");
                     }
                 });
-                //alert(imgUrl);
                 api.ajax({
                     url: s,
                     method: 'post',
@@ -260,18 +251,14 @@
                             remark: $('#remark').val(),
                         }
                     }
-                }, function(ret, err) { //alert(ret);
+                }, function(ret, err) {
                     if (ret) {
-                        api.alert({
-                            msg: ret.message
-                        });
+                        toastSuccess(ret.message);
                         if (ret.success) {
                             closeWindow();
                         }
                     } else {
-                        api.alert({
-                            msg: JSON.stringify(err)
-                        });
+                        toastFail(err.msg);
                     }
                 });
             }

@@ -11,14 +11,13 @@
     <link rel="stylesheet" type="text/css" href="../../css/mobiscroll.custom-3.0.0-beta6.min.css" />
     <style>
         .scan-container {
-            height:43px;
+            height: 43px;
             width: 100%;
             background: url(../../image/qrcode.png);
             background-size: 30px 30px;
             background-repeat: no-repeat;
-            background-position:center;
+            background-position: center;
         }
-
 
         .item {
             display: table;
@@ -114,17 +113,22 @@
         .style1 {
             border-top: 1px solid #cdcdcd;
         }
-        .foot-item{
-          width:50%;height:100%;
+
+        .foot-item {
+            width: 50%;
+            height: 100%;
         }
-        .foot-item:first-child{
-          float: left;
+
+        .foot-item:first-child {
+            float: left;
         }
-        .foot-item:last-child{
-          float: right;
+
+        .foot-item:last-child {
+            float: right;
         }
-        .nav-submit{
-            width:4rem;
+
+        .nav-submit {
+            width: 4rem;
             background-color: #19AD68;
             text-align: center;
             color: #ffffff;
@@ -194,8 +198,8 @@
         </div>
     </div>
     <footer class="form-footer" id="footer" style="height:auto;">
-      <div class="scan-container form-process-button"></div>
-      <!-- <div id="foot-container"  class="foot-container">
+        <div class="scan-container form-process-button"></div>
+        <!-- <div id="foot-container"  class="foot-container">
           <div class="foot-item">
             <div class="scan-container"></div>
           </div>
@@ -272,7 +276,7 @@
 
 
         }
-    //将钢管加入出库单
+        //将钢管加入出库单
     function addPipeToShipment(pipeno) {
         //判断该钢管能否出库
         api.addEventListener({
@@ -287,9 +291,7 @@
                     }
                     hlLanguage("../../i18n/");
                 } else {
-                    api.alert({
-                        msg: JSON.stringify(ret.value.message)
-                    });
+                    toastFail(ret.value.message);
                 }
             } else {
                 toastFail(err.msg);
@@ -477,14 +479,14 @@
                             vehicle_plate_no: $('.vehicle_plate_no').val()
                         }
                     }
-                }, function(ret, err) { 
+                }, function(ret, err) {
                     if (ret) {
                         toastSuccess(ret.message);
                         if (ret.success) {
                             closeWindow('shipment');
                         }
                     } else {
-                      toastFail(err.msg);
+                        toastFail(err.msg);
                     }
                 });
             }
@@ -530,17 +532,12 @@
                         $('.pipeinfo-div').append(makeTemplate(data[i]));
                     }
                 } else {
-                    api.alert({
-                        msg: ret.message
-                    });
-
+                    toastFail(ret.message);
                     api.closeWin();
 
                 }
             } else {
-                api.alert({
-                    msg: JSON.stringify(err)
-                });
+                toastFail(err.msg);
                 api.closeWin();
             }
         });

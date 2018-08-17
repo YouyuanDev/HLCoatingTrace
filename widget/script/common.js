@@ -1,5 +1,5 @@
 var header, headerHeight = 0;
-var serverIP = '192.168.0.10:8080';
+var serverIP = '192.168.0.12:8080';
 
 function fnSettingHeader() {
 
@@ -185,13 +185,11 @@ function setPushListener() {
     var push = api.require('push');
     push.setListener(function(ret, err) {
         if (ret) {
-            //alert("setPushListener回调函数");
-            api.alert({
-                msg: ret.data
-            });
-            //alert(JSON.stringify(ret));
+            toastSuccess(ret.data);
+            // api.alert({
+            //     msg: ret.data
+            // });
         } else {
-            //alert(JSON.stringify(err));
             toastFail(err.msg);
         }
     });
@@ -201,7 +199,6 @@ function setPushListener() {
 //请求session中employeeno和millno参数
 //每个调用这个函数的页面需要实现 Go方法 和 Reverse方法
 function RequestMySesssion() {
-
     //注册接收requestMySesssion回调
     api.addEventListener({
         name: 'GetMySessionCallbackEvent'
@@ -1862,7 +1859,8 @@ function RequestNextTenPipesBeforePipeNo(pipeno, operation) {
         dataType: 'json',
         data: {
             values: {
-                pipe_no: pipeno
+                pipe_no: pipeno,
+                process_code:g_processcode
             }
         }
     }, function(ret, err) {
@@ -1879,7 +1877,6 @@ function RequestNextTenPipesBeforePipeNo(pipeno, operation) {
                 data: ret.data
             }
         });
-
     });
 }
 //清空表单label数据

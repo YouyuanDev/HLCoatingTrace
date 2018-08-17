@@ -171,9 +171,7 @@
     //得到外防接收标准失败
     function GetAllProcessInfoByPipeNoFail(message) {
         ClearLoadingPicture();
-        api.alert({
-            msg: message
-        });
+        toastFail(message);
         closeWindow();
     }
 

@@ -250,7 +250,6 @@
         g_employeeno = data.employeeno;
         g_millno = data.millno;
         if (data.pipeinfo.status != "odrepair1" && data.pipeinfo.status != "idrepair1") {
-            //alert("status not right");
             closeWindow();
         }
         //判断是外防修补还是内防修补
@@ -276,19 +275,12 @@
 
         setControls();
         setSelectPictures();
-        //alert(JSON.stringify(data));
         getPendingRecordInfo("coatingRepairOperation", g_pipeno);
-
-        // api.alert({
-        //     msg: JSON.stringify(ODacceptCriteriaMap)
-        // });
     }
     //得到外防接收标准失败
     function GetAllProcessInfoByPipeNoFail(message) {
         ClearLoadingPicture();
-        api.alert({
-            msg: message
-        });
+        toastFail(message);
         closeWindow();
     }
 
@@ -379,18 +371,14 @@
                             remark: $('#remark').val(),
                         }
                     }
-                }, function(ret, err) { //alert(ret);
+                }, function(ret, err) {
                     if (ret) {
-                        api.alert({
-                            msg: ret.message
-                        });
+                        toastSuccess(ret.message);
                         if (ret.success) {
                             closeWindow();
                         }
                     } else {
-                        api.alert({
-                            msg: JSON.stringify(err)
-                        });
+                        toastFail(err.msg);
                     }
                 });
             }
@@ -407,13 +395,11 @@
             data: {
                 values: {}
             }
-        }, function(ret, err) { //alert(ret);
+        }, function(ret, err) {
             if (ret) {
-                alert(JSON.stringify(ret));
+                toastSuccess(JSON.stringify(ret));
             } else {
-                api.alert({
-                    msg: JSON.stringify(err)
-                });
+                toastFail(err.msg);
             }
         });
     }
@@ -428,13 +414,11 @@
             data: {
                 values: {}
             }
-        }, function(ret, err) { //alert(ret);
+        }, function(ret, err) {
             if (ret) {
-                alert(JSON.stringify(ret));
+                toastSuccess(JSON.stringify(ret));
             } else {
-                api.alert({
-                    msg: JSON.stringify(err)
-                });
+              toastFail(err.msg);
             }
         });
     }

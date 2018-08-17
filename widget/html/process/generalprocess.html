@@ -17,6 +17,16 @@
         <span class="nav-pipeno i18n1" name="odblastprocess" style="display:inline-block;margin-left:-43px;line-height:43px;">外打砂</span>
     </header>
     <div class="form-content" id="content">
+      <div class="form-item pipe-coating-queue">
+          <div class="form-item-lbl">
+              <label class="i18n1" name="selectcoatingpipe"></label>
+          </div>
+          <div class="form-item-val">
+              <select id="selectcoatingpipe" name="select-coating-pipe" onchange="loadPipeCoatingQueue()">
+
+            </select>
+          </div>
+      </div>
         <div class="form-item">
             <table class="pipeinfo-table">
                 <thead>
@@ -205,6 +215,7 @@
     var language;
     var retest = 0;
     apiready = function() {
+        $('.pipe-coating-queue').hide();
         LoadProcess_input_output();
         DoLoadingPicture();
         var data = api.pageParam;
@@ -214,8 +225,11 @@
         if (retest == undefined) {
             retest = 0;
         }
-
         $('.nav-pipeno').attr('name', g_processcode);
+        if(g_processcode=="od_coating"){
+          $('.pipe-coating-queue').show();
+          loadPipeCoatingQueue();
+        }
         fnSettingHeader();
         language = getCookie("userLanguage");
         hlLanguage("../../i18n/");
@@ -811,5 +825,30 @@
 
             }
         });
+    }
+    //获取外防工位队列
+    function loadPipeCoatingQueue() {
+        if ($('#selectcoatingpipe').val() != undefined)
+            g_pipeno = $('#selectcoatingpipe').val();
+        clearLabelData();
+        RequestNextTenPipesBeforePipeNo(g_pipeno,g_processcode);
+        RequestAllProcessInfoByPipeNo(g_pipeno,g_processcode);
+    }
+    //得到钢管后10根涂层记录管号，并且记录为待定状态 10,回调
+    function RequestNextTenPipesBeforePipeNoEventOK(data) {
+        if (data != undefined) {
+            $('#selectcoatingpipe').empty();
+            for (var i = 0; i < data.length; i++) {
+                var pipe_no = data[i].pipe_no;
+                if (i == 0)
+                    $('#selectcoatingpipe').append("<option value=" + pipe_no + " selected='selected'>" + (i + 1) + ":" + pipe_no + "</option>");
+                else
+                    $('#selectcoatingpipe').append("<option value=" + pipe_no + ">" + (i + 1) + ":" + pipe_no + "</option>");
+            }
+        }
+    }
+    //得到钢管后10根涂层记录管号， 失败
+    function RequestNextTenPipesBeforePipeNoEventFail() {
+        toastFail('获取钢管后10根涂层记录管号失败!');
     }
 </script>
