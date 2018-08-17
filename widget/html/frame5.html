@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-    <title>搜索条件</title>
+    <title>记录搜索</title>
     <link rel="stylesheet" type="text/css" href="../css/api.css" />
     <link rel="stylesheet" type="text/css" href="../css/style.css" />
     <link rel="stylesheet" type="text/css" href="../css/mobiscroll.custom-3.0.0-beta6.min.css" />
@@ -440,22 +440,18 @@
     }
     //钢管信息的模版
     function pipeInfoTemplate(pipe) {
-        var url2fbe = "../image/pipe_2fbe.png";
-        var url3lpe = "../image/pipe_3lpe.png";
-        var urlepoxy = "../image/pipe_epoxy.png";
-        var urldefault = "../image/pipe2.png";
+        var pending = "../image/pending.png";
+        var reject = "../image/reject.png";
+        var accepted = "../image/accepted.png";
         var url = "";
         var title = pipe.project_name + ' ' + pipe.external_coating + ' ' + pipe.internal_coating;
-        if (pipe.external_coating == "2FBE") {
-            url = url2fbe;
-        } else if (pipe.external_coating == "3LPE") {
-            url = url3lpe;
+        if (pipe.result == "1") {
+            url = accepted;
+        } else if (pipe.result== "10") {
+            url = pending;
         } else {
-            url = urldefault;
+            url = reject;
         }
-        // for (var i = 0; i < g_result_input_output.length; i++) {
-        //   array[i]
-        // }
         var result_name = g_result_input_output[pipe.process_code + pipe.result];
         var template = '<div class="item style1"  onclick="goPipeInfoRoot(' + pipe.pipe_no + ');">' +
             '<div class="itemlogo userlogo"><img src="' + url + '" alt=""></div>' +
