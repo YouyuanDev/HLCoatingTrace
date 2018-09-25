@@ -1988,11 +1988,6 @@ function RequireProjectNo() {
             values: {}
         }
     }, function(ret, err) {
-        if (ret) {
-
-        } else {
-            toastFail(err.msg);
-        }
         api.sendEvent({
             name: 'RequireProjectNoCallbackEvent',
             extra: {
@@ -2059,4 +2054,16 @@ function toastFail(txt) {
         duration: 2000,
         location: 'middle'
     });
+}
+//清理本地缓存
+function clearAllPrefs(){
+  api.removePrefs({
+    key: 'millNoListPref'
+  });
+  api.removePrefs({
+    key: 'processNoListPref'
+  });
+  api.removePrefs({
+    key: 'projectNoListPref'
+  });
 }

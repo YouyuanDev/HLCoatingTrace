@@ -133,16 +133,7 @@
         }, function(ret, err) {
             doSearchPipeInfo(ret.value.pipeno, ret.value.pageStart, ret.value.flag);
         });
-
         doSearchPipeInfo(keyword_pipeno, 1, false);
-        // api.openWin({
-        //     name: 'testing_active',
-        //     url: './test.html',
-        //     pageParam: {
-        //         pipe_no: '1544790'
-        //     }
-        // });
-
     }
 
     //主页面图片轮播
@@ -176,13 +167,8 @@
             } else {
               toastFail(err.msg);
             }
-
         });
-
     }
-
-
-
     function reloadPictures(picturefiles) {
         var datalist = [];
 
@@ -204,7 +190,6 @@
             var pic = picturefiles[i];
             datalist.push('http://' + serverIP + '/upload/pictures/' + pic.pictureName);
         }
-        //UIScrollPicture.close();
         UIScrollPicture.open({
             rect: {
                 x: 0,
@@ -236,7 +221,6 @@
                     activeColor: '#09aa30'
                 }
             },
-            // placeholderImg: 'widget://image/defaultbg.jpg',
             contentMode: 'scaleAspectFit',
             interval: 3,
             fixedOn: api.frameName,
@@ -266,7 +250,6 @@
             $('#div-data').append(pipeInfoTemplate(pipedata[i]));
         }
         //api.hideProgress();
-
     }
     //钢管信息的模版
     function pipeInfoTemplate(pipe) {
@@ -304,19 +287,6 @@
             title: '加载中...',
             modal: false
         });
-        //var project_no;
-        // var project_no = api.getPrefs({
-        //     sync: true,
-        //     key: 'project_no_pref'
-        // });
-        // var mill_no = api.getPrefs({
-        //     sync: true,
-        //     key: 'mill_no_pref'
-        // });
-        // var process_code = api.getPrefs({
-        //     sync: true,
-        //     key: 'process_code_pref'
-        // });
         var s = 'http://' + serverIP + '/pipeinfo/searchPipe.action';
         api.ajax({
             url: s,
@@ -351,10 +321,6 @@
 
         });
     }
-
-
-
-
     //打开钢管的涂层生产信息页面pipeinforoot
     function goPipeInfoRoot(pipe_no) {
         api.openWin({
@@ -365,8 +331,6 @@
             }
         });
     }
-
-
     //下拉刷新更新图片及钢管搜索列表
     function dropdownLoading() {
         api.setRefreshHeaderInfo({
@@ -397,8 +361,6 @@
         }, function(ret, err) {
             start = start + 1;
             doSearchPipeInfo(keyword_pipeno, start, true);
-
-
         });
     }
 </script>

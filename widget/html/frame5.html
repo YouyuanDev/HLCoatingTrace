@@ -113,15 +113,18 @@
             padding-bottom: 5px;
             background-color: #F7F7F7;
         }
+
         select {
             -webkit-appearance: none;
         }
-        #nodata{
-          width: 100%;
-          text-align:center;
+
+        #nodata {
+            width: 100%;
+            text-align: center;
         }
-        .form-item-lbl label{
-          color: #7A7A7A;
+
+        .form-item-lbl label {
+            color: #7A7A7A;
         }
     </style>
 </head>
@@ -135,7 +138,7 @@
                         <label class="i18n1" name="projectno"></label>
                     </div>
                     <div class="form-item-val2">
-                        <select class="model-select" id="projectInfoSelect">
+                        <select class="model-select" id="projectInfoSelect" onchange="onchangeSelect();">
                </select>
                     </div>
                 </div>
@@ -144,7 +147,7 @@
                         <label class="i18n1" name="millno"></label>
                     </div>
                     <div class="form-item-val2">
-                        <select class="model-select" id="millInfoSelect">
+                        <select class="model-select" id="millInfoSelect" onchange="onchangeSelect();">
                </select>
                     </div>
                 </div>
@@ -153,7 +156,7 @@
                         <label class="i18n1" name="workposition"></label>
                     </div>
                     <div class="form-item-val2">
-                        <select class="model-select" id="processSelect">
+                        <select class="model-select" id="processSelect" onchange="onchangeSelect();">
                </select>
                     </div>
                 </div>
@@ -163,10 +166,6 @@
 
         </div>
     </div>
-
-    <!-- <div class="mask"></div> -->
-    <!-- </div> -->
-
 </body>
 
 </html>
@@ -183,24 +182,33 @@
     apiready = function() {
             fnSettingHeader();
             LoadProcess_input_output();
-            //下拉刷新,下拉加载
+            //下拉刷新
             dropdownLoading();
+            //是否滚动到底部
             isRollingToEnd();
+            //监听搜索框点击搜索事件
             api.addEventListener({
                 name: 'searchInspectionRecordEvent'
             }, function(ret, err) {
                 searchInspectionRecord(ret.value.pipeno, ret.value.pageStart, ret.value.flag);
-                //doSearchPipeInfo(ret.value.pipeno, ret.value.pageStart, ret.value.flag);
             });
+            //显示加载进度条
             DoLoadingPicture();
+            //获取所有项目编号
             RequireProjectNo();
+            //获取所有分厂号
             RequireMillNo();
+            //获取所有工位
             RequireAllProcess();
             //获取工位集合
             hlLanguage("../i18n/");
-            setControls();
         }
-        //下拉刷新更新图片及钢管搜索列表
+        //选择框更改事件
+    function onchangeSelect() {
+        start = 1;
+        searchInspectionRecord(keyword_pipeno, start, false);
+    }
+    //下拉刷新更新图片及钢管搜索列表
     function dropdownLoading() {
         api.setRefreshHeaderInfo({
             loadingImg: 'widget://image/loading_more.png',
@@ -217,7 +225,7 @@
             }, 50);
         });
     }
-
+    //是否滚动到底部
     function isRollingToEnd() {
         api.addEventListener({
             name: 'scrolltobottom',
@@ -234,11 +242,6 @@
     function RequireProjectNoOK(data) {
         addInfoToProjectSelect(data);
         ClearLoadingPicture();
-        api.setPrefs({
-            key: 'projectNoListPref',
-            value: data
-        });
-
     }
     //添加数据到项目编号下拉框
     function addInfoToProjectSelect(data) {
@@ -271,29 +274,41 @@
     }
     //获取所有分厂编号
     function RequireMillNo() {
-        //发出请求
-        var s = 'http://' + serverIP + '/millInfo/getAllMillsInfo.action';
-        api.ajax({
-            url: s,
-            method: 'post',
-            timeout: 30,
-            dataType: 'json',
-            data: {}
-        }, function(ret, err) {
-            if (ret) {
-                if (ret.success) {
-                    var data = ret.millinfo;
-                    api.setPrefs({
-                        key: 'millNoListPref',
-                        value: data
-                    });
-                    addInfoToMillSelect(data);
-                }
+        try {
+            var millNoListPref = api.getPrefs({
+                sync: true,
+                key: 'millNoListPref'
+            });
+            if (millNoListPref != undefined&&millNoListPref!="") {
+                addInfoToMillSelect(millNoListPref);
             } else {
-                toastFail(err.msg);
+                //发出请求
+                var s = 'http://' + serverIP + '/millInfo/getAllMillsInfo.action';
+                api.ajax({
+                    url: s,
+                    method: 'post',
+                    timeout: 30,
+                    dataType: 'json',
+                    data: {}
+                }, function(ret, err) {
+                    if (ret) {
+                        if (ret.success) {
+                            var data = ret.millinfo;
+                            api.setPrefs({
+                                key: 'millNoListPref',
+                                value: data
+                            });
+                            addInfoToMillSelect(data);
+                        }
+                    } else {
+                        toastFail(err.msg);
+                    }
+                    ClearLoadingPicture();
+                });
             }
-            ClearLoadingPicture();
-        });
+        } catch (e) {
+
+        }
     }
     //添加数据到分厂编号下拉框
     function addInfoToMillSelect(data) {
@@ -318,26 +333,34 @@
     }
     //获取所有工序
     function RequireAllProcess() {
-        //发出请求
-        var s = 'http://' + serverIP + '/ProcessOperation/getAllProcessWithAllOption.action';
-        api.ajax({
-            url: s,
-            method: 'post',
-            timeout: 30,
-            dataType: 'json',
-            data: {}
-        }, function(ret, err) {
-            if (ret) {
-                api.setPrefs({
-                    key: 'processNoListPref',
-                    value: ret
-                });
-                addInfoToProcessSelect(ret);
-            } else {
-                toastFail(err.msg);
-            }
-            ClearLoadingPicture();
+        var processNoListPref = api.getPrefs({
+            sync: true,
+            key: 'processNoListPref'
         });
+        if (processNoListPref != undefined&&processNoListPref!="") {
+            addInfoToProcessSelect(processNoListPref);
+        } else {
+            //发出请求
+            var s = 'http://' + serverIP + '/ProcessOperation/getAllProcessWithAllOption.action';
+            api.ajax({
+                url: s,
+                method: 'post',
+                timeout: 30,
+                dataType: 'json',
+                data: {}
+            }, function(ret, err) {
+                if (ret) {
+                    api.setPrefs({
+                        key: 'processNoListPref',
+                        value: ret
+                    });
+                    addInfoToProcessSelect(ret);
+                } else {
+                    toastFail(err.msg);
+                }
+                ClearLoadingPicture();
+            });
+        }
     }
     //添加数据到工位下拉框
     function addInfoToProcessSelect(data) {
@@ -367,13 +390,13 @@
             toastFail(error.message);
         }
     }
-
+    //关闭当前窗体
     function closePanel() {
         api.closeFrame({
             name: 'searchpipesetting'
         });
     }
-
+    //根据钢管编号、分厂号、工位编号等查询钢管信息
     function searchInspectionRecord(pipe_no, start, append) {
         var project_no = $('#projectInfoSelect').val();
         var mill_no = $('#millInfoSelect').val();
@@ -406,21 +429,7 @@
             } else {
                 toastFail(err);
             }
-
         });
-        // api.setPrefs({
-        //     key: 'project_no_pref',
-        //     value: project_no
-        // });
-        // api.setPrefs({
-        //     key: 'mill_no_pref',
-        //     value: mill_no
-        // });
-        // api.setPrefs({
-        //     key: 'process_code_pref',
-        //     value: process_code
-        // });
-        //closePanel();
     }
     //展示搜索记录
     function funcShowPipeResultList(pipedata, append) {
@@ -435,8 +444,6 @@
         for (var i = 0; i < pipedata.length; i++) {
             $('.search-data').append(pipeInfoTemplate(pipedata[i]));
         }
-        //api.hideProgress();
-
     }
     //钢管信息的模版
     function pipeInfoTemplate(pipe) {
@@ -447,7 +454,7 @@
         var title = pipe.project_name + ' ' + pipe.external_coating + ' ' + pipe.internal_coating;
         if (pipe.result == "1") {
             url = accepted;
-        } else if (pipe.result== "10") {
+        } else if (pipe.result == "10") {
             url = pending;
         } else {
             url = reject;
@@ -464,7 +471,7 @@
             '</div>';
         return template;
     }
-
+    //加载各工序对应的结果集
     function LoadProcess_input_output() {
         var s = 'http://' + serverIP + '/data/process_input_output.json';
         api.ajax({
