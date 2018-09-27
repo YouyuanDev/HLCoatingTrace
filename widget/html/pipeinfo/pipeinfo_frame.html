@@ -296,7 +296,7 @@
             api.hideProgress();
             if (ret) {
                 if (ret.success == false) {
-                   toastFail(ret.message);
+                    toastFail(ret.message);
                 } else {
                     pipeinfo = ret.pipeinfo;
                     urloptions = ret.urloptions;
@@ -394,7 +394,7 @@
                     pipe_no: pipeno
                 }
             }
-        }, function(ret, err) { 
+        }, function(ret, err) {
             //api.hideProgress();
             if (ret) {
                 var data = ret;
@@ -579,30 +579,32 @@
                 DoLoadingPicture();
                 $('#qr-container').show();
                 setTimeout(function() {
-                  html2canvas(document.querySelector("#qr-container")).then(function(canvas){
-                      var canvas = canvas.toDataURL("image/png");
-                      var img = canvas.replace('data:image/png;base64,', '');
-                      var trans = api.require('trans');
-                      var date = new Date();
-                      var imgName = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDay() + "-" + date.getHours() + "-" + date.getMinutes() + "-" + date.getSeconds() + "-" + date.getMilliseconds() + ".png";
-                      trans.saveImage({
-                          base64Str: img,
-                          album: true,
-                          imgPath: "fs://jietu/",
-                          imgName: imgName
-                      }, function(ret, err) {
-                          $('#qr-container').hide();
-                          if (ret.status) {
-                              toastSuccess('图片已生成,保存本地成功!');
-                              //openGPPrinter(img);
-                              openZebraApp();
-                              addPrintRecord();
-                          } else {
-                              toastFail('图片生成失败!');
-                          }
-                      });
-                      ClearLoadingPicture();
-                  });
+                    html2canvas(document.querySelector("#qr-container")).then(function(canvas) {
+                        var canvas = canvas.toDataURL("image/png");
+                        var img = canvas.replace('data:image/png;base64,', '');
+                        var trans = api.require('trans');
+                        var date = new Date();
+                        var imgName = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDay() + "-" + date.getHours() + "-" + date.getMinutes() + "-" + date.getSeconds() + "-" + date.getMilliseconds() + ".png";
+                        trans.saveImage({
+                            base64Str: img,
+                            album: true,
+                            imgPath: "fs://jietu/",
+                            imgName: imgName
+                        }, function(ret, err) {
+                            $('#qr-container').hide();
+                            if (ret.status) {
+
+                                var imgPath = "fs://jietu/" + imgName;
+                                toastSuccess('图片已生成,保存本地成功!');
+                                //openGPPrinter(img);
+                                openZebraPrinter(imgPath);
+                                addPrintRecord();
+                            } else {
+                                toastFail('图片生成失败!');
+                            }
+                        });
+                        ClearLoadingPicture();
+                    });
 
 
                     // html2canvas(document.querySelector("#qr-container")).then(canvas => {
@@ -647,54 +649,44 @@
             }
         });
     }
+
     //调用打印app
-    function openZebraApp() {
+    function openZebraPrinter(imgPath) {
         var sType = api.systemType;
         if (sType == "ios") {
-            api.openApp({
-                iosUrl: 'zebra://' //打开微信的，其中weixin为微信的URL Scheme
-            });
+            toastSuccess('ios暂不支持打印!');
         } else if (sType == "android") {
             //Android中的使用方法如下：
-            api.openApp({
-                androidPkg: 'com.zebra.android.zebrautilities'
-            }, function(ret, err) {
-
+            // api.openApp({
+            //     androidPkg: 'com.zebra.android.zebrautilities'
+            // }, function(ret, err) {
+            //
+            // });
+            api.openFrame({
+                name: 'printer',
+                url: '../addition/printer.html',
+                rect: {
+                    x: 20,
+                    y: 100,
+                    w: api.winWidth - 40,
+                    h: api.winHeight - 200
+                },
+                pageParam: {
+                    imgUrl: imgPath
+                },
+                reload: true
             });
         }
     }
-    // function downQrcode() {
-    //     html2canvas(document.querySelector("#qr-container")).then(canvas => {
-    //         //document.body.appendChild(canvas);
-    //         var canvas = canvas.toDataURL("image/png");
-    //         var img = canvas.replace('data:image/png;base64,', '');
-    //         var trans = api.require('trans');
-    //         var date = new Date();
-    //         var imgName = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDay() + "-" + date.getHours() + "-" + date.getMinutes() + "-" + date.getSeconds() + "-" + date.getMilliseconds() + ".png";
-    //         trans.saveImage({
-    //             base64Str: img,
-    //             album: true,
-    //             imgPath: "fs://jietu/",
-    //             imgName: imgName
-    //         }, function(ret, err) {
-    //             //$('#qr-container').hide();
-    //             if (ret.status) {
-    //                 toastSuccess('图片已生成,保存本地成功!');
-    //                 //openGPPrinter(img);
-    //                 openZebraApp();
-    //             } else {
-    //                 toastFail('图片生成失败!');
-    //             }
-    //         });
+
+
+
+    // function openGPPrinter(imgData) {
+    //     var gprinter = api.require('xGprinter');
+    //     gprinter.printImage({
+    //         base64: 'iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAACyElEQVRYR+2XTWgTQRTH33trC/GDgigaIyJi8aA38VJBD4Ii9WIxWvQmEhHM7O5BoogaEMXa1pnptBUqloKK4AeehCIUWgQLnqrgzaN4EWEVG0zp7JMtRmIb26RJLUrnuLz3f7/573s7swiLvDCqL4TYQURH/sRirb1ljPlaKavneZcAwCmVh4hDUsqXBYBWItoEAK9LBVtrR40x+UoBXNfdg4hUIi8BAJuVUtd+AQBA0NXVNVhpkfnECyEaiejoEsC/74AQoomZNxhjnlTSC1X3QDqdXus4zmNmXgUAnxBx3cTERLK3t/d9OSAzAMpJimKSyaQTj8c1IrYgolBKTe08nU7vJaJ+RBwbGxs7MTw8/L1czakxLGe5rnsMAKLiz5VSpwCAp+cJIa4g4tkwDG8aY9rL0Z0TwPO8ODMPAUDeWtvc3d39cTbhVCrVEIvFngFAIwA0a63fzhZfDsBuZr4OAKN1dXVXOzo6xmcTzGaz9UEQeMy8HwAeaq3vVgUghNhJRE1hGA4i4mVEfKGUuldKVAixDxFPM3MbEa1HxBVSykc1AVBKmUjI87yDzHyciG5IKd9Fz3zf3xKG4TlEfKWUuh/1h+d5zQsCEBXMZrPLgiA4AwBRf3xBxPpcLtfZ19eXK+x2QQEKRVzXPQQA27TWndNt/lsA0XG7VSnV/38DIOIBrXU0ir+tnxeOkg4IIVodxwmrnoJMJtOQz+dvM/O3ycnJCz09PZ+LemDGK0ilUstjsdhFANgVhuFJY8yHqsawqKunPkhE9EBKeScatekOCCEOE5HPzFpr/bQmn+JikegwSiQSKQBoAYAMM6+MmtBaO0JE7Yj4JgiCtoGBgcoOo+h9VXIn9H1/NTNnmXkjACAijltrz89ld2EzVd8HCkK+728HgDVSypFy7K45QCVFi2Nr5sASQE0dWOxfs8X9OZ2vlbXI+wHsg7owETEYpwAAAABJRU5ErkJggg=='
     //     });
     // }
-
-    function openGPPrinter(imgData) {
-        var gprinter = api.require('xGprinter');
-        gprinter.printImage({
-            base64: 'iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAACyElEQVRYR+2XTWgTQRTH33trC/GDgigaIyJi8aA38VJBD4Ii9WIxWvQmEhHM7O5BoogaEMXa1pnptBUqloKK4AeehCIUWgQLnqrgzaN4EWEVG0zp7JMtRmIb26RJLUrnuLz3f7/573s7swiLvDCqL4TYQURH/sRirb1ljPlaKavneZcAwCmVh4hDUsqXBYBWItoEAK9LBVtrR40x+UoBXNfdg4hUIi8BAJuVUtd+AQBA0NXVNVhpkfnECyEaiejoEsC/74AQoomZNxhjnlTSC1X3QDqdXus4zmNmXgUAnxBx3cTERLK3t/d9OSAzAMpJimKSyaQTj8c1IrYgolBKTe08nU7vJaJ+RBwbGxs7MTw8/L1czakxLGe5rnsMAKLiz5VSpwCAp+cJIa4g4tkwDG8aY9rL0Z0TwPO8ODMPAUDeWtvc3d39cTbhVCrVEIvFngFAIwA0a63fzhZfDsBuZr4OAKN1dXVXOzo6xmcTzGaz9UEQeMy8HwAeaq3vVgUghNhJRE1hGA4i4mVEfKGUuldKVAixDxFPM3MbEa1HxBVSykc1AVBKmUjI87yDzHyciG5IKd9Fz3zf3xKG4TlEfKWUuh/1h+d5zQsCEBXMZrPLgiA4AwBRf3xBxPpcLtfZ19eXK+x2QQEKRVzXPQQA27TWndNt/lsA0XG7VSnV/38DIOIBrXU0ir+tnxeOkg4IIVodxwmrnoJMJtOQz+dvM/O3ycnJCz09PZ+LemDGK0ilUstjsdhFANgVhuFJY8yHqsawqKunPkhE9EBKeScatekOCCEOE5HPzFpr/bQmn+JikegwSiQSKQBoAYAMM6+MmtBaO0JE7Yj4JgiCtoGBgcoOo+h9VXIn9H1/NTNnmXkjACAijltrz89ld2EzVd8HCkK+728HgDVSypFy7K45QCVFi2Nr5sASQE0dWOxfs8X9OZ2vlbXI+wHsg7owETEYpwAAAABJRU5ErkJggg=='
-        });
-    }
 
     function rquestPrintCount() {
         var s = 'http://' + serverIP + '/QrCodeOperation/APPGetQRCodePrintTimes.action';
