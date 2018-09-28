@@ -39,25 +39,35 @@
         .aui-btn-primary {
             background: #19AD68;
         }
+
+        .aui-btn-block {
+            width: 95%;
+            margin: auto;
+            height: 3rem;
+            line-height: 3rem;
+        }
+
+        .aui-bar-tab {
+            padding-top: 5px;
+            padding-bottom: 5px;
+            background-color: #515151;
+        }
     </style>
 </head>
 
 <body class="bg-color">
     <section class="printer-section">
-        <!-- <div class="aui-card-list">
-            <div class="aui-card-list-header" data-address="">
-                <span class="printer-icon"></span><span class="printer-mac">34:34:DE:de:43e:4d</span><span class="printer-name">pipeinfo-table</span>
-            </div>
-        </div>
-        <div class="aui-card-list">
-            <div class="aui-card-list-header" onclick="selectPrinter(this);">
-                <span class="printer-icon"></span><span class="printer-mac">34:34:DE:de:43e:4d</span><span class="printer-name">pipeinfo-table</span>
-            </div>
-        </div> -->
+
     </section>
     <footer class="aui-bar aui-bar-tab" id="footer">
         <div class="aui-bar-tab-item aui-active">
-            <div class="aui-btn aui-btn-primary aui-btn-block" onclick="printerImage();">连接并打印</div>
+            <button class="aui-btn aui-btn-primary aui-btn-block" onclick="closePrinter();">关闭</button>
+        </div>
+        <div class="aui-bar-tab-item aui-active">
+            <button class="aui-btn aui-btn-primary aui-btn-block" id="searchBtn" onclick="searchPrinters();">搜索</button>
+        </div>
+        <div class="aui-bar-tab-item aui-active">
+            <button class="aui-btn aui-btn-primary aui-btn-block" id="peinterBtn" onclick="beginPrintImage();">打印</button>
         </div>
     </footer>
 </body>
@@ -69,149 +79,159 @@
 <script src="../../script/jquery.i18n.properties-1.0.9.js" type="text/javascript"></script>
 <script src="../../script/language.js" type="text/javascript"></script>
 <script type="text/javascript">
+    //蓝牙mac地址集合
     var arrAddress = [];
-    var g_imgUrl;
-    var g_address;
-    var ZebraAndroidPrint;
+    //打印图片地址、蓝牙打印机Mac地址、打印机名称
+    var g_imgUrl, g_printer_address, g_printer_name;
+    //选中的打印机对象
+    var $peinterObj;
+    //var ZebraAndroidPrint;
     apiready = function() {
-        //注册监听搜索到蓝牙事件
-        ZebraAndroidPrint = api.require('ZebraAndroidPrint');
-        var data = api.pageParam;
-        if (data != undefined) {
-            g_imgUrl = data.imgUrl;
+            //注册监听搜索到蓝牙事件
+            //ZebraAndroidPrint = api.require('ZebraAndroidPrint');
+            var data = api.pageParam;
+            if (data != undefined) {
+                g_imgUrl = data.imgUrl;
+            }
+            //先检查本地有没有连接过的打印机
+            checkConnectedPrinter();
+            //监听找到蓝牙设备事件
+            registerFindPrinterListener();
+            //监听连接蓝牙打印机成功事件
+            registerConnectPrinterListener();
+            //监听获取蓝牙打印机状态事件
+            registerGetPrinterStatusListener();
+            //监听打印机打印图片完成事件
+            registerPrintImageListener();
         }
+        //检查本地有没有连接过的打印机
+    function checkConnectedPrinter() {
+        try {
+            var printer_address = api.getPrefs({
+                sync: true,
+                key: 'printerAddress'
+            });
+            if (printer_address != undefined) {
+                var printer = JSON.parse(printer_address);
+                var address = printer.address;
+                var name = printer.name;
+                if (address != undefined) {
+                    g_printer_address = address;
+                    g_printer_name = name;
+                    arrAddress.push(address);
+                    $('.printer-section').append(makePrinterTemplate(address, name));
+                    //connectPrinter(g_printer_address, g_printer_name);
+                    $('.aui-card-list').eq(0).addClass('aui-card-list-color');
+                    $('.aui-card-list').find('.printer-connected').text('Connected');
+                } else {
+                    searchPrinters();
+                }
+            } else {
+                searchPrinters();
+            }
+        } catch (e) {
+            toastFail('系统繁忙,稍后重试!');
+        }
+    }
+    //搜索蓝牙设备事件
+    function searchPrinters() {
+        $('#searchBtn').attr('disabled', true);
+        arrAddress = [g_printer_address];
+        clearBluetoothList();
         findPrinters();
     }
     //开始打印图片
-    function printerImage() {
-        connectPrinter();
+    function beginPrintImage() {
+        if (g_printer_address != undefined) {
+            //先获取蓝牙打印机的状态
+            $('#printerBtn').attr('disabled', true);
+            alert(g_printer_address);
+            getPrinterStatus(g_printer_address);
+        } else {
+            toastFail('请选择打印机!');
+        }
     }
-    //搜索蓝牙设备
-    function findPrinters() {
-        //DoLoadingPicture();
-        ZebraAndroidPrint.findPrinters(
-            function(ret, err) {
-              //  ClearLoadingPicture();
-                if (ret.result) {
-                    var data = ret.msg;
-                    for (var i = 0; i < data.length; i++) {
-                        var address = data[i].address;
-                        var name = data[i].name;
-                        if (arrAddress.indexOf(address) == -1) {
-                            arrAddress.push(address);
-                            $('.printer-section').append(makePrinterTemplate(address, name));
-                        }
-                    }
-                } else {
-                    toastSuccess(ret.msg);
-                }
+    //监听搜索到蓝牙设备事件
+    function registerFindPrinterListener() {
+        api.addEventListener({
+            name: 'findPrinterEvent'
+        }, function(ret, err) {
+            var address = ret.value.address;
+            var name = ret.value.name;
+            if ($.inArray(address, arrAddress) == -1) {
+                arrAddress.push(address);
+                $('.printer-section').append(makePrinterTemplate(address, name));
             }
-        );
+            $('#searchBtn').attr('disabled', false);
+        });
     }
-    //连接打印机
-    function connectPrinter() {
-        //DoLoadingPicture();
-        if (g_address != undefined) {
-            var param = {
-                printerAddr:g_address
+    //监听连接蓝牙打印机成功事件
+    function registerConnectPrinterListener() {
+        api.addEventListener({
+            name: 'connectPrinterEvent'
+        }, function(ret, err) {
+            //连接成功之后,移除蓝牙列表,只保留连接的
+            var address = ret.value.address;
+            var name = ret.value.name;
+            g_printer_address = address;
+            g_printer_name = name;
+            findSlectedPrinter();
+            //将选中的蓝牙列表高亮显示
+            if ($peinterObj != undefined) {
+                $peinterObj.siblings().removeClass('aui-card-list-color');
+                $peinterObj.addClass('aui-card-list-color');
+                $peinterObj.siblings().find('.printer-connected').text('Not connected');
+                $peinterObj.find('.printer-connected').text('Connected');
+            }
+            //连接成功将蓝牙的Mac地址和名称保存到本地
+            var obj = {
+                address: g_printer_address,
+                name: g_printer_name
             };
-            ZebraAndroidPrint.connectPrinter(param, function(ret, err) {
-                if (ret.result) {
-                    //连接成功之后,移除蓝牙列表,只保留连接的
-                    $('.aui-card-list').each(function() {
-                        var address = $(this).attr('data-address');
-                        if (address != g_address) {
-                            $(this).remove();
-                        }
-                    });
-                    //连接成功打印图片
-                    printImage();
-                } else {
-                    toastSuccess(ret.msg);//ClearLoadingPicture();
-                }
+            api.setPrefs({
+                key: 'printerAddress',
+                value: obj
             });
-        } else {
-            toastFail('连接打印机失败,请选中要连接的打印机!');
-            //ClearLoadingPicture();
-        }
+            $('#printerBtn').attr('disabled', false);
+            //获取打印机状态，判断是否是在准备打印状态
+            //getPrinterStatus(g_printer_address);
+        });
     }
-    //获取打印机的状态
-    function getPrinterStatus() {
-        //DoLoadingPicture();
-        //0:准备打印!,1:打印机暂停,无法打印!,2:无法打印,因为打印头是打开的!3:打印机缺纸  4:打印机未连接! 5 获取状态时错误,未找到Mac地址! 6:其他错误
-        if (g_address != undefined) {
-            var param = {
-                printerAddr: g_address
-            };
-            ZebraAndroidPrint.getPrinterStatus(param, function(ret, err) {
-                if (ret) {
-                    toastSuccess(ret.msg);
-                } else {
-                    toastSuccess(ret.msg);
-                }
-                //ClearLoadingPicture();
-            });
-        } else {
-            toastFail('获取打印机状态失败,请选中要连接的打印机!');
-            //ClearLoadingPicture();
-        }
+    //监听获取蓝牙打印机状态事件
+    function registerGetPrinterStatusListener() {
+        api.addEventListener({
+            name: 'getPrinterStatusEvent'
+        }, function(ret, err) {
+            var status = ret.value.status;
+            if (status == 'ReadyToPrint') {
+                //连接成功并且打印机状态是准备状态则打印图片
+                printImage(g_imgUrl);
+            } else {
+                $('#printerBtn').attr('disabled', false);
+                toastFail("打印无法完成,打印机处于[" + status + "]状态!");
+            }
+        });
     }
-    //打印图片
-    function printImage() {
-        if (g_imgUrl != undefined) {
-            var param = {
-                imageUrl: g_imgUrl,
-                x: 0,
-                y: 0,
-                width: 550,
-                height: 412
-            };
-            ZebraAndroidPrint.printImage(param, function(ret, err) {
-                if (ret) {
-                    toastSuccess(ret.msg);
-                    closePrinter();
-                    //ClearLoadingPicture();
-                    api.closeFrame({
-                        name: 'printer'
-                    });
-                } else {
-                    toastSuccess(ret.msg);//ClearLoadingPicture();
-                }
-
-            });
-        } else {
-            toastFail('未找到图片!');
-            //ClearLoadingPicture();
-        }
-
+    //监听打印图片完成事件
+    function registerPrintImageListener() {
+        api.addEventListener({
+            name: 'printImageEvent'
+        }, function(ret, err) {
+            var result = ret.value.result;
+            if(result)
+              toastSuccess('打印成功!');
+            else
+              toastFail('打印失败!');
+            ClearLoadingPicture();
+            $('#printerBtn').attr('disabled', false);
+        });
     }
-    //关闭打印机
-    function closePrinter() {
-        if (g_address != undefined) {
-            var param = {
-                printerAddr: g_address
-            };
-            ZebraAndroidPrint.closePrinter(param, function(ret, err) {
-                if (ret) {
-                    alert(ret.msg);
-                } else {
-                    alert(ret.msg);
-                }
-            });
-        } else {
-            toastFail('为找到要关闭的打印机!');
-        }
-    }
-
     //选中打印机
     function selectPrinter(obj) {
         var $obj = $(obj);
-        $obj.siblings().removeClass('aui-card-list-color');
-        $obj.addClass('aui-card-list-color');
         var address = $obj.attr('data-address');
-        if (address != undefined) {
-            g_address = address;
-        }
+        var name = $obj.attr('data-name');
+        connectPrinter(address, name);
     }
     //蓝牙列表模板
     function makePrinterTemplate(address, name) {
@@ -219,13 +239,42 @@
         if (address != undefined) {
             if (name == undefined)
                 name = "";
-            template = '<div class="aui-card-list" data-address="' + address + '" onclick="selectPrinter(this);">' +
+            template = '<div class="aui-card-list" data-name="' + name + '" data-address="' + address + '" onclick="selectPrinter(this);">' +
                 '<div class="aui-card-list-header">' +
-                '<span class="printer-icon"></span><span class="printer-mac">' + address + '</span><span class="printer-name">' + name + '</span>' +
+                '<span class="printer-icon"></span><span class="printer-connected">Not connected</span><span class="printer-mac">' + address + '</span><span class="printer-name">' + name + '</span>' +
                 '</div>' +
                 '</div>';
         }
         return template;
     }
-
+    //清空列表
+    function clearBluetoothList() {
+        $('.aui-card-list').each(function() {
+            var address = $(this).attr('data-address');
+            if (address != g_printer_address) {
+                $(this).remove();
+            }
+        });
+    }
+    //根据Mac地址找到选中的打印机对象
+    function findSlectedPrinter() {
+        if (g_printer_address != undefined) {
+            $('.aui-card-list').each(function() {
+                var address = $(this).attr('data-address');
+                if (address == g_printer_address) {
+                    $peinterObj = $(this);
+                }
+            });
+        }
+    }
+    //关闭当前窗体
+    function closePrinter() {
+        // api.closeFrame({
+        //     name: 'printer'
+        // });
+        api.setFrameAttr({
+            name: 'printer',
+            hidden: true
+        });
+    }
 </script>

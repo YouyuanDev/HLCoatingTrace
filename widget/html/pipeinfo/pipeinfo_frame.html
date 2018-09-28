@@ -246,6 +246,7 @@
             pipeno = data.pipeno;
             //下拉刷新，钢管信息
             dropdownLoading();
+            registerPrintImageListener();
             //urloptions =data.urloptions;
             if (pipeno != undefined) {
                 SearchpipeInfo();
@@ -603,7 +604,7 @@
                                 toastSuccess('图片已生成,保存本地成功!');
                                 //openGPPrinter(img);
                                 openZebraPrinter(imgPath);
-                                addPrintRecord();
+                                //addPrintRecord();
                             } else {
                                 toastFail('图片生成失败!');
                             }
@@ -679,7 +680,7 @@
                 pageParam: {
                     imgUrl: imgPath
                 },
-                reload: true
+                reload: false
             });
         }
     }
@@ -692,6 +693,18 @@
     //         base64: 'iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAACyElEQVRYR+2XTWgTQRTH33trC/GDgigaIyJi8aA38VJBD4Ii9WIxWvQmEhHM7O5BoogaEMXa1pnptBUqloKK4AeehCIUWgQLnqrgzaN4EWEVG0zp7JMtRmIb26RJLUrnuLz3f7/573s7swiLvDCqL4TYQURH/sRirb1ljPlaKavneZcAwCmVh4hDUsqXBYBWItoEAK9LBVtrR40x+UoBXNfdg4hUIi8BAJuVUtd+AQBA0NXVNVhpkfnECyEaiejoEsC/74AQoomZNxhjnlTSC1X3QDqdXus4zmNmXgUAnxBx3cTERLK3t/d9OSAzAMpJimKSyaQTj8c1IrYgolBKTe08nU7vJaJ+RBwbGxs7MTw8/L1czakxLGe5rnsMAKLiz5VSpwCAp+cJIa4g4tkwDG8aY9rL0Z0TwPO8ODMPAUDeWtvc3d39cTbhVCrVEIvFngFAIwA0a63fzhZfDsBuZr4OAKN1dXVXOzo6xmcTzGaz9UEQeMy8HwAeaq3vVgUghNhJRE1hGA4i4mVEfKGUuldKVAixDxFPM3MbEa1HxBVSykc1AVBKmUjI87yDzHyciG5IKd9Fz3zf3xKG4TlEfKWUuh/1h+d5zQsCEBXMZrPLgiA4AwBRf3xBxPpcLtfZ19eXK+x2QQEKRVzXPQQA27TWndNt/lsA0XG7VSnV/38DIOIBrXU0ir+tnxeOkg4IIVodxwmrnoJMJtOQz+dvM/O3ycnJCz09PZ+LemDGK0ilUstjsdhFANgVhuFJY8yHqsawqKunPkhE9EBKeScatekOCCEOE5HPzFpr/bQmn+JikegwSiQSKQBoAYAMM6+MmtBaO0JE7Yj4JgiCtoGBgcoOo+h9VXIn9H1/NTNnmXkjACAijltrz89ld2EzVd8HCkK+728HgDVSypFy7K45QCVFi2Nr5sASQE0dWOxfs8X9OZ2vlbXI+wHsg7owETEYpwAAAABJRU5ErkJggg=='
     //     });
     // }
+    //监听打印机打印成功事件
+    //监听打印图片完成事件
+    function registerPrintImageListener() {
+        api.addEventListener({
+            name: 'printImageEvent'
+        }, function(ret, err) {
+             var result=ret.value.result;
+             if(result){
+               addPrintRecord();
+             }
+        });
+    }
 
     function rquestPrintCount() {
         var s = 'http://' + serverIP + '/QrCodeOperation/APPGetQRCodePrintTimes.action';

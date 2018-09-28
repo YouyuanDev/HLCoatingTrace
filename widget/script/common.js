@@ -133,7 +133,7 @@ function unbindPush() {
             toastSuccess("解除绑定成功");
 
         } else {
-              toastFail(err.msg);
+            toastFail(err.msg);
         }
     });
 }
@@ -175,7 +175,7 @@ function leaveAllPushGroup() {
             // });
             //alert( JSON.stringify( ret) );
         } else {
-              toastFail(err.msg);
+            toastFail(err.msg);
         }
     });
 }
@@ -346,7 +346,7 @@ function setAllDefectInfo(type) {
                     UIMultiSelector.close();
                 }
             } else {
-                  toastFail(err.msg);
+                toastFail(err.msg);
             }
         });
     });
@@ -379,17 +379,18 @@ function DoLoadingPicture() {
         mask: 'rgba(0,0,0,0.5)',
         fixed: true
     }, function(ret) {
-
         g_loadingID = ret.id;
     });
 }
 
 function ClearLoadingPicture() {
     var uiloading = api.require('UILoading');
-    uiloading.closeFlower({
-        id: g_loadingID
-    });
-    g_loadingID = 0;
+    if(g_loadingID!=undefined){
+      uiloading.closeFlower({
+          id: g_loadingID
+      });
+        g_loadingID = 0;
+    }
 }
 
 
@@ -431,7 +432,7 @@ function getPicture(sourceType) {
                 });
                 //$('#imgUp').attr('src', ret.base64Data);
             } else {
-                  toastFail(err.msg);
+                toastFail(err.msg);
             }
         });
     } else if (sourceType == 2) { // 从相机中选择
@@ -464,7 +465,7 @@ function getPicture(sourceType) {
                         $('.imgBox').append(pictureTemplate(ret.imgUrl, ret.base64Data));
                         toastSuccess("上传成功!");
                     } else {
-                          toastFail(err.msg);
+                        toastFail(err.msg);
                     }
                 });
             } else {
@@ -558,7 +559,7 @@ function delSelectPicture(obj) {
 
 
 //根据pipeno  内外防腐标准、检验频率、钢管信息、光管检验频率、pending数据  APP使用  stencil_content 做完动态替换
-function RequestAllProcessInfoByPipeNo(pipeno,processcode) {
+function RequestAllProcessInfoByPipeNo(pipeno, processcode) {
     //alert(pipeno);
     // pipeno="1524540";
     //注册接收RequestAllProcessInfoByPipeNo回调
@@ -571,8 +572,8 @@ function RequestAllProcessInfoByPipeNo(pipeno,processcode) {
             var millno = ret.value.data.millno;
             var criteria = ret.value.data.criteria;
             var pipeinfo = ret.value.data.pipeinfo;
-            var record_header=ret.value.data.record_header;
-            var record_items=ret.value.data.record_items;
+            var record_header = ret.value.data.record_header;
+            var record_items = ret.value.data.record_items;
 
             GetAllProcessInfoByPipeNoOK(ret.value.data);
         } else {
@@ -591,7 +592,7 @@ function RequestAllProcessInfoByPipeNo(pipeno,processcode) {
         data: {
             values: {
                 pipe_no: pipeno,
-                process_code:processcode
+                process_code: processcode
             }
         }
     }, function(ret, err) {
@@ -615,43 +616,41 @@ function RequestAllProcessInfoByPipeNo(pipeno,processcode) {
 //关闭窗口并且更新piperoot页面
 function closeWindow(processcode) {
 
-  if(processcode!=undefined&&processcode.indexOf('lab')!=-1){
-     api.sendEvent({
-         name: 'refreshLabRoot',
-         extra: {
+    if (processcode != undefined && processcode.indexOf('lab') != -1) {
+        api.sendEvent({
+            name: 'refreshLabRoot',
+            extra: {
 
-         }
-     });
-     setTimeout(function() {
-        api.closeToWin({
-            name: 'root'
+            }
         });
-     }, 100);
-   }
-   else if(processcode!=undefined&&processcode.indexOf('shipment')!=-1){
-     api.sendEvent({
-         name: 'refreshShipmentRoot',
-         extra: {
+        setTimeout(function() {
+            api.closeToWin({
+                name: 'root'
+            });
+        }, 100);
+    } else if (processcode != undefined && processcode.indexOf('shipment') != -1) {
+        api.sendEvent({
+            name: 'refreshShipmentRoot',
+            extra: {
 
-         }
-     });
-     setTimeout(function() {
-        api.closeToWin({
-            name: 'root'
+            }
         });
-     }, 100);
-   }
-   else{
-     api.sendEvent({
-         name: 'refreshPipeRoot',
-         extra: {
-             pipe_no: g_pipeno
-         }
-     });
-     setTimeout(function() {
-         api.closeWin();
-     }, 100);
-   }
+        setTimeout(function() {
+            api.closeToWin({
+                name: 'root'
+            });
+        }, 100);
+    } else {
+        api.sendEvent({
+            name: 'refreshPipeRoot',
+            extra: {
+                pipe_no: g_pipeno
+            }
+        });
+        setTimeout(function() {
+            api.closeWin();
+        }, 100);
+    }
 
 
 }
@@ -699,36 +698,35 @@ function initCriteria(criteria) {
                 if (name.indexOf("_min") != -1) {
                     name = "." + name.replace("_min", "");
                     if (value != undefined) {
-                        $(name).each(function(){
-                           $(this).attr('data-min', value);
+                        $(name).each(function() {
+                            $(this).attr('data-min', value);
                         });
                     }
                     name = name + "_lbl";
-                    $(name).each(function(){
-                      if ($(this).children('.range-span').length <= 0) {
-                          $(this).append('<span class="range-span">' + value + '~</span>');
-                      } else {
-                          var txt = $(this).children('.range-span').text();
-                          //判断是否已经设置了min 因为  存在检测项  od_xx_min  id_xx_min
-                          $(this).children('.range-span').text(value + "~" + txt);
-                      }
+                    $(name).each(function() {
+                        if ($(this).children('.range-span').length <= 0) {
+                            $(this).append('<span class="range-span">' + value + '~</span>');
+                        } else {
+                            var txt = $(this).children('.range-span').text();
+                            //判断是否已经设置了min 因为  存在检测项  od_xx_min  id_xx_min
+                            $(this).children('.range-span').text(value + "~" + txt);
+                        }
                     });
                 } else if (name.indexOf("_max") != -1) {
                     name = "." + name.replace("_max", "");
-                    if (value != undefined)
-                    {
-                      $(name).each(function(){
-                        $(this).attr('data-max', value);
-                      });
+                    if (value != undefined) {
+                        $(name).each(function() {
+                            $(this).attr('data-max', value);
+                        });
                     }
                     name = name + "_lbl";
-                    $(name).each(function(){
-                      if ($(this).children('.range-span').length <= 0) {
-                          $(this).append('<span class="range-span">' + value + '</span>');
-                      } else {
-                          var txt = $(this).children('.range-span').text();
-                          $(this).children('.range-span').text(txt + "" + value);
-                      }
+                    $(name).each(function() {
+                        if ($(this).children('.range-span').length <= 0) {
+                            $(this).append('<span class="range-span">' + value + '</span>');
+                        } else {
+                            var txt = $(this).children('.range-span').text();
+                            $(this).children('.range-span').text(txt + "" + value);
+                        }
                     });
                 }
             }
@@ -847,7 +845,10 @@ function setControls() {
             inst.setVal($(this).val());
         }
     });
-    $('.mob-datetime1').mobiscroll().date({lang: 'zh',dateFormat: 'yy-mm-dd'});
+    $('.mob-datetime1').mobiscroll().date({
+        lang: 'zh',
+        dateFormat: 'yy-mm-dd'
+    });
     // $('#exp').mobiscroll().datetime();
 
 
@@ -1402,32 +1403,33 @@ function setControls() {
             $(this).val(selectedVal);
             var minVal = $(this).attr('data-min');
             var maxVal = $(this).attr('data-max');
-            var wt=$('#wt').val();
-            if(wt!=undefined){
-              var maximumwt=(maxVal+1)*wt;
-              var minimumwt=(minVal+1)*wt;
-              var thisVal=$(this).val();var flag = true;
-              if (thisVal != undefined && thisVal != -99 && thisVal != "") {
-                  var valuelist = thisVal.split(",");
-                  for (var i = 0; i < valuelist.length; i++) {
-                      if (maximumwt != undefined) {
-                          if (parseFloat(maximumwt) < parseFloat(valuelist[i])) {
-                              flag = false;
-                              break;
-                          }
-                      }
-                      if (minimumwt != undefined) {
-                          if (parseFloat(valuelist[i]) < parseFloat(minimumwt)) {
-                              flag = false;
-                              break;
-                          }
-                      }
-                  }
-              }
-              if (flag)
-                  $(this).css('background', '#FFFFFF');
-              else
-                  $(this).css('background', '#F9A6A6');
+            var wt = $('#wt').val();
+            if (wt != undefined) {
+                var maximumwt = (maxVal + 1) * wt;
+                var minimumwt = (minVal + 1) * wt;
+                var thisVal = $(this).val();
+                var flag = true;
+                if (thisVal != undefined && thisVal != -99 && thisVal != "") {
+                    var valuelist = thisVal.split(",");
+                    for (var i = 0; i < valuelist.length; i++) {
+                        if (maximumwt != undefined) {
+                            if (parseFloat(maximumwt) < parseFloat(valuelist[i])) {
+                                flag = false;
+                                break;
+                            }
+                        }
+                        if (minimumwt != undefined) {
+                            if (parseFloat(valuelist[i]) < parseFloat(minimumwt)) {
+                                flag = false;
+                                break;
+                            }
+                        }
+                    }
+                }
+                if (flag)
+                    $(this).css('background', '#FFFFFF');
+                else
+                    $(this).css('background', '#F9A6A6');
             }
         }
     });
@@ -1436,7 +1438,7 @@ function setControls() {
         theme: 'auto',
         lang: 'zh',
         display: 'bottom',
-        dateFormat:'yyyy-mm-dd',
+        dateFormat: 'yyyy-mm-dd',
         timeFormat: 'HH:ii:ss'
     });
     //切斜
@@ -1446,8 +1448,8 @@ function setControls() {
         display: 'center',
         min: 0,
         max: 5,
-        step:0.1,
-        defaultValue:1,
+        step: 0.1,
+        defaultValue: 1,
         units: ['c'],
         unitNames: {
             c: 'mm'
@@ -1464,9 +1466,9 @@ function setControls() {
         lang: 'zh',
         display: 'center',
         min: 0,
-        max:0.1,
-        step:0.001,
-        defaultValue:0.01,
+        max: 0.1,
+        step: 0.001,
+        defaultValue: 0.01,
         onSet: function(event, inst) {
             validateSingleValue($(this));
         }
@@ -1477,12 +1479,12 @@ function setControls() {
         lang: 'zh',
         display: 'center',
         min: 0,
-        max:50,
-        step:1,
-        defaultValue:30,
+        max: 50,
+        step: 1,
+        defaultValue: 30,
         units: ['c'],
         unitNames: {
-            c:'°'
+            c: '°'
         },
         onSet: function(event, inst) {
             var selectedVal = inst.getVal();
@@ -1497,8 +1499,8 @@ function setControls() {
         display: 'center',
         min: 0,
         max: 3,
-        step:0.1,
-        defaultValue:1.6,
+        step: 0.1,
+        defaultValue: 1.6,
         units: ['c'],
         unitNames: {
             c: 'mm'
@@ -1519,11 +1521,11 @@ function setControls() {
         data: {}
     }, function(ret, err) {
         if (ret) {
-            $.each(ret,function(k,v){
-                 var name="."+k;
-                 for (var i = 0; i < v.length; i++) {
-                      $(name).append('<option value=' +v[i].text + '>' +v[i].text  + '</option>');
-                 }
+            $.each(ret, function(k, v) {
+                var name = "." + k;
+                for (var i = 0; i < v.length; i++) {
+                    $(name).append('<option value=' + v[i].text + '>' + v[i].text + '</option>');
+                }
             })
         } else {
             toastFail(err.msg);
@@ -1567,7 +1569,7 @@ function Request2FBELabAcceptCriteria(pipeno) {
         if (ret) {
             success = true;
         } else {
-           toastFail(err.msg);
+            toastFail(err.msg);
         }
         api.sendEvent({
             name: 'Request2FBELabAcceptCriteriaCallbackEvent',
@@ -1738,7 +1740,7 @@ function getPendingRecordInfo(controller, pipe_no) {
                 }
             });
         } else {
-          toastFail(err.msg);
+            toastFail(err.msg);
         }
 
     });
@@ -1860,22 +1862,22 @@ function RequestNextTenPipesBeforePipeNo(pipeno, process_code) {
         data: {
             values: {
                 pipe_no: pipeno,
-                process_code:process_code
+                process_code: process_code
             }
         }
     }, function(ret, err) {
         if (ret) {
-          if(ret.success){
-            api.sendEvent({
-                name: 'RequestNextTenPipesBeforePipeNoEvent',
-                extra: {
-                    success: ret.success,
-                    data: ret.data
-                }
-            });
-          }else{
-            toastFail(ret.message);
-          }
+            if (ret.success) {
+                api.sendEvent({
+                    name: 'RequestNextTenPipesBeforePipeNoEvent',
+                    extra: {
+                        success: ret.success,
+                        data: ret.data
+                    }
+                });
+            } else {
+                toastFail(ret.message);
+            }
         } else {
             toastFail(err.msg);
         }
@@ -1888,19 +1890,19 @@ function clearLabelData() {
     });
 }
 //获取当前时间
-function getNowDate(){
-  var d=new Date();
-  var year=d.getFullYear();
-  var month=(d.getMonth()+1)<10?"0"+(d.getMonth()+1):(d.getMonth()+1);
-  var day=d.getDate()<10?"0"+d.getDate():d.getDate();
-  var hours=d.getHours()<10?"0"+d.getHours():d.getHours();
-  var minute=d.getMinutes()<10?"0"+d.getMinutes():d.getMinutes();
-  var second=d.getSeconds()<10?"0"+d.getSeconds():d.getSeconds();
-  return year+"-"+month+"-"+day+" "+hours+":"+minute+":"+second;
+function getNowDate() {
+    var d = new Date();
+    var year = d.getFullYear();
+    var month = (d.getMonth() + 1) < 10 ? "0" + (d.getMonth() + 1) : (d.getMonth() + 1);
+    var day = d.getDate() < 10 ? "0" + d.getDate() : d.getDate();
+    var hours = d.getHours() < 10 ? "0" + d.getHours() : d.getHours();
+    var minute = d.getMinutes() < 10 ? "0" + d.getMinutes() : d.getMinutes();
+    var second = d.getSeconds() < 10 ? "0" + d.getSeconds() : d.getSeconds();
+    return year + "-" + month + "-" + day + " " + hours + ":" + minute + ":" + second;
 }
 //获取实验管管号
-function getSamplePipeNo(className,pipeno,coating_date,url,flag,testing_id){
-    var s = 'http://' + serverIP + '/pipeinfo/'+url+'.action';
+function getSamplePipeNo(className, pipeno, coating_date, url, flag, testing_id) {
+    var s = 'http://' + serverIP + '/pipeinfo/' + url + '.action';
     api.ajax({
         url: s,
         method: 'post',
@@ -1909,18 +1911,18 @@ function getSamplePipeNo(className,pipeno,coating_date,url,flag,testing_id){
         data: {
             values: {
                 pipe_no: pipeno,
-                coating_date:coating_date,
-                testing_id:testing_id
+                coating_date: coating_date,
+                testing_id: testing_id
             }
         }
     }, function(ret, err) {
         if (ret) {
-             for (var i = 0; i < ret.length; i++) {
-                if(flag==1)
-                  $(className).append('<option value=' +ret[i].pipe_no + ' selected="selected">' +ret[i].pipe_no  + '</option>');
+            for (var i = 0; i < ret.length; i++) {
+                if (flag == 1)
+                    $(className).append('<option value=' + ret[i].pipe_no + ' selected="selected">' + ret[i].pipe_no + '</option>');
                 else
-                  $(className).append('<option value=' +ret[i].pipe_no + '>' +ret[i].pipe_no  + '</option>');
-             }
+                    $(className).append('<option value=' + ret[i].pipe_no + '>' + ret[i].pipe_no + '</option>');
+            }
         } else {
             toastFail(err.msg);
         }
@@ -1930,7 +1932,7 @@ function getSamplePipeNo(className,pipeno,coating_date,url,flag,testing_id){
 
 
 //根据id获取原材料试验数据
-function RequestRawMaterialTestingInfoById(id,url) {
+function RequestRawMaterialTestingInfoById(id, url) {
     api.addEventListener({
         name: 'RequestRawMaterialTestingInfoByIdCallbackEvent'
     }, function(ret, err) {
@@ -1940,7 +1942,7 @@ function RequestRawMaterialTestingInfoById(id,url) {
             GetRawMaterialTestingInfoByIdFail();
         }
     });
-    var s = 'http://' + serverIP +'/'+url;
+    var s = 'http://' + serverIP + '/' + url;
     api.ajax({
         url: s,
         method: 'post',
@@ -1948,13 +1950,12 @@ function RequestRawMaterialTestingInfoById(id,url) {
         dataType: 'json',
         data: {
             values: {
-                id:id
+                id: id
             }
         }
     }, function(ret, err) {
         api.hideProgress();
-        if (ret) {
-        } else {
+        if (ret) {} else {
             toastFail(err.msg);
         }
         api.sendEvent({
@@ -1969,15 +1970,15 @@ function RequestRawMaterialTestingInfoById(id,url) {
 }
 //获取项目编号和项目名集合
 function RequireProjectNo() {
-  api.addEventListener({
-      name: 'RequireProjectNoCallbackEvent'
-  }, function(ret, err) {
-      if (ret.value.data!=undefined) {
-          RequireProjectNoOK(ret.value.data);
-      } else {
-          RequireProjectNoFail();
-      }
-  });
+    api.addEventListener({
+        name: 'RequireProjectNoCallbackEvent'
+    }, function(ret, err) {
+        if (ret.value.data != undefined) {
+            RequireProjectNoOK(ret.value.data);
+        } else {
+            RequireProjectNoFail();
+        }
+    });
     var s = 'http://' + serverIP + '/ProjectOperation/getProjectInfoByNoOrName.action';
     api.ajax({
         url: s,
@@ -2024,7 +2025,7 @@ function RequestRawMaterialCriteriaByProjecteNo(project_no) {
         if (ret) {
 
         } else {
-              toastFail(err.msg);
+            toastFail(err.msg);
         }
         api.sendEvent({
             name: 'RequestRawMaterialCriteriaByProjecteNoCallbackEvent',
@@ -2036,8 +2037,9 @@ function RequestRawMaterialCriteriaByProjecteNo(project_no) {
 
     });
 }
-function closeWindowNoPipeNo(){
-   api.closeWin();
+
+function closeWindowNoPipeNo() {
+    api.closeWin();
 }
 //正确消息弹出框
 function toastSuccess(txt) {
@@ -2056,14 +2058,146 @@ function toastFail(txt) {
     });
 }
 //清理本地缓存
-function clearAllPrefs(){
-  api.removePrefs({
-    key: 'millNoListPref'
-  });
-  api.removePrefs({
-    key: 'processNoListPref'
-  });
-  api.removePrefs({
-    key: 'projectNoListPref'
-  });
+function clearAllPrefs() {
+    api.removePrefs({
+        key: 'millNoListPref'
+    });
+    api.removePrefs({
+        key: 'processNoListPref'
+    });
+    api.removePrefs({
+        key: 'projectNoListPref'
+    });
+}
+//打印机模块
+var ZebraAndroidPrint;
+//搜索蓝牙设备
+function findPrinters() {
+    DoLoadingPicture();
+    if(ZebraAndroidPrint==undefined)
+       ZebraAndroidPrint = api.require('ZebraAndroidPrint');
+    ZebraAndroidPrint.findPrinters(
+        function(ret, err) {
+            if (ret.result) {
+                var data = ret.msg;
+                for (var i = 0; i < data.length; i++) {
+                    var address = data[i].address;
+                    var name = data[i].name;
+                    api.sendEvent({
+                        name: 'findPrinterEvent',
+                        extra: {
+                            address: address,
+                            name: name
+                        }
+                    });
+                }
+            } else {
+                toastSuccess(ret.msg);
+            }
+            ClearLoadingPicture();
+        }
+    );
+}
+//连接打印机
+function connectPrinter(address, name) {
+    DoLoadingPicture();
+    if (address != undefined) {
+        var param = {
+            printerAddr: address
+        };
+        if(ZebraAndroidPrint==undefined)
+           ZebraAndroidPrint = api.require('ZebraAndroidPrint');
+        ZebraAndroidPrint.connectPrinter(param, function(ret, err) {
+            toastSuccess(ret.msg);
+            if (ret.result) {
+                api.sendEvent({
+                    name: 'connectPrinterEvent',
+                    extra: {
+                        address: address,
+                        name: name
+                    }
+                });
+            }
+            ClearLoadingPicture();
+        });
+    } else {
+        toastFail('连接打印机失败,请选中要连接的打印机!');
+        ClearLoadingPicture();
+    }
+}
+//获取打印机的状态
+function getPrinterStatus(g_address) {
+    DoLoadingPicture();
+    //0:准备打印!,1:打印机暂停,无法打印!,2:无法打印,因为打印头是打开的!3:打印机缺纸  4:打印机未连接! 5 获取状态时错误,未找到Mac地址! 6:其他错误
+    if (g_address != undefined) {
+        var param = {
+            printerAddr: g_address
+        };
+        if(ZebraAndroidPrint==undefined)
+           ZebraAndroidPrint = api.require('ZebraAndroidPrint');
+        ZebraAndroidPrint.getPrinterStatus(param, function(ret, err) {
+            api.sendEvent({
+                name: 'getPrinterStatusEvent',
+                extra: {
+                    status: ret.msg
+                }
+            });
+            ClearLoadingPicture();
+        });
+    } else {
+        api.sendEvent({
+            name: 'getPrinterStatusEvent',
+            extra: {
+                status: '获取打印机状态失败,请选中要连接的打印机!'
+            }
+        });
+        ClearLoadingPicture();
+    }
+}
+//打印图片
+function printImage(g_imgUrl) {
+    if (g_imgUrl != undefined) {
+        var param = {
+            imageUrl: g_imgUrl,
+            x: 0,
+            y: 0,
+            width: 800,
+            height: 350,
+            copies: 1
+        };
+        if(ZebraAndroidPrint==undefined)
+           ZebraAndroidPrint = api.require('ZebraAndroidPrint');
+        ZebraAndroidPrint.printImage(param, function(ret, err) {
+            toastSuccess(ret.msg);
+            api.sendEvent({
+                name: 'printImageEvent',
+                extra: {
+                    result: ret.result
+                }
+            });
+            ClearLoadingPicture();
+        });
+    } else {
+        api.sendEvent({
+            name: 'printImageEvent',
+            extra: {
+                result:false,
+                msg:'未找到图片!'
+            }
+        });
+        ClearLoadingPicture();
+    }
+}
+//关闭打印机
+function closePrinter() {
+    if (g_address != undefined) {
+        var param = {
+            printerAddr: g_address
+        };
+        if(ZebraAndroidPrint==undefined)
+           ZebraAndroidPrint = api.require('ZebraAndroidPrint');
+        ZebraAndroidPrint.closePrinter(param, function(ret, err) {});
+    } else {
+        toastFail('为找到要关闭的打印机!');
+    }
 }
