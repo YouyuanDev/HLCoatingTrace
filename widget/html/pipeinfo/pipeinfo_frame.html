@@ -194,7 +194,7 @@
                 <div class="qr-canvas-inner"></div>
                 <div class="qr-canvas-text"></div>
             </div>
-            <div class="qr-canvas">
+            <!-- <div class="qr-canvas">
                 <div class="qr-canvas-inner"></div>
                 <div class="qr-canvas-text"></div>
             </div>
@@ -205,7 +205,7 @@
             <div class="qr-canvas">
                 <div class="qr-canvas-inner"></div>
                 <div class="qr-canvas-text"></div>
-            </div>
+            </div> -->
             <div class="clearfix"></div>
         </div>
         <!-- <a id="down_qr" href="#" style="padding:10px;background:red;" onclick="downQrcode();">haha</a> -->
@@ -536,6 +536,7 @@
 
     function GenerateQRCode(pipeno) {
         //for (var i = 0; i < 3; i++) {
+        //生成显示的一张二维码
         jQuery('#qrcodeCanvas').qrcode({
             render: "canvas",
             text: pipeno,
@@ -546,8 +547,12 @@
             src: '../../image/logo2.jpg' //二维码中间的图片
         });
         $('#qrcodeText').text('P/N:' + pipeno);
+
+        //生成用于打印的3张二维码
         $('.qr-canvas-inner').empty();
         var width = api.winWidth / 3 - 20;
+        //var width = 200;
+
         $('#qr-container').hide();
         jQuery('.qr-canvas-inner').qrcode({
             render: "canvas",
