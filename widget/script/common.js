@@ -2155,7 +2155,7 @@ function getPrinterStatus(g_address) {
     }
 }
 //打印图片
-function printImage(g_imgUrl) {
+function printImage(copies,g_imgUrl) {
     if (g_imgUrl != undefined) {
         var param = {
             imageUrl: g_imgUrl,
@@ -2163,7 +2163,7 @@ function printImage(g_imgUrl) {
             y: 0,
             width: 800,
             height: 350,
-            copies: 1
+            copies: copies
         };
         if(ZebraAndroidPrint==undefined)
            ZebraAndroidPrint = api.require('ZebraAndroidPrint');

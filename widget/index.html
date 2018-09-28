@@ -347,14 +347,14 @@
                 }
             });
         } else if (g_search_index == 5) {
-          api.sendEvent({
-              name: 'searchInspectionRecordEvent',
-              extra: {
-                  pipeno: pipeno,
-                  pageStart: 1,
-                  flag: false
-              }
-          });
+            api.sendEvent({
+                name: 'searchInspectionRecordEvent',
+                extra: {
+                    pipeno: pipeno,
+                    pageStart: 1,
+                    flag: false
+                }
+            });
         }
     }
     //初始化底部导航栏
@@ -463,8 +463,8 @@
                 id: UIInputId
             });
         }
-        if(index==0)
-          index=g_search_index;
+        if (index == 0)
+            index = g_search_index;
         api.setFrameGroupIndex({
             name: 'group',
             index: index
@@ -554,7 +554,7 @@
                     api.setFrameGroupIndex({
                         name: 'group',
                         index: 5,
-                        reload:true
+                        reload: true
                     });
                 } else if (g_search_index == 5) {
                     g_search_index = 0;

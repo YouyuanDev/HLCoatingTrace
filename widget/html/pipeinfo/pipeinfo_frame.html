@@ -680,7 +680,7 @@
                 pageParam: {
                     imgUrl: imgPath
                 },
-                reload: false
+                reload: true
             });
         }
     }
@@ -699,10 +699,10 @@
         api.addEventListener({
             name: 'printImageEvent'
         }, function(ret, err) {
-             var result=ret.value.result;
-             if(result){
-               addPrintRecord();
-             }
+            var result = ret.value.result;
+            if (result) {
+                addPrintRecord();
+            }
         });
     }
 
