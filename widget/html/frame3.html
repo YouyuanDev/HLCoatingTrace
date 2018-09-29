@@ -13,40 +13,44 @@
         .pipeinfo-table tr td {
             font-size: 14px;
         }
-        .item-oddtd{
-          text-align: left;
-          color: #7A7A7A;
-          width: 25%;
-          overflow: hidden;
-          white-space: nowrap;
-          text-overflow: ellipsis;font-size:10px;
+
+        .item-oddtd {
+            text-align: left;
+            color: #7A7A7A;
+            width: 25%;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            font-size: 10px;
         }
-        .item-eventd{
-          width: 25%;
-          text-align: left;
-          overflow: hidden;
-          white-space: nowrap;
-          text-overflow: ellipsis;font-size:10px;
+
+        .item-eventd {
+            width: 25%;
+            text-align: left;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            font-size: 10px;
         }
     </style>
 </head>
 
 <body>
     <div class="div-data" id="div-data" style="font-size: 16px;color:#000000;font-family:" Sans-serif ";">
-      <div class="form-item">
-               <table class="pipeinfo-table">
-                   <tr>
-                       <td class="i18n1" name="projectno"></td>
-                       <td id="s_projectno"></td>
-                       <td class="i18n1" name="millno"></td>
-                       <td id="s_millno"></td>
-                   </tr>
-                   <tr>
-                       <td class="i18n1" name="operationtime"></td>
-                       <td id="s_operationtime"></td>
-                   </tr>
-               </table>
-           </div>
+        <div class="form-item">
+            <table class="pipeinfo-table">
+                <tr>
+                    <td class="i18n1" name="projectno"></td>
+                    <td id="s_projectno"></td>
+                    <td class="i18n1" name="millno"></td>
+                    <td id="s_millno"></td>
+                </tr>
+                <tr>
+                    <td class="i18n1" name="operationtime"></td>
+                    <td id="s_operationtime"></td>
+                </tr>
+            </table>
+        </div>
         <!--白班-->
         <div class="form-item">
             <table class="pipeinfo-table oddayshift-table">
@@ -222,17 +226,22 @@
 <script src="../script/mobiscroll.custom-3.0.0-beta6.min.js" type="text/javascript"></script>
 <script type="text/javascript">
     var g_loadingID = 0;
-    var project_no="",mill_no="",operation_time="";
+    //项目编号、分厂号、操作时间
+    var project_no = "",
+        mill_no = "",
+        operation_time = "";
     apiready = function() {
+            //下拉加载
             dropdownLoading();
             hlLanguage("../i18n/");
+            //监听刷新当班统计页面事件
             api.addEventListener({
                 name: 'RequireShiftInfoEvent'
             }, function(ret, err) {
-                RequireShiftInfo(ret.value.project_no,ret.value.mill_no,ret.value.operation_time);
-                project_no=ret.value.project_no;
-                mill_no=ret.value.mill_no;
-                operation_time=ret.value.operation_time;
+                RequireShiftInfo(ret.value.project_no, ret.value.mill_no, ret.value.operation_time);
+                project_no = ret.value.project_no;
+                mill_no = ret.value.mill_no;
+                operation_time = ret.value.operation_time;
                 $('#s_projectno').text(project_no);
                 $('#s_millno').text(mill_no);
                 $('#s_operationtime').text(operation_time);
@@ -247,7 +256,7 @@
             textDown: '下拉刷新...',
             textUp: '松开刷新...'
         }, function(ret, err) {
-            RequireShiftInfo(project_no,mill_no,operation_time);
+            RequireShiftInfo(project_no, mill_no, operation_time);
             setTimeout(function() {
                 //执行刷新
                 api.refreshHeaderLoadDone();
@@ -255,7 +264,7 @@
         });
     }
     //获取当班信息
-    function RequireShiftInfo(project_no,mill_no,operation_time) {
+    function RequireShiftInfo(project_no, mill_no, operation_time) {
         clearTableData();
         if (project_no == undefined || project_no == "") {
             api.alert({
@@ -321,12 +330,6 @@
                                 pipenofordscsampling_list_od_day += ret.OdDscListOfDay[i].pipe_no + ";";
                         }
                     }
-                    // if (ret.OdDscList3LPEOfDay != undefined) {
-                    //     for (var i = 0; i < ret.OdDscList3LPEOfDay.length; i++) {
-                    //         if (pipenofordscsampling_list_od_day.indexOf(ret.OdDscList3LPEOfDay[i].pipe_no) == -1)
-                    //             pipenofordscsampling_list_od_day += ret.OdDscList3LPEOfDay[i].pipe_no + ";";
-                    //     }
-                    // }
                     if (ret.OdPEListOfDay != undefined) {
                         for (var i = 0; i < ret.OdPEListOfDay.length; i++) {
                             if (pipenoforpesampling_list_od_day.indexOf(ret.OdPEListOfDay[i].pipe_no) == -1)
@@ -466,11 +469,6 @@
                             pipenofordscsampling_list_od_night += ret.OdDscListOfNight[i].pipe_no + ";";
                         }
                     }
-                    // if (ret.OdDscList3LPEOfNight != undefined) {
-                    //     for (var i = 0; i < ret.OdDscList3LPEOfNight.length; i++) {
-                    //         pipenofordscsampling_list_od_night += ret.OdDscList3LPEOfNight[i].pipe_no + ";";
-                    //     }
-                    // }
                     if (ret.OdPEListOfNight != undefined) {
                         for (var i = 0; i < ret.OdPEListOfNight.length; i++) {
                             pipenoforpesampling_list_od_night += ret.OdPEListOfNight[i].pipe_no + ";";
@@ -586,7 +584,7 @@
 
                 } else {
                     api.alert({
-                        msg:ret.message
+                        msg: ret.message
                     });
                 }
             } else {
@@ -595,21 +593,22 @@
             ClearLoadingPicture();
         });
     }
-    function clearTableData(){
-      $('#oddayshift-table').empty();
-      $('#odnightshift-table').empty();
-      $('#iddayshift-table').empty();
-      $('#idnightshift-table').empty();
-      $('.totalcoated').text(0);
-      $('.acceptablecoated').text(0);
-      $('.acceptedwithrepair').text(0);
-      $('.rejected').text(0);
-      $('.quarantinedbare').text(0);
-      $('.pipenofortestingring').text('');
-      $('.cuttinglength').text('');
-      $('.pipenofordscsampling').text('');
-      $('.pipenoforpesampling').text('');
-      $('.pipenoforsteelpanel').text('');
-      $('.pipenoforglasspanel').text('');
+    //清理当班统计的数据
+    function clearTableData() {
+        $('#oddayshift-table').empty();
+        $('#odnightshift-table').empty();
+        $('#iddayshift-table').empty();
+        $('#idnightshift-table').empty();
+        $('.totalcoated').text(0);
+        $('.acceptablecoated').text(0);
+        $('.acceptedwithrepair').text(0);
+        $('.rejected').text(0);
+        $('.quarantinedbare').text(0);
+        $('.pipenofortestingring').text('');
+        $('.cuttinglength').text('');
+        $('.pipenofordscsampling').text('');
+        $('.pipenoforpesampling').text('');
+        $('.pipenoforsteelpanel').text('');
+        $('.pipenoforglasspanel').text('');
     }
 </script>

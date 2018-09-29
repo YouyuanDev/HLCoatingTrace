@@ -156,10 +156,10 @@
 <body class="bg-color">
     <header class="aui-bar aui-bar-nav">
         <a class="aui-pull-left aui-btn  aui-btn-special" onclick="searchPrinters();">
-            <span>搜索</span>
+            <span class="i18n1" name="search">搜索</span>
         </a>
         <a class="aui-pull-right aui-btn  aui-btn-special" onclick="closePrinter();">
-            <span>关闭</span>
+            <span class="i18n1" name="close">关闭</span>
         </a>
     </header>
     <section class="printer-section">
@@ -167,14 +167,14 @@
     </section>
 
     <footer class="aui-bar aui-bar-tab" id="footer">
-        <div class="footer-item" style="color:#fff;font-size:1rem;">
+        <div class="footer-item i18n1" style="color:#fff;font-size:1rem;" name="copies">
             份数:
         </div>
         <div class="footer-item">
             <input type="number" class="mob-singlenumber" value="1" id="copiesInput">
         </div>
         <div class="footer-item">
-            <button class="aui-btn aui-btn-primary aui-btn-block" id="peinterBtn" onclick="beginPrintImage();">打印</button>
+            <button class="aui-btn aui-btn-primary aui-btn-block i18n1" name="print" id="peinterBtn" onclick="beginPrintImage();">打印</button>
         </div>
     </footer>
 </body>
@@ -213,6 +213,7 @@
             registerPrintImageListener();
             //设置打印份数控件
             setControls();
+            hlLanguage("../i18n/");
         }
         //检查本地有没有连接过的打印机
     function checkConnectedPrinter() {

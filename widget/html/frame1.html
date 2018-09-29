@@ -14,7 +14,6 @@
             text-align: center;
             padding: 120px 0;
         }
-        /* 条目总体样式 */
 
         .item {
             display: table;
@@ -41,7 +40,6 @@
             margin-left: 10px;
             width: 40px;
         }
-        /* 条目特例 */
 
         .shelf2 .userlogo img {
             width: 50px;
@@ -157,20 +155,24 @@
 <script type="text/javascript">
     var start = 1;
     apiready = function() {
-        RequireProjectNo();
-        dropdownLoading();
-        isRollingToEnd();
-        api.addEventListener({
-            name: 'refreshLabRoot'
-        }, function(ret, err) {
-            $('.labinfo-div').empty();
-            getLabTestingInfoByProjectNo($('#projectInfoSelect').val(), 1);
+            //获取项目编号
+            RequireProjectNo();
+            //下拉加载
+            dropdownLoading();
+            //滚动到底部
+            isRollingToEnd();
+            //监听刷新实验页面事件
+            api.addEventListener({
+                name: 'refreshLabRoot'
+            }, function(ret, err) {
+                $('.labinfo-div').empty();
+                getLabTestingInfoByProjectNo($('#projectInfoSelect').val(), 1);
+            });
 
-        });
-
-    }
-
+        }
+        //获取项目编号成功回调函数
     function RequireProjectNoOK(data) {
+        //清空项目编号下拉框
         $('#projectInfoSelect').empty();
         for (var i = 0; i < data.length; i++) {
             if (i == 0)
@@ -180,12 +182,12 @@
         }
         getLabTestingInfoByProjectNo($('#projectInfoSelect').val(), start);
     }
-
+    //获取项目编号失败回调函数
     function RequireProjectNoFail() {
         toastFail("获取项目编号时出错!");
         closeWindowNoPipeNo();
     }
-
+    //设置项目编号下拉框数据
     function setProjectInfo() {
         $('.mob-singleselect').each(function() {
             var data = [];
@@ -212,7 +214,7 @@
 
     //APP根据项目编号获取试验信息
     function getLabTestingInfoByProjectNo(project_no, start) {
-      sendProjectParamToIndexPage();
+        sendProjectParamToIndexPage();
         var s = 'http://' + serverIP + '/APPRequestTransfer/getLabTestingInfoByProjectNo.action';
         api.ajax({
             url: s,
@@ -259,7 +261,6 @@
             result = "accepted";
         else if (testing_result == "10")
             result = "pending";
-
         if (testing_type.indexOf('lab_testing_raw_material') != -1) {
             prefix_title = "rawmaterial";
             process_code = testing_type;
@@ -267,8 +268,6 @@
         } else {
             prefix_title = "product";
         }
-
-
         if (testing_type.indexOf('is_sample') != -1) {
             title = " OD Regular";
             title_sufix = external_coating;
@@ -291,9 +290,6 @@
             title_sufix = internal_coating;
             process_code = "lab_testing_glass";
         }
-
-
-
         template += '<div class="item style1" data-process-code=' + process_code + ' data-odsampling-mark=' + odsampling_mark + ' data-id=' + id + ' data-pipe-no=' + pipe_no + ' data-testing-type=' + testing_type +
             ' onclick="goTestingBySampleType(this);">';
         //lab实验|| testing_type.indexOf('LAB3LPE') != -1 || testing_type.indexOf('LABEPOXY') != -1
@@ -318,10 +314,6 @@
         } else if (testing_type.indexOf('raw_material_EPOXY') != -1) { //原材料实验
             template += '<div class="itemlogo userlogo"><img src="../image/raw_epoxy.png" alt=""></div>';
         }
-
-
-
-
         if (pipe_no == undefined)
             pipe_no = "";
         template += '<div class="itemshelf">' +
@@ -333,7 +325,7 @@
         return template;
 
     }
-
+    //下拉刷新
     function dropdownLoading() {
         api.setRefreshHeaderInfo({
             loadingImg: 'widget://image/loading_more.png',
@@ -366,9 +358,7 @@
     function goTestingBySampleType(obj) {
         //testing_type就是process_code
         var processcode = $(obj).attr('data-process-code');
-        //var sample_type = $(obj).attr('data-sample-type');
         var pipe_no = $(obj).attr('data-pipe-no');
-
         var id = $(obj).attr('data-id');
         var odsampling_mark = $(obj).attr('data-odsampling-mark');
         if (processcode != undefined && processcode == "lab_testing_od_regular" && (odsampling_mark == undefined || odsampling_mark != "1")) {
@@ -399,7 +389,7 @@
             }
         });
     }
-
+    //根据项目编号重新加载实验信息
     function reloadLabTestingInfoByProjectNo() {
         start = 1;
         $('.labinfo-div').empty();

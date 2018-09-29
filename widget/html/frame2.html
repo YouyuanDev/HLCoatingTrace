@@ -14,7 +14,6 @@
             text-align: center;
             padding: 120px 0;
         }
-        /* 条目总体样式 */
 
         .item {
             display: table;
@@ -41,7 +40,6 @@
             margin-left: 10px;
             width: 40px;
         }
-        /* 条目特例 */
 
         .shelf2 .userlogo img {
             width: 50px;
@@ -125,6 +123,7 @@
         .form-btn-container .form-selfbtn:nth-child(3) {
             background-color: #CD3700;
         }
+
         select {
             -webkit-appearance: none;
         }
@@ -156,9 +155,13 @@
 <script type="text/javascript">
     var start = 1;
     apiready = function() {
+        //获取项目编号
         RequireProjectNo();
+        //下拉加载
         dropdownLoading();
+        //滚动到底部
         isRollingToEnd();
+        //监听刷新出入库管理页面事件
         api.addEventListener({
             name: 'refreshShipmentRoot'
         }, function(ret, err) {
@@ -168,8 +171,7 @@
         });
     }
 
-
-
+    //获取项目编号成功回调函数
     function RequireProjectNoOK(data) {
         $('#projectInfoSelect').empty();
         for (var i = 0; i < data.length; i++) {
@@ -180,14 +182,12 @@
         }
         getShipmentInfoByProjectNo($('#projectInfoSelect').val(), start);
     }
-
+    //获取项目编号失败回调函数
     function RequireProjectNoFail() {
-      toastFail("获取项目编号时出错!");
+        toastFail("获取项目编号时出错!");
         closeWindowNoPipeNo();
     }
-
-
-
+    //下拉刷新
     function dropdownLoading() {
         api.setRefreshHeaderInfo({
             loadingImg: 'widget://image/loading_more.png',
@@ -216,8 +216,6 @@
             getShipmentInfoByProjectNo($('#projectInfoSelect').val(), start);
         });
     }
-
-
     //APP根据项目编号获取发运信息
     function getShipmentInfoByProjectNo(project_no, start) {
         var s = 'http://' + serverIP + '/ShipmentOperation/getAllShipmentInfoByProjectNo.action';
@@ -267,7 +265,6 @@
         return template;
 
     }
-
     //发运点击事件
     function goShipment(obj) {
         var shipment_no = $(obj).attr('data-shipment-no');
@@ -281,8 +278,7 @@
             });
         }
     }
-
-
+    //根据项目编号重新加载发运信息
     function reloadShipmentInfoByProjectNo() {
         start = 1;
         $('.shipmentinfo-div').empty();

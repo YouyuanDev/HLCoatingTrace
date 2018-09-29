@@ -35,7 +35,6 @@
             margin-left: 10px;
             width: 40px;
         }
-        /* 条目特例 */
 
         .shelf2 .userlogo img {
             width: 50px;
@@ -177,10 +176,13 @@
 <script src="../script/mobiscroll.custom-3.0.0-beta6.min.js" type="text/javascript"></script>
 <script type="text/javascript">
     var start = 1;
+    //钢管编号
     var keyword_pipeno;
+    //各工序结论集合
     var g_result_input_output = {};
     apiready = function() {
             fnSettingHeader();
+            //加载各工序结论集合
             LoadProcess_input_output();
             //下拉刷新
             dropdownLoading();
@@ -279,7 +281,7 @@
                 sync: true,
                 key: 'millNoListPref'
             });
-            if (millNoListPref != undefined&&millNoListPref!="") {
+            if (millNoListPref != undefined && millNoListPref != "") {
                 addInfoToMillSelect(millNoListPref);
             } else {
                 //发出请求
@@ -337,7 +339,7 @@
             sync: true,
             key: 'processNoListPref'
         });
-        if (processNoListPref != undefined&&processNoListPref!="") {
+        if (processNoListPref != undefined && processNoListPref != "") {
             addInfoToProcessSelect(processNoListPref);
         } else {
             //发出请求

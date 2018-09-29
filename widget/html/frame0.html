@@ -112,31 +112,28 @@
 <script src="../script/jquery.i18n.properties-1.0.9.js" type="text/javascript"></script>
 <script src="../script/language.js" type="text/javascript"></script>
 <script type="text/javascript">
-    //var serverIP='192.168.0.11';
-
     //定义图片轮播变量
     var UIScrollPicture;
     //定义查询分页 开始page
     var start = 1;
+    //搜索的管号
     var keyword_pipeno;
-    //var UIListView;
     apiready = function() {
-        UIScrollPicture = api.require('UIScrollPicture');
-
-        //UIListView = api.require('UIListView');
-        broadcastPictures(false);
-        //下拉刷新,下拉加载
-        dropdownLoading();
-        isRollingToEnd();
-        api.addEventListener({
-            name: 'searchPipeEvent'
-        }, function(ret, err) {
-            doSearchPipeInfo(ret.value.pipeno, ret.value.pageStart, ret.value.flag);
-        });
-        doSearchPipeInfo(keyword_pipeno, 1, false);
-    }
-
-    //主页面图片轮播
+            UIScrollPicture = api.require('UIScrollPicture');
+            broadcastPictures(false);
+            //下拉刷新,下拉加载
+            dropdownLoading();
+            //滚动到底部
+            isRollingToEnd();
+            //监听搜索管子的事件
+            api.addEventListener({
+                name: 'searchPipeEvent'
+            }, function(ret, err) {
+                doSearchPipeInfo(ret.value.pipeno, ret.value.pageStart, ret.value.flag);
+            });
+            doSearchPipeInfo(keyword_pipeno, 1, false);
+        }
+        //主页面图片轮播
     function broadcastPictures(reload) {
         api.showProgress({
             title: '加载中...',
@@ -165,10 +162,11 @@
                         reloadPictures(ret);
                 }
             } else {
-              toastFail(err.msg);
+                toastFail(err.msg);
             }
         });
     }
+    //重新加载轮播的图片
     function reloadPictures(picturefiles) {
         var datalist = [];
 
@@ -238,9 +236,9 @@
     //展示搜索记录
     function funcShowPipeResultList(pipedata, append) {
         if (!append) {
-
             $('#div-data').empty();
         }
+        //如果搜索出来的数据为空,则显示加载完毕显示框
         if (pipedata.length == 0) {
             var obj = $('#nodata');
             if (obj.length <= 0)
@@ -249,10 +247,10 @@
         for (var i = 0; i < pipedata.length; i++) {
             $('#div-data').append(pipeInfoTemplate(pipedata[i]));
         }
-        //api.hideProgress();
     }
     //钢管信息的模版
     function pipeInfoTemplate(pipe) {
+        //设置不同涂层类型的钢管对应的显示图标
         var url2fbe = "../image/pipe_2fbe.png";
         var url3lpe = "../image/pipe_3lpe.png";
         var urlepoxy = "../image/pipe_epoxy.png";
@@ -309,11 +307,6 @@
                     funcShowPipeResultList(ret.rows, append);
                     api.refreshHeaderLoadDone();
                     hlLanguage("../i18n/");
-                    // var jsfun = 'funcShowPipeResultList(' + JSON.stringify(ret) + ');';
-                    // api.execScript({
-                    //     frameName: 'frame0',
-                    //     script: jsfun
-                    // });
                 }
             } else {
                 toastFail(err.msg);
@@ -343,7 +336,6 @@
             //在这里从服务器加载数据,加载完成后调用api.refreshHeaderLoadDone()方法恢复组件到默认状态
             broadcastPictures(true);
             doSearchPipeInfo(keyword_pipeno, 1, false);
-
             setTimeout(function() {
                 //执行刷新
                 api.refreshHeaderLoadDone();
@@ -351,7 +343,7 @@
             }, 50);
         });
     }
-
+    //滚动到底部
     function isRollingToEnd() {
         api.addEventListener({
             name: 'scrolltobottom',

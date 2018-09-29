@@ -28,9 +28,6 @@
             border-top: 1px solid #cdcdcd;
             padding: 4px 0px;
         }
-        /*ul li:last-child{
-          border-top:none;
-        }*/
 
         .list-item {
             height: 40px;
@@ -50,10 +47,8 @@
         .list-item .list-item-con {
             float: left;
             width:60%;
-            /*padding-right: 20px;*/
             color: #C7C7C7;
             text-align: right;
-            /*padding-right:50px;*/
         }
         .list-item .list-item-icon{
            float:right;
@@ -78,8 +73,6 @@
             color: #fff;
             border-radius: 4px;
             background-color: #19AD68;
-
-            /*margin: 20px 0 10px;*/
         }
 
         .logout-btn {
@@ -92,17 +85,7 @@
             color: #fff;
             border-radius: 4px;
             background-color: red;
-
-            /*margin: 20px 0 10px;*/
         }
-
-
-
-        /*#language {
-            width: 100%;
-            outline: none;
-            height: 40px;
-        }*/
     </style>
 </head>
 
@@ -204,19 +187,25 @@
 <script src="../script/jquery.i18n.properties-1.0.9.js" type="text/javascript"></script>
 <script src="../script/language.js" type="text/javascript"></script>
 <script type="text/javascript">
-    //var serverIP='192.168.0.11';
     apiready = function() {
         $('#appversion').text(api.appVersion);
+        //修改用户信息
         modifyUserInfo();
+        //用户登录事件
         setLoginInvent();
+        //用户退出登录事件
         setLogoutInvent();
+        //下拉刷新事件
         dropdownLoading();
+        //加载用户信息
         loadUserInfo();
+        //监听刷新页面事件
         api.addEventListener({
             name: 'reloadUserInfo'
         }, function(ret, err) {
              loadUserInfo();
         });
+        //监听保存用户信息事件
         api.addEventListener({
             name: 'SaveUserInfoEvent'
         }, function(ret, err) {
@@ -226,8 +215,6 @@
     };
     //加载用户信息
     function loadUserInfo(){
-
-      //获取账户信息
       var s = 'http://' + serverIP + '/person/getPersonByEmployeeNo.action';
       api.ajax({
           url: s,
@@ -318,17 +305,14 @@
             textUp: '松开刷新...'
         }, function(ret, err) {
             //在这里从服务器加载数据,加载完成后调用api.refreshHeaderLoadDone()方法恢复组件到默认状态
-
             loadUserInfo();
-
             setTimeout(function() {
                 //执行刷新
                 api.refreshHeaderLoadDone();
             }, 50);
         });
     }
-
-
+    //修改用户信息
     function editUserInfo(index, userData, labelName) {
         api.openWin({
             name: 'userinfo',
@@ -340,7 +324,7 @@
             }
         });
     }
-    //登录
+    //点击登录事件
     function setLoginInvent(){
          $('.login-btn').click(function() {
            api.openWin({
@@ -383,7 +367,7 @@
 
         });
     }
-
+    //保存用户信息
     function saveUserInfo(index, value) {
         if (index != undefined) {
             switch (index) {
@@ -411,7 +395,6 @@
             toastFail('修改失败!');
             return;
         }
-        // var operator_no=$('#userno').text();
         var id = $('#userid').text();
         var pname = $('#username').text();
         var ppassword = $('#userpwd').text();

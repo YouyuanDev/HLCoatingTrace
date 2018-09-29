@@ -2,7 +2,6 @@ var header, headerHeight = 0;
 var serverIP = 'www.topinspector.cn:8080';
 
 function fnSettingHeader() {
-
     var sType = api.systemType;
     var header = $api.byId('header');
     if (sType == "ios") {
@@ -12,13 +11,7 @@ function fnSettingHeader() {
         $api.fixStatusBar(header);
     }
 }
-// function fnReadyHeader() {
-//     header = $api.byId('header');
-//     if (header) {
-//         $api.fixIos7Bar(header);
-//         headerHeight = $api.offset(header).h;
-//     }
-// };
+
 function fnReadyFrame() {
     var nav = $api.byId('header');
     var navHeight = $api.offset(nav).h;
@@ -54,7 +47,7 @@ function formatterdate(value, row, index) {
     else
         return "";
 }
-
+//格式化日期为 2018-09-08 形式
 function getDateOnly(str) {
     var oDate = new Date(str);
     y = oDate.getFullYear();
@@ -62,7 +55,7 @@ function getDateOnly(str) {
     d = oDate.getDate();
     return y + '-' + (m < 10 ? ('0' + m) : m) + '-' + (d < 10 ? ('0' + d) : d);
 }
-
+//格式化日期为 2018-09-08 23:12:12形式
 function getDate1(str) {
     var oDate = new Date(str);
     y = oDate.getFullYear();
@@ -74,39 +67,13 @@ function getDate1(str) {
     return y + '-' + (m < 10 ? ('0' + m) : m) + '-' + (d < 10 ? ('0' + d) : d) + ' ' + (h < 10 ? ('0' + h) : h) + ':' + (mins < 10 ? ('0' + mins) : mins) + ':' + (s < 10 ? ('0' + s) : s);
 }
 
-
-// function getDateMobi(str) {
-//     var oDate = new Date(str);
-//     y = oDate.getFullYear();
-//     m = oDate.getMonth() + 1;
-//     d = oDate.getDate();
-//     h = oDate.getHours();
-//     mins = oDate.getMinutes();
-//     s = oDate.getSeconds();
-//     return y + '/' + (m < 10 ? ('0' + m) : m) + '/' + (d < 10 ? ('0' + d) : d) + ' ' + (h < 10 ? ('0' + h) : h) + ':' + (mins < 10 ? ('0' + mins) : mins) + ':' + (s < 10 ? ('0' + s) : s);
-// }
-
-// //-转为/
-// function formatterDateMobi(str) {
-//     if (str != undefined)
-//         return str.replace(/-/g, '/');
-//     else
-//         return ""
-// }
-
-
-
-
-
-//字符串转date
+//字符串转日期
 function parseMobiDate(str) {
     if (str != undefined)
         return new Date(Date.parse(str));
     else
         return new Date();
-
 }
-
 
 //绑定Push推送
 function bindPush() {
@@ -115,10 +82,11 @@ function bindPush() {
         userName: api.deviceId,
         userId: api.deviceId
     }, function(ret, err) {
-
         if (ret.status == true) {
-            //alert(api.deviceId+"bind成功");
-        } else {}
+            //绑定Push推送成功
+        } else {
+            //绑定Push推送失败
+        }
     });
 }
 
@@ -130,32 +98,23 @@ function unbindPush() {
         userId: api.deviceId
     }, function(ret, err) {
         if (ret.status) {
-            toastSuccess("解除绑定成功");
-
+            //解除绑定成功
         } else {
-            toastFail(err.msg);
+            //解除绑定失败
         }
     });
 }
 
-
-
 // 加入推送群组
 function joinPushGroup(groupName) {
-
     var push = api.require('push');
-    //加入组
     push.joinGroup({
         groupName: groupName
     }, function(ret, err) {
         if (ret.status) {
-            //var s='加入组'+groupName+'成功';
-            //api.alert({msg:s});
+            //加入组[groupName]成功
         } else {
-            // api.alert({
-            //     msg: err.msg
-            // });
-            //return;
+            //加入组[groupName]失败
         }
     });
     push.setPreference({
@@ -186,9 +145,6 @@ function setPushListener() {
     push.setListener(function(ret, err) {
         if (ret) {
             toastSuccess(ret.data);
-            // api.alert({
-            //     msg: ret.data
-            // });
         } else {
             toastFail(err.msg);
         }
@@ -205,17 +161,14 @@ function RequestMySesssion() {
     }, function(ret, err) {
         if (ret.value.success) {
             //得到了session中的employeeno与millno
-            ////处理逻辑。。。
+            //处理逻辑。。。
             Go(ret.value.employeeno, ret.value.millno);
-            //alert(JSON.stringify(ret.value.millno));
         } else {
             //session中不存在millno
-            //alert(JSON.stringify(ret.value.msg));
             //处理逻辑。。。
             Reverse(ret.value.msg);
         }
     });
-
     //发出请求
     var s = 'http://' + serverIP + '/Login/getMySession.action';
     api.ajax({
@@ -239,7 +192,6 @@ function RequestMySesssion() {
         } else {
             toastFail(err.msg);
         }
-
     });
 }
 //得到所有钢管表面的缺陷种类 type有两种，第一种steel,第二种coating
@@ -382,18 +334,18 @@ function DoLoadingPicture() {
         g_loadingID = ret.id;
     });
 }
-
+//清除loading
 function ClearLoadingPicture() {
     var uiloading = api.require('UILoading');
-    if(g_loadingID!=undefined){
-      uiloading.closeFlower({
-          id: g_loadingID
-      });
+    if (g_loadingID != undefined) {
+        uiloading.closeFlower({
+            id: g_loadingID
+        });
         g_loadingID = 0;
     }
 }
 
-
+//获取照片
 function getPicture(sourceType) {
     if (sourceType == 1) { // 拍照
         api.getPicture({
@@ -427,10 +379,7 @@ function getPicture(sourceType) {
                     } else {
                         toastFail(err.msg);
                     }
-
-
                 });
-                //$('#imgUp').attr('src', ret.base64Data);
             } else {
                 toastFail(err.msg);
             }
@@ -560,8 +509,6 @@ function delSelectPicture(obj) {
 
 //根据pipeno  内外防腐标准、检验频率、钢管信息、光管检验频率、pending数据  APP使用  stencil_content 做完动态替换
 function RequestAllProcessInfoByPipeNo(pipeno, processcode) {
-    //alert(pipeno);
-    // pipeno="1524540";
     //注册接收RequestAllProcessInfoByPipeNo回调
     api.addEventListener({
         name: 'RequestAllProcessInfoByPipeNoCallbackEvent'
@@ -574,14 +521,12 @@ function RequestAllProcessInfoByPipeNo(pipeno, processcode) {
             var pipeinfo = ret.value.data.pipeinfo;
             var record_header = ret.value.data.record_header;
             var record_items = ret.value.data.record_items;
-
             GetAllProcessInfoByPipeNoOK(ret.value.data);
         } else {
             //处理逻辑。。。
             GetAllProcessInfoByPipeNoFail(ret.value.data.message);
         }
     });
-
     //发出请求
     var s = 'http://' + serverIP + '/APPRequestTransfer/getAllProcessInfoByPipeNo.action';
     api.ajax({
@@ -615,13 +560,10 @@ function RequestAllProcessInfoByPipeNo(pipeno, processcode) {
 
 //关闭窗口并且更新piperoot页面
 function closeWindow(processcode) {
-
     if (processcode != undefined && processcode.indexOf('lab') != -1) {
         api.sendEvent({
             name: 'refreshLabRoot',
-            extra: {
-
-            }
+            extra: {}
         });
         setTimeout(function() {
             api.closeToWin({
@@ -651,8 +593,6 @@ function closeWindow(processcode) {
             api.closeWin();
         }, 100);
     }
-
-
 }
 
 ///初始化钢管信息header
@@ -668,7 +608,6 @@ function initPipeBasicHeader(pipeinfo, millno) {
 
 //初始化检测频率标签
 function initInspectionFreq(freq) {
-
     if (freq != undefined) {
         $.each(freq, function(name, value) {
             var needInspectNow = value.needInspectNow;
@@ -685,8 +624,6 @@ function initInspectionFreq(freq) {
             }
         });
     }
-
-
 }
 
 
@@ -734,105 +671,9 @@ function initCriteria(criteria) {
     }
 }
 
-
-//根据pipeno  获取 内防接收标准
-// function RequestIDAcceptCriteria(pipeno, millno) {
-//
-//     //注册接收RequestIDAcceptCriteria回调
-//     api.addEventListener({
-//         name: 'RequestIDAcceptCriteriaCallbackEvent'
-//     }, function(ret, err) {
-//         if (ret.value.success) {
-//             //得到了内防接收标准
-//             ////处理逻辑。。。
-//             GetIDAcceptCriteriaOK(ret.value.data);
-//             var data = ret.value.data.criteria;
-//             var freq = ret.value.data.inspectfreq;
-//             if (data != undefined) {
-//                 $.each(data, function(name, value) {
-//                     if (name != undefined) {
-//                         if (name.indexOf("_min") != -1) {
-//                             name = "." + name.replace("_min", "");
-//                             if (value != undefined)
-//                                 $(name).attr('data-min', value);
-//                             name = name + "_lbl";
-//                             if ($(name).children('.range-span').length <= 0) {
-//                                 $(name).append('<span class="range-span">' + value + '~</span>');
-//                             } else {
-//                                 var txt = $(name).children('.range-span').text();
-//                                 $(name).children('.range-span').text(value + "~" + txt);
-//                             }
-//                         } else if (name.indexOf("_max") != -1) {
-//                             name = "." + name.replace("_max", "");
-//                             if (value != undefined)
-//                                 $(name).attr('data-max', value);
-//                             name = name + "_lbl";
-//                             if ($(name).children('.range-span').length <= 0) {
-//                                 $(name).append('<span class="range-span">' + value + '</span>');
-//                             } else {
-//                                 var txt = $(name).children('.range-span').text();
-//                                 $(name).children('.range-span').text(txt + "" + value);
-//                             }
-//                         }
-//                     }
-//                 });
-//             }
-//             $.each(freq, function(name, value) {
-//                 var needInspectNow = value.needInspectNow;
-//                 if (name != undefined) {
-//                     if (name.indexOf("od_") != -1 || name.indexOf("id_") != -1 || name.indexOf("_freq") != -1) {
-//                         name0 = "." + name.replace("od_", "").replace("id_", "").replace("_freq", "");
-//                         name = "." + name.replace("od_", "").replace("id_", "").replace("_freq", "") + "_lbl";
-//                         if (needInspectNow != undefined && needInspectNow) {
-//                             $(name0).attr('data-required', true);
-//                             if ($(name).children('.freq-span').length <= 0)
-//                                 $(name).append('<span class="freq-span" style="color:red;padding-left:5px;">本次必填</span>');
-//                         }
-//                     }
-//                 }
-//             });
-//
-//         } else {
-//             //处理逻辑。。。
-//             GetIDAcceptCriteriaFail();
-//         }
-//     });
-//
-//     //发出请求
-//     var s = 'http://' + serverIP + '/AcceptanceCriteriaOperation/getIDAcceptanceCriteriaByPipeNo.action';
-//     api.ajax({
-//         url: s,
-//         method: 'post',
-//         timeout: 30,
-//         dataType: 'json',
-//         data: {
-//             values: {
-//                 pipe_no: pipeno,
-//                 mill_no: millno
-//             }
-//         }
-//     }, function(ret, err) {
-//         api.hideProgress();
-//         var success = false;
-//         if (ret) {
-//             success = true;
-//         } else {
-//
-//         }
-//         api.sendEvent({
-//             name: 'RequestIDAcceptCriteriaCallbackEvent',
-//             extra: {
-//                 success: success,
-//                 data: ret
-//             }
-//         });
-//
-//     });
-// }
-//设置控件
+//设置mobiscroll控件
 function setControls() {
-
-
+    //设置日期控件格式为:2019-09-09 09:09:09
     $('.mob-datetime').mobiscroll().datetime({
         dateWheels: 'yymmdd',
         timeWheels: 'hhii',
@@ -845,15 +686,12 @@ function setControls() {
             inst.setVal($(this).val());
         }
     });
+    //设置日期控件格式为:2019-09-09
     $('.mob-datetime1').mobiscroll().date({
         lang: 'zh',
         dateFormat: 'yy-mm-dd'
     });
-    // $('#exp').mobiscroll().datetime();
-
-
-
-    //湿度
+    //设置湿度控件
     $(".mob-humidity").mobiscroll().temperature({
         theme: 'auto',
         lang: 'zh',
@@ -873,7 +711,7 @@ function setControls() {
             validateSingleValue($(this));
         }
     });
-
+    //设置strip温度控件
     $(".mob-strip-temperature").mobiscroll().temperature({
         theme: 'auto',
         lang: 'zh',
@@ -893,8 +731,7 @@ function setControls() {
             validateSingleValue($(this));
         }
     });
-    //设置温度相关的控件
-    //if($(".mob-preheat-temperature")!=undefined)
+    //设置预热温度相关的控件
     $(".mob-preheat-temperature").mobiscroll().temperature({
         theme: 'auto',
         lang: 'zh',
@@ -914,8 +751,7 @@ function setControls() {
             validateSingleValue($(this));
         }
     });
-    //空气温度
-    //if($(".mob-air-temperature")!=undefined)
+    //设置空气温度控件
     $(".mob-air-temperature,.mob-curing-temp").mobiscroll().temperature({
         theme: 'auto',
         lang: 'zh',
@@ -935,7 +771,7 @@ function setControls() {
             validateSingleValue($(this));
         }
     });
-    //钢管温度
+    //设置钢管温度控件
     $(".mob-pipe-temperature").mobiscroll().temperature({
         theme: 'auto',
         lang: 'zh',
@@ -956,7 +792,7 @@ function setControls() {
 
         }
     });
-    //中频温度
+    //设置中频温度控件
     $(".mob-application-temp").mobiscroll().temperature({
         theme: 'auto',
         lang: 'zh',
@@ -975,8 +811,7 @@ function setControls() {
 
         }
     });
-    //打砂前后盐度
-    //if($(".mob-salt-contamination")!=undefined)
+    //设置打砂前后盐度控件
     $('.mob-salt-contamination').mobiscroll().number({
         theme: 'auto',
         lang: 'zh',
@@ -996,8 +831,7 @@ function setControls() {
             validateSingleValue($(this));
         }
     });
-    //所用时间s
-    //if($(".mob-second-time")!=undefined)
+    //设置所用时间控件 单位s
     $('.mob-second-time').mobiscroll().number({
         theme: 'auto',
         lang: 'zh',
@@ -1017,8 +851,7 @@ function setControls() {
             validateSingleValue($(this));
         }
     });
-    //浓度
-    //if($(".mob-concentration")!=undefined)
+    //设置浓度控件
     $('.mob-concentration').mobiscroll().number({
         theme: 'auto',
         lang: 'zh',
@@ -1038,8 +871,7 @@ function setControls() {
             validateSingleValue($(this));
         }
     });
-    //冲洗电导率
-    //if($('.mob-water-conductivity')!=undefined)
+    //设置冲洗电导率控件
     $('.mob-water-conductivity').mobiscroll().number({
         theme: 'auto',
         lang: 'zh',
@@ -1058,8 +890,7 @@ function setControls() {
             validateSingleValue($(this));
         }
     });
-    //磨料电导率
-    //if($('.mob-abrasive-conductivity')!=undefined)
+    //设置磨料电导率控件
     $('.mob-abrasive-conductivity').mobiscroll().number({
         theme: 'auto',
         lang: 'zh',
@@ -1078,8 +909,7 @@ function setControls() {
             validateSingleValue($(this));
         }
     });
-    //速度
-    //if($('.mob-line-speed')!=undefined)
+    //设置速度控件
     $('.mob-line-speed').mobiscroll().number({
         theme: 'auto',
         lang: 'zh',
@@ -1101,7 +931,7 @@ function setControls() {
     });
     var numList = "";
     var $nowObj;
-    //设置整数数字集合
+    //设置整数数字集合控件
     $('.mob-number-list').mobiscroll().numpad({
         theme: 'auto',
         lang: 'zh',
@@ -1149,44 +979,12 @@ function setControls() {
             numList = $nowObj.val();
         },
         onSet: function(event, inst) {
-            // var selectedVal =$nowObj.val();
             $nowObj.val(numList);
-            // selectedVal = ($nowObj.val()+ selectedVal + ",");
-            // $nowObj.val(selectedVal);
-            // var selectedVal = inst.getVal(true);
-            // if (selectedVal != undefined) {
-            //     selectedVal = (numList + "" + selectedVal + ",");
-            //     $(this).val(selectedVal);
-            //     var arr = selectedVal.split(",");
-            //     var minVal = $(this).attr('data-min');
-            //     var maxVal = $(this).attr('data-max');
-            //
-            //     var flag = true;
-            //     for (var i = 0; i < arr.length; i++) {
-            //         if (maxVal != undefined) {
-            //             if (parseFloat(maxVal) < parseFloat(arr[i])) {
-            //                 flag = false;
-            //                 break;
-            //             }
-            //         }
-            //         if (minVal != undefined) {
-            //             if (parseFloat(arr[i]) < parseFloat(minVal)) {
-            //                 flag = false;
-            //                 break;
-            //             }
-            //         }
-            //     }
-            //     if (flag)
-            //         $(this).css('background', '#FFFFFF');
-            //     else
-            //         $(this).css('background', '#F9A6A6');
-            //     numList = "";
-            // }
         }
     });
     var numList1 = "";
     var $nowObj1;
-    //设置浮点数数字集合
+    //设置浮点数数字集合控件
     $('.mob-number-float-list').mobiscroll().numpad({
         theme: 'auto',
         lang: 'zh',
@@ -1237,7 +1035,7 @@ function setControls() {
             $nowObj1.val(numList1);
         }
     });
-    //检漏仪器电压
+    //设置检漏仪器电压控件
     $('.mob-holiday-tester-volts').mobiscroll().number({
         theme: 'auto',
         lang: 'zh',
@@ -1257,9 +1055,7 @@ function setControls() {
             validateSingleValue($(this));
         }
     });
-
-
-    //漏点数量
+    //设置漏点数量控件
     $('.mob-holidays').mobiscroll().number({
         theme: 'auto',
         lang: 'zh',
@@ -1270,11 +1066,10 @@ function setControls() {
         step: 1,
         scale: 0,
         onSet: function(event, inst) {
-            //var selectedVal = inst.getVal();
             validateSingleValue($(this));
         }
     });
-    //修补数
+    //设置修补数控件
     $('.mob-repair').mobiscroll().number({
         theme: 'auto',
         lang: 'zh',
@@ -1288,8 +1083,7 @@ function setControls() {
             validateSingleValue($(this));
         }
     });
-
-    //锚纹深度
+    //设置锚纹深度控件
     $('.mob-profile').mobiscroll().number({
         theme: 'auto',
         lang: 'zh',
@@ -1309,7 +1103,7 @@ function setControls() {
             validateSingleValue($(this));
         }
     });
-    //底层、面层粉末喷枪数(外涂2fbe)
+    //设置底层、面层粉末喷枪数(外涂2fbe)控件
     $('.mob-base-coat-gun-count,.mob-top-coat-gun-count').mobiscroll().number({
         theme: 'auto',
         lang: 'zh',
@@ -1325,7 +1119,7 @@ function setControls() {
             validateSingleValue($(this));
         }
     });
-    //整数numpad
+    //设置整数控件
     $('.mob-int-numpad').mobiscroll().numpad({
         theme: 'auto',
         lang: 'zh',
@@ -1345,7 +1139,7 @@ function setControls() {
             validateSingleValue($(this));
         }
     });
-    //小数numpad精确度1
+    //设置小数控件 精确度1
     $('.mob-floatone-numpad').mobiscroll().numpad({
         theme: 'auto',
         lang: 'zh',
@@ -1365,7 +1159,7 @@ function setControls() {
             validateSingleValue($(this));
         }
     });
-    //小数numpad精确度2
+    //设置小数控件 精确度2
     $('.mob-floattwo-numpad').mobiscroll().numpad({
         theme: 'auto',
         lang: 'zh',
@@ -1385,7 +1179,7 @@ function setControls() {
             validateSingleValue($(this));
         }
     });
-    //剩余壁厚记录控件
+    //设置剩余壁厚记录控件
     $('.mob-thickness-list').mobiscroll().numpad({
         theme: 'auto',
         lang: 'zh',
@@ -1441,7 +1235,7 @@ function setControls() {
         dateFormat: 'yyyy-mm-dd',
         timeFormat: 'HH:ii:ss'
     });
-    //切斜
+    //设置切斜控件
     $('.mob-squareness').mobiscroll().number({
         theme: 'auto',
         lang: 'zh',
@@ -1460,7 +1254,7 @@ function setControls() {
             validateSingleValue($(this));
         }
     });
-    //椭圆度
+    //设置椭圆度控件
     $('.mob-ovality').mobiscroll().number({
         theme: 'auto',
         lang: 'zh',
@@ -1473,7 +1267,7 @@ function setControls() {
             validateSingleValue($(this));
         }
     });
-    //坡口角度
+    //设置坡口角度控件
     $('.mob-bevelangle').mobiscroll().number({
         theme: 'auto',
         lang: 'zh',
@@ -1492,7 +1286,7 @@ function setControls() {
             validateSingleValue($(this));
         }
     });
-    //钝边
+    //设置钝边控件
     $('.mob-rootface').mobiscroll().number({
         theme: 'auto',
         lang: 'zh',
@@ -1535,17 +1329,15 @@ function setControls() {
 
 //根据pipeno  获取 2FBE lab实验接收标准
 function Request2FBELabAcceptCriteria(pipeno) {
-
     //注册接收Request2FBELabAcceptCriteria回调
     api.addEventListener({
         name: 'Request2FBELabAcceptCriteriaCallbackEvent'
     }, function(ret, err) {
         if (ret.value.success) {
             //得到了2FBE lab实验接收标准
-            ////处理逻辑。。。
+            //处理逻辑。。。
             Get2FBELabAcceptCriteriaOK(ret.value.data);
         } else {
-            //alert(JSON.stringify(ret.value.msg));
             //处理逻辑。。。
             Get2FBELabAcceptCriteriaFail();
         }
@@ -1591,14 +1383,13 @@ function Request3LPELabAcceptCriteria(pipeno) {
     }, function(ret, err) {
         if (ret.value.success) {
             //得到了3LPE lab实验接收标准
-            ////处理逻辑。。。
+            //处理逻辑。。。
             Get3LPELabAcceptCriteriaOK(ret.value.data);
         } else {
             //处理逻辑。。。
             Get3LPELabAcceptCriteriaFail();
         }
     });
-
     //发出请求
     var s = 'http://' + serverIP + '/LabTestingAcceptanceCriteriaOperation/getAcceptanceCriteria3LpeByPipeNo.action';
     api.ajax({
@@ -1629,42 +1420,6 @@ function Request3LPELabAcceptCriteria(pipeno) {
 
     });
 }
-//获取表单头部钢管信息  不需要了，合并至OD接收标准
-// function getPipeBasicInfoHeader(pipeno, millno) {
-//     var s = 'http://' + serverIP + '/APPRequestTransfer/getCoatingInfoByPipeNo.action';
-//     api.ajax({
-//         url: s,
-//         method: 'post',
-//         timeout: 30,
-//         dataType: 'json',
-//         data: {
-//             values: {
-//                 pipe_no: pipeno
-//             }
-//         }
-//     }, function(ret, err) { //alert(ret);
-//         if (ret) {
-//             if (ret.success == false) {
-//                 api.alert({
-//                     msg: JSON.stringify(ret.message)
-//                 });
-//             } else {
-//                 pipeinfo = ret.pipeinfo;
-//                 $('.pipeinfo-table .pipe_no').text(pipeinfo.pipe_no);
-//                 $('.pipeinfo-table .status_name').text(pipeinfo.status_name);
-//                 $('.pipeinfo-table .od').text(pipeinfo.od);
-//                 $('.pipeinfo-table .wt').text(pipeinfo.wt);
-//                 $('.pipeinfo-table .millno').text(millno);
-//                 hlLanguage("../../i18n/");
-//             }
-//         } else {
-//             //alert("err");
-//             api.alert({
-//                 msg: JSON.stringify(err)
-//             });
-//         }
-//     });
-// }
 //初始化未填项目
 function initFormNumber() {
     var result = true;
@@ -1700,11 +1455,6 @@ function initFormNumber() {
             $(this).val(-99);
         }
     });
-    // $("input[data-number=false]").each(function(a, b) {
-    //     if ($(this).val().length <= 0) {
-    //         $(this).val('');
-    //     }
-    // });
     return true;
 }
 
@@ -1730,7 +1480,7 @@ function getPendingRecordInfo(controller, pipe_no) {
                 pipe_no: pipe_no
             }
         }
-    }, function(ret, err) { //alert(ret);
+    }, function(ret, err) {
         if (ret) {
             api.sendEvent({
                 name: 'getPendingRecordCallBackEvent',
@@ -1742,11 +1492,8 @@ function getPendingRecordInfo(controller, pipe_no) {
         } else {
             toastFail(err.msg);
         }
-
     });
 }
-
-
 
 //验证单个控件的数据是否合格,此方法使用单值和多值列表,下拉单选
 function validateSingleValue(obj) {
@@ -1794,9 +1541,6 @@ function validateAllValue() {
     $("select").each(function() {
         validateSingleValue($(this));
     });
-
-
-
 }
 
 //获取前一根合格管的涂层记录作为数据来源
@@ -2074,8 +1818,8 @@ var ZebraAndroidPrint;
 //搜索蓝牙设备
 function findPrinters() {
     DoLoadingPicture();
-    if(ZebraAndroidPrint==undefined)
-       ZebraAndroidPrint = api.require('ZebraAndroidPrint');
+    if (ZebraAndroidPrint == undefined)
+        ZebraAndroidPrint = api.require('ZebraAndroidPrint');
     ZebraAndroidPrint.findPrinters(
         function(ret, err) {
             if (ret.result) {
@@ -2093,7 +1837,8 @@ function findPrinters() {
                 }
                 ClearLoadingPicture();
             } else {
-                toastSuccess(ret.msg);ClearLoadingPicture();
+                toastSuccess(ret.msg);
+                ClearLoadingPicture();
             }
         }
     );
@@ -2105,8 +1850,8 @@ function connectPrinter(address, name) {
         var param = {
             printerAddr: address
         };
-        if(ZebraAndroidPrint==undefined)
-           ZebraAndroidPrint = api.require('ZebraAndroidPrint');
+        if (ZebraAndroidPrint == undefined)
+            ZebraAndroidPrint = api.require('ZebraAndroidPrint');
         ZebraAndroidPrint.connectPrinter(param, function(ret, err) {
             toastSuccess(ret.msg);
             if (ret.result) {
@@ -2117,8 +1862,8 @@ function connectPrinter(address, name) {
                         name: name
                     }
                 });
-            }else{
-              ClearLoadingPicture();
+            } else {
+                ClearLoadingPicture();
             }
         });
     } else {
@@ -2129,13 +1874,13 @@ function connectPrinter(address, name) {
 //获取打印机的状态
 function getPrinterStatus(g_address) {
     DoLoadingPicture();
-    //0:准备打印!,1:打印机暂停,无法打印!,2:无法打印,因为打印头是打开的!3:打印机缺纸  4:打印机未连接! 5 获取状态时错误,未找到Mac地址! 6:其他错误
+    //打印机状态一般为 准备打印、打印机暂停、打印机缺纸、打印机未连接、获取状态时错误,未找到Mac地址! 、其他错误
     if (g_address != undefined) {
         var param = {
             printerAddr: g_address
         };
-        if(ZebraAndroidPrint==undefined)
-           ZebraAndroidPrint = api.require('ZebraAndroidPrint');
+        if (ZebraAndroidPrint == undefined)
+            ZebraAndroidPrint = api.require('ZebraAndroidPrint');
         ZebraAndroidPrint.getPrinterStatus(param, function(ret, err) {
             api.sendEvent({
                 name: 'getPrinterStatusEvent',
@@ -2154,7 +1899,7 @@ function getPrinterStatus(g_address) {
     }
 }
 //打印图片
-function printImage(copies,g_imgUrl) {
+function printImage(copies, g_imgUrl) {
     if (g_imgUrl != undefined) {
         var param = {
             imageUrl: g_imgUrl,
@@ -2164,8 +1909,8 @@ function printImage(copies,g_imgUrl) {
             height: 350,
             copies: copies
         };
-        if(ZebraAndroidPrint==undefined)
-           ZebraAndroidPrint = api.require('ZebraAndroidPrint');
+        if (ZebraAndroidPrint == undefined)
+            ZebraAndroidPrint = api.require('ZebraAndroidPrint');
         ZebraAndroidPrint.printImage(param, function(ret, err) {
             toastSuccess(ret.msg);
             api.sendEvent({
@@ -2179,8 +1924,8 @@ function printImage(copies,g_imgUrl) {
         api.sendEvent({
             name: 'printImageEvent',
             extra: {
-                result:false,
-                msg:'未找到图片!'
+                result: false,
+                msg: '未找到图片!'
             }
         });
     }
@@ -2191,8 +1936,8 @@ function closePrinter() {
         var param = {
             printerAddr: g_address
         };
-        if(ZebraAndroidPrint==undefined)
-           ZebraAndroidPrint = api.require('ZebraAndroidPrint');
+        if (ZebraAndroidPrint == undefined)
+            ZebraAndroidPrint = api.require('ZebraAndroidPrint');
         ZebraAndroidPrint.closePrinter(param, function(ret, err) {});
     } else {
         toastFail('为找到要关闭的打印机!');
