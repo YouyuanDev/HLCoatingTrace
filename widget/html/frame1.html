@@ -232,10 +232,15 @@
             if (ret) {
                 if (ret.success) {
                     var data = ret.record;
+                    if(data.length==0){
+                      toastSuccess('暂无实验数据!');
+                    }
                     for (var i = 0; i < data.length; i++) {
                         $('.labinfo-div').append(makeTemplate(data[i].odsampling_mark, data[i].id, data[i].testing_type, data[i].testing_result, data[i].operation_time, data[i].pipe_no, data[i].external_coating, data[i].internal_coating));
                     }
                     hlLanguage("../i18n/");
+                }else{
+                  toastSuccess('暂无实验数据!');
                 }
             } else {
                 toastFail(err.msg);

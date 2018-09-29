@@ -235,11 +235,16 @@
             if (ret) {
                 if (ret.success) {
                     var data = ret.record;
+                    if(data.length==0){
+                      toastSuccess('暂无发运记录!');
+                    }
                     for (var i = 0; i < data.length; i++) {
                         $('.shipmentinfo-div').append(makeTemplate(data[i].total_count, data[i].total_length, data[i].total_weight, data[i].project_name, data[i].shipment_no, data[i].shipment_date, data[i].vehicle_plate_no, data[i].external_coating,
                             data[i].internal_coating, data[i].od, data[i].wt));
                     }
                     hlLanguage("../i18n/");
+                }else{
+                  toastSuccess('暂无发运记录!');
                 }
             } else {
                 toastFail(err.msg);

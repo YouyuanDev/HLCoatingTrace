@@ -373,6 +373,11 @@
     }
     //初始化搜索栏
     function initSearchBar() {
+        var language = getCookie("userLanguage");
+        var placeholder=' 请输入管号  ';
+        if(language&&language=="en"){
+          placeholder='Please input Pipe No.';
+        }
         var UIInput = api.require('UIInput');
         UIInput.open({
             rect: {
@@ -391,7 +396,7 @@
             },
             autoFocus: false,
             maxRows: 1,
-            placeholder: ' 请输入管号  ',
+            placeholder:placeholder,
             keyboardType: 'search',
             fixedOn: api.frameName
         }, function(ret) {
