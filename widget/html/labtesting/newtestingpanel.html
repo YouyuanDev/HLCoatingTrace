@@ -104,7 +104,6 @@
 </head>
 
 <body>
-    <!-- <div style="width:100%;height:100%;background:transparent;"> -->
     <div class="testing-container">
         <div class="close-float" onclick="closePanel()"></div>
         <div class="float-btn-container">
@@ -154,15 +153,14 @@
         var data = api.pageParam;
         g_project_no = data.project_no;
     }
-
+    //关闭当前frame
     function closePanel() {
         api.closeFrame({
             name: 'newtestingpanel'
         });
     }
-
+    //新建原材料实验
     function LabTesting(process_code) {
-
         if (process_code == undefined)
             return;
         var external_coating = "";
@@ -174,8 +172,6 @@
         }else if(process_code == 'lab_testing_raw_material_EPOXY') {
             internal_coating = "EPOXY";
         }
-
-
         var s = 'http://' + serverIP + '/APPRequestTransfer/getFirstPipeNoByProjectNo.action';
         api.ajax({
             url: s,
@@ -208,8 +204,5 @@
                 }
             }
         });
-
-
-
     }
 </script>

@@ -74,9 +74,11 @@
       toastFail("获取项目编号时出错!");
       closeWindowNoPipeNo();
     }
+    //获取钢管编号列表
     function reloadPipeNoList(){
           getPipeNoListByProjectNo($('#project_no').val());
     }
+    //打开实验frame
     function submitForm(){
         var pipe_no=$('#pipe_no').val();
         if(pipe_no==undefined)

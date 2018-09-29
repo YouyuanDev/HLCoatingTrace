@@ -126,10 +126,6 @@
             //下拉刷新,下拉加载
             dropdownLoading();
             isRollingToEnd();
-            // var h = $('.search-condition').get(0).offsetHeight;
-            // var winHeight=api.winHeight;
-            // var disH=winHeight-h;
-            // $('.search-data').css({'max-height':disH+'px'});
             //先判断本地是否存在
             var projectNoListPref = api.getPrefs({
                 sync: true,
@@ -185,7 +181,7 @@
             }, 50);
         });
     }
-
+    //滚动到底部
     function isRollingToEnd() {
         api.addEventListener({
             name: 'scrolltobottom',
@@ -197,7 +193,6 @@
             searchInspectionRecord(start, true);
         });
     }
-    //
     //获取项目编号集合成功
     function RequireProjectNoOK(data) {
         addInfoToProjectSelect(data);
@@ -335,13 +330,13 @@
             toastFail(error.message);
         }
     }
-
+    //关闭当前frame
     function closePanel() {
         api.closeFrame({
             name: 'searchpipesetting'
         });
     }
-
+    //搜索检验记录
     function searchInspectionRecord(start, append) {
         var project_no = $('#projectInfoSelect').val();
         var mill_no = $('#millInfoSelect').val();
@@ -379,19 +374,6 @@
             }
 
         });
-        // api.setPrefs({
-        //     key: 'project_no_pref',
-        //     value: project_no
-        // });
-        // api.setPrefs({
-        //     key: 'mill_no_pref',
-        //     value: mill_no
-        // });
-        // api.setPrefs({
-        //     key: 'process_code_pref',
-        //     value: process_code
-        // });
-        //closePanel();
     }
     //展示搜索记录
     function funcShowPipeResultList(pipedata, append) {

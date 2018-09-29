@@ -33,15 +33,6 @@
         .foot-container .process-button:last-child {
             margin-right: 0px;
         }
-        /*.loadmore-btn {
-            background-color: #f2f2f2;
-            color: #4682B4;
-            height: 43px;
-            text-align: center;
-            line-height: 43px;
-            width: 95%;
-            outline: none;
-        }*/
 
         .nav {
             width: 100%;
@@ -101,11 +92,11 @@
 <script src="../../script/jquery.i18n.properties-1.0.9.js" type="text/javascript"></script>
 <script src="../../script/language.js" type="text/javascript"></script>
 <script type="text/javascript">
-    //  var UIActionSelector;
+    //下一工序集合
     var urloptions;
+    //钢管编号
     var pipeno;
     apiready = function() {
-        //UIActionSelector = api.require('UIActionSelector');
         fnSettingHeader();
         //返回事件
         $('.event-back').click(function() {
@@ -114,6 +105,7 @@
         var data = api.pageParam;
         pipeno = data.pipeno;
         $('.nav-pipeno').text(pipeno);
+        //监听刷新事件
         api.addEventListener({
             name: 'refreshPipeRoot'
         }, function(ret, err) {
@@ -124,6 +116,7 @@
         ShowPipeInfoFrame(pipeno);
         hlLanguage("../../i18n/");
     }
+    //打开钢管信息Frame
     function ShowPipeInfoFrame(pipeno) {
         //计算Header和footer高度
         var nav = $api.byId('header');
@@ -166,14 +159,11 @@
         var template = '<div class="i18n1 process-button" nexturl="' + value + '" name="' + key + '" urlparam="' + key + '" onclick="goNextProcess(this)">' + key + '</div>';
         return template;
     }
-
-
     //跳转下一工序页面
     function goNextProcess(obj) {
         var name = $(obj).attr('name');
         var url = $(obj).attr('nexturl');
         var urlparam = $(obj).attr('urlparam');
-
         var nextURL = '../' + url + '.html';
         api.openWin({
             name: url,

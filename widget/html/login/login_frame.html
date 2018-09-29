@@ -113,7 +113,6 @@
             width: 60px;
             height: 40px;
             float: right;
-            /*color: #4682B4;*/
             outline: none;
             border: none;
             font-size: 16px;
@@ -124,7 +123,6 @@
             font-size: 16px;
             color: #4682B4;
             margin-left: 10px;
-            /*color: #999;*/
         }
 
         .login {
@@ -163,7 +161,6 @@
         </div>
         <div class="password">
             <input type="password" placeholder="密码" id="password">
-            <!-- <div class="find" tapmode onclick="fnForgetPassword()">找回密码</div> -->
         </div>
         <div class="location-container">
             <div class="location-content"><label class="i18n1 txtlabel" name="atmill">所在分厂</label><label class="txtlabel">:</label><span class="location-span"></span></div>
@@ -171,7 +168,6 @@
             <input type="hidden" id="mill_no">
         </div>
         <div class="login" tapmode onclick="fnLogin()"><label class="i18n1 login-btn" name="login"></label></div>
-        <!-- <div class="register open-win" win="register_mobile">注册账号</div> -->
     </div>
 </body>
 
@@ -182,6 +178,7 @@
 <script src="../../script/jquery.i18n.properties-1.0.9.js" type="text/javascript"></script>
 <script src="../../script/language.js" type="text/javascript"></script>
 <script type="text/javascript">
+    //操作工工号输入框、密码输入框、操作工工号、密码
     var operator_no, password, operator_no_txt, password_txt;
     //所有mill信息
     var mills = new Array();
@@ -201,17 +198,17 @@
         }, 400);
         hlLanguage("../../i18n/");
     };
-
+    //初始化
     function fnInit() {
         operator_no = $api.byId('operator_no');
         password = $api.byId('password');
     };
-
+    //设置分厂号
     function setMillName(millno, millname) {
         $('.location-span').text(millname);
         $('#mill_no').val(millno);
     }
-
+    //登录
     function fnLogin() {
         operator_no_txt = operator_no.value,
             password_txt = password.value;
@@ -247,7 +244,6 @@
             }
         }, function(ret, err) {
             api.hideProgress();
-            //ClearLoadingPicture();
             if (ret.success) {
                 $api.setStorage('operatorno', operator_no_txt);
                 //绑定推送
@@ -276,7 +272,6 @@
             }
         });
     }
-
     //bMap初始化，android不需要初始化
     function initbMap() {
         var map = api.require('bMap');
@@ -351,9 +346,6 @@
         });
 
     }
-
-
-
     //设置定位
     function setMillLocation() {
         //开始计算定位
@@ -361,10 +353,8 @@
         if (timer == -1)
             timer = setInterval(SetClosestMill, 200);
     }
-
-
+    //获取当前用户的经纬度坐标
     function GetMyLonLat() {
-        //DoLoadingPicture();
         var my_lon;
         var my_lat;
         var map = api.require('bMap');
@@ -383,7 +373,7 @@
             }
         });
     }
-
+    //获取所有的分厂号
     function getAllMillsFromServer() {
         //得到所有mill的坐标
         var s = 'http://' + serverIP + '/millInfo/getAllMillsInfo.action';
@@ -407,10 +397,9 @@
         });
 
     }
-
+    //获取与当前用户最近的分厂号
     function GetClosestMill(my_lon, my_lat) {
         for (var i = 0; i < mills.length; i++) {
-
             var mill = mills[i];
             var coordinate = mill.coordinate;
             var coords = coordinate.split(',');
@@ -421,8 +410,7 @@
             }, 500);
         }
     }
-
-
+    //获取当前用户与分厂的距离
     function getDistance(mill_lon, mill_lat, my_lon, my_lat) {
         var map = api.require('bMap');
         map.getDistance({
@@ -435,7 +423,6 @@
                 lat: my_lat
             }
         }, function(ret) {
-            //ClearLoadingPicture();
             if (ret.status) {
                 distanceArray.push(ret.distance);
             } else {
@@ -443,7 +430,6 @@
             }
         });
     }
-
     //取最近的mill作为分厂信息
     function SetClosestMill() {
         if (mills.length == distanceArray.length && mills.length != 0) {

@@ -43,31 +43,8 @@
         .pipeinfo-table tr td:nth-child(even) {
             text-align: center;
         }
-        /*.dataintable,.dataintable tr {
-           width:100%;
-         }
-         .dataintable tr td{
-             width:100px;
-             margin-top:5px;
-             font-size:14px;
-         }
-        .dataintable  tr td:nth-child(odd){
-            text-align: left;
-            color: #7A7A7A;
-            overflow: hidden;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-            background-color:red;
-        }
-        .dataintable  tr td:nth-child(even){
-            text-align: center;;
-            overflow: hidden;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-        }*/
 
         .qr-canvas {
-            /*margin: 10px;*/
             float: left;
             text-align: center;
             width: auto;
@@ -194,22 +171,8 @@
                 <div class="qr-canvas-inner"></div>
                 <div class="qr-canvas-text"></div>
             </div>
-            <!-- <div class="qr-canvas">
-                <div class="qr-canvas-inner"></div>
-                <div class="qr-canvas-text"></div>
-            </div>
-            <div class="qr-canvas">
-                <div class="qr-canvas-inner"></div>
-                <div class="qr-canvas-text"></div>
-            </div>
-            <div class="qr-canvas">
-                <div class="qr-canvas-inner"></div>
-                <div class="qr-canvas-text"></div>
-            </div> -->
             <div class="clearfix"></div>
         </div>
-        <!-- <a id="down_qr" href="#" style="padding:10px;background:red;" onclick="downQrcode();">haha</a> -->
-        <!-- <img id="myIMG"/> -->
         <div class="loadmore-div" style="height:auto;margin-top:20px;font-size: 16px;color:#000000;font-family:" Sans-serif ";">
             <div class="loadmore-btn i18n1" name="loadmorninfo" onclick="loadMoreInfo()">更多生产信息...</div>
         </div>
@@ -227,7 +190,6 @@
 <script type="text/javascript" src="../../script/common.js"></script>
 <script src="../../script/jquery.i18n.properties-1.0.9.js" type="text/javascript"></script>
 <script src="../../script/language.js" type="text/javascript"></script>
-<!-- <script type="text/javascript" src="../../script/jquery-1.11.1.js" ></script> -->
 <script type="text/javascript" src="../../script/jquery.qrcode.js"></script>
 <script type="text/javascript" src="../../script/qrcode.js"></script>
 <script type="text/javascript" src="../../script/utf.js"></script>
@@ -236,18 +198,14 @@
     var pipeno;
     var showmore = false;
     var g_result_input_output;
-    //var FNImageClip;
-    //var imageBrowser;
     apiready = function() {
-
             LoadProcess_input_output();
-            //FNImageClip = api.require('FNImageClip');
             var data = api.pageParam;
             pipeno = data.pipeno;
             //下拉刷新，钢管信息
             dropdownLoading();
             registerPrintImageListener();
-            //urloptions =data.urloptions;
+            //如果钢管编号不为空，搜索钢管信息
             if (pipeno != undefined) {
                 SearchpipeInfo();
             } else {
@@ -304,12 +262,6 @@
                     //显示钢管基础信息
                     showPipeBasicInfo(pipeinfo);
                     //显示下一工序选项，通知pipeinforoot.html刷新 选项按钮
-                    // api.sendEvent({
-                    //     name: 'showNextProcessOptions',
-                    //     extra: {
-                    //         urloptions: urloptions
-                    //     }
-                    // });
                     var jsfun = 'showNextProcessOptions(' + JSON.stringify(ret.urloptions) + ');';
                     api.execScript({
                         name: 'pipeinforoot',
@@ -374,10 +326,8 @@
         $('.shipment_date').text(formatterdate(pipeinfo.shipment_date));
         $('.od_coating_date').text(formatterdate(pipeinfo.od_coating_date));
         $('.id_coating_date').text(formatterdate(pipeinfo.id_coating_date));
-
         //QRCode
         GenerateQRCode(pipeinfo.pipe_no);
-
     }
     //更多生产信息
     function loadMoreInfo() {
@@ -396,7 +346,6 @@
                 }
             }
         }, function(ret, err) {
-            //api.hideProgress();
             if (ret) {
                 var data = ret;
                 var flag = false;
@@ -422,36 +371,8 @@
         });
 
     }
-
-    // function recordTemplate(recordEnName, recordName, dict) {
-    //     var template = "";
-    //     var i = 1;
-    //     template += '<table  style="width:100%;" class="dataintable"><thead><tr><th class="i18n1" name="' + recordEnName + '" colspan="6">' + recordName + '</th></tr></thead>';
-    //
-    //     for (var key in dict) {
-    //         template += '<tr style="width:100%;">';
-    //         template += ' <td style="width:50%;color: #7A7A7A;padding:5px 0px;word-break: break-all;word-wrap: break-word;" class="i18n1 pipeinfo-td" name="' + key + '">' + key + '</td>';
-    //         if (dict[key] == undefined || dict[key] == -99)
-    //             dict[key] = "";
-    //         if (key == "uploadfiles") {
-    //             template += '<td style="width:50%;text-align:center;padding:5px 0px;" class="pipeinfo-td" ><div style="color:#87CEEB;" onclick="setBrowsePicutre(this);" data-list="' + dict[key] +
-    //                 '" class="upload-pictures i18n1" name="viewpicture">图片</div></td>';
-    //         } else if (key == "stencilcontent") {
-    //             if (dict[key] != undefined) {
-    //                 dict[key] = dict[key].replace(/(\r\n)|(\n)/g, '<br>');
-    //             }
-    //             template += '</td></tr><tr style="width:100%;"><td colspan="2" style="text-align:left;padding:5px 0px;color:#000000;" class="pipeinfo-td">' + dict[key] + '</td>';
-    //         } else {
-    //             template += ' <td style="width:50%;text-align:center;padding:5px 0px;" class="pipeinfo-td">' + dict[key] + '</td>';
-    //         }
-    //         template += '</tr>';
-    //     }
-    //     template += '</table><br>';
-    //     return template;
-    // }
-
+    //生成有关钢管的记录模板
     function getTemplate(process_code, array, language, header_dict) {
-
         var template = "";
         template += '<table  title="" class="dataintable"><thead><tr><th class="i18n1" name="' + process_code + '" colspan="6">' + process_code + '</th></tr></thead><tbody>';
         var remark = "",
@@ -478,7 +399,6 @@
                     }
                 }
             }
-
             var max_value = array[i].max_value;
             var min_value = array[i].min_value;
             var item_value = array[i].item_value == undefined ? "" : array[i].item_value;
@@ -523,7 +443,6 @@
             template += '<td style="width:50%;text-align:center;padding:5px 0px;" class="pipeinfo-td" ><div style="color:#87CEEB;" class="upload-pictures i18n1" name="nopictures">无图片</div></td>';
 
         }
-
         template += '</tr>';
         template += '<tr>';
         template += ' <td class="i18n1" name="remark">备注</td>';
@@ -531,12 +450,8 @@
         template += '</tr></tbody></table>';
         $('#pipe-process-info').append(template);
     }
-
-
-
-
+    //生成二维码
     function GenerateQRCode(pipeno) {
-        //for (var i = 0; i < 3; i++) {
         //生成显示的一张二维码
         jQuery('#qrcodeCanvas').qrcode({
             render: "canvas",
@@ -548,12 +463,10 @@
             src: '../../image/logo2.jpg' //二维码中间的图片
         });
         $('#qrcodeText').text('P/N:' + pipeno);
-
         //生成用于打印的3张二维码
         $('.qr-canvas-inner').empty();
+        //二维码的宽度
         var width = api.winWidth / 3 - 20;
-        //var width = 200;
-
         $('#qr-container').hide();
         jQuery('.qr-canvas-inner').qrcode({
             render: "canvas",
@@ -599,49 +512,20 @@
                         }, function(ret, err) {
                             $('#qr-container').hide();
                             if (ret.status) {
-
                                 var imgPath = "fs://jietu/" + imgName;
                                 toastSuccess('图片已生成,保存本地成功!');
-                                //openGPPrinter(img);
                                 openZebraPrinter(imgPath);
-                                //addPrintRecord();
                             } else {
                                 toastFail('图片生成失败!');
                             }
                         });
                         ClearLoadingPicture();
                     });
-
-
-                    // html2canvas(document.querySelector("#qr-container")).then(canvas => {
-                    //     var canvas = canvas.toDataURL("image/png");
-                    //     var img = canvas.replace('data:image/png;base64,', '');
-                    //     var trans = api.require('trans');
-                    //     var date = new Date();
-                    //     var imgName = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDay() + "-" + date.getHours() + "-" + date.getMinutes() + "-" + date.getSeconds() + "-" + date.getMilliseconds() + ".png";
-                    //     trans.saveImage({
-                    //         base64Str: img,
-                    //         album: true,
-                    //         imgPath: "fs://jietu/",
-                    //         imgName: imgName
-                    //     }, function(ret, err) {
-                    //         $('#qr-container').hide();
-                    //         if (ret.status) {
-                    //             toastSuccess('图片已生成,保存本地成功!');
-                    //             //openGPPrinter(img);
-                    //             openZebraApp();
-                    //             addPrintRecord();
-                    //         } else {
-                    //             toastFail('图片生成失败!');
-                    //         }
-                    //     });
-                    //     ClearLoadingPicture();
-                    // });
                 }, 1000);
             }
         });
     }
-
+    //加载工序结论集合
     function LoadProcess_input_output() {
         var s = 'http://' + serverIP + '/data/process_input_output.json';
         api.ajax({
@@ -684,17 +568,7 @@
             });
         }
     }
-
-
-
-    // function openGPPrinter(imgData) {
-    //     var gprinter = api.require('xGprinter');
-    //     gprinter.printImage({
-    //         base64: 'iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAACyElEQVRYR+2XTWgTQRTH33trC/GDgigaIyJi8aA38VJBD4Ii9WIxWvQmEhHM7O5BoogaEMXa1pnptBUqloKK4AeehCIUWgQLnqrgzaN4EWEVG0zp7JMtRmIb26RJLUrnuLz3f7/573s7swiLvDCqL4TYQURH/sRirb1ljPlaKavneZcAwCmVh4hDUsqXBYBWItoEAK9LBVtrR40x+UoBXNfdg4hUIi8BAJuVUtd+AQBA0NXVNVhpkfnECyEaiejoEsC/74AQoomZNxhjnlTSC1X3QDqdXus4zmNmXgUAnxBx3cTERLK3t/d9OSAzAMpJimKSyaQTj8c1IrYgolBKTe08nU7vJaJ+RBwbGxs7MTw8/L1czakxLGe5rnsMAKLiz5VSpwCAp+cJIa4g4tkwDG8aY9rL0Z0TwPO8ODMPAUDeWtvc3d39cTbhVCrVEIvFngFAIwA0a63fzhZfDsBuZr4OAKN1dXVXOzo6xmcTzGaz9UEQeMy8HwAeaq3vVgUghNhJRE1hGA4i4mVEfKGUuldKVAixDxFPM3MbEa1HxBVSykc1AVBKmUjI87yDzHyciG5IKd9Fz3zf3xKG4TlEfKWUuh/1h+d5zQsCEBXMZrPLgiA4AwBRf3xBxPpcLtfZ19eXK+x2QQEKRVzXPQQA27TWndNt/lsA0XG7VSnV/38DIOIBrXU0ir+tnxeOkg4IIVodxwmrnoJMJtOQz+dvM/O3ycnJCz09PZ+LemDGK0ilUstjsdhFANgVhuFJY8yHqsawqKunPkhE9EBKeScatekOCCEOE5HPzFpr/bQmn+JikegwSiQSKQBoAYAMM6+MmtBaO0JE7Yj4JgiCtoGBgcoOo+h9VXIn9H1/NTNnmXkjACAijltrz89ld2EzVd8HCkK+728HgDVSypFy7K45QCVFi2Nr5sASQE0dWOxfs8X9OZ2vlbXI+wHsg7owETEYpwAAAABJRU5ErkJggg=='
-    //     });
-    // }
     //监听打印机打印成功事件
-    //监听打印图片完成事件
     function registerPrintImageListener() {
         api.addEventListener({
             name: 'printImageEvent'
@@ -705,7 +579,7 @@
             }
         });
     }
-
+    //获取该钢管打印的次数
     function rquestPrintCount() {
         var s = 'http://' + serverIP + '/QrCodeOperation/APPGetQRCodePrintTimes.action';
         api.ajax({
@@ -723,7 +597,6 @@
                 if (ret.success) {
                     printQRCode(ret.count);
                 } else {
-                    toastFail("hahah");
                     toastFail(ret.message);
                 }
             } else {
@@ -731,7 +604,7 @@
             }
         });
     }
-
+    //添加打印次数
     function addPrintRecord() {
         var s = 'http://' + serverIP + '/QrCodeOperation/APPPrintQRCode.action';
         api.ajax({
