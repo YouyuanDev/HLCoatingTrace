@@ -199,15 +199,6 @@
     </div>
     <footer class="form-footer" id="footer" style="height:auto;">
         <div class="scan-container form-process-button"></div>
-        <!-- <div id="foot-container"  class="foot-container">
-          <div class="foot-item">
-            <div class="scan-container"></div>
-          </div>
-          <div class="foot-item">
-            <div class="scan-container"></div>
-            <div class="i18n1 form-process-button" name="submit" onclick="submitForm();">提交</div>
-          </div>
-      </div> -->
     </footer>
 </body>
 
@@ -219,14 +210,14 @@
 <script src="../../script/language.js" type="text/javascript"></script>
 <script src="../../script/mobiscroll.custom-3.0.0-beta6.min.js" type="text/javascript"></script>
 <script type="text/javascript">
+    //项目编号
     var g_project_no;
-    //UILoading 的id
     var g_loadingID = 0;
-
+    //出厂成品列表
     var shipmentList = [];
+    //发运编号
     var g_shipment_no = undefined;
     apiready = function() {
-            //DoLoadingPicture();
             var data = api.pageParam;
             g_shipment_no = data.shipment_no;
             fnSettingHeader();
@@ -272,9 +263,6 @@
                 $('.vehicle_plate_no').attr("readonly", "readonly");
                 $('.vehicle_plate_no').attr('placeholder', '');
             }
-
-
-
         }
         //将钢管加入出库单
     function addPipeToShipment(pipeno) {
@@ -326,9 +314,8 @@
         });
 
     }
-
+    //生成发运模板
     function makeTemplate(pipeinfo) {
-
         var template = "";
         //判断是否为同一个项目的管子
         if (g_project_no != undefined && pipeinfo.project_no != g_project_no) {
@@ -338,9 +325,7 @@
 
             return template;
         }
-
         g_project_no = pipeinfo.project_no;
-
         //判断钢管是否已经存在于表单上
         for (var j = 0; j < shipmentList.length; j++) {
             var pipeno = shipmentList[j];
@@ -372,11 +357,7 @@
             if (pipeinfo.vehicle_plate_no != undefined) {
                 $('.vehicle_plate_no').val(pipeinfo.vehicle_plate_no);
             }
-
-
         }
-
-
         shipmentList.push(pipeinfo.pipe_no);
         var totalcount = shipmentList.length;
         $('.totalcount').text(totalcount);
@@ -404,7 +385,6 @@
             template += '<div class="itemlogo" data-pipe-no=' + pipeinfo.pipe_no + ' onclick="deletePipeFromList(this);"><img height="30" width="30"  src="../../image/delete.png" ></div>';
         template += '</div>';
         return template;
-
     }
 
     //从这个发运单上删除钢管
@@ -446,7 +426,7 @@
 
         });
     }
-
+    //提交发运表单
     function submitForm() {
         api.confirm({
             title: '提示',
@@ -508,7 +488,7 @@
             api.closeWin();
         }
     }
-
+    //加载发运记录信息
     function loadShipmentInfo(shipment_no) {
         var s = 'http://' + serverIP + '/ShipmentOperation/getShipmentInfoByShipmentNo.action';
         api.ajax({
@@ -523,9 +503,6 @@
             }
         }, function(ret, err) {
             if (ret) {
-                // if (ret.success) {
-                //     api.closeWin();
-                // }
                 if (ret.success) {
                     var data = ret.record;
                     for (var i = 0; i < data.length; i++) {

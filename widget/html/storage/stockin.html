@@ -164,12 +164,6 @@
                         <th class="i18n1" name="stockininfo" colspan="4" style="text-align:center;">入库信息</th>
                     </tr>
                 </thead>
-                <!-- <tr>
-                    <td class="i18n1" name="pipeno"></td>
-                    <td class="pipe_no"></td>
-                    <td class="i18n1" name="statusname"></td>
-                    <td class="status_name"></td>
-                </tr> -->
                 <tr>
                     <td class="i18n1" name="totallength"></td>
                     <td class="totallength">0</td>
@@ -180,12 +174,6 @@
                     <td class="i18n1" name="totalcount"></td>
                     <td class="totalcount">0</td>
                 </tr>
-                <!-- <tr>
-                    <td class="i18n1" name="od"></td>
-                    <td class="od"></td>
-                    <td class="i18n1" name="wt"></td>
-                    <td class="wt"></td>
-                </tr> -->
             </table>
         </div>
         <div class="form-item">
@@ -289,14 +277,15 @@
 <script src="../../script/language.js" type="text/javascript"></script>
 <script src="../../script/mobiscroll.custom-3.0.0-beta6.min.js" type="text/javascript"></script>
 <script type="text/javascript">
-    var g_id;
-    var g_pipeno;
-    var g_employeeno, g_millno, g_processcode;
+    //钢管编号、员工编号、分厂号、工序编号
+    var g_pipeno,g_employeeno, g_millno, g_processcode;
+    //钢管状态
     var status;
-    //UILoading 的id
     var g_loadingID = 0;
     var FNScanner;
+    //入库id集合
     var g_idArr = "";
+    //入库列表
     var stockinList = [];
     apiready = function() {
             DoLoadingPicture();
@@ -532,7 +521,6 @@
                     }
                     $('.totalcount').text(stockinList.length);
                 }
-                //$(obj).parent('.item').remove();
             }
 
         });

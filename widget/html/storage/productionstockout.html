@@ -61,9 +61,8 @@
 <script src="../../script/language.js" type="text/javascript"></script>
 <script src="../../script/mobiscroll.custom-3.0.0-beta6.min.js" type="text/javascript"></script>
 <script type="text/javascript">
-    var g_pipeno;
-    var g_employeeno, g_millno,g_processcode;
-    //UILoading 的id
+    //钢管编号、员工编号、分厂号、工序编号
+    var g_pipeno,g_employeeno, g_millno,g_processcode;
     var g_loadingID = 0;
     apiready = function() {
             DoLoadingPicture();
@@ -88,7 +87,7 @@
         toastFail(message);
         closeWindow();
     }
-
+    //提交成品出厂表单
     function submitForm() {
         api.confirm({
             title: '提示',
