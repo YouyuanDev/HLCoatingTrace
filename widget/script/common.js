@@ -2091,10 +2091,10 @@ function findPrinters() {
                         }
                     });
                 }
+                ClearLoadingPicture();
             } else {
-                toastSuccess(ret.msg);
+                toastSuccess(ret.msg);ClearLoadingPicture();
             }
-            ClearLoadingPicture();
         }
     );
 }
@@ -2117,8 +2117,9 @@ function connectPrinter(address, name) {
                         name: name
                     }
                 });
+            }else{
+              ClearLoadingPicture();
             }
-            ClearLoadingPicture();
         });
     } else {
         toastFail('连接打印机失败,请选中要连接的打印机!');
@@ -2142,7 +2143,6 @@ function getPrinterStatus(g_address) {
                     status: ret.msg
                 }
             });
-            ClearLoadingPicture();
         });
     } else {
         api.sendEvent({
@@ -2151,7 +2151,6 @@ function getPrinterStatus(g_address) {
                 status: '获取打印机状态失败,请选中要连接的打印机!'
             }
         });
-        ClearLoadingPicture();
     }
 }
 //打印图片
@@ -2175,7 +2174,6 @@ function printImage(copies,g_imgUrl) {
                     result: ret.result
                 }
             });
-            ClearLoadingPicture();
         });
     } else {
         api.sendEvent({
@@ -2185,7 +2183,6 @@ function printImage(copies,g_imgUrl) {
                 msg:'未找到图片!'
             }
         });
-        ClearLoadingPicture();
     }
 }
 //关闭打印机

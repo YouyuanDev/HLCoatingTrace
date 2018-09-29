@@ -16,6 +16,8 @@
         }
 
         .aui-bar-nav {
+            padding-top: 3px;
+            padding-bottom: 3px;
             background-color: #515151;
             line-height: 2.5rem;
         }
@@ -56,6 +58,10 @@
             background: #19AD68;
         }
 
+        .aui-btn {
+            font-size: 1rem;
+        }
+
         .aui-btn-primary {
             background: #19AD68;
         }
@@ -65,6 +71,7 @@
             margin: auto;
             height: 3rem;
             line-height: 3rem;
+            font-size: 1rem;
         }
 
         .aui-bar-tab {
@@ -80,44 +87,79 @@
         .aui-btn-primary.aui-btn-special {
             background-color: #FF4040;
         }
-        .aui-bar-tab .aui-bar-tab-item.aui-bar-tab-item-special{
-          width:30px;
+
+        .aui-bar-tab .aui-bar-tab-item.aui-bar-tab-item-special {
+            width: 30px;
         }
+
         #copiesInput {
-            height: 2.7rem;
-            line-height: 2.7rem;
+            width: 4rem;
+            font-size: 1.5rem;
+            height: 2.9rem;
+            line-height: 2.9rem;
             color: #000;
-            margin-right:20px;
             background-color: #fff;
+            text-align: center;
         }
-        .footer-item{
-          height:2.5rem;
-          line-height:2.5rem;
+
+        .footer-item {
+            height: 2.5rem;
+            line-height: 2.5rem;
         }
-        .aui-bar-tab{
-          padding-top:15px;padding-bottom:15px;
+
+        .aui-bar-tab {
+            padding-top: 15px;
+            padding-bottom: 15px;
         }
-        .footer-item:nth-child(1){
-          width:20%;float:left;
+
+        .footer-item:nth-child(1) {
+            width: 20%;
+            float: left;
         }
-        .footer-item:nth-child(2){
-          float:left;
-          width:30%;
+
+        .footer-item:nth-child(2) {
+            float: left;
+            width: 30%;
         }
-        .footer-item:nth-child(3){
-          float: right;
-          width:40%;
+
+        .footer-item:nth-child(3) {
+            float: right;
+            width: 40%;
+        }
+
+        .aui-btn.aui-btn-special span {
+            padding-left: 15px;
+            padding-right: 15px;
+            border-radius: 2px;
+            color: #fff;
+            font-size: 1rem;
+        }
+
+        .aui-bar-nav .aui-pull-left {
+            padding-left: 0.3rem;
+        }
+
+        .aui-bar-nav .aui-pull-right {
+            padding-right: 0.3rem;
+        }
+
+        .aui-bar-nav .aui-pull-left span {
+            background-color: #19AD68;
+        }
+
+        .aui-bar-nav .aui-pull-right span {
+            background-color: #EE5C42;
         }
     </style>
 </head>
 
 <body class="bg-color">
     <header class="aui-bar aui-bar-nav">
-        <a class="aui-pull-left aui-btn">
-            <button class="aui-btn aui-btn-primary aui-btn-block" id="searchBtn" onclick="searchPrinters();">搜索</button>
+        <a class="aui-pull-left aui-btn  aui-btn-special" onclick="searchPrinters();">
+            <span>搜索</span>
         </a>
-        <a class="aui-pull-right aui-btn">
-            <button class="aui-btn aui-btn-primary aui-btn-block aui-btn-special" onclick="closePrinter();">关闭</button>
+        <a class="aui-pull-right aui-btn  aui-btn-special" onclick="closePrinter();">
+            <span>关闭</span>
         </a>
     </header>
     <section class="printer-section">
@@ -125,24 +167,15 @@
     </section>
 
     <footer class="aui-bar aui-bar-tab" id="footer">
-      <div class="footer-item">
-          份数:
-      </div>
-      <div class="footer-item">
-          <input type="number" class="mob-singlenumber" value="1" id="copiesInput">
-      </div>
-      <div class="footer-item">
-          <button class="aui-btn aui-btn-primary aui-btn-block" id="peinterBtn" onclick="beginPrintImage();">打印</button>
-      </div>
-        <!-- <div class="aui-bar-tab-item aui-active aui-bar-tab-item-special">
+        <div class="footer-item" style="color:#fff;font-size:1rem;">
             份数:
         </div>
-        <div class="aui-bar-tab-item aui-active" >
+        <div class="footer-item">
             <input type="number" class="mob-singlenumber" value="1" id="copiesInput">
         </div>
-        <div class="aui-bar-tab-item aui-active">
+        <div class="footer-item">
             <button class="aui-btn aui-btn-primary aui-btn-block" id="peinterBtn" onclick="beginPrintImage();">打印</button>
-        </div> -->
+        </div>
     </footer>
 </body>
 
@@ -178,31 +211,37 @@
             registerGetPrinterStatusListener();
             //监听打印机打印图片完成事件
             registerPrintImageListener();
+            //设置打印份数控件
             setControls();
         }
         //检查本地有没有连接过的打印机
     function checkConnectedPrinter() {
         try {
+            //获取本地缓存的打印机,如果存在则直接生成该打印机对应的列表
             var printer_address = api.getPrefs({
                 sync: true,
                 key: 'printerAddress'
             });
+            //获取本地缓存的打印份数,如果存在直接设置打印份数到输入框中
             var copies = api.getPrefs({
                 sync: true,
                 key: 'copies'
             });
-            if(copies!=undefined){
-              $('#copiesInput').val(copies);
+            if (copies != undefined) {
+                $('#copiesInput').val(copies);
             }
             if (printer_address != undefined) {
                 var printer = JSON.parse(printer_address);
                 var address = printer.address;
                 var name = printer.name;
+                //如果打印机的Mac地址不为空,否则进行自动搜索
                 if (address != undefined) {
+                    //设置全局打印机Mac地址和名称，然后将Mac地址追加到数组中
                     g_printer_address = address;
                     g_printer_name = name;
                     arrAddress.push(address);
                     $('.printer-section').append(makePrinterTemplate(address, name));
+                    //设置全局选中的打印机的对象，并将该对象标红
                     $peinterObj = $('.aui-card-list').eq(0);
                     $('.aui-card-list').eq(0).addClass('aui-card-list-color');
                     $('.aui-card-list').find('.printer-connected').text('Connected');
@@ -218,16 +257,21 @@
     }
     //搜索蓝牙设备事件
     function searchPrinters() {
+        //禁用搜索按钮
         $('#searchBtn').attr('disabled', true);
+        //重置打印机Mac地址数组
         arrAddress = [g_printer_address];
+        //清空打印机列表
         clearBluetoothList();
+        //搜索蓝牙
         findPrinters();
     }
     //开始打印图片
     function beginPrintImage() {
         if (g_printer_address != undefined) {
-            //先获取蓝牙打印机的状态
+            //打印图片禁用打印按钮
             $('#printerBtn').attr('disabled', true);
+            //获取蓝牙打印机的状态
             getPrinterStatus(g_printer_address);
         } else {
             toastFail('请选择打印机!');
@@ -240,11 +284,14 @@
         }, function(ret, err) {
             var address = ret.value.address;
             var name = ret.value.name;
+            //如果返回的蓝牙的Mac地址不在数组中，则追加到数组中并生成列表
             if ($.inArray(address, arrAddress) == -1) {
                 arrAddress.push(address);
                 $('.printer-section').append(makePrinterTemplate(address, name));
             }
+            //解除禁用搜索按钮
             $('#searchBtn').attr('disabled', false);
+            ClearLoadingPicture();
         });
     }
     //监听连接蓝牙打印机成功事件
@@ -255,6 +302,7 @@
             //连接成功之后,移除蓝牙列表,只保留连接的
             var address = ret.value.address;
             var name = ret.value.name;
+            //设置打印机Mac地址和名称的全局变量为当前选中的打印机
             g_printer_address = address;
             g_printer_name = name;
             findSlectedPrinter();
@@ -275,37 +323,47 @@
                 value: obj
             });
             $('#printerBtn').attr('disabled', false);
-            //获取打印机状态，判断是否是在准备打印状态
-            //getPrinterStatus(g_printer_address);
+            ClearLoadingPicture();
         });
     }
     //监听获取蓝牙打印机状态事件
     function registerGetPrinterStatusListener() {
-        api.addEventListener({
-            name: 'getPrinterStatusEvent'
-        }, function(ret, err) {
-            var status = ret.value.status;
-            if (status == 'ReadyToPrint') {
-                //连接成功并且打印机状态是准备状态则打印图片
-                var copies = $('#copiesInput').val();
-                if (copies != undefined && copies > 0) {
-                    api.setPrefs({
-                        key: 'copies',
-                        value: copies
-                    });
-                    printImage(copies, g_imgUrl);
+        try {
+            api.addEventListener({
+                name: 'getPrinterStatusEvent'
+            }, function(ret, err) {
+                var status = ret.value.status;
+                //如果打印机的状态为准备打印状态，则开始打印
+                if (status == 'ReadyToPrint') {
+                    //获取打印次数
+                    var copies = $('#copiesInput').val();
+                    if (copies != undefined && copies > 0) {
+                        //将输入的打印次数保存到本地
+                        api.setPrefs({
+                            key: 'copies',
+                            value: copies
+                        });
+                        //连接成功并且打印机状态是准备状态则打印图片
+                        printImage(copies, g_imgUrl);
+                    } else {
+                        ClearLoadingPicture();
+                        toastSuccess('打印份数不能为0!');
+                    }
                 } else {
-                    toastSuccess('打印份数不能为0!');
+                    ClearLoadingPicture();
+                    //如果打印机状态不对，则取消选中的打印机对象
+                    if ($peinterObj != undefined) {
+                        $peinterObj.removeClass('aui-card-list-color');
+                        $peinterObj.find('.printer-connected').text('Not connected');
+                    }
+                    $('#printerBtn').attr('disabled', false);
+                    toastFail("打印无法完成,打印机处于[" + status + "]状态!");
                 }
-            } else {
-                if ($peinterObj != undefined) {
-                    $peinterObj.removeClass('aui-card-list-color');
-                    $peinterObj.find('.printer-connected').text('Not connected');
-                }
-                $('#printerBtn').attr('disabled', false);
-                toastFail("打印无法完成,打印机处于[" + status + "]状态!");
-            }
-        });
+            });
+        } catch (e) {
+            toastFail("打印出错,获取打印机状态时失败!");
+            ClearLoadingPicture();
+        }
     }
     //监听打印图片完成事件
     function registerPrintImageListener() {
@@ -323,6 +381,7 @@
     }
     //选中打印机
     function selectPrinter(obj) {
+        //获取选中的打印机的Mac地址和名称并且尝试连接该打印机
         var $obj = $(obj);
         var address = $obj.attr('data-address');
         var name = $obj.attr('data-name');
@@ -344,6 +403,7 @@
     }
     //清空列表
     function clearBluetoothList() {
+        //遍历打印机列表,如果当前遍历的打印机对象为选中的打印机则不移除
         $('.aui-card-list').each(function() {
             var address = $(this).attr('data-address');
             if (address != g_printer_address) {
@@ -354,6 +414,7 @@
     //根据Mac地址找到选中的打印机对象
     function findSlectedPrinter() {
         if (g_printer_address != undefined) {
+            //遍历打印机列表，并且找到打印机的Mac地址为全局Mac地址的打印机，然后设置全局打印机对象为找到的打印机
             $('.aui-card-list').each(function() {
                 var address = $(this).attr('data-address');
                 if (address == g_printer_address) {
