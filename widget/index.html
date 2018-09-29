@@ -52,24 +52,6 @@
             float: right;
             width: 90%;
         }
-        /*.search-input {
-            width: 100%;
-            height: 100%;
-            line-height: 30px;
-            float: left;
-            background-color: #ffffff;
-        }*/
-        /*.search-input input {
-            height: 32px;
-            width: 70%;
-            padding-top: 2px;
-            padding-right: 35px;
-            padding-left: 10px;
-            border: none;
-            outline: none;
-            background-color: #e6e6e6;
-            font-family: "Sans-serif";
-        }*/
 
         .search-span {
             width: 50px;
@@ -99,7 +81,6 @@
 
         #footer ul li.active {
             color: #09aa30;
-            /*#09aa30;*/
         }
 
         #footer ul li:nth-child(1) {
@@ -164,13 +145,11 @@
             position: fixed;
             right: 10px;
             top: 25px;
-            /*z-index: 10000;*/
             background-color: #4D4D4D;
             width: 35px;
             height: 35px;
             text-align: center;
             line-height: 50px;
-            /*border-radius:50%;*/
             color: white;
             background: url('./image/scan_and_loading.png');
             background-repeat: no-repeat;
@@ -181,13 +160,11 @@
             position: fixed;
             right: 10px;
             top: 25px;
-            /*z-index: 10000;*/
             background-color: #4D4D4D;
             width: 35px;
             height: 35px;
             text-align: center;
             line-height: 50px;
-            /*border-radius:50%;*/
             color: white;
             background: url('./image/search.png');
             background-repeat: no-repeat;
@@ -204,13 +181,10 @@
                     <div class="main-container">
                         <div class="scan-container"></div>
                         <div class="search-container">
-                            <!-- <div class="search-input"><input type="number" id="search-input" placeholder="请扫描二维码或输入管号..." />
-                            -->
                             <div class="search-span" ontouchend="touchend();" ontouchmove="touchend();" ontouchstart="touchstart(this);">
                                 <div></div>
                             </div>
                             <div class="clearfix"></div>
-                            <!-- </div>  -->
                         </div>
                     </div>
                 </li>
@@ -260,13 +234,17 @@
     //定义二维码全局变量
     var FNScanner;
     var UIInputId;
+    //设置项目编号、分厂号、操作时间全局变量
     var g_project_no = "",
         g_mill_no = "",
         g_operation_time = "";
-    var lab_search_project_no; //实验搜索页的下拉
+    //实验搜索页的下拉
+    var lab_search_project_no;
     var g_startdate;
+    //定时器(用于是否长时间嗯搜索按钮)
     var longpress_timer;
-    var g_search_index = 0; //当前Frame 0代表搜索钢管 5代表搜索岗位记录
+    //当前Frame 0代表搜索钢管 5代表搜索岗位记录
+    var g_search_index = 0;
     apiready = function() {
             RequireStatisticSearchinfo();
             //设置TitleBar位置(兼容IOS)
@@ -277,6 +255,7 @@
             funIniGroup();
             //设置回调函数
             setPushListener();
+            //监听原材料实验
             api.addEventListener({
                 name: 'onLabPageProjectNoChangedEvent'
             }, function(ret, err) {
@@ -284,11 +263,13 @@
             });
             //初始化扫码器
             FNScanner = api.require('FNScanner');
+            //监听应用从后台回到前台事件
             api.addEventListener({
                 name: 'resume'
             }, function(ret, err) {
                 FNScanner.onResume();
             });
+            //监听应用进入后台事件
             api.addEventListener({
                 name: 'pause'
             }, function(ret, err) {
@@ -416,7 +397,6 @@
         }, function(ret) {
             UIInputId = ret.id;
             if (ret.eventType == 'change') {
-                //alert(JSON.stringify(ret));
             } else if (ret.eventType == 'search') {
                 var UIInput = api.require('UIInput');
                 UIInput.value(function(ret1) {
@@ -470,7 +450,7 @@
             index: index
         });
     }
-
+    //打开新建原材料实验页面
     function showNewTestingLink() {
         if (lab_search_project_no == undefined || lab_search_project_no == "") {
             api.alert({
@@ -503,7 +483,7 @@
             }
         });
     }
-
+    //打开成品发运页面
     function newShipment() {
         api.openWin({
             name: 'shipmentManagement',
@@ -513,7 +493,7 @@
             }
         });
     }
-
+    //打开当班统计页面
     function newStatistics() {
         $("body").addClass('mask');
         api.openFrame({
