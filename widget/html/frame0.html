@@ -162,7 +162,7 @@
                         reloadPictures(ret);
                 }
             } else {
-                toastFail(err.msg);
+                toastFail("获取轮播图片时异常,网络请求状态码:"+err.statusCode+",错误码:"+err.code);
             }
         });
     }
@@ -311,7 +311,7 @@
                     hlLanguage("../i18n/");
                 }
             } else {
-                toastFail(err.msg);
+                toastFail("搜索钢管信息时异常,网络请求状态码:"+err.statusCode+",错误码:"+err.code);
             }
 
         });

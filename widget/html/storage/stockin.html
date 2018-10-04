@@ -389,7 +389,7 @@
                             closeWindow();
                         }
                     } else {
-                        toastFail(err.msg);
+                        toastFail("入库提交时异常,网络请求状态码:"+err.statusCode+",错误码:"+err.code);
                     }
                 });
             }
@@ -448,7 +448,7 @@
                     toastFail(ret.message);
                 }
             } else {
-              toastFail(err.msg);
+              toastFail("将钢管加入库单时异常,网络请求状态码:"+err.statusCode+",错误码:"+err.code);
             }
 
         });

@@ -181,7 +181,7 @@
                 }
                 RequireMillNoByUser();
             } else {
-                toastFail(err.msg);
+                toastFail("获取当班统计时(分厂编号)异常,网络请求状态码:"+err.statusCode+",错误码:"+err.code);
                 ClearLoadingPicture();
             }
 
@@ -205,7 +205,7 @@
                     toastFail(ret.msg);
                 }
             } else {
-                toastFail(err.msg);
+                toastFail("获取当班统计时(当前用户所在分成)异常,网络请求状态码:"+err.statusCode+",错误码:"+err.code);
             }
             ClearLoadingPicture();
         });

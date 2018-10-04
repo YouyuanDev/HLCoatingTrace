@@ -303,7 +303,7 @@
                             addInfoToMillSelect(data);
                         }
                     } else {
-                        toastFail(err.msg);
+                        toastFail("获取查询钢管信息条件(多条件-分厂编号)时异常,网络请求状态码:"+err.statusCode+",错误码:"+err.code);
                     }
                     ClearLoadingPicture();
                 });
@@ -358,7 +358,7 @@
                     });
                     addInfoToProcessSelect(ret);
                 } else {
-                    toastFail(err.msg);
+                    toastFail("获取查询钢管信息条件(多条件-工序)时异常,网络请求状态码:"+err.statusCode+",错误码:"+err.code);
                 }
                 ClearLoadingPicture();
             });
@@ -429,7 +429,7 @@
                 funcShowPipeResultList(ret.rows, append);
                 hlLanguage("../i18n/");
             } else {
-                toastFail(err);
+                toastFail("根据钢管编号、分厂号、工位编号等查询钢管信息时异常,网络请求状态码:"+err.statusCode+",错误码:"+err.code);
             }
         });
     }

@@ -247,7 +247,7 @@
                   toastSuccess('暂无发运记录!');
                 }
             } else {
-                toastFail(err.msg);
+                toastFail("根据项目编号获取发运信息时异常,网络请求状态码:"+err.statusCode+",错误码:"+err.code);
             }
         });
     }

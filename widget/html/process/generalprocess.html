@@ -748,7 +748,7 @@
                             closeWindow(g_processcode);
                         }
                     } else {
-                        toastFail(err.msg);
+                        toastFail("提交检验记录异常,网络请求状态码:"+err.statusCode+",错误码:"+err.code);
                     }
                 });
             }

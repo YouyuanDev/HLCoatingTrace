@@ -116,7 +116,7 @@
                               closeWindow();
                           }
                       } else {
-                            toastFail(err.msg);
+                          toastFail("提交成品出厂表单异常,网络请求状态码:"+err.statusCode+",错误码:"+err.code);
                       }
                   });
               }

@@ -253,7 +253,7 @@
                     addInfoToMillSelect(data);
                 }
             } else {
-                toastFail(err.msg);
+                toastFail("获取搜索条件时(分厂编号)异常,网络请求状态码:"+err.statusCode+",错误码:"+err.code);
             }
             ClearLoadingPicture();
         });
@@ -297,7 +297,7 @@
                 });
                 addInfoToProcessSelect(ret);
             } else {
-                toastFail(err.msg);
+                toastFail("获取搜索条件时(工序编号)异常,网络请求状态码:"+err.statusCode+",错误码:"+err.code);
             }
             ClearLoadingPicture();
         });
@@ -370,7 +370,7 @@
                     hlLanguage("../i18n/");
                 }
             } else {
-                toastFail(err);
+                toastFail("获取检验记录时异常,网络请求状态码:"+err.statusCode+",错误码:"+err.code);
             }
 
         });

@@ -190,7 +190,7 @@ function RequestMySesssion() {
                 }
             });
         } else {
-            toastFail(err.msg);
+            toastFail("获取用户登录状态时异常,网络请求状态码:"+err.statusCode+",错误码:"+err.code);
         }
     });
 }
@@ -377,7 +377,7 @@ function getPicture(sourceType) {
                         $('.imgBox').append(pictureTemplate(ret.imgUrl, ret.base64Data));
                         toastSuccess("上传成功!");
                     } else {
-                        toastFail(err.msg);
+                        toastFail("上传图片时异常,网络请求状态码:"+err.statusCode+",错误码:"+err.code);
                     }
                 });
             } else {
@@ -414,7 +414,7 @@ function getPicture(sourceType) {
                         $('.imgBox').append(pictureTemplate(ret.imgUrl, ret.base64Data));
                         toastSuccess("上传成功!");
                     } else {
-                        toastFail(err.msg);
+                        toastFail("上传图片时异常,网络请求状态码:"+err.statusCode+",错误码:"+err.code);
                     }
                 });
             } else {
@@ -545,7 +545,7 @@ function RequestAllProcessInfoByPipeNo(pipeno, processcode) {
         if (ret) {
 
         } else {
-            toastFail(err.msg);
+          toastFail("根据钢管编号获取钢管基础信息时异常,网络请求状态码:"+err.statusCode+",错误码:"+err.code);
         }
         api.sendEvent({
             name: 'RequestAllProcessInfoByPipeNoCallbackEvent',
@@ -1322,7 +1322,7 @@ function setControls() {
                 }
             })
         } else {
-            toastFail(err.msg);
+            toastFail("获取底层、面层型号时异常,网络请求状态码:"+err.statusCode+",错误码:"+err.code);
         }
     });
 }
@@ -1361,7 +1361,7 @@ function Request2FBELabAcceptCriteria(pipeno) {
         if (ret) {
             success = true;
         } else {
-            toastFail(err.msg);
+            toastFail("获取实验接收标准时异常,网络请求状态码:"+err.statusCode+",错误码:"+err.code);
         }
         api.sendEvent({
             name: 'Request2FBELabAcceptCriteriaCallbackEvent',
@@ -1408,7 +1408,7 @@ function Request3LPELabAcceptCriteria(pipeno) {
         if (ret) {
             success = true;
         } else {
-            toastFail(err.msg);
+            toastFail("获取实验接收标准时异常,网络请求状态码:"+err.statusCode+",错误码:"+err.code);
         }
         api.sendEvent({
             name: 'Request3LPELabAcceptCriteriaCallbackEvent',
@@ -1490,7 +1490,7 @@ function getPendingRecordInfo(controller, pipe_no) {
                 }
             });
         } else {
-            toastFail(err.msg);
+            toastFail("获取待定检验记录时异常,网络请求状态码:"+err.statusCode+",错误码:"+err.code);
         }
     });
 }
@@ -1572,7 +1572,7 @@ function RequestLastAcceptedRecordBeforePipeNo(pipeno, operation) {
         if (ret) {
             success = true;
         } else {
-            toastFail(err.msg);
+            toastFail("获取前一根合格管的涂层记录作为数据来源时异常,网络请求状态码:"+err.statusCode+",错误码:"+err.code);
         }
         api.sendEvent({
             name: 'RequestLastAcceptedRecordBeforePipeNoEvent',
@@ -1623,7 +1623,7 @@ function RequestNextTenPipesBeforePipeNo(pipeno, process_code) {
                 toastFail(ret.message);
             }
         } else {
-            toastFail(err.msg);
+           toastFail("得到钢管后10根涂层记录管号时异常,网络请求状态码:"+err.statusCode+",错误码:"+err.code);
         }
     });
 }
@@ -1668,7 +1668,7 @@ function getSamplePipeNo(className, pipeno, coating_date, url, flag, testing_id)
                     $(className).append('<option value=' + ret[i].pipe_no + '>' + ret[i].pipe_no + '</option>');
             }
         } else {
-            toastFail(err.msg);
+            toastFail("获取实验管管号时异常,网络请求状态码:"+err.statusCode+",错误码:"+err.code);
         }
     });
 }
@@ -1700,7 +1700,7 @@ function RequestRawMaterialTestingInfoById(id, url) {
     }, function(ret, err) {
         api.hideProgress();
         if (ret) {} else {
-            toastFail(err.msg);
+            toastFail("获取原材料试验数据时异常,网络请求状态码:"+err.statusCode+",错误码:"+err.code);
         }
         api.sendEvent({
             name: 'RequestRawMaterialTestingInfoByIdCallbackEvent',
@@ -1769,7 +1769,7 @@ function RequestRawMaterialCriteriaByProjecteNo(project_no) {
         if (ret) {
 
         } else {
-            toastFail(err.msg);
+              toastFail("根据项目编号获取实验标准时异常,网络请求状态码:"+err.statusCode+",错误码:"+err.code);
         }
         api.sendEvent({
             name: 'RequestRawMaterialCriteriaByProjecteNoCallbackEvent',

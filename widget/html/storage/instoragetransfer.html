@@ -209,7 +209,7 @@
                             closeWindow();
                         }
                     } else {
-                        toastFail(err.msg);
+                        toastFail("提交垛内转运表单异常,网络请求状态码:"+err.statusCode+",错误码:"+err.code);
                     }
                 });
             }

@@ -274,7 +274,7 @@
                     hlLanguage("../../i18n/");
                 }
             } else {
-                toastFail(err.msg);
+                toastFail("查询钢管详细信息时异常,网络请求状态码:"+err.statusCode+",错误码:"+err.code);
             }
         });
     }
@@ -366,7 +366,7 @@
                 }
                 hlLanguage("../../i18n/");
             } else {
-                toastFail(err.msg);
+                toastFail("查询更多生产信息时异常,网络请求状态码:"+err.statusCode+",错误码:"+err.code);
             }
         });
 

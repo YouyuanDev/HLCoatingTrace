@@ -392,7 +392,7 @@
                     mills = ret.millinfo;
                 }
             } else {
-                toastFail(err.msg);
+              toastFail("登录时(获取所有的分厂号)异常,网络请求状态码:"+err.statusCode+",错误码:"+err.code);
             }
         });
 

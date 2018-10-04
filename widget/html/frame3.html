@@ -588,7 +588,7 @@
                     });
                 }
             } else {
-                toastFail(err.msg);
+                toastFail("获取当班信息时异常,网络请求状态码:"+err.statusCode+",错误码:"+err.code);
             }
             ClearLoadingPicture();
         });

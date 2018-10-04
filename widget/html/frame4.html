@@ -360,7 +360,7 @@
                         }
                         loadUserInfo();
                 } else {
-                  toastFail(err.msg);
+                  toastFail("退出登录时异常,网络请求状态码:"+err.statusCode+",错误码:"+err.code);
                 }
 
             });
@@ -419,7 +419,7 @@
             if (ret) {
                 toastSuccess(ret.message);
             } else {
-                toastFail(err.msg);
+                toastFail("保存用户信息时异常,网络请求状态码:"+err.statusCode+",错误码:"+err.code);
             }
 
         });

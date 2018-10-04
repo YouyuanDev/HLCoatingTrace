@@ -151,9 +151,7 @@
                  $('#pipe_no').append('<option value=' + ret[i].pipe_no + '>' + ret[i].pipe_no + '</option>');
             }
           } else {
-              api.alert({
-                  msg: JSON.stringify(err)
-              });
+              toastFail("根据项目编号获取要实验的钢管编号时异常,网络请求状态码:"+err.statusCode+",错误码:"+err.code);
           }
       });
     }
