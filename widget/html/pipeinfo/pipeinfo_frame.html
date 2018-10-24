@@ -50,7 +50,7 @@
             width: auto;
             height: auto;
             margin-left: 1rem;
-            margin-top: 20px;
+            margin-top: 10px;
         }
 
         .qr-canvas:nth-child(1),
@@ -467,7 +467,7 @@
         //生成用于打印的3张二维码
         $('.qr-canvas-inner').empty();
         //二维码的宽度
-        var width = api.winWidth / 3 - 24;
+        var width = api.winWidth / 3 - 30;
         $('#qr-container').hide();
         jQuery('.qr-canvas-inner').qrcode({
             render: "canvas",
