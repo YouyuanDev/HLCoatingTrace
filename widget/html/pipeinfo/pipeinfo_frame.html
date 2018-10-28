@@ -470,7 +470,8 @@
         var width = api.winWidth / 3 - 30;
         $('#qr-container').hide();
         //调整二维码标签图片的整体高度，需要按照长度高度比例设置高度，以下为临时测试
-        $('.qr-container').css('height', '460px');
+        $('.qr-container').css('width', '1062px');
+        $('.qr-container').css('height', '500px');
         jQuery('.qr-canvas-inner').qrcode({
             render: "canvas",
             text: pipeno,
