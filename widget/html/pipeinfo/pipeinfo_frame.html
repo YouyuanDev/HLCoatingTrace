@@ -49,17 +49,17 @@
             text-align: center;
             width: auto;
             height: auto;
-            margin-left: 1rem;
+            margin-left: 10px;
             margin-top: 10px;
         }
 
         .qr-canvas:nth-child(1),
         .qr-canvas:nth-child(4) {
-            margin-left: 0.5rem;
+            margin-left: 10px;
         }
 
         .qr-canvas-text {
-            font-size: 1.2rem;
+            font-size: 1.4rem;
         }
     </style>
 </head>
@@ -158,7 +158,7 @@
             <div style="margin:0px auto;text-align:center;" id="qrcodeCanvas"></div>
             <div style="margin:0px auto;text-align:center;font-size: 14px" id="qrcodeText"></div>
         </div>
-        <div id="qr-container" style="width:auto;height:auto">
+        <div id="qr-container" style="width:100%;height:0;position:relative;padding-bottom:50%">
             <div class="qr-canvas">
                 <div class="qr-canvas-inner"></div>
                 <div class="qr-canvas-text"></div>
@@ -468,7 +468,6 @@
         $('.qr-canvas-inner').empty();
         //二维码的宽度
         var width = api.winWidth / 3 - 30;
-
         $('#qr-container').hide();
         jQuery('.qr-canvas-inner').qrcode({
             render: "canvas",
@@ -481,20 +480,20 @@
             //src: '../../image/logo2.jpg' //二维码中间的图片
         });
 
-        var os_type = api.systemType;
-        if (os_type == "ios") {
-            $('.qr-canvas-text').css('font-size', '1.4rem');
-        } else if (os_type == "android") {
-            $('.qr-canvas-text').css('font-size', '1.4rem');
-        }
+        // var os_type = api.systemType;
+        // if (os_type == "ios") {
+        //     $('.qr-canvas-text').css('font-size', '1.4rem');
+        // } else if (os_type == "android") {
+        //     $('.qr-canvas-text').css('font-size', '1.4rem');
+        // }
         $('.qr-canvas-text').text('P/N:' + pipeno);
         //调整二维码标签图片的整体高度，需要按照长度高度比例设置高度  2:1，以下为临时测试
-        var w=$('#qr-container').css('width');
-        var h=$('#qr-container').css('height');
+        //var w=$('#qr-container').css('width');
+        //var h=$('#qr-container').css('height');
         //alert("before w="+w+" h="+h);
-        var new_height=parseInt(w)/2;
+        //var new_height=parseInt(w)/2+'px';
          // $('#qr-container').css('width', '1062px');
-        $('#qr-container').css('height', new_height);
+      //  $('#qr-container').css('height', new_height);
         //w=$('#qr-container').css('width');
         //h=$('#qr-container').css('height');
         //alert("after w="+w+" h="+h);
