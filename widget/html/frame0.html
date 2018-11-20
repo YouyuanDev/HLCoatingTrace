@@ -183,7 +183,8 @@
     }
     //显示照片
     function showPictures(picturefiles) {
-        var h=api.winWidth*9/16;
+      var factor=9/16;
+        var h=api.winWidth*factor;
         $('#div-data').css("margin-top",h+"px");
         var datalist = [];
         for (var i = 0; i < picturefiles.length; i++) {
@@ -195,7 +196,7 @@
                 x: 0,
                 y: 0,
                 w: api.winWidth,
-                h:api.winWidth*9/16
+                h:api.winWidth*factor
             },
             data: {
                 paths: datalist,
