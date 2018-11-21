@@ -122,6 +122,8 @@
         //加载工艺卡标准
     function loadACInfo(acceptance_criteria_no) {
         try {
+            if(acceptance_criteria_no==undefined||acceptance_criteria_no=="")
+            return;
             DoLoadingPicture();
             var s = 'http://' + serverIP + '/APPRequestTransfer/getAcceptanceCriteriaByAcceptanceCriteriaNo.action';
             api.ajax({
@@ -136,56 +138,62 @@
                 }
             }, function(ret, err) {
                 if (ret) {
-                    var items = ret.items;
-                    var processCodeArr = []; //工序数组
-                    for (var i = 0; i < items.length; i++) {
-                        var process_code = items[i].process_code;
-                        if (process_code != undefined && process_code != "") {
-                            var item_name = "",
-                                item_unit = "",
-                                item_range = "",
-                                item_frequency = "";
-                            var language = getCookie("userLanguage");
-                            item_frequency = items[i].item_frequency;
-                            if (language && language == "en") {
-                                item_name = items[i].item_name_en;
-                                item_unit = items[i].unit_name_en;
-                                if (item_frequency != undefined && item_frequency != "") {
-                                    if (parseInt(item_frequency) > 0) {
-                                        item_frequency = "Times/" + items[i].item_frequency + "Hour";
-                                    } else {
-                                        item_frequency = "Every time";
-                                    }
-                                }
-                            } else {
-                                item_name = items[i].item_name;
-                                item_unit = items[i].unit_name;
-                                if (item_frequency != undefined && item_frequency != "") {
-                                    if (parseInt(item_frequency) > 0) {
-                                        item_frequency = "次/" + items[i].item_frequency + "小时";
-                                    } else {
-                                        item_frequency = "必检项";
-                                    }
-                                }
-                            }
-                            if (item_unit != undefined && item_unit != "") {
-                                item_name = item_name + "(" + item_unit + ")";
-                            }
-                            var max_value = items[i].max_value;
-                            var min_value = items[i].min_value;
-                            if (max_value != undefined && min_value != undefined) {
-                                if (parseFloat(max_value) > parseFloat(min_value))
-                                    item_range = (min_value + "~" + max_value);
-                            }
-                            var $obj = $("#" + process_code + "");
-                            if ($.inArray(process_code, processCodeArr) < 0) { //如果不在数组中，则说明需要创建新的table，并将此工序编号添加到数组中
-                                processCodeArr.push(process_code);
-                                makeTable(process_code);
-                            } else { //如果已经存在则找到id为工序编号的table表格，将数据添加到表格中
-                                insertColumnToTable($obj, item_name, item_range, item_frequency);
-                            }
-                        }
+                    if(ret.success){
+                      var items = ret.items;
+                      var processCodeArr = []; //工序数组
+                      for (var i = 0; items!=undefined&&i < items.length; i++) {
+                          var process_code = items[i].process_code;
+                          if (process_code != undefined && process_code != "") {
+                              var item_name = "",
+                                  item_unit = "",
+                                  item_range = "",
+                                  item_frequency = "";
+                              var language = getCookie("userLanguage");
+                              item_frequency = items[i].item_frequency;
+                              if (language && language == "en") {
+                                  item_name = items[i].item_name_en;
+                                  item_unit = items[i].unit_name_en;
+                                  if (item_frequency != undefined && item_frequency != "") {
+                                      if (parseInt(item_frequency) > 0) {
+                                          item_frequency = "Once per " + items[i].item_frequency + " Hour(s)";
+                                      } else {
+                                          item_frequency = "Every pipe";
+                                      }
+                                  }
+                              } else {
+                                  item_name = items[i].item_name;
+                                  item_unit = items[i].unit_name;
+                                  if (item_frequency != undefined && item_frequency != "") {
+                                      if (parseInt(item_frequency) > 0) {
+                                          item_frequency = "每" + items[i].item_frequency + "小时一次";
+                                      } else {
+                                          item_frequency = "每根";
+                                      }
+                                  }
+                              }
+                              if (item_unit != undefined && item_unit != "") {
+                                  item_name = item_name + "(" + item_unit + ")";
+                              }
+                              var max_value = items[i].max_value;
+                              var min_value = items[i].min_value;
+                              if (max_value != undefined && min_value != undefined) {
+                                  if (parseFloat(max_value) > parseFloat(min_value))
+                                      item_range = (min_value + "~" + max_value);
+                              }
+                              var $obj = $("#" + process_code + "");
+                              if ($.inArray(process_code, processCodeArr) < 0) { //如果不在数组中，则说明需要创建新的table，并将此工序编号添加到数组中
+                                  processCodeArr.push(process_code);
+                                  makeTable(process_code);
+                              } else { //如果已经存在则找到id为工序编号的table表格，将数据添加到表格中
+                                  insertColumnToTable($obj, item_name, item_range, item_frequency);
+                              }
+                          }
+                      }
                     }
+                    else{
+                        toastFail(ret.message);
+                    }
+
                     ClearLoadingPicture();
                     hlLanguage("./i18n/");
                 } else {
@@ -202,7 +210,7 @@
     function makeTable(process_code) {
         var template = '<table width="90%" id="' + process_code + '" class="table">';
         template += '<caption><h2 class="i18n1" name="' + process_code + '">外打砂</h2></caption>';
-        template += '<thead><tr><th class="i18n1" name="detectionitem">检测项目</th><th class="i18n1" name="receivingrange">接收范围</th><th class="i18n1" name="frequency">检测频率</th></tr></thead>';
+        template += '<thead><tr><th class="i18n1" name="inspectionitem">检测项目</th><th class="i18n1" name="acceptancecriteria">接收标准</th><th class="i18n1" name="frequency">检测频率</th></tr></thead>';
         template += '<tbody></tbody>';
         template += '</table>';
         $('.content').append(template);
