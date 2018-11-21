@@ -284,12 +284,25 @@
                     if (ret) {
                         //扫出来结果
                         if (ret.eventType == 'success') {
+                            //兼容2种二维码：
+                            //1. 仅存在管号
+                            //2. 二维码字符串包含[PIPENOSTART]管号[PIPENOEND]
+                            var pipe_no_var = ret.content;
+                            var index_start = pipe_no_var.indexOf("[PIPENOSTART]");
+                            //alert("st"+index_start);
+                            var index_end = pipe_no_var.indexOf("[PIPENOEND]");
+                            //alert("end"+index_end);
+                            if(index_start!=-1&&index_end!=-1&&index_start<index_end){
+                              index_start=index_start+13;
+                              pipe_no_var=pipe_no_var.substring(index_start,index_end);
+                            }
+
                             //设置搜索框为读到的二维码数据
                             var UIInput = api.require('UIInput');
                             UIInput.value({
-                                msg: ret.content
+                                msg: pipe_no_var
                             });
-                            sendSearchEvent(ret.content);
+                            sendSearchEvent(pipe_no_var);
                             FNScanner.closeView();
                         }
                     }
@@ -374,9 +387,9 @@
     //初始化搜索栏
     function initSearchBar() {
         var language = getCookie("userLanguage");
-        var placeholder=' 请输入管号  ';
-        if(language&&language=="en"){
-          placeholder='Please input Pipe No.';
+        var placeholder = ' 请输入管号  ';
+        if (language && language == "en") {
+            placeholder = 'Please input Pipe No.';
         }
         var UIInput = api.require('UIInput');
         UIInput.open({
@@ -396,13 +409,12 @@
             },
             autoFocus: false,
             maxRows: 1,
-            placeholder:placeholder,
+            placeholder: placeholder,
             keyboardType: 'search',
             fixedOn: api.frameName
         }, function(ret) {
             UIInputId = ret.id;
-            if (ret.eventType == 'change') {
-            } else if (ret.eventType == 'search') {
+            if (ret.eventType == 'change') {} else if (ret.eventType == 'search') {
                 var UIInput = api.require('UIInput');
                 UIInput.value(function(ret1) {
                     if (ret1) {
