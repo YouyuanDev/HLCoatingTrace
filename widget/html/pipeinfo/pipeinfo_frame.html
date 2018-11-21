@@ -151,6 +151,13 @@
                     <td class="i18n1" name="idcoatingdate"></td>
                     <td class="id_coating_date"></td>
                 </tr>
+                <tr>
+                    <td class="i18n1" name="acceptancecriteria"></td>
+                    <td class="acceptance_criteria_no"></td>
+                    <td >
+                    <div class="loadmore-btn i18n1" name="loadacinfo" onclick="loadACInfo()">工艺卡信息</div>
+                    </td>
+                </tr>
 
             </table>
         </div>
@@ -326,9 +333,23 @@
         $('.shipment_date').text(formatterdate(pipeinfo.shipment_date));
         $('.od_coating_date').text(formatterdate(pipeinfo.od_coating_date));
         $('.id_coating_date').text(formatterdate(pipeinfo.id_coating_date));
+        $('.acceptance_criteria_no').text(pipeinfo.acceptance_criteria_no);
         //QRCode
         GenerateQRCode(pipeinfo.pipe_no);
     }
+
+    //查看检验标准列表
+    function loadACInfo() {
+      //$('.acceptance_criteria_no').text('13');
+      var acceptance_criteria_no=$('.acceptance_criteria_no').text();
+      alert(acceptance_criteria_no);
+      //加载工艺卡标准的页面 acceptancecriterialdetail.html
+
+    }
+
+
+
+
     //更多生产信息
     function loadMoreInfo() {
         showmore = true;
