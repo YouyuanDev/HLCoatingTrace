@@ -350,7 +350,7 @@
             controldiv = '<input class="" needverify="' + needverify + '" needInspectNow="' + needInspectNow + '" max-value="' + maxvalue + '" myname="' + itemcode + '" name="' + itemcode + '" value="' + defaultvalue + '" max-value="' + maxvalue +
                 '" min-value="' + minvalue + '" type="text" dynamic="dynamic"/>';
         } else if (controltype == "multinumber") { //多值数字
-            controldiv = '<input class="mob-listnumber" needverify="' + needverify + '" needInspectNow="' + needInspectNow + '" myname="' + itemcode + '" name="' + itemcode + '" value="' + defaultvalue + '" max-value="' + maxvalue + '" min-value="' +
+            controldiv = '<input class="mob-listnumber" needverify="' + needverify + '" needInspectNow="' + needInspectNow + '" decimalnum="' + decimalnum + '" myname="' + itemcode + '" name="' + itemcode + '" value="' + defaultvalue + '" max-value="' + maxvalue + '" min-value="' +
                 minvalue + '" type="text" dynamic="dynamic" />';
         } else if (controltype == "multitext") { //多值文本
             controldiv = '<input class="mob-listtext" needverify="' + needverify + '" needInspectNow="' + needInspectNow + '" max-value="' + maxvalue + '" myname="' + itemcode + '" name="' + itemcode + '" value="' + defaultvalue + '" max-value="' +
@@ -428,6 +428,14 @@
         });
         //设置浮点数数字集合
         $('.mob-listnumber').each(function() {
+          var decimalnum = $(this).attr('decimalnum');
+          var scale = 0;
+          var decimalSeparator = "";
+          if (decimalnum != undefined && decimalnum != "" && !isNaN(decimalnum)) {
+              scale = parseInt(decimalnum);
+              decimalSeparator = ".";
+          }
+
             var numList1 = "";
             var $nowObj1;
             $(this).mobiscroll().numpad({
@@ -436,12 +444,12 @@
                 display: 'bottom',
                 min: 0,
                 max: 9999,
-                scale: 2,
+                scale: scale,
                 fill: 'ltr',
                 defaultValue: 0,
                 preset: 'decimal',
-                decimalSeparator: '',
-                thousandsSeparator: '.',
+                decimalSeparator: decimalSeparator,
+                thousandsSeparator: '',
                 rtl: false,
                 buttons: [
                     'set', {
