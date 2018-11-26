@@ -32,13 +32,23 @@
         .loadmore-btn {
             background-color: #f2f2f2;
             color: #4682B4;
-            height: 43px;
+            height: 60px;
             text-align: center;
             line-height: 43px;
             width: 95%;
             margin: 0 auto;
             outline: none;
         }
+
+        .viewac-btn {
+            background-color: #f2f2f2;
+            color: #4682B4;
+            text-align: center;
+            margin: 0 auto;
+            outline: none;
+        }
+
+
 
         .pipeinfo-table tr td:nth-child(even) {
             text-align: center;
@@ -154,8 +164,8 @@
                 <tr>
                     <td class="i18n1" name="acceptancecriteria"></td>
                     <td class="acceptance_criteria_no"></td>
-                    <td >
-                    <div class="loadmore-btn i18n1" name="loadacinfo" onclick="loadACInfo()">工艺卡信息</div>
+                    <td colspan="2">
+                    <div class="viewac-btn i18n1" name="viewacinfo" onclick="viewACInfo()">查看工艺卡标准</div>
                     </td>
                 </tr>
 
@@ -180,10 +190,10 @@
             </div>
             <div class="clearfix"></div>
         </div>
-        <div class="loadmore-div" style="height:auto;margin-top:20px;font-size: 16px;color:#000000;font-family:" Sans-serif ";">
+        <div class="loadmore-div" style="height:auto;margin-top:5px;font-size: 16px;color:#000000;font-family:" Sans-serif ";">
             <div class="loadmore-btn i18n1" name="loadmorninfo" onclick="loadMoreInfo()">更多生产信息...</div>
         </div>
-        <div id="pipe-process-info" style="width:100%;height:auto;margin:0 auto;overflow-x: hidden;">
+        <div id="pipe-process-info" style="width:100%;height:auto;margin:0px auto;overflow-x: hidden;">
 
         </div>
     </div>
@@ -339,9 +349,14 @@
     }
 
     //查看检验标准列表
-    function loadACInfo() {
+    function viewACInfo() {
       //$('.acceptance_criteria_no').text('13');
       var acceptance_criteria_no=$('.acceptance_criteria_no').text();
+      if(acceptance_criteria_no==undefined||acceptance_criteria_no==""){
+        toastFail("不存在工艺卡标准");
+        return;
+      }
+
       //加载工艺卡标准的页面 acceptancecriteriadetail.html,页面发出请求link如下
       //http://www.topinspector.cn:8080/APPRequestTransfer/getAcceptanceCriteriaByAcceptanceCriteriaNo.action?acceptance_criteria_no=AC1535346608154
       api.openFrame({
