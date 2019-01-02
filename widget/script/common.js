@@ -1,5 +1,6 @@
 var header, headerHeight = 0;
-var serverIP = 'www.topinspector.cn:8080';
+//var serverIP = 'www.topinspector.cn:8080';
+var serverIP = '192.168.0.103:8080';
 
 function fnSettingHeader() {
     var sType = api.systemType;
@@ -1134,9 +1135,9 @@ function setControls() {
         defaultValue: 0,
         rtl: false,
         onSet: function(event, inst) {
-            var selectedVal = inst.getVal();
-            $(this).val(selectedVal);
-            validateSingleValue($(this));
+            //var selectedVal = inst.getVal();
+            //$(this).val(selectedVal);
+            //validateSingleValue($(this));
         }
     });
     //设置小数控件 精确度1
