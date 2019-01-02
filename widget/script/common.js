@@ -1,6 +1,6 @@
 var header, headerHeight = 0;
-//var serverIP = 'www.topinspector.cn:8080';
-var serverIP = '192.168.0.103:8080';
+var serverIP = 'www.topinspector.cn:8080';
+
 
 function fnSettingHeader() {
     var sType = api.systemType;
